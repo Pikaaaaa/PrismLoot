@@ -1,5 +1,6 @@
 "use client";
 
+import { SteamSignInButton } from "@/components/auth/SteamButton";
 import { CaseOpeningShow, IdleReel, JackpotFX } from "@/components/case/CaseOpeningShow";
 import { CaseRewardGrid, type RewardRow } from "@/components/case/CaseRewardGrid";
 import { readCaseOpenPrefs, writeCaseOpenPrefs, type CaseOpenPrefs } from "@/components/case/caseOpenPrefs";
@@ -87,8 +88,12 @@ export function CaseOpen({ crate }: { crate: Crate }) {
   }, []);
 
   useEffect(() => {
-    if (!store.hydrated || restored.current) return;
+    if (!store.hydrated || !store.sessionReady || restored.current) return;
     restored.current = true;
+    if (!store.user) {
+      clearPendingOpens();
+      return;
+    }
     const row = readPendingOpens();
     if (!row || row.caseId !== crate.id || !row.items.length) return;
     // applyOpen already granted once. Pending is animation UI only — never re-claim.
@@ -103,7 +108,7 @@ export function CaseOpen({ crate }: { crate: Crate }) {
     setPhase("spin");
     setPlaying(true);
     revealTimer.current = window.setTimeout(() => finishReveal(row.items, false), Math.max(80, spinMs - elapsed));
-  }, [store.hydrated, crate.id]);
+  }, [store.hydrated, store.sessionReady, store.user, crate.id]);
 
   useEffect(() => {
     return () => {
@@ -165,7 +170,7 @@ export function CaseOpen({ crate }: { crate: Crate }) {
   async function open(n = count) {
     if (phase !== "idle") return;
     if (!store.user) {
-      store.toast({ title: "Sign in with Steam", tone: "warn" });
+      store.beginSteamLogin();
       return;
     }
     const total = +(crate.price * n).toFixed(2);
@@ -342,9 +347,17 @@ export function CaseOpen({ crate }: { crate: Crate }) {
             </div>
 
             <div className="mt-3 flex flex-wrap items-center gap-2">
-              <Button size="xl" loading={busy} onClick={() => void open(count)}>
-                {busy ? "Opening…" : count > 1 ? `Open ×${count} · ${formatMoney(charge)}` : "Open"}
-              </Button>
+              {store.user ? (
+                <Button size="xl" loading={busy} onClick={() => void open(count)}>
+                  {busy ? "Opening…" : count > 1 ? `Open ×${count} · ${formatMoney(charge)}` : "Open"}
+                </Button>
+              ) : store.sessionReady ? (
+                <SteamSignInButton size="lg" />
+              ) : (
+                <Button size="xl" loading disabled>
+                  Open
+                </Button>
+              )}
             </div>
 
             <div className="mt-3 flex flex-wrap items-center gap-1.5">

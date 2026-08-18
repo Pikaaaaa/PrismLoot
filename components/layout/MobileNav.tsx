@@ -1,5 +1,6 @@
 "use client";
 
+import { useAppStore } from "@/lib/store";
 import { cn } from "@/lib/utils";
 import { Backpack, House, Layers, Sparkles } from "lucide-react";
 import Link from "next/link";
@@ -25,6 +26,8 @@ function isActive(href: string, pathname: string) {
 
 export function MobileNav() {
   const pathname = usePathname();
+  const { user } = useAppStore();
+  const items = user ? ITEMS : ITEMS.filter((item) => item.href === "/");
 
   return (
     <nav
@@ -32,7 +35,7 @@ export function MobileNav() {
       className="glass-strong fixed inset-x-0 bottom-0 z-50 border-x-0 border-b-0 pb-[env(safe-area-inset-bottom)] lg:hidden"
     >
       <ul className="flex h-14 items-stretch">
-        {ITEMS.map((item) => {
+        {items.map((item) => {
           const active = isActive(item.href, pathname);
           const Icon = item.icon;
           return (

@@ -161,7 +161,10 @@ function TrustStrip() {
  * Public-site footer grid. Operator: TRS infinity (logo from the owner's
  * trs-company / trsinfinity.ink brand assets). Not shown on the operator console.
  */
-export function SiteFooter() {
+export function SiteFooter({ signedIn = false }: { signedIn?: boolean }) {
+  const product = signedIn ? PRODUCT : PRODUCT.filter((item) => item.href === "/");
+  const support = signedIn ? SUPPORT : SUPPORT.filter((item) => item.href !== "/profile");
+
   return (
     <footer className="mt-8 border-t border-line bg-graphite pb-[calc(3.5rem+env(safe-area-inset-bottom)+1.25rem)] lg:pb-10">
       <div className="page-wrap grid gap-8 py-10 sm:grid-cols-2 lg:grid-cols-4">
@@ -198,8 +201,8 @@ export function SiteFooter() {
           </p>
         </div>
 
-        <Col title="Product" links={PRODUCT} />
-        <Col title="Support" links={SUPPORT} />
+        <Col title="Product" links={product} />
+        <Col title="Support" links={support} />
         <Col title="Legal" links={LEGAL} />
       </div>
 

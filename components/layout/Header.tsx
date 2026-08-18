@@ -1,5 +1,6 @@
 "use client";
 
+import { SteamSignInButton } from "@/components/auth/SteamButton";
 import { BalanceWidget } from "@/components/ui/BalanceWidget";
 import { Button } from "@/components/ui/Button";
 import { EmptyState } from "@/components/ui/EmptyState";
@@ -259,10 +260,13 @@ function MenuRow({
   );
 }
 
-export function Header() {
+export function Header({ hasSession = false }: { hasSession?: boolean }) {
   const pathname = usePathname();
-  const { user, balance, wagerRemainingUsd, logout, displayCurrency, setCurrency } = useAppStore();
+  const { user, sessionReady, balance, wagerRemainingUsd, logout, displayCurrency, setCurrency } =
+    useAppStore();
   const [scrolled, setScrolled] = useState(false);
+  const barNav = user ? BAR_NAV : BAR_NAV.filter((item) => item.href === "/");
+  const showSignIn = !user && (!hasSession || sessionReady);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
@@ -288,7 +292,7 @@ export function Header() {
 
           <span className="hidden h-full min-w-0 lg:contents">
             <nav aria-label="Main" className="flex h-full min-w-0 items-center overflow-hidden">
-            {BAR_NAV.map((item) => {
+            {barNav.map((item) => {
               const active = navActive(item.href, pathname);
               return (
                 <Link
@@ -320,6 +324,8 @@ export function Header() {
                   </Button>
                 </Link>
               </>
+            ) : showSignIn ? (
+              <SteamSignInButton />
             ) : null}
 
             <select
@@ -335,29 +341,31 @@ export function Header() {
               ))}
             </select>
 
-            <span className="hidden h-full lg:contents">
-              <HeaderMenu
-                label="Notifications"
-                rootClassName="flex"
-                triggerClass={(open) =>
-                  cn(
-                    ICON_BUTTON,
-                    open
-                      ? "border-line-strong bg-white/[0.05] text-ink"
-                      : "border-line hover:border-line-strong hover:bg-white/[0.05] hover:text-ink",
-                  )
-                }
-                triggerContent={() => <Bell className="h-4 w-4" />}
-              >
-                {() => (
-                  <EmptyState
-                    compact
-                    title="No notifications"
-                    detail="Drops, battle results and payouts land here."
-                  />
-                )}
-              </HeaderMenu>
-            </span>
+            {user ? (
+              <span className="hidden h-full lg:contents">
+                <HeaderMenu
+                  label="Notifications"
+                  rootClassName="flex"
+                  triggerClass={(open) =>
+                    cn(
+                      ICON_BUTTON,
+                      open
+                        ? "border-line-strong bg-white/[0.05] text-ink"
+                        : "border-line hover:border-line-strong hover:bg-white/[0.05] hover:text-ink",
+                    )
+                  }
+                  triggerContent={() => <Bell className="h-4 w-4" />}
+                >
+                  {() => (
+                    <EmptyState
+                      compact
+                      title="No notifications"
+                      detail="Drops, battle results and payouts land here."
+                    />
+                  )}
+                </HeaderMenu>
+              </span>
+            ) : null}
 
             {user && (
               <HeaderMenu

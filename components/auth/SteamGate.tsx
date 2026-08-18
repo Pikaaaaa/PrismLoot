@@ -3,16 +3,18 @@
 import { SteamSignInButton } from "@/components/auth/SteamButton";
 import { PrismLogo } from "@/components/visuals/ParticleField";
 
-/** Logged-out public surface: logo + Steam only. No nav, catalog, or balance. */
+/** Prompt on locked play/account routes. Does not replace the public shell. */
 export function SteamGate() {
   return (
-    <div className="grid min-h-full place-items-center px-6">
-      <div className="flex flex-col items-center gap-6">
-        <div className="flex items-center gap-2.5">
-          <PrismLogo className="h-10 w-10" />
-          <span className="font-display text-xl font-extrabold tracking-tight">
-            Prism<span className="text-mute">Loot</span>
-          </span>
+    <div className="grid min-h-[50vh] place-items-center px-6">
+      <div className="flex flex-col items-center gap-4 text-center">
+        <PrismLogo className="h-10 w-10" />
+        <div>
+          <p className="font-display text-lg font-extrabold tracking-tight">Sign in with Steam</p>
+          <p className="mt-1.5 max-w-sm text-sm text-mute">
+            Inventory, contracts, upgrades, and deposits need a Steam account. PrismLoot never asks
+            for a Steam password.
+          </p>
         </div>
         <SteamSignInButton size="lg" />
       </div>

@@ -9,6 +9,9 @@ import {
   isInternalConsolePath,
   rewriteAdminToInternal,
 } from "@/lib/admin/path";
+import { isSteamRequiredPath } from "@/lib/auth/gates";
+import { PLAYER_SESSION_COOKIE } from "@/lib/auth/session";
+import { STEAM_LOGIN_PATH } from "@/lib/auth/steam";
 
 function missingRewrite(request: NextRequest) {
   const url = request.nextUrl.clone();
@@ -37,6 +40,13 @@ export function proxy(request: NextRequest) {
     });
     response.headers.set("X-Robots-Tag", "noindex, nofollow, noarchive");
     return response;
+  }
+
+  if (isSteamRequiredPath(pathname) && !request.cookies.get(PLAYER_SESSION_COOKIE)?.value) {
+    const steam = request.nextUrl.clone();
+    steam.pathname = STEAM_LOGIN_PATH;
+    steam.search = "";
+    return NextResponse.redirect(steam);
   }
 
   return NextResponse.next();

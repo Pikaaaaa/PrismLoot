@@ -583,7 +583,7 @@ export function AppStoreProvider({ children }: { children: ReactNode }) {
   }, [state.hydrated, toast]);
 
   useEffect(() => {
-    if (!state.hydrated || !state.liveFeedOn || !state.user) return;
+    if (!state.hydrated || !state.liveFeedOn) return;
     let cancelled = false;
     let timer = 0;
     let prev: FeedCadence = "quiet";
@@ -619,7 +619,7 @@ export function AppStoreProvider({ children }: { children: ReactNode }) {
       cancelled = true;
       window.clearTimeout(timer);
     };
-  }, [state.hydrated, state.liveFeedOn, state.user]);
+  }, [state.hydrated, state.liveFeedOn]);
 
   const inventoryValue = useMemo(
     () =>

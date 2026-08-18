@@ -7,6 +7,7 @@ import { MobileNav } from "@/components/layout/MobileNav";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { Toast } from "@/components/ui/Toast";
 import { PrismLogo } from "@/components/visuals/ParticleField";
+import { isSteamRequiredPath } from "@/lib/auth/gates";
 import { useAppStore } from "@/lib/store";
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
@@ -18,48 +19,41 @@ export function AppShell({
   hasSession = false,
 }: {
   children: ReactNode;
-  /** Server-seen Steam cookie. Avoids flashing the gate for a signed-in refresh. */
+  /** Server-seen Steam cookie. Avoids flashing Sign in on a signed-in refresh. */
   hasSession?: boolean;
 }) {
   const pathname = usePathname();
   const { reduceMotion, user, sessionReady } = useAppStore();
-
-  if (user) {
-    return (
-      <div className="flex min-h-full flex-col">
-        <Header />
-        <LiveDrop />
-
-        <motion.main
-          key={pathname}
-          initial={reduceMotion ? false : { opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: reduceMotion ? 0 : 0.18 }}
-          className={cn("page-wrap flex-1 pt-4")}
-        >
-          {children}
-        </motion.main>
-
-        <SiteFooter />
-
-        <MobileNav />
-        <Toast />
-      </div>
-    );
-  }
-
-  if (hasSession && !sessionReady) {
-    return (
-      <div className="grid min-h-full place-items-center">
-        <PrismLogo className="h-10 w-10" />
-      </div>
-    );
-  }
+  const waitingOnSession = hasSession && !sessionReady && !user;
+  const locked = !user && !waitingOnSession && isSteamRequiredPath(pathname);
 
   return (
-    <>
-      <SteamGate />
+    <div className="flex min-h-full flex-col">
+      <Header hasSession={hasSession} />
+      <LiveDrop />
+
+      <motion.main
+        key={locked ? "steam-gate" : pathname}
+        initial={reduceMotion ? false : { opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: reduceMotion ? 0 : 0.18 }}
+        className={cn("page-wrap flex-1 pt-4")}
+      >
+        {waitingOnSession ? (
+          <div className="grid min-h-[50vh] place-items-center">
+            <PrismLogo className="h-10 w-10" />
+          </div>
+        ) : locked ? (
+          <SteamGate />
+        ) : (
+          children
+        )}
+      </motion.main>
+
+      <SiteFooter signedIn={Boolean(user)} />
+
+      {user ? <MobileNav /> : null}
       <Toast />
-    </>
+    </div>
   );
 }
