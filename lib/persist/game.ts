@@ -902,8 +902,8 @@ type WithdrawalRow = {
   amountUsd: number;
   status: string;
   note: string;
-  createdAt: Date;
-  reviewedAt: Date | null;
+  createdAt: Date | string;
+  reviewedAt: Date | string | null;
   userId?: string;
   user?: { displayName: string } | null;
   kind?: string | null;
