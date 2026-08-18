@@ -58,39 +58,98 @@ function shiftToward(pct: number[], from: number, to: number, values: number[], 
   return true;
 }
 
-/** Pull EV onto the RTP target without per-item caps. Never throw — a miss must not take down the site. */
+/** Inverse-value deposit into `idxs`, never above `cap`. Returns amount actually placed. */
+function depositCapped(
+  pct: number[],
+  idxs: number[],
+  amount: number,
+  values: number[],
+  cap: number,
+  exp = 0.7,
+) {
+  let left = amount;
+  for (let step = 0; step < 24 && left > 1e-8; step++) {
+    const room = idxs
+      .map((i) => ({ i, room: cap - pct[i] }))
+      .filter((row) => row.room > 0.01);
+    if (!room.length) break;
+    const weights = room.map((row) => 1 / Math.pow(Math.max(0.08, values[row.i]), exp));
+    const wSum = sum(weights) || room.length;
+    let placed = 0;
+    room.forEach((row, k) => {
+      const give = Math.min(row.room, left * (weights[k] / wSum));
+      if (give <= 0) return;
+      pct[row.i] += give;
+      placed += give;
+    });
+    if (placed <= 1e-10) break;
+    left -= placed;
+  }
+  return amount - left;
+}
+
+function shiftTowardCapped(
+  pct: number[],
+  from: number,
+  dest: number[],
+  values: number[],
+  now: number,
+  target: number,
+  keep: number,
+  cap: number,
+) {
+  const sinks = dest
+    .filter((i) => i !== from && pct[i] < cap - 0.02)
+    .sort((a, b) => values[a] - values[b]);
+  const cheapSinks = sinks.slice(0, Math.max(3, Math.ceil(sinks.length * 0.55)));
+  if (!cheapSinks.length) return false;
+  const destValue = values[cheapSinks[0]];
+  const d = values[from] - destValue;
+  if (d <= 1e-9) return false;
+  const move = Math.min(pct[from] - keep, ((now - target) / d) * 100);
+  if (move <= 1e-8) return false;
+  pct[from] -= move;
+  const placed = depositCapped(pct, cheapSinks, move, values, cap);
+  if (placed + 1e-8 < move) pct[from] += move - placed;
+  return placed > 1e-8;
+}
+
+/**
+ * Pull EV onto the RTP target without letting one filler eat the lose band.
+ * Prefer reshuffling inside lose (cheaper skins get more, each capped).
+ * Never throw — a miss must not take down the site.
+ */
 function lockEvToTarget(
   pct: number[],
   values: number[],
-  typical: number[],
   casePrice: number,
   target: number,
   cheap: number,
+  loseCap: number,
+  winCap: number,
+  loseIdx: number[],
+  winIdx: number[],
+  jackIdx: number[],
 ) {
-  const loseIdx = values.map((_, i) => i).filter((i) => (typical[i] ?? values[i]) <= casePrice);
-  const winIdx = values.map((_, i) => i).filter((i) => {
-    const t = typical[i] ?? values[i];
-    return t > casePrice && t < casePrice * 4;
-  });
-  const jackIdx = values.map((_, i) => i).filter((i) => Math.max(typical[i] ?? 0, values[i]) >= casePrice * 4);
-  const profitIdx = values.map((_, i) => i).filter((i) => (typical[i] ?? values[i]) > casePrice);
   const sink = loseIdx.length
     ? loseIdx.slice().sort((a, b) => values[a] - values[b])[0]
     : cheap;
-  const cheapWin = (winIdx.length ? winIdx : profitIdx).slice().sort((a, b) => values[a] - values[b])[0];
+  const cheapWin = winIdx.slice().sort((a, b) => values[a] - values[b])[0];
   const loseMass = () => loseIdx.reduce((s, i) => s + pct[i], 0);
   const winMass = () => winIdx.reduce((s, i) => s + pct[i], 0);
   const jackMass = () => jackIdx.reduce((s, i) => s + pct[i], 0);
+  const loseDest = () => loseIdx.filter((i) => pct[i] < loseCap - 0.02);
 
   for (let step = 0; step < 2500; step++) {
     const now = evOf(pct, values);
     if (now < casePrice && Math.abs(now - target) / target <= 0.012) return;
     if (now > target) {
-      // Reshuffle lose band first so окуп / jackpot mass stays put.
       const fromLose = loseIdx
-        .filter((i) => i !== sink && pct[i] > 0.02 && values[i] > values[sink] + 0.01)
+        .filter((i) => pct[i] > 0.8 && values[i] > values[sink] + 0.01)
         .sort((a, b) => values[b] * pct[b] - values[a] * pct[a])[0];
-      if (fromLose != null && shiftToward(pct, fromLose, sink, values, now, target, 0.03)) continue;
+      if (fromLose != null && shiftTowardCapped(pct, fromLose, loseDest(), values, now, target, 0.6, loseCap)) {
+        continue;
+      }
 
       if (cheapWin != null) {
         const fromWin = winIdx
@@ -99,26 +158,36 @@ function lockEvToTarget(
         if (fromWin != null && shiftToward(pct, fromWin, cheapWin, values, now, target, 0.05)) continue;
       }
 
+      const dest = loseDest();
       const fromJack = jackIdx
         .filter((i) => pct[i] > 0.04)
         .sort((a, b) => values[b] - values[a])
         .find((i) => jackMass() - (pct[i] - 0.008) >= CASE_MIN_JACKPOT_MASS);
-      if (fromJack != null && shiftToward(pct, fromJack, sink, values, now, target, 0.04)) continue;
+      if (fromJack != null && dest.length && shiftTowardCapped(pct, fromJack, dest, values, now, target, 0.04, loseCap)) {
+        continue;
+      }
 
       const fromWinToLose = winIdx
         .filter((i) => pct[i] > 0.05)
         .sort((a, b) => values[b] * pct[b] - values[a] * pct[a])
-        .find((i) => winMass() - Math.min(pct[i] - 0.05, 0.5) >= CASE_MIN_WIN_MASS);
-      if (fromWinToLose != null && shiftToward(pct, fromWinToLose, sink, values, now, target, 0.04)) continue;
+        .find((i) => winMass() - Math.min(pct[i] - 0.05, 0.4) >= 16);
+      if (fromWinToLose != null && dest.length && shiftTowardCapped(pct, fromWinToLose, dest, values, now, target, 0.05, loseCap)) {
+        continue;
+      }
       return;
     }
-    if (cheapWin == null || pct[sink] <= 0.2 || loseMass() <= CASE_MIN_LOSE_MASS + 0.05) return;
-    const d = values[cheapWin] - values[sink];
+    if (cheapWin == null || loseMass() <= CASE_MIN_LOSE_MASS + 0.05) return;
+    const donor = loseIdx.filter((i) => pct[i] > 1.2).sort((a, b) => pct[b] - pct[a])[0];
+    if (donor == null) return;
+    const dest = winIdx.filter((i) => pct[i] < winCap - 0.05);
+    if (!dest.length) return;
+    const destValue = dest.reduce((s, i) => s + values[i], 0) / dest.length;
+    const d = destValue - values[donor];
     if (d <= 1e-9) return;
-    const move = Math.min(pct[sink] - 0.15, ((target - now) / d) * 100);
+    const move = Math.min(pct[donor] - 0.8, ((target - now) / d) * 100);
     if (move <= 1e-8) return;
-    pct[sink] -= move;
-    pct[cheapWin] += move;
+    pct[donor] -= move;
+    depositCapped(pct, dest, move, values, winCap);
   }
 }
 
@@ -127,32 +196,42 @@ function splitBand(idxs: number[], mass: number, values: number[], cap: number, 
   if (!idxs.length || mass <= 0) return pct;
   const weights = idxs.map((i) => 1 / Math.pow(Math.max(0.08, values[i]), exp));
   const wSum = sum(weights) || idxs.length;
-  const minEach = Math.min(floor, mass / (idxs.length * 1.8));
-  let rest = mass - minEach * idxs.length;
+  const minEach = Math.min(floor, mass / (idxs.length * 1.8), cap);
+  let rest = Math.max(0, mass - minEach * idxs.length);
   const raw = idxs.map((_, k) => minEach + rest * (weights[k] / wSum));
-  let overflow = 0;
   idxs.forEach((i, k) => {
-    if (raw[k] > cap) {
-      overflow += raw[k] - cap;
-      pct.set(i, cap);
-    } else {
-      pct.set(i, raw[k]);
-    }
+    pct.set(i, Math.min(cap, raw[k]));
   });
-  if (overflow > 0) {
+  let overflow = raw.reduce((s, p, k) => s + Math.max(0, p - (pct.get(idxs[k]) ?? 0)), 0);
+  for (let step = 0; step < 16 && overflow > 1e-8; step++) {
     const room = idxs.filter((i) => (pct.get(i) ?? 0) < cap - 0.01);
-    if (room.length) {
-      const rw = room.map((i) => 1 / Math.pow(Math.max(0.08, values[i]), exp));
-      const rSum = sum(rw) || room.length;
-      room.forEach((i, k) => {
-        pct.set(i, Math.min(cap, (pct.get(i) ?? 0) + overflow * (rw[k] / rSum)));
-      });
-    } else {
-      const i0 = idxs[0];
-      pct.set(i0, (pct.get(i0) ?? 0) + overflow);
-    }
+    if (!room.length) break;
+    const rw = room.map((i) => 1 / Math.pow(Math.max(0.08, values[i]), exp));
+    const rSum = sum(rw) || room.length;
+    let placed = 0;
+    room.forEach((i, k) => {
+      const cur = pct.get(i) ?? 0;
+      const give = Math.min(cap - cur, overflow * (rw[k] / rSum));
+      pct.set(i, cur + give);
+      placed += give;
+    });
+    if (placed <= 1e-10) break;
+    overflow -= placed;
   }
   return pct;
+}
+
+/** Push any item above `cap` into other same-band rows that still have room. */
+function enforceSingleCap(pct: number[], idxs: number[], values: number[], cap: number) {
+  for (let step = 0; step < 12; step++) {
+    const fat = idxs.filter((i) => pct[i] > cap + 0.001);
+    if (!fat.length) return;
+    for (const i of fat) {
+      const extra = pct[i] - cap;
+      pct[i] = cap;
+      depositCapped(pct, idxs.filter((j) => j !== i), extra, values, cap);
+    }
+  }
 }
 
 /**
@@ -236,15 +315,15 @@ export function generateCaseWeights(
   const loseCap = CASE_MAX_SINGLE_CHANCE;
   const winCap = 10;
   const jackCap = Math.min(CASE_MAX_JACKPOT_MASS, Math.max(1.25, CASE_JACKPOT_MASS));
-  const deepMass = Math.min(loseMass * 0.58, 42);
+  const deepMass = Math.min(loseMass * 0.58, loseCap * Math.max(1, deep.length) * 0.85);
 
   const loseMap =
     deep.length && midLose.length
       ? new Map<number, number>([
-          ...splitBand(deep, Math.min(deepMass, loseMass), values, loseCap, 0.15),
-          ...splitBand(midLose, Math.max(0, loseMass - deepMass), values, loseCap, 0.2),
+          ...splitBand(deep, Math.min(deepMass, loseMass), values, loseCap, 0.15, 0.5),
+          ...splitBand(midLose, Math.max(0, loseMass - deepMass), values, loseCap, 0.2, 0.5),
         ])
-      : splitBand(buckets.lose, loseMass, values, loseCap, 0.15);
+      : splitBand(buckets.lose, loseMass, values, loseCap, 0.15, 0.5);
   const winMap = splitBand(buckets.win, winMass, values, winCap, 0.12, 0.25);
   const jackMap = splitBand(buckets.jack, jackMass, values, jackCap, 0.04);
 
@@ -267,13 +346,8 @@ export function generateCaseWeights(
     if (amount <= 0) return;
     const cheapBand = idxs.filter((i) => values[i] <= casePrice * 0.65);
     const pool = cheapBand.length ? cheapBand : idxs.length ? idxs : [cheap];
-    const room = pool.filter((i) => pct[i] < cap - 0.02);
-    const dest = room.length ? room : pool;
-    const w = dest.map((i) => 1 / Math.max(0.08, values[i]));
-    const wSum = sum(w) || dest.length;
-    dest.forEach((i, k) => {
-      pct[i] += amount * (w[k] / wSum);
-    });
+    const placed = depositCapped(pct, pool, amount, values, cap);
+    if (placed + 1e-8 < amount) depositCapped(pct, idxs.length ? idxs : [cheap], amount - placed, values, cap);
   };
 
   const takeFrom = (idxs: number[], amount: number, minKeep: number) => {
@@ -426,12 +500,12 @@ export function generateCaseWeights(
       addTo(buckets.lose, move, loseCap);
     } else {
       if (massOf("lose") <= CASE_MIN_LOSE_MASS + 0.2) break;
-      const to = buckets.win.filter((i) => pct[i] < winCap)[0] ?? buckets.jack[0];
-      const from = buckets.lose.filter((i) => pct[i] > 0.5)[0];
+      const to = buckets.win.filter((i) => pct[i] < winCap - 0.05).sort((a, b) => values[a] - values[b])[0] ?? buckets.jack[0];
+      const from = buckets.lose.filter((i) => pct[i] > 2.5).sort((a, b) => pct[b] - pct[a])[0];
       if (to == null || from == null) break;
       const d = values[to] - values[from];
       if (d <= 1e-9) break;
-      const move = Math.min(pct[from] - 0.2, Math.max(0, ((target - now) / d) * 100));
+      const move = Math.min(pct[from] - 0.8, Math.max(0, ((target - now) / d) * 100));
       if (move <= 1e-6) break;
       pct[from] -= move;
       pct[to] += move;
@@ -440,31 +514,33 @@ export function generateCaseWeights(
 
   normalize();
 
-  lockEvToTarget(pct, values, typical, casePrice, target, cheap);
+  lockEvToTarget(pct, values, casePrice, target, cheap, loseCap, winCap, buckets.lose, buckets.win, buckets.jack);
+  enforceSingleCap(pct, buckets.lose, values, loseCap);
 
   for (let i = 0; i < n; i++) pct[i] = +Math.max(0.008, pct[i]).toFixed(4);
   let s = sum(pct);
-  pct[cheap] = +(pct[cheap] - (s - 100)).toFixed(4);
-  if (pct[cheap] < 0.008) {
-    const donor = values
-      .map((_, i) => i)
-      .reverse()
-      .find((i) => i !== cheap && pct[i] > 0.08);
-    if (donor != null) {
-      const need = 0.008 - pct[cheap];
-      pct[donor] = +(pct[donor] - need).toFixed(4);
-      pct[cheap] = 0.008;
-    }
+  if (s > 100) {
+    takeFrom(
+      [...buckets.lose].sort((a, b) => values[a] - values[b]),
+      s - 100,
+      0.02,
+    );
+  } else if (s < 100) {
+    depositCapped(pct, buckets.lose.length ? buckets.lose : [cheap], 100 - s, values, loseCap);
   }
   s = sum(pct);
   if (Math.abs(s - 100) > 0.00005) {
-    const fixer = buckets.lose.find((i) => pct[i] > Math.abs(s - 100) + 0.05) ?? cheap;
+    const fixer = buckets.lose.find((i) => pct[i] + (100 - s) <= loseCap) ?? cheap;
     pct[fixer] = +(pct[fixer] + (100 - s)).toFixed(4);
   }
 
-  lockEvToTarget(pct, values, typical, casePrice, target, cheap);
+  lockEvToTarget(pct, values, casePrice, target, cheap, loseCap, winCap, buckets.lose, buckets.win, buckets.jack);
+  enforceSingleCap(pct, buckets.lose, values, loseCap);
+  enforceSingleCap(pct, buckets.win, values, winCap);
+  enforceSingleCap(pct, buckets.jack, values, jackCap);
 
   // Last-resort: EV must stay under the ticket so the catalog can load.
+  // Spread the sink across the lose band — never dump the remainder on one filler.
   if (evOf(pct, values) >= casePrice) {
     const overflow = evOf(pct, values) - casePrice * 0.995;
     const bandRank = (i: number) => {
@@ -474,21 +550,143 @@ export function generateCaseWeights(
     };
     const donors = values
       .map((_, i) => i)
-      .filter((i) => i !== cheap && pct[i] > 0.0085)
+      .filter((i) => i !== cheap && pct[i] > 0.08)
       .sort((a, b) => {
-        const br = bandRank(a) - bandRank(b);
+        const br = bandRank(b) - bandRank(a);
         if (br !== 0) return br;
         return values[b] - values[a];
       });
     for (const from of donors) {
       if (evOf(pct, values) < casePrice) break;
-      const d = values[from] - values[cheap];
+      const dest = buckets.lose.filter((i) => i !== from && pct[i] < loseCap - 0.02);
+      if (!dest.length) continue;
+      const destValue = dest.reduce((acc, i) => acc + values[i], 0) / dest.length;
+      const d = values[from] - destValue;
       if (d <= 1e-9) continue;
-      const move = Math.min(pct[from] - 0.008, Math.max(0, (overflow / d) * 100));
+      const move = Math.min(pct[from] - 0.04, Math.max(0, (overflow / d) * 100));
       if (move <= 1e-8) continue;
       pct[from] -= move;
-      pct[cheap] += move;
+      depositCapped(pct, dest, move, values, loseCap);
     }
+  }
+
+  enforceSingleCap(pct, buckets.lose, values, loseCap);
+  s = sum(pct);
+  if (Math.abs(s - 100) > 0.00005) {
+    const fixer = buckets.lose.find((i) => pct[i] + (100 - s) <= loseCap && pct[i] + (100 - s) >= 0.008) ?? cheap;
+    pct[fixer] = +(Math.min(loseCap, Math.max(0.008, pct[fixer] + (100 - s)))).toFixed(4);
+  }
+
+  if (massOf("win") < CASE_MIN_WIN_MASS && buckets.win.length) {
+    const need = CASE_MIN_WIN_MASS - massOf("win");
+    const room = Math.max(0, massOf("lose") - CASE_MIN_LOSE_MASS);
+    const got = takeFrom(buckets.lose, Math.min(need, room), 0.8);
+    addTo(buckets.win, got, winCap);
+  }
+  if (massOf("jack") < CASE_MIN_JACKPOT_MASS && buckets.jack.length) {
+    const need = CASE_MIN_JACKPOT_MASS - massOf("jack");
+    const room = Math.max(0, massOf("lose") - CASE_MIN_LOSE_MASS);
+    const got = takeFrom(buckets.lose, Math.min(need, room), 0.8);
+    addTo(buckets.jack, got, jackCap);
+  }
+  lockEvToTarget(pct, values, casePrice, target, cheap, loseCap, winCap, buckets.lose, buckets.win, buckets.jack);
+  enforceSingleCap(pct, buckets.lose, values, loseCap);
+  enforceSingleCap(pct, buckets.win, values, winCap);
+  enforceSingleCap(pct, buckets.jack, values, jackCap);
+
+  // Anti-minus last: EV must stay under the ticket. Spread into cheapest lose rows still under cap.
+  for (let step = 0; step < 400 && evOf(pct, values) >= casePrice * 0.997; step++) {
+    const dest = buckets.lose.filter((i) => pct[i] < loseCap - 0.02).sort((a, b) => values[a] - values[b]);
+    const sinks = dest.slice(0, Math.max(1, Math.ceil(dest.length * 0.5)));
+    if (!sinks.length) break;
+    const destValue = values[sinks[0]];
+    const from = values
+      .map((_, i) => i)
+      .filter((i) => !sinks.includes(i) && pct[i] > 0.06 && values[i] > destValue + 0.02)
+      .sort((a, b) => values[b] - values[a])[0];
+    if (from == null) break;
+    const d = values[from] - destValue;
+    const overflow = evOf(pct, values) - casePrice * 0.993;
+    const move = Math.min(pct[from] - 0.05, Math.max(0.002, (overflow / d) * 100));
+    if (move <= 1e-8) break;
+    pct[from] -= move;
+    const placed = depositCapped(pct, sinks, move, values, loseCap);
+    if (placed + 1e-8 < move) pct[from] += move - placed;
+  }
+  enforceSingleCap(pct, buckets.lose, values, loseCap);
+  normalize();
+  enforceSingleCap(pct, buckets.lose, values, loseCap);
+  enforceSingleCap(pct, buckets.win, values, winCap);
+  enforceSingleCap(pct, buckets.jack, values, jackCap);
+  s = sum(pct);
+  if (s > 100.0001) takeFrom(buckets.lose, s - 100, 0.5);
+  else if (s < 99.9999) depositCapped(pct, buckets.lose.length ? buckets.lose : [cheap], 100 - s, values, loseCap);
+  s = sum(pct);
+  if (Math.abs(s - 100) > 0.00005) {
+    const fixer = buckets.lose.find((i) => {
+      const next = pct[i] + (100 - s);
+      return next <= loseCap && next >= 0.008;
+    }) ?? cheap;
+    pct[fixer] = +(Math.min(loseCap, Math.max(0.008, pct[fixer] + (100 - s)))).toFixed(4);
+  }
+
+  for (let step = 0; step < 2000; step++) {
+    const now = evOf(pct, values);
+    if (now < casePrice && Math.abs(now - target) / target <= 0.012) break;
+    if (now > target) {
+      const sinks = buckets.lose.filter((i) => pct[i] < loseCap - 0.02).sort((a, b) => values[a] - values[b]);
+      const cheapSinks = sinks.slice(0, Math.max(3, Math.ceil(sinks.length * 0.55)));
+      if (!cheapSinks.length) break;
+      const destV = values[cheapSinks[0]];
+      const from =
+        buckets.jack
+          .filter((i) => pct[i] > 0.05 && massOf("jack") > CASE_MIN_JACKPOT_MASS + 0.08)
+          .sort((a, b) => values[b] - values[a])[0] ??
+        buckets.win
+          .filter((i) => pct[i] > 0.08 && massOf("win") > Math.min(CASE_MIN_WIN_MASS, 16) + 0.08)
+          .sort((a, b) => values[b] - values[a])[0] ??
+        buckets.lose
+          .filter((i) => !cheapSinks.includes(i) && pct[i] > 0.8 && values[i] > destV + 0.05)
+          .sort((a, b) => values[b] - values[a])[0];
+      if (from == null) break;
+      const d = values[from] - destV;
+      if (d <= 1e-9) break;
+      const keep = band[from] === "jack" ? 0.04 : 0.08;
+      const move = Math.min(pct[from] - keep, Math.max(0.002, ((now - target) / d) * 100));
+      if (move <= 1e-8) break;
+      pct[from] -= move;
+      const placed = depositCapped(pct, cheapSinks, move, values, loseCap);
+      if (placed + 1e-8 < move) pct[from] += move - placed;
+      if (placed <= 1e-8) break;
+    } else {
+      if (massOf("lose") <= CASE_MIN_LOSE_MASS + 0.1) break;
+      const dest = buckets.win.filter((i) => pct[i] < winCap - 0.05);
+      const jackDest = buckets.jack.filter((i) => pct[i] < jackCap - 0.02);
+      const sinkBand = dest.length ? dest : jackDest;
+      const sinkCap = dest.length ? winCap : jackCap;
+      if (!sinkBand.length) break;
+      const donor = buckets.lose.filter((i) => pct[i] > 1.5).sort((a, b) => pct[b] - pct[a])[0];
+      if (donor == null) break;
+      const destV = sinkBand.reduce((acc, i) => acc + values[i], 0) / sinkBand.length;
+      const d = destV - values[donor];
+      if (d <= 1e-9) break;
+      const move = Math.min(pct[donor] - 0.8, Math.max(0.002, ((target - now) / d) * 100));
+      if (move <= 1e-8) break;
+      pct[donor] -= move;
+      const placed = depositCapped(pct, sinkBand, move, values, sinkCap);
+      if (placed + 1e-8 < move) pct[donor] += move - placed;
+      if (placed <= 1e-8) break;
+    }
+  }
+  enforceSingleCap(pct, buckets.lose, values, loseCap);
+  enforceSingleCap(pct, buckets.win, values, winCap);
+  s = sum(pct);
+  if (Math.abs(s - 100) > 0.00005) {
+    const fixer = buckets.lose.find((i) => {
+      const next = pct[i] + (100 - s);
+      return next <= loseCap && next >= 0.008;
+    }) ?? cheap;
+    pct[fixer] = +(Math.min(loseCap, Math.max(0.008, pct[fixer] + (100 - s)))).toFixed(4);
   }
 
   return items.map((it, i) => ({

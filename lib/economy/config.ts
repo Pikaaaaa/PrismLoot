@@ -75,5 +75,5 @@ export const CASE_TIER_MASS = {
   mythic: 0.1,
 } as const;
 
-/** One filler cannot eat the reel. */
+/** One filler cannot eat the reel. lockEvToTarget must honor this cap. */
 export const CASE_MAX_SINGLE_CHANCE = 18;

@@ -1,7 +1,7 @@
 import { SKIN_MAP } from "@/data/skins";
 import type { Crate } from "@/lib/types";
 import { expectedUnboxPrice } from "@/lib/wear";
-import { CASE_MIN_LOSE_MASS, CASE_MIN_WIN_MASS } from "./config";
+import { CASE_MAX_SINGLE_CHANCE, CASE_MIN_LOSE_MASS, CASE_MIN_WIN_MASS } from "./config";
 import { calculateCaseEV } from "./ev";
 
 export function validateCase(crate: Crate) {
@@ -37,6 +37,11 @@ export function validateCase(crate: Crate) {
     }
     if (!(row.chance > 0) || row.chance > 100) {
       throw new Error(`${crate.id}: bad chance for ${row.skinId}`);
+    }
+    if (row.chance > CASE_MAX_SINGLE_CHANCE + 0.25) {
+      throw new Error(
+        `${crate.id}: ${row.skinId} chance ${row.chance.toFixed(2)}% exceeds ${CASE_MAX_SINGLE_CHANCE}% cap`,
+      );
     }
   }
 
