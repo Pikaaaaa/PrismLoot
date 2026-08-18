@@ -1,8 +1,11 @@
 import { NextResponse } from "next/server";
+import { requireUserId } from "@/lib/auth/session";
+import { jsonPlayError } from "@/lib/persist/errors";
 import { persistItemsLeftVault } from "@/lib/persist/game";
 
 export async function POST(req: Request) {
   try {
+    const userId = await requireUserId();
     const body = (await req.json()) as { ids?: unknown; sales?: unknown };
     const ids = Array.isArray(body.ids) ? body.ids.map((id) => String(id)).filter(Boolean) : [];
     if (!ids.length) {
@@ -15,10 +18,9 @@ export async function POST(req: Request) {
         if (Number.isFinite(n)) sales[key] = n;
       }
     }
-    await persistItemsLeftVault({ ids, sales });
+    await persistItemsLeftVault({ userId, ids, sales });
     return NextResponse.json({ ok: true });
   } catch (err) {
-    console.error("[persist] inventory leave failed", err);
-    return NextResponse.json({ ok: false, error: "PERSIST_FAILED" }, { status: 500 });
+    return jsonPlayError(err, "PERSIST_FAILED");
   }
 }

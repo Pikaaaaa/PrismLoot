@@ -71,7 +71,6 @@ function ProfileInner() {
     balance,
     history,
     hydrated,
-    login,
     logout,
     liveFeedOn,
     reduceMotion,
@@ -149,10 +148,10 @@ function ProfileInner() {
         <div className="surface surface-pad mx-auto max-w-md text-center">
           <h1>Sign in</h1>
           <p className="mt-2 text-[length:var(--type-sm)] text-mute">
-            Login + password. Steam sign-in is coming soon.
+            Sign in with Steam to keep your balance and inventory. We never ask for a Steam password.
           </p>
           <div className="mt-4 text-left">
-            <LoginForm onSuccess={login} />
+            <LoginForm />
           </div>
         </div>
       </div>
@@ -163,7 +162,7 @@ function ProfileInner() {
     <div className="page-stack">
       <section className="surface">
         <div className="surface-pad flex flex-wrap items-center gap-x-5 gap-y-4">
-          <UserAvatar name={user.username} hue={user.avatarHue} size="xl" level={level.level} />
+          <UserAvatar name={user.username} hue={user.avatarHue} src={user.avatarUrl} size="xl" level={level.level} />
 
           <div className="min-w-0 flex-1">
             <div className="flex min-w-0 flex-wrap items-center gap-x-2.5 gap-y-1">
@@ -263,9 +262,13 @@ function ProfileInner() {
             )}
           </InfoRow>
           <InfoRow label="Steam">
-            <Button size="xs" variant="ghost" onClick={beginSteamLogin}>
-              {steam.connected ? "Linked" : "Connect"}
-            </Button>
+            {steam.connected ? (
+              <span className="text-cyan">{steam.personaName ?? "Connected"}</span>
+            ) : (
+              <Button size="xs" variant="ghost" onClick={beginSteamLogin}>
+                Connect
+              </Button>
+            )}
           </InfoRow>
         </Card>
 
@@ -650,6 +653,7 @@ function SettingsBlock({
         variant="ghost"
         fullWidth
         onClick={() => {
+          localStorage.removeItem("prismloot-prefs-v3");
           localStorage.removeItem("prismloot-demo-v2");
           toast({ title: "Local data reset on next reload", tone: "warn" });
         }}

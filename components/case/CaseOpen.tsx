@@ -165,7 +165,7 @@ export function CaseOpen({ crate }: { crate: Crate }) {
   async function open(n = count) {
     if (phase !== "idle") return;
     if (!store.user) {
-      store.toast({ title: "Sign in required", tone: "warn" });
+      store.toast({ title: "Sign in with Steam", tone: "warn" });
       return;
     }
     const total = +(crate.price * n).toFixed(2);

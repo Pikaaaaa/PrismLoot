@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { requireUserId } from "@/lib/auth/session";
 import { UPGRADE_MAX_CHANCE } from "@/lib/economy/config";
 import { previewUpgrade, resolveUpgrade } from "@/lib/engine/upgrade";
 import { jsonPlayError } from "@/lib/persist/errors";
@@ -37,6 +38,7 @@ function wearOf(value: unknown): Wear | undefined {
 
 export async function POST(req: Request) {
   try {
+    const userId = await requireUserId();
     const body = (await req.json()) as {
       sourceInstanceIds?: unknown;
       sourceSkinIds?: unknown;
@@ -86,6 +88,7 @@ export async function POST(req: Request) {
     });
     if (sourceInstanceIds.length) {
       await persistUpgradeAttempt({
+        userId,
         sourceInstanceIds,
         extraUsd: extraStake,
         chance: result.chance,

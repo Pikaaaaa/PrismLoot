@@ -1,8 +1,9 @@
 import { NextResponse } from "next/server";
+import { getSessionUserId, requireUserId } from "@/lib/auth/session";
 import { prisma, withdrawalDelegate } from "@/lib/db";
 import { jsonPlayError } from "@/lib/persist/errors";
 import {
-  loadDemoSnapshot,
+  loadPlayerSnapshot,
   persistSkinWithdrawalCreate,
   serializeWithdrawal,
 } from "@/lib/persist/game";
@@ -12,14 +13,16 @@ const WITHDRAWAL_INCLUDE = { inventoryItem: true };
 export async function GET() {
   let banned = false;
   let wagerRemainingUsd = 0;
-  let userId: string | null = null;
-  try {
-    const snapshot = await loadDemoSnapshot();
-    banned = snapshot.banned;
-    wagerRemainingUsd = snapshot.wagerRemainingUsd;
-    userId = snapshot.user.id;
-  } catch (err) {
-    console.error("[withdraw] snapshot failed", err);
+  const userId = await getSessionUserId();
+
+  if (userId) {
+    try {
+      const snapshot = await loadPlayerSnapshot(userId);
+      banned = snapshot.banned;
+      wagerRemainingUsd = snapshot.wagerRemainingUsd;
+    } catch (err) {
+      console.error("[withdraw] snapshot failed", err);
+    }
   }
 
   let withdrawals: ReturnType<typeof serializeWithdrawal>[] = [];
@@ -70,6 +73,7 @@ export async function GET() {
 
 export async function POST(req: Request) {
   try {
+    const userId = await requireUserId();
     const body = (await req.json()) as { instanceId?: unknown; tradeUrl?: unknown };
     const instanceId = typeof body.instanceId === "string" ? body.instanceId.trim() : "";
     if (!instanceId) {
@@ -79,7 +83,7 @@ export async function POST(req: Request) {
       );
     }
     const tradeUrl = typeof body.tradeUrl === "string" ? body.tradeUrl : undefined;
-    const result = await persistSkinWithdrawalCreate({ instanceId, tradeUrl });
+    const result = await persistSkinWithdrawalCreate({ userId, instanceId, tradeUrl });
     return NextResponse.json({ ok: true, ...result });
   } catch (err) {
     console.error("[withdraw] create failed", err);

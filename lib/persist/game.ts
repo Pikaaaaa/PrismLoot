@@ -92,8 +92,8 @@ export async function ensureDemoUser() {
 }
 
 export async function loadPlayUser(userId?: string) {
-  const id = userId || DEMO_USER_ID;
-  const user = id === DEMO_USER_ID ? await ensureDemoUser() : await prisma.user.findUnique({ where: { id } });
+  if (!userId) throw new Error("AUTH_REQUIRED");
+  const user = await prisma.user.findUnique({ where: { id: userId } });
   if (!user) throw new Error("USER_NOT_FOUND");
   return user;
 }
@@ -228,8 +228,8 @@ async function pendingSkinHoldIds(userId: string): Promise<string[]> {
   }
 }
 
-export async function loadDemoSnapshot() {
-  const user = await ensureDemoUser();
+export async function loadPlayerSnapshot(userId: string) {
+  const user = await loadPlayUser(userId);
   const [vault, pendingHoldIds, best, openedCases, upgrades, contracts] = await Promise.all([
     prisma.inventoryItem.findMany({
       where: { userId: user.id, soldAt: null },
@@ -265,6 +265,8 @@ export async function loadDemoSnapshot() {
     user: {
       id: user.id,
       displayName: user.displayName,
+      steamId: user.steamId,
+      avatarUrl: (user as { avatarUrl?: string }).avatarUrl ?? "",
       banned: user.banned,
       balanceUsd: usd(user.balanceUsd),
       wagerRemainingUsd: usd(user.wagerRemainingUsd),
@@ -281,7 +283,7 @@ export async function loadDemoSnapshot() {
 }
 
 export async function persistCaseOpens(input: {
-  userId?: string;
+  userId: string;
   caseId: string;
   costUsd: number;
   items: InventoryItem[];
@@ -360,7 +362,7 @@ export async function persistCaseOpens(input: {
 }
 
 export async function persistItemsLeftVault(input: {
-  userId?: string;
+  userId: string;
   ids: string[];
   sales?: Record<string, number>;
 }) {
@@ -480,9 +482,9 @@ export async function persistWagerReset(input: { userId: string; note?: string }
   return { previousUsd, wagerRemainingUsd: 0 };
 }
 
-export async function persistPromoRedeem(input: { userId?: string; code: string }) {
-  const user = await ensureDemoUser();
-  const userId = input.userId || user.id;
+export async function persistPromoRedeem(input: { userId: string; code: string }) {
+  const userId = input.userId;
+  await loadPlayUser(userId);
   const promo = await prisma.promoCode.findUnique({ where: { code: input.code } });
   if (!promo || !promo.enabled) return { ok: false as const, error: "INVALID_CODE" };
   try {
@@ -496,7 +498,7 @@ export async function persistPromoRedeem(input: { userId?: string; code: string 
 }
 
 export async function persistUpgradeAttempt(input: {
-  userId?: string;
+  userId: string;
   sourceInstanceIds: string[];
   extraUsd: number;
   chance: number;
@@ -570,7 +572,7 @@ export async function persistUpgradeAttempt(input: {
 }
 
 export async function persistContractAttempt(input: {
-  userId?: string;
+  userId: string;
   sourceInstanceIds: string[];
   extraUsd?: number;
   item: InventoryItem;
@@ -665,7 +667,7 @@ export function serializeDeposit(row: {
 }
 
 export async function persistDepositCreate(input: {
-  userId?: string;
+  userId: string;
   asset: string;
   network: string;
   amountUsd: number;
@@ -832,7 +834,7 @@ export async function persistGiftCardDisable(id: string) {
   return serializeGiftCard(updated);
 }
 
-export async function persistGiftCardRedeem(input: { code: string; userId?: string }) {
+export async function persistGiftCardRedeem(input: { code: string; userId: string }) {
   const code = normalizeGiftCode(input.code);
   if (!isGiftCodeFormat(code)) throw new Error("GIFT_CARD_INVALID");
   const user = await loadPlayUser(input.userId);
@@ -1026,11 +1028,11 @@ async function insertSkinWithdrawal(
     note: data.itemName,
     createdAt,
     reviewedAt: null,
-    user: { displayName: "NovaPrime" },
+    user: { displayName: data.userId },
   };
 }
 
-export async function persistTradeUrl(input: { userId?: string; url: string }) {
+export async function persistTradeUrl(input: { userId: string; url: string }) {
   const user = await loadPlayUser(input.userId);
   const tradeUrl = normalizeTradeUrl(input.url);
   if (tradeUrl && !looksLikeTradeUrl(tradeUrl)) throw new Error("TRADE_URL_INVALID");
@@ -1043,7 +1045,7 @@ export async function persistTradeUrl(input: { userId?: string; url: string }) {
   return { tradeUrl };
 }
 
-export async function persistWithdrawalCreate(input: { userId?: string; amountUsd: number; note?: string }) {
+export async function persistWithdrawalCreate(input: { userId: string; amountUsd: number; note?: string }) {
   ensurePrisma();
   const db = withdrawalDelegate();
   if (!db) {
@@ -1096,7 +1098,7 @@ export async function persistWithdrawalCreate(input: { userId?: string; amountUs
 }
 
 export async function persistSkinWithdrawalCreate(input: {
-  userId?: string;
+  userId: string;
   instanceId: string;
   tradeUrl?: string;
 }) {

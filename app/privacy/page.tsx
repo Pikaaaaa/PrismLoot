@@ -12,7 +12,7 @@ export default function PrivacyPage() {
         <p>
           PrismLoot is operated by <strong className="text-ink">TRS infinity</strong>. Play
           state (balance, inventory, settings) is stored in your browser and in the site database.
-          Steam login is coming — we do not ask for a Steam password.
+          Steam sign-in uses OpenID (Steam ID and public persona only). We never ask for a Steam password.
         </p>
         <p>
           Optional fields such as a trade URL or email stay on this account unless you submit the

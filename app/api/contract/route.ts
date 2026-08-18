@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { requireUserId } from "@/lib/auth/session";
 import { resolveContract } from "@/lib/engine/contract";
 import { jsonPlayError } from "@/lib/persist/errors";
 import { persistContractAttempt } from "@/lib/persist/game";
@@ -16,6 +17,7 @@ function extraOf(value: unknown): number {
 
 export async function POST(req: Request) {
   try {
+    const userId = await requireUserId();
     const body = (await req.json()) as { skinIds?: unknown; instanceIds?: unknown; extraStake?: unknown };
     const skinIds = idsOf(body.skinIds);
     const instanceIds = idsOf(body.instanceIds);
@@ -26,6 +28,7 @@ export async function POST(req: Request) {
         return NextResponse.json({ ok: false, error: "SOURCE_MISMATCH" }, { status: 400 });
       }
       await persistContractAttempt({
+        userId,
         sourceInstanceIds: instanceIds,
         extraUsd: extraStake,
         item: result.item,

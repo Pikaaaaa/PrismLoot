@@ -468,7 +468,7 @@ export function UpgradePanel() {
       return;
     }
     if (!store.user) {
-      store.toast({ title: "Sign in required", tone: "warn" });
+      store.toast({ title: "Sign in with Steam", tone: "warn" });
       return;
     }
     if (extra > wallet) {

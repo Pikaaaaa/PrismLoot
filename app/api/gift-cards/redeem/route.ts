@@ -1,13 +1,15 @@
 import { NextResponse } from "next/server";
 import { writeAudit } from "@/lib/admin/audit";
+import { requireUserId } from "@/lib/auth/session";
 import { jsonPlayError } from "@/lib/persist/errors";
 import { persistGiftCardRedeem } from "@/lib/persist/game";
 
 export async function POST(req: Request) {
   try {
+    const userId = await requireUserId();
     const body = (await req.json()) as { code?: unknown };
     const code = typeof body.code === "string" ? body.code : "";
-    const result = await persistGiftCardRedeem({ code });
+    const result = await persistGiftCardRedeem({ code, userId });
     await writeAudit({
       action: "redeem_gift_card",
       targetType: "gift_card",

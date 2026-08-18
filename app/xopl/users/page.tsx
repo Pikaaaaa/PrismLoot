@@ -48,7 +48,7 @@ export default function AdminUsersPage() {
 
   return (
     <div className="page-stack">
-      <PageHeader kicker="Admin" title="Users" description="Player local-demo (NovaPrime). Search by name or id." />
+      <PageHeader kicker="Admin" title="Users" description="Steam accounts (and any seeded local players). Search by name, id, or steamId." />
       <SearchInput value={q} onChange={(e) => setQ(e.target.value)} placeholder="Search users" />
       {error ? <p className="text-sm text-danger">{error}</p> : null}
       <div className="surface overflow-x-auto">

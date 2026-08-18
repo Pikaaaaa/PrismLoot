@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 
 export const PLAY_ERROR_STATUS: Record<string, number> = {
+  AUTH_REQUIRED: 401,
   USER_BANNED: 403,
   INSUFFICIENT_BALANCE: 400,
   ITEMS_UNAVAILABLE: 409,
@@ -24,6 +25,7 @@ export const PLAY_ERROR_STATUS: Record<string, number> = {
 };
 
 export const PLAY_ERROR_LABEL: Record<string, string> = {
+  AUTH_REQUIRED: "Sign in with Steam to continue.",
   USER_BANNED: "This account is banned.",
   INSUFFICIENT_BALANCE: "Not enough balance.",
   ITEMS_UNAVAILABLE: "Скин больше не в инвентаре.",

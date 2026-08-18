@@ -1,21 +1,24 @@
 import { NextResponse } from "next/server";
+import { getSessionUserId, requireUserId } from "@/lib/auth/session";
 import { depositDelegate } from "@/lib/db";
 import { publicDepositCatalog } from "@/lib/deposits/catalog";
 import { jsonPlayError } from "@/lib/persist/errors";
-import { loadDemoSnapshot, persistDepositCreate, serializeDeposit } from "@/lib/persist/game";
+import { loadPlayerSnapshot, persistDepositCreate, serializeDeposit } from "@/lib/persist/game";
 
 export async function GET() {
   const catalog = publicDepositCatalog();
   let banned = false;
   let balance = 0;
-  let userId: string | null = null;
-  try {
-    const snapshot = await loadDemoSnapshot();
-    banned = snapshot.banned;
-    balance = snapshot.balance;
-    userId = snapshot.user.id;
-  } catch (err) {
-    console.error("[deposit] snapshot failed", err);
+  const userId = await getSessionUserId();
+
+  if (userId) {
+    try {
+      const snapshot = await loadPlayerSnapshot(userId);
+      banned = snapshot.banned;
+      balance = snapshot.balance;
+    } catch (err) {
+      console.error("[deposit] snapshot failed", err);
+    }
   }
 
   let deposits: ReturnType<typeof serializeDeposit>[] = [];
@@ -44,6 +47,7 @@ export async function GET() {
 
 export async function POST(req: Request) {
   try {
+    const userId = await requireUserId();
     const body = (await req.json()) as {
       asset?: unknown;
       network?: unknown;
@@ -57,7 +61,7 @@ export async function POST(req: Request) {
     if (!asset || !network || !Number.isFinite(amountUsd)) {
       return NextResponse.json({ ok: false, error: "INVALID_INPUT" }, { status: 400 });
     }
-    const deposit = await persistDepositCreate({ asset, network, amountUsd, txNote });
+    const deposit = await persistDepositCreate({ userId, asset, network, amountUsd, txNote });
     return NextResponse.json({ ok: true, deposit });
   } catch (err) {
     return jsonPlayError(err, "DEPOSIT_FAILED");

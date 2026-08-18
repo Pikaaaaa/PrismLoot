@@ -1,13 +1,14 @@
 import { NextResponse } from "next/server";
-import { DISCONNECTED_STEAM } from "@/lib/auth/steam";
+import { publicSiteOrigin } from "@/lib/auth/site";
+import { STEAM_RETURN_PATH } from "@/lib/auth/steam";
 
-/** Steam would land here after OpenID. Demo never accepts a password and never completes a link. */
-export async function GET() {
-  return NextResponse.json({
-    ok: false,
-    demo: true,
-    connected: false,
-    identity: DISCONNECTED_STEAM,
-    message: "Steam callback is a stub. Sign in with login + password for this demo.",
-  });
+export const dynamic = "force-dynamic";
+
+/** Older bookmark: Steam return lives at /api/auth/steam/return. */
+export async function GET(req: Request) {
+  const origin = publicSiteOrigin(req);
+  const incoming = new URL(req.url);
+  const dest = new URL(`${origin}${STEAM_RETURN_PATH}`);
+  incoming.searchParams.forEach((value, key) => dest.searchParams.set(key, value));
+  return NextResponse.redirect(dest);
 }

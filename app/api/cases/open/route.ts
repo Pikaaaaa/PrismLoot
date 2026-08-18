@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { requireUserId } from "@/lib/auth/session";
 import { getCaseOverlay } from "@/lib/catalog";
 import { jsonPlayError } from "@/lib/persist/errors";
 import { persistCaseOpens } from "@/lib/persist/game";
@@ -6,6 +7,7 @@ import { openCases } from "@/lib/services/caseService";
 
 export async function POST(req: Request) {
   try {
+    const userId = await requireUserId();
     const body = (await req.json()) as { caseId?: string; count?: unknown };
     const caseId = typeof body.caseId === "string" ? body.caseId.trim() : "";
     if (!caseId) {
@@ -19,7 +21,7 @@ export async function POST(req: Request) {
     const count = Number.isFinite(countRaw) ? countRaw : 1;
     const result = openCases(caseId, count);
     const charged = overlay ? +(overlay.priceUsd * result.items.length).toFixed(2) : result.charged;
-    await persistCaseOpens({ caseId, costUsd: charged, items: result.items });
+    await persistCaseOpens({ userId, caseId, costUsd: charged, items: result.items });
     return NextResponse.json({
       ok: true,
       caseId,

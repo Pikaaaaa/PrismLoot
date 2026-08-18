@@ -248,6 +248,8 @@ export interface PublicUser {
   level: number;
   /** Local demo email. Never a Steam password. */
   email?: string | null;
+  avatarUrl?: string | null;
+  steamId?: string | null;
 }
 
 export type AuthProvider = "password" | "steam-openid";

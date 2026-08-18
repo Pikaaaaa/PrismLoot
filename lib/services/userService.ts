@@ -1,10 +1,8 @@
-import { CURRENT_USER } from "@/lib/mock-data";
 import type { PublicUser } from "@/lib/types";
 
 /**
- * Demo identity only. Case odds never use this object.
- * Auth today is login+password. Steam OpenID is stubbed (see lib/auth/steam.ts).
+ * Live-feed bots only. Real players come from Steam OpenID + Prisma.
  */
-export function getDemoUser(): PublicUser {
-  return CURRENT_USER;
+export function getDemoUser(user?: PublicUser | null): PublicUser | null {
+  return user ?? null;
 }

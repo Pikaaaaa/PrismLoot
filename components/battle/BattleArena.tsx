@@ -61,7 +61,7 @@ export function BattleArena({ initial }: { initial: Battle }) {
 
   async function join() {
     if (!store.user) {
-      store.toast({ title: "Sign in to join", tone: "warn" });
+      store.toast({ title: "Sign in with Steam to join", tone: "warn" });
       return;
     }
     if (battle.players.some((p) => p.user.id === store.user?.id)) {

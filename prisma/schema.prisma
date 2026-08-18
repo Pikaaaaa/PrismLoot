@@ -16,6 +16,7 @@ model User {
   id          String   @id
   steamId     String?  @unique
   displayName String
+  avatarUrl   String   @default("")
   email       String?
   /// USD. Postgres: Decimal(12, 2).
   balanceUsd  Float    @default(0)

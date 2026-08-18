@@ -10,7 +10,7 @@ import {
   useReducer,
   type ReactNode,
 } from "react";
-import { instantiateSkin, rollWear } from "./game";
+import { instantiateSkin } from "./game";
 import { PRICE_SYNC_INTERVAL_MS } from "./economy/config";
 import {
   getSkinPrice,
@@ -22,19 +22,15 @@ import { isValidCurrency } from "@/lib/services/prices/validate";
 import {
   liveDropFromLegacy,
   resolveLiveEvent,
-  reviveLiveDrops,
   rollDemoLiveEvent,
   seedLiveEvents,
-  toLiveEvent,
 } from "@/lib/services/liveActivity";
 import {
   CASES,
   CASE_MAP,
-  CURRENT_USER,
   makeBattles,
   SKIN_MAP,
   SKINS,
-  STARTING_INVENTORY_IDS,
 } from "./mock-data";
 import type {
   Battle,
@@ -52,14 +48,13 @@ import type {
 import { formatBalance, uid } from "./utils";
 import { DISCONNECTED_STEAM, type SteamIdentity } from "@/lib/auth/steam";
 import {
-  backfillBestDrop,
-  hydrateBestDropStats,
   mergeBestDrop,
   parseBestDrop,
   pickHigherBestDrop,
 } from "./bestDrop";
 
-const STORAGE_KEY = "prismloot-demo-v2";
+const PREFS_KEY = "prismloot-prefs-v3";
+const LEGACY_DEMO_KEYS = ["prismloot-demo-v2", "prismloot-demo-v1", "prismloot-demo"];
 
 type State = {
   hydrated: boolean;
@@ -86,7 +81,7 @@ type State = {
 type Action =
   | { type: "HYDRATE"; payload: Partial<State> }
   | { type: "SET_HYDRATED" }
-  | { type: "LOGIN" }
+  | { type: "SET_SESSION"; user: PublicUser; steam: SteamIdentity }
   | { type: "LOGOUT" }
   | { type: "ADD_TOAST"; toast: ToastItem }
   | { type: "DISMISS_TOAST"; id: string }
@@ -127,21 +122,6 @@ type Action =
   | { type: "SET_WAGER"; remaining: number }
   | { type: "APPLY_WAGER_VOLUME"; volume: number };
 
-const SEED_TIME = 1_740_000_000_000;
-
-const starterInventory: InventoryItem[] = STARTING_INVENTORY_IDS.flatMap((row, index) => {
-  const skin = SKIN_MAP[row.skinId];
-  if (!skin) return [];
-  return [
-    instantiateSkin(skin, {
-      wear: row.wear,
-      stattrak: row.stattrak,
-      instanceId: `seed_${index}`,
-      obtainedAt: SEED_TIME - index * 86_000_000,
-    }),
-  ];
-});
-
 const LIVE_FEED_CAP = 40;
 
 function isInventoryItem(skin?: Skin): skin is InventoryItem {
@@ -165,64 +145,26 @@ function attachDropWear(drop: LiveDrop, instance?: Skin): LiveDrop {
 
 const initialDrops: LiveDrop[] = seedLiveEvents().map((drop) => attachDropWear(drop));
 
-const seedHistory: HistoryEntry[] = [
-  {
-    id: "h1",
-    kind: "open",
-    title: "Opened Prism Core",
-    detail: "AK-47 | Neon Rider",
-    amount: -2.49,
-    at: SEED_TIME - 3600_000,
-  },
-  {
-    id: "h2",
-    kind: "upgrade",
-    title: "Upgrade success",
-    detail: "USP-S | Printstream",
-    amount: 54.8,
-    at: SEED_TIME - 7200_000,
-  },
-  {
-    id: "h3",
-    kind: "battle",
-    title: "Won 1v1 battle",
-    detail: "vs ShadowWolf",
-    amount: 9.98,
-    at: SEED_TIME - 10800_000,
-  },
-  {
-    id: "h4",
-    kind: "sell",
-    title: "Sold item",
-    detail: "Glock-18 | Sand Dune",
-    amount: 0.14,
-    at: SEED_TIME - 14400_000,
-  },
-];
+const emptyStats: UserStats = {
+  openedCases: 0,
+  battles: 0,
+  upgrades: 0,
+  contracts: 0,
+  bestDrop: null,
+  bestDropBackfilled: true,
+  biggestWin: { name: "", price: 0 },
+};
 
 const initial: State = {
   hydrated: false,
-  user: CURRENT_USER,
-  balance: 12500,
-  inventory: starterInventory,
-  history: seedHistory,
+  user: null,
+  balance: 0,
+  inventory: [],
+  history: [],
   liveDrops: initialDrops,
   toasts: [],
   battles: makeBattles(),
-  stats: (() => {
-    const bestDrop = backfillBestDrop(null, starterInventory, seedHistory);
-    return {
-      openedCases: 1284,
-      battles: 96,
-      upgrades: 211,
-      contracts: 64,
-      bestDrop,
-      bestDropBackfilled: true,
-      biggestWin: bestDrop
-        ? { name: bestDrop.snapshot.name, price: bestDrop.valueUsd }
-        : { name: "", price: 0 },
-    };
-  })(),
+  stats: emptyStats,
   liveFeedOn: true,
   reduceMotion: false,
   displayCurrency: "USD",
@@ -237,32 +179,50 @@ const initial: State = {
 
 function persistable(state: State) {
   return {
-    user: state.user,
-    balance: state.balance,
-    inventory: state.inventory,
-    history: state.history,
-    stats: state.stats,
     liveFeedOn: state.liveFeedOn,
     reduceMotion: state.reduceMotion,
     displayCurrency: state.displayCurrency,
     savedPromo: state.savedPromo,
-    tradeUrl: state.tradeUrl,
-    accountEmail: state.accountEmail,
-    wagerRemainingUsd: state.wagerRemainingUsd,
-    liveEvents: state.liveDrops.map(toLiveEvent),
   };
 }
 
 function reducer(state: State, action: Action): State {
   switch (action.type) {
     case "HYDRATE":
-      return { ...state, ...action.payload, hydrated: true };
+      return {
+        ...state,
+        liveFeedOn: action.payload.liveFeedOn ?? state.liveFeedOn,
+        reduceMotion: action.payload.reduceMotion ?? state.reduceMotion,
+        displayCurrency: action.payload.displayCurrency ?? state.displayCurrency,
+        savedPromo: action.payload.savedPromo ?? state.savedPromo,
+        user: null,
+        steam: DISCONNECTED_STEAM,
+        balance: 0,
+        inventory: [],
+        history: [],
+        stats: emptyStats,
+        banned: false,
+        wagerRemainingUsd: 0,
+        tradeUrl: "",
+        hydrated: true,
+      };
     case "SET_HYDRATED":
       return { ...state, hydrated: true };
-    case "LOGIN":
-      return { ...state, user: CURRENT_USER };
+    case "SET_SESSION":
+      return { ...state, user: action.user, steam: action.steam };
     case "LOGOUT":
-      return { ...state, user: null };
+      return {
+        ...state,
+        user: null,
+        steam: DISCONNECTED_STEAM,
+        balance: 0,
+        inventory: [],
+        history: [],
+        stats: emptyStats,
+        banned: false,
+        wagerRemainingUsd: 0,
+        tradeUrl: "",
+      };
     case "ADD_TOAST": {
       const dup = state.toasts.find(
         (t) => t.title === action.toast.title && (t.detail ?? "") === (action.toast.detail ?? ""),
@@ -484,45 +444,21 @@ export function AppStoreProvider({ children }: { children: ReactNode }) {
 
   useLayoutEffect(() => {
     try {
-      const raw = localStorage.getItem(STORAGE_KEY);
+      for (const key of LEGACY_DEMO_KEYS) localStorage.removeItem(key);
+    } catch {
+      /* ignore */
+    }
+    try {
+      const raw = localStorage.getItem(PREFS_KEY);
       if (raw) {
-        const parsed = JSON.parse(raw) as Partial<State> & { liveEvents?: unknown };
-        const revived = reviveLiveDrops(parsed.liveEvents).map((drop) => attachDropWear(drop));
-        const inventory = parsed.inventory?.length
-          ? parsed.inventory.map((item, _index, list) => {
-              const cat = SKIN_MAP[item.id];
-              const stuckFn = list.length > 1 && list.every((row) => row.wear === "fn");
-              const wear = stuckFn || !item.wear ? rollWear(item.rarity) : item.wear;
-              return cat
-                ? {
-                    ...item,
-                    wear,
-                    rarity: cat.rarity,
-                    image: cat.image,
-                    collection: cat.collection,
-                    colors: cat.colors,
-                  }
-                : { ...item, wear };
-            })
-          : initial.inventory;
-        const history = parsed.history ?? initial.history;
+        const parsed = JSON.parse(raw) as Partial<State>;
         dispatch({
           type: "HYDRATE",
           payload: {
-            user: parsed.user === null ? null : parsed.user || CURRENT_USER,
-            balance: parsed.balance ?? initial.balance,
-            inventory,
-            history,
-            stats: hydrateBestDropStats(parsed.stats, inventory, history, initial.stats),
             liveFeedOn: parsed.liveFeedOn ?? true,
             reduceMotion: parsed.reduceMotion ?? false,
             displayCurrency: isValidCurrency(parsed.displayCurrency) ? parsed.displayCurrency : "USD",
             savedPromo: typeof parsed.savedPromo === "string" ? parsed.savedPromo : null,
-            tradeUrl: typeof parsed.tradeUrl === "string" ? parsed.tradeUrl : "",
-            accountEmail: typeof parsed.accountEmail === "string" ? parsed.accountEmail : "",
-            wagerRemainingUsd:
-              typeof parsed.wagerRemainingUsd === "number" ? Math.max(0, parsed.wagerRemainingUsd) : 0,
-            liveDrops: revived.length ? revived : initial.liveDrops,
           },
         });
         return;
@@ -535,7 +471,7 @@ export function AppStoreProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     if (!state.hydrated) return;
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(persistable(state)));
+    localStorage.setItem(PREFS_KEY, JSON.stringify(persistable(state)));
   }, [state]);
 
   useEffect(() => {
@@ -543,13 +479,16 @@ export function AppStoreProvider({ children }: { children: ReactNode }) {
   }, [state.displayCurrency]);
 
   useEffect(() => {
-    if (!state.hydrated || !state.user) return;
+    if (!state.hydrated) return;
     let cancelled = false;
     async function pullMe() {
       try {
         const res = await fetch("/api/me");
         const data = (await res.json()) as {
           ok?: boolean;
+          guest?: boolean;
+          user?: PublicUser | null;
+          steam?: SteamIdentity;
           balance?: number;
           inventory?: InventoryItem[];
           bestDrop?: unknown;
@@ -558,9 +497,17 @@ export function AppStoreProvider({ children }: { children: ReactNode }) {
           tradeUrl?: string;
           stats?: { openedCases?: number; upgrades?: number; contracts?: number };
         };
-        if (cancelled || !data.ok || !Array.isArray(data.inventory) || typeof data.balance !== "number") {
+        if (cancelled || !data.ok) return;
+        if (data.guest || !data.user) {
+          dispatch({ type: "LOGOUT" });
           return;
         }
+        dispatch({
+          type: "SET_SESSION",
+          user: data.user,
+          steam: data.steam ?? DISCONNECTED_STEAM,
+        });
+        if (!Array.isArray(data.inventory) || typeof data.balance !== "number") return;
         dispatch({
           type: "APPLY_SERVER",
           balance: data.balance,
@@ -582,7 +529,7 @@ export function AppStoreProvider({ children }: { children: ReactNode }) {
       cancelled = true;
       window.removeEventListener("focus", onFocus);
     };
-  }, [state.hydrated, state.user]);
+  }, [state.hydrated]);
 
   useEffect(() => {
     let cancelled = false;
@@ -610,6 +557,19 @@ export function AppStoreProvider({ children }: { children: ReactNode }) {
     dispatch({ type: "ADD_TOAST", toast: { ...t, id } });
     setTimeout(() => dispatch({ type: "DISMISS_TOAST", id }), t.href ? 10000 : 3400);
   }, []);
+
+  useEffect(() => {
+    if (!state.hydrated) return;
+    const params = new URLSearchParams(window.location.search);
+    const auth = params.get("auth");
+    if (!auth) return;
+    if (auth === "ok") toast({ title: "Signed in with Steam", tone: "ok" });
+    else if (auth === "error") toast({ title: "Steam sign-in failed", detail: "Try again from the header.", tone: "err" });
+    else if (auth === "cancel") toast({ title: "Steam sign-in cancelled", tone: "warn" });
+    params.delete("auth");
+    const next = `${window.location.pathname}${params.toString() ? `?${params}` : ""}${window.location.hash}`;
+    window.history.replaceState({}, "", next);
+  }, [state.hydrated, toast]);
 
   useEffect(() => {
     if (!state.hydrated || !state.liveFeedOn) return;
@@ -663,7 +623,7 @@ export function AppStoreProvider({ children }: { children: ReactNode }) {
   const spend = useCallback(
     (amount: number) => {
       if (!state.user) {
-        toast({ title: "Sign in required", detail: "Sign in to continue.", tone: "warn" });
+        toast({ title: "Sign in with Steam", detail: "Sign in to continue.", tone: "warn" });
         return false;
       }
       if (state.balance < amount) {
@@ -683,10 +643,10 @@ export function AppStoreProvider({ children }: { children: ReactNode }) {
       catalog: SKINS,
       toast,
       login: () => {
-        dispatch({ type: "LOGIN" });
-        toast({ title: "Signed in", detail: "Welcome back, NovaPrime.", tone: "ok" });
+        window.location.assign("/api/auth/steam");
       },
       logout: () => {
+        void fetch("/api/auth/logout", { method: "POST" }).catch(() => undefined);
         dispatch({ type: "LOGOUT" });
         toast({ title: "Signed out", tone: "warn" });
       },
@@ -712,7 +672,7 @@ export function AppStoreProvider({ children }: { children: ReactNode }) {
       addItem: (item) => dispatch({ type: "ADD_ITEM", item }),
       applyOpen: (amount, items) => {
         if (!state.user) {
-          toast({ title: "Sign in required", tone: "warn" });
+          toast({ title: "Sign in with Steam", tone: "warn" });
           return false;
         }
         if (state.balance < amount) {
@@ -724,7 +684,7 @@ export function AppStoreProvider({ children }: { children: ReactNode }) {
       },
       applyUpgrade: ({ extra, removeIds, item }) => {
         if (!state.user) {
-          toast({ title: "Sign in required", tone: "warn" });
+          toast({ title: "Sign in with Steam", tone: "warn" });
           return false;
         }
         if (extra > 0 && state.balance < extra) {
@@ -799,12 +759,7 @@ export function AppStoreProvider({ children }: { children: ReactNode }) {
       },
       setAccountEmail: (email) => dispatch({ type: "SET_EMAIL", value: email }),
       beginSteamLogin: () => {
-        void fetch("/api/auth/steam").catch(() => undefined);
-        toast({
-          title: "Steam login coming soon",
-          detail: "Identity only — we never ask for a Steam password.",
-          tone: "warn",
-        });
+        window.location.assign("/api/auth/steam");
       },
       bumpPrices: () => dispatch({ type: "PRICE_TICK" }),
     }),

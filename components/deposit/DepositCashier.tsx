@@ -1,5 +1,6 @@
 "use client";
 
+import { SteamSignInButton } from "@/components/auth/SteamButton";
 import { CoinMark } from "@/components/deposit/CoinMark";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
@@ -60,6 +61,7 @@ function statusLabel(status: string) {
 }
 
 function playErrorRu(code?: string) {
+  if (code === "AUTH_REQUIRED") return "Войдите через Steam, чтобы пополнить баланс.";
   if (code === "USER_BANNED") return "Аккаунт заблокирован. Пополнение недоступно.";
   if (code === "AMOUNT_TOO_LOW") return "Сумма ниже минимума для этой монеты.";
   if (code === "INVALID_ASSET") return "Выберите монету и сеть.";
@@ -256,6 +258,21 @@ export function DepositCashier() {
             ))}
           </div>
           <Skeleton className="min-h-80 w-full" />
+        </div>
+      </div>
+    );
+  }
+
+  if (!store.user) {
+    return (
+      <div className="page-stack">
+        <PageHeader kicker="Кошелёк" title="Пополнение" />
+        <div className="surface surface-pad mx-auto max-w-md text-center">
+          <p className="font-semibold text-ink">Sign in with Steam</p>
+          <p className="meta mt-1.5">Deposits and gift cards need a Steam account.</p>
+          <div className="mt-4 flex justify-center">
+            <SteamSignInButton />
+          </div>
         </div>
       </div>
     );

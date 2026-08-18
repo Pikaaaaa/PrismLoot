@@ -119,6 +119,10 @@ export function ContractPanel() {
   }
 
   async function run() {
+    if (!store.user) {
+      store.toast({ title: "Sign in with Steam", tone: "warn" });
+      return;
+    }
     if (selected.length < CONTRACT_MIN_ITEMS) {
       store.toast({ title: `Need at least ${CONTRACT_MIN_ITEMS} items`, tone: "warn" });
       return;

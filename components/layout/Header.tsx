@@ -263,7 +263,7 @@ function MenuRow({
 
 export function Header() {
   const pathname = usePathname();
-  const { user, balance, wagerRemainingUsd, login, logout, displayCurrency, setCurrency } = useAppStore();
+  const { user, balance, wagerRemainingUsd, logout, displayCurrency, setCurrency } = useAppStore();
   const [loginOpen, setLoginOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
@@ -315,18 +315,16 @@ export function Header() {
           </span>
 
           <div className="ml-auto flex h-full min-w-0 items-center gap-1.5">
+            <BalanceWidget balance={user ? balance : 0} wagerRemainingUsd={user ? wagerRemainingUsd : 0} href="/deposit" />
             {user ? (
-              <>
-                <BalanceWidget balance={balance} wagerRemainingUsd={wagerRemainingUsd} href="/deposit" />
-                <Link href="/deposit" className="hidden shrink-0 lg:inline-flex">
-                  <Button size="sm" icon={<Plus className="h-3.5 w-3.5" />}>
-                    Deposit
-                  </Button>
-                </Link>
-              </>
+              <Link href="/deposit" className="hidden shrink-0 lg:inline-flex">
+                <Button size="sm" icon={<Plus className="h-3.5 w-3.5" />}>
+                  Deposit
+                </Button>
+              </Link>
             ) : (
               <Button size="sm" onClick={() => setLoginOpen(true)}>
-                Sign In
+                Sign in with Steam
               </Button>
             )}
 
@@ -374,14 +372,17 @@ export function Header() {
                 panelClassName="w-60"
                 triggerClass={(open) =>
                   cn(
-                    "inline-flex h-8 shrink-0 items-center gap-1 rounded-[var(--radius-sm)] border py-0.5 pl-0.5 pr-1",
+                    "inline-flex h-8 shrink-0 items-center gap-1 rounded-[var(--radius-sm)] border py-0.5 pl-0.5 pr-1.5",
                     "transition-[background-color,border-color] duration-[var(--dur-fast)] ease-[var(--ease)]",
                     open ? "border-line-strong bg-white/[0.05]" : "border-transparent hover:border-line",
                   )
                 }
                 triggerContent={(open) => (
                   <>
-                    <UserAvatar name={user.username} hue={user.avatarHue} size="xs" />
+                    <UserAvatar name={user.username} hue={user.avatarHue} src={user.avatarUrl} size="xs" />
+                    <span className="hidden max-w-[7.5rem] truncate text-[0.75rem] font-semibold text-ink sm:inline">
+                      {user.username}
+                    </span>
                     <ChevronDown
                       className={cn(
                         "h-3.5 w-3.5 text-mute transition-transform duration-[var(--dur-fast)] ease-[var(--ease)]",
@@ -394,7 +395,7 @@ export function Header() {
                 {(close) => (
                   <>
                     <div className="flex items-center gap-2.5 px-2.5 py-2">
-                      <UserAvatar name={user.username} hue={user.avatarHue} size="sm" />
+                      <UserAvatar name={user.username} hue={user.avatarHue} src={user.avatarUrl} size="sm" />
                       <div className="min-w-0">
                         <p className="truncate text-[0.8125rem] font-bold text-ink">{user.username}</p>
                         <p className="meta truncate">
@@ -424,7 +425,7 @@ export function Header() {
                         logout();
                       }}
                     >
-                      Logout
+                        Log out
                     </MenuRow>
                   </>
                 )}
@@ -434,13 +435,8 @@ export function Header() {
         </div>
       </header>
 
-      <Modal open={loginOpen} onClose={() => setLoginOpen(false)} title="Enter PrismLoot">
-        <LoginForm
-          onSuccess={() => {
-            login();
-            setLoginOpen(false);
-          }}
-        />
+      <Modal open={loginOpen} onClose={() => setLoginOpen(false)} title="Sign in with Steam">
+        <LoginForm />
       </Modal>
     </>
   );

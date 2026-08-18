@@ -35,7 +35,7 @@ const QA = [
   },
   {
     q: "Can I sign in with Steam?",
-    a: "Not yet — Steam login is coming. Until then, sign in with login + password. We never ask for a Steam password. Withdrawals are not live yet.",
+    a: "Yes. Use Sign in with Steam in the header. PrismLoot never asks for your Steam password — Steam OpenID only returns your Steam ID and public persona.",
   },
 ];
 
