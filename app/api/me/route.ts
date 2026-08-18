@@ -11,13 +11,6 @@ const GUEST = {
   guest: true as const,
   user: null,
   steam: DISCONNECTED_STEAM,
-  balance: 0,
-  wagerRemainingUsd: 0,
-  tradeUrl: "",
-  banned: false,
-  inventory: [] as [],
-  bestDrop: null,
-  stats: { openedCases: 0, upgrades: 0, contracts: 0 },
 };
 
 export async function GET() {

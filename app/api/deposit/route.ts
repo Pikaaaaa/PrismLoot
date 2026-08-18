@@ -39,9 +39,9 @@ export async function GET() {
   return NextResponse.json({
     ok: true,
     banned,
-    balance,
     catalog,
     deposits,
+    ...(userId ? { balance } : {}),
   });
 }
 

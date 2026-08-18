@@ -46,8 +46,8 @@ export function ContractPanel() {
 
   const selected = slots.filter(Boolean) as InventoryItem[];
   const selectedIds = useMemo(() => new Set(selected.map((item) => item.instanceId)), [selected]);
-  const wallet = store.balance;
-  const extraCap = Math.max(0, wallet);
+  const wallet = store.user ? store.balance : 0;
+  const extraCap = store.user ? Math.max(0, wallet) : 0;
   const extraStake = Math.min(extra, extraCap);
 
   const preview = useMemo(() => {
@@ -247,18 +247,22 @@ export function ContractPanel() {
 
       <div className="surface grid items-center gap-2 px-3 py-2 sm:grid-cols-[1fr_auto_1fr] sm:px-4">
         <div className="flex min-w-0 items-center gap-2">
-          <Wallet className="h-3.5 w-3.5 shrink-0 text-mute" />
-          <p className="meta truncate">
-            Your balance:{" "}
-            <span className="font-semibold text-ink">{store.hydrated ? formatBalance(wallet) : "—"}</span>
-          </p>
-          <Link
-            href="/deposit"
-            aria-label="Пополнить баланс"
-            className="grid h-5 w-5 shrink-0 place-items-center rounded-[var(--radius-xs)] border border-cyan/35 bg-cyan/10 text-cyan hover:bg-cyan/18"
-          >
-            <Plus className="h-3 w-3" />
-          </Link>
+          {store.user ? (
+            <>
+              <Wallet className="h-3.5 w-3.5 shrink-0 text-mute" />
+              <p className="meta truncate">
+                Your balance:{" "}
+                <span className="font-semibold text-ink">{store.hydrated ? formatBalance(wallet) : "—"}</span>
+              </p>
+              <Link
+                href="/deposit"
+                aria-label="Пополнить баланс"
+                className="grid h-5 w-5 shrink-0 place-items-center rounded-[var(--radius-xs)] border border-cyan/35 bg-cyan/10 text-cyan hover:bg-cyan/18"
+              >
+                <Plus className="h-3 w-3" />
+              </Link>
+            </>
+          ) : null}
         </div>
         <p className="label text-center text-cyan">
           {!store.hydrated
@@ -339,6 +343,7 @@ export function ContractPanel() {
         <section className="surface surface-pad min-w-0 lg:sticky lg:top-[calc(var(--header-h)+1rem)]">
           {deskOpen ? (
             <div className="flex flex-col gap-5">
+              {store.user ? (
               <label className={extraCap <= 0 ? "opacity-50" : "opacity-80"}>
                 <span className="mb-1.5 flex items-center justify-between gap-2">
                   <span className="flex items-center gap-1.5">
@@ -362,6 +367,7 @@ export function ContractPanel() {
                   {extraCap > 0 ? "Included in the expected range." : "No balance to add."}
                 </span>
               </label>
+              ) : null}
 
               <div className="text-center">
                 <p className="label">You will receive an item</p>

@@ -333,25 +333,18 @@ export function InventoryVault({ compact = false }: { compact?: boolean }) {
 
   return (
     <section className="section-stack">
-      {compact ? null : (
+      {compact || !store.user ? null : (
         <header className="surface surface-pad flex flex-wrap items-center gap-x-5 gap-y-4">
-          {store.user ? (
-            <div className="flex min-w-0 items-center gap-3">
-              <UserAvatar name={store.user.username} hue={store.user.avatarHue} src={store.user.avatarUrl} size="md" />
-              <div className="min-w-0">
-                <p className="truncate font-semibold leading-tight">{store.user.username}</p>
-                <p className="meta">Balance {formatBalance(store.balance)}</p>
-                {store.wagerRemainingUsd > 0 ? (
-                  <p className="meta">Playthrough {formatMoney(store.wagerRemainingUsd)}</p>
-                ) : null}
-              </div>
-            </div>
-          ) : (
+          <div className="flex min-w-0 items-center gap-3">
+            <UserAvatar name={store.user.username} hue={store.user.avatarHue} src={store.user.avatarUrl} size="md" />
             <div className="min-w-0">
-              <p className="font-semibold leading-tight">Guest vault</p>
-              <p className="meta">Sign in with Steam to keep drops between sessions.</p>
+              <p className="truncate font-semibold leading-tight">{store.user.username}</p>
+              <p className="meta">Balance {formatBalance(store.balance)}</p>
+              {store.wagerRemainingUsd > 0 ? (
+                <p className="meta">Playthrough {formatMoney(store.wagerRemainingUsd)}</p>
+              ) : null}
             </div>
-          )}
+          </div>
 
           <div className="grid flex-1 grid-cols-2 items-stretch gap-3 sm:grid-cols-3">
             <VaultStat label="Items" value={store.inventory.length.toLocaleString()} />

@@ -58,6 +58,8 @@ const LEGACY_DEMO_KEYS = ["prismloot-demo-v2", "prismloot-demo-v1", "prismloot-d
 
 type State = {
   hydrated: boolean;
+  /** True after the first `/api/me` response (session or guest). */
+  sessionReady: boolean;
   user: PublicUser | null;
   balance: number;
   inventory: InventoryItem[];
@@ -81,6 +83,7 @@ type State = {
 type Action =
   | { type: "HYDRATE"; payload: Partial<State> }
   | { type: "SET_HYDRATED" }
+  | { type: "SESSION_READY" }
   | { type: "SET_SESSION"; user: PublicUser; steam: SteamIdentity }
   | { type: "LOGOUT" }
   | { type: "ADD_TOAST"; toast: ToastItem }
@@ -157,6 +160,7 @@ const emptyStats: UserStats = {
 
 const initial: State = {
   hydrated: false,
+  sessionReady: false,
   user: null,
   balance: 0,
   inventory: [],
@@ -208,13 +212,16 @@ function reducer(state: State, action: Action): State {
       };
     case "SET_HYDRATED":
       return { ...state, hydrated: true };
+    case "SESSION_READY":
+      return { ...state, sessionReady: true };
     case "SET_SESSION":
-      return { ...state, user: action.user, steam: action.steam };
+      return { ...state, user: action.user, steam: action.steam, sessionReady: true };
     case "LOGOUT":
       return {
         ...state,
         user: null,
         steam: DISCONNECTED_STEAM,
+        sessionReady: true,
         balance: 0,
         inventory: [],
         history: [],
@@ -497,7 +504,11 @@ export function AppStoreProvider({ children }: { children: ReactNode }) {
           tradeUrl?: string;
           stats?: { openedCases?: number; upgrades?: number; contracts?: number };
         };
-        if (cancelled || !data.ok) return;
+        if (cancelled) return;
+        if (!data.ok) {
+          dispatch({ type: "SESSION_READY" });
+          return;
+        }
         if (data.guest || !data.user) {
           dispatch({ type: "LOGOUT" });
           return;
@@ -519,7 +530,7 @@ export function AppStoreProvider({ children }: { children: ReactNode }) {
           stats: data.stats,
         });
       } catch {
-        /* keep local until next pull */
+        if (!cancelled) dispatch({ type: "SESSION_READY" });
       }
     }
     void pullMe();
@@ -572,7 +583,7 @@ export function AppStoreProvider({ children }: { children: ReactNode }) {
   }, [state.hydrated, toast]);
 
   useEffect(() => {
-    if (!state.hydrated || !state.liveFeedOn) return;
+    if (!state.hydrated || !state.liveFeedOn || !state.user) return;
     let cancelled = false;
     let timer = 0;
     let prev: FeedCadence = "quiet";
@@ -608,7 +619,7 @@ export function AppStoreProvider({ children }: { children: ReactNode }) {
       cancelled = true;
       window.clearTimeout(timer);
     };
-  }, [state.hydrated, state.liveFeedOn]);
+  }, [state.hydrated, state.liveFeedOn, state.user]);
 
   const inventoryValue = useMemo(
     () =>

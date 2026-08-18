@@ -3,6 +3,7 @@ import { headers } from "next/headers";
 import { Geist, Geist_Mono, Manrope } from "next/font/google";
 import "./globals.css";
 import { CONSOLE_REQUEST_HEADER } from "@/lib/admin/path";
+import { getSessionUserId } from "@/lib/auth/session";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -47,6 +48,7 @@ export default async function RootLayout({
 }
 
 async function PublicPages({ children }: { children: React.ReactNode }) {
+  const userId = await getSessionUserId();
   const { PublicApp } = await import("@/components/layout/PublicApp");
-  return <PublicApp>{children}</PublicApp>;
+  return <PublicApp hasSession={Boolean(userId)}>{children}</PublicApp>;
 }

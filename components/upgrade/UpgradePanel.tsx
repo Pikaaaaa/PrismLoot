@@ -146,7 +146,7 @@ export function UpgradePanel() {
   const appliedFrom = useRef<string | null>(null);
   const revealCommitted = useRef(false);
 
-  const wallet = Number.isFinite(store.balance) ? Math.max(0, store.balance) : 0;
+  const wallet = store.user && Number.isFinite(store.balance) ? Math.max(0, store.balance) : 0;
   const liveSelected = store.inventory.filter((i) => selectedIds.includes(i.instanceId));
   const selected = phase === "idle" ? liveSelected : frozenInputs.length ? frozenInputs : liveSelected;
   const pricedSelected = selected.every((item) => stakeOf(item) != null);

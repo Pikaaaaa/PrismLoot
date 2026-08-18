@@ -4,10 +4,16 @@ import { AppShell } from "@/components/layout/AppShell";
 import { AppStoreProvider } from "@/lib/store";
 import type { ReactNode } from "react";
 
-export function PublicApp({ children }: { children: ReactNode }) {
+export function PublicApp({
+  children,
+  hasSession,
+}: {
+  children: ReactNode;
+  hasSession: boolean;
+}) {
   return (
     <AppStoreProvider>
-      <AppShell>{children}</AppShell>
+      <AppShell hasSession={hasSession}>{children}</AppShell>
     </AppStoreProvider>
   );
 }

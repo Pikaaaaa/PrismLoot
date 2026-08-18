@@ -1,10 +1,8 @@
 "use client";
 
-import { LoginForm } from "@/components/auth/LoginForm";
 import { BalanceWidget } from "@/components/ui/BalanceWidget";
 import { Button } from "@/components/ui/Button";
 import { EmptyState } from "@/components/ui/EmptyState";
-import { Modal } from "@/components/ui/Modal";
 import { UserAvatar } from "@/components/ui/UserAvatar";
 import { PrismLogo } from "@/components/visuals/ParticleField";
 import { NAV_MAIN } from "@/lib/mock-data";
@@ -264,7 +262,6 @@ function MenuRow({
 export function Header() {
   const pathname = usePathname();
   const { user, balance, wagerRemainingUsd, logout, displayCurrency, setCurrency } = useAppStore();
-  const [loginOpen, setLoginOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
@@ -275,13 +272,12 @@ export function Header() {
   }, []);
 
   return (
-    <>
-      <header
-        className={cn(
-          "sticky top-0 z-50 border-x-0 border-t-0 border-b bg-void",
-          scrolled ? "border-line-strong shadow-[var(--shadow-sm)]" : "border-line",
-        )}
-      >
+    <header
+      className={cn(
+        "sticky top-0 z-50 border-x-0 border-t-0 border-b bg-void",
+        scrolled ? "border-line-strong shadow-[var(--shadow-sm)]" : "border-line",
+      )}
+    >
         <div className="page-wrap flex h-[var(--header-h)] items-center gap-2">
           <Link href="/" aria-label="PrismLoot home" className="flex shrink-0 items-center gap-1.5">
             <PrismLogo className="h-6 w-6" />
@@ -315,18 +311,16 @@ export function Header() {
           </span>
 
           <div className="ml-auto flex h-full min-w-0 items-center gap-1.5">
-            <BalanceWidget balance={user ? balance : 0} wagerRemainingUsd={user ? wagerRemainingUsd : 0} href="/deposit" />
             {user ? (
-              <Link href="/deposit" className="hidden shrink-0 lg:inline-flex">
-                <Button size="sm" icon={<Plus className="h-3.5 w-3.5" />}>
-                  Deposit
-                </Button>
-              </Link>
-            ) : (
-              <Button size="sm" onClick={() => setLoginOpen(true)}>
-                Sign in with Steam
-              </Button>
-            )}
+              <>
+                <BalanceWidget balance={balance} wagerRemainingUsd={wagerRemainingUsd} href="/deposit" />
+                <Link href="/deposit" className="hidden shrink-0 lg:inline-flex">
+                  <Button size="sm" icon={<Plus className="h-3.5 w-3.5" />}>
+                    Deposit
+                  </Button>
+                </Link>
+              </>
+            ) : null}
 
             <select
               aria-label="Display currency"
@@ -433,11 +427,6 @@ export function Header() {
             )}
           </div>
         </div>
-      </header>
-
-      <Modal open={loginOpen} onClose={() => setLoginOpen(false)} title="Sign in with Steam">
-        <LoginForm />
-      </Modal>
-    </>
+    </header>
   );
 }
