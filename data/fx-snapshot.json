@@ -1,0 +1,13 @@
+{
+  "source": "Committed FX snapshot for display conversion only. USD is the store currency. Not a live FX feed.",
+  "sourceName": "Committed FX snapshot",
+  "fetchedAt": 1786881600000,
+  "base": "USD",
+  "rates": {
+    "USD": 1,
+    "EUR": 0.86,
+    "RUB": 80,
+    "PLN": 3.65,
+    "UAH": 41.5
+  }
+}

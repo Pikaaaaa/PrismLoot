@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="110 140 580 540" width="480" height="480" role="img" aria-label="Purple Haze crate">
+  <!-- prismloot:purple-haze:thumb -->
+  <defs>
+    <radialGradient id="purplehaze-thumbglow" cx="50%" cy="38%" r="50%">
+      <stop offset="0" stop-color="rgba(192,132,252,0.32)"/>
+      <stop offset="1" stop-color="rgba(5,5,8,0)"/>
+    </radialGradient>
+    <linearGradient id="purplehaze-mg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#c084fc"/><stop offset="1" stop-color="#818cf8"/>
+    </linearGradient>
+    <filter id="purplehaze-thumbblur"><feGaussianBlur stdDeviation="14"/></filter>
+    <radialGradient id="purplehaze-thumbfloor" cx="50%" cy="50%" r="50%">
+      <stop offset="0" stop-color="rgba(192,132,252,0.22)"/><stop offset="1" stop-color="rgba(0,0,0,0)"/>
+    </radialGradient>
+  </defs>
+  <rect width="800" height="800" fill="#07070c"/>
+  <rect width="800" height="800" fill="url(#purplehaze-thumbglow)"/>
+  <ellipse cx="400" cy="600" rx="230" ry="36" fill="url(#purplehaze-thumbfloor)"/>
+  <circle cx="400" cy="330" r="160" fill="#c084fc" opacity="0.12" filter="url(#purplehaze-thumbblur)"/>
+  <circle cx="372" cy="142" r="1.4" fill="#818cf8" opacity="0.25"/><circle cx="456" cy="194" r="1.9249999999999998" fill="#c084fc" opacity="0.35"/><circle cx="540" cy="246" r="2.4499999999999997" fill="#818cf8" opacity="0.45"/><circle cx="624" cy="298" r="2.9749999999999996" fill="#c084fc" opacity="0.55"/><circle cx="148" cy="350" r="3.4999999999999996" fill="#818cf8" opacity="0.65"/><circle cx="232" cy="402" r="1.4" fill="#c084fc" opacity="0.25"/><circle cx="316" cy="454" r="1.9249999999999998" fill="#818cf8" opacity="0.35"/>
+  
+  <g>
+    <linearGradient id="purplehaze-bodylid" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0" stop-color="#644d87"/><stop offset="1" stop-color="#8674a1"/>
+    </linearGradient>
+    <linearGradient id="purplehaze-bodyside" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#524a83"/><stop offset="1" stop-color="#363b65"/>
+    </linearGradient>
+    <linearGradient id="purplehaze-bodyfront" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#7958a3"/><stop offset="1" stop-color="#45335e"/>
+    </linearGradient>
+    <clipPath id="purplehaze-clip"><rect x="238" y="308" width="324" height="190" rx="6"/></clipPath>
+    <ellipse cx="400" cy="562" rx="165.12" ry="22" fill="#000" opacity=".55"/>
+    <polygon points="572,254 640,192 640,452 572,514" fill="url(#purplehaze-bodyside)" stroke="#edddfe" stroke-width="1.2"/>
+    <polygon points="228,254 296,192 640,192 572,254" fill="url(#purplehaze-bodylid)" stroke="#edddfe" stroke-width="1.6"/>
+    <rect x="228" y="254" width="344" height="42" fill="url(#purplehaze-bodylid)" stroke="#edddfe" stroke-width="1.2"/>
+    <rect x="228" y="296" width="344" height="218" fill="url(#purplehaze-bodyfront)" stroke="#edddfe" stroke-width="1.5"/>
+    <g clip-path="url(#purplehaze-clip)">
+      <rect x="238" y="308" width="324" height="190" fill="#4f3a6b"/>
+      <rect x="260" y="330" width="280" height="146" rx="8" fill="#041016" opacity=".7" stroke="#c084fc" stroke-opacity=".45"/>
+      <rect x="274" y="348" width="110" height="8" rx="2" fill="#818cf8" opacity=".45"/><rect x="274" y="374" width="140" height="8" rx="2" fill="#c084fc" opacity=".45"/><rect x="274" y="400" width="155" height="8" rx="2" fill="#818cf8" opacity=".45"/><rect x="274" y="426" width="117" height="8" rx="2" fill="#c084fc" opacity=".45"/><rect x="274" y="452" width="98" height="8" rx="2" fill="#818cf8" opacity=".45"/>
+    </g>
+    <rect x="238" y="308" width="324" height="190" rx="6" fill="none" stroke="#c084fc" stroke-opacity=".35"/>
+    <g opacity=".92"><ellipse cx="400" cy="412.96000000000004" rx="16.799999999999997" ry="9.600000000000001" fill="#c084fc" opacity=".7"/>
+        <ellipse cx="394" cy="403.36" rx="10.08" ry="7.68" fill="#818cf8" opacity=".6"/>
+        <ellipse cx="407.2" cy="399.76" rx="8.399999999999999" ry="6.720000000000001" fill="#fff" opacity=".25"/></g>
+    <rect x="264" y="268" width="54" height="16" rx="3" fill="#a09ebe" stroke="#fff" stroke-opacity=".3"/>
+    <rect x="482" y="268" width="54" height="16" rx="3" fill="#a09ebe" stroke="#fff" stroke-opacity=".3"/>
+    <rect x="236" y="504" width="328" height="8" fill="#20233e"/>
+    
+    <text x="250" y="496" font-family="Arial Black,Impact,sans-serif" font-size="11" letter-spacing="1.6" fill="#c084fc" fill-opacity=".45">PURPLE HAZE</text>
+  </g>
+</svg>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" width="800" height="800" role="img" aria-label="Shadow crate">
+  <!-- prismloot:shadow-case:hero -->
+  <defs>
+    <radialGradient id="shadowcase-heroglow" cx="50%" cy="38%" r="50%">
+      <stop offset="0" stop-color="rgba(30,41,59,0.32)"/>
+      <stop offset="1" stop-color="rgba(5,5,8,0)"/>
+    </radialGradient>
+    <linearGradient id="shadowcase-mg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#1e293b"/><stop offset="1" stop-color="#64748b"/>
+    </linearGradient>
+    <filter id="shadowcase-heroblur"><feGaussianBlur stdDeviation="14"/></filter>
+    <radialGradient id="shadowcase-herofloor" cx="50%" cy="50%" r="50%">
+      <stop offset="0" stop-color="rgba(30,41,59,0.22)"/><stop offset="1" stop-color="rgba(0,0,0,0)"/>
+    </radialGradient>
+  </defs>
+  <rect width="800" height="800" fill="#07070c"/>
+  <rect width="800" height="800" fill="url(#shadowcase-heroglow)"/>
+  <ellipse cx="400" cy="600" rx="230" ry="36" fill="url(#shadowcase-herofloor)"/>
+  <circle cx="400" cy="330" r="160" fill="#1e293b" opacity="0.12" filter="url(#shadowcase-heroblur)"/>
+  <circle cx="336" cy="506" r="1.4" fill="#64748b" opacity="0.25"/><circle cx="408" cy="402" r="1.9249999999999998" fill="#1e293b" opacity="0.35"/><circle cx="480" cy="298" r="2.4499999999999997" fill="#64748b" opacity="0.45"/><circle cx="552" cy="194" r="2.9749999999999996" fill="#1e293b" opacity="0.55"/><circle cx="624" cy="90" r="3.4999999999999996" fill="#64748b" opacity="0.65"/><circle cx="136" cy="506" r="1.4" fill="#1e293b" opacity="0.25"/><circle cx="208" cy="402" r="1.9249999999999998" fill="#64748b" opacity="0.35"/>
+  
+  <g>
+    <linearGradient id="shadowcase-bodylid" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0" stop-color="#202736"/><stop offset="1" stop-color="#515762"/>
+    </linearGradient>
+    <linearGradient id="shadowcase-bodyside" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#28303e"/><stop offset="1" stop-color="#2b323f"/>
+    </linearGradient>
+    <linearGradient id="shadowcase-bodyfront" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1a2232"/><stop offset="1" stop-color="#10151f"/>
+    </linearGradient>
+    <clipPath id="shadowcase-clip"><rect x="239" y="333" width="322" height="165" rx="6"/></clipPath>
+    <ellipse cx="400" cy="562" rx="164.16" ry="22" fill="#000" opacity=".55"/>
+    <polygon points="571,279 645,221 645,456 571,514" fill="url(#shadowcase-bodyside)" stroke="#c0c3c8" stroke-width="1.2"/>
+    <polygon points="229,279 303,221 645,221 571,279" fill="url(#shadowcase-bodylid)" stroke="#c0c3c8" stroke-width="1.6"/>
+    <rect x="229" y="279" width="342" height="42" fill="url(#shadowcase-bodylid)" stroke="#c0c3c8" stroke-width="1.2"/>
+    <rect x="229" y="321" width="342" height="193" fill="url(#shadowcase-bodyfront)" stroke="#c0c3c8" stroke-width="1.5"/>
+    <g clip-path="url(#shadowcase-clip)">
+      <rect x="239" y="333" width="322" height="165" fill="#121722"/>
+      <polygon points="263,482 400,351 537,482" fill="#1e293b" opacity=".2" stroke="#64748b" stroke-width="2"/>
+    </g>
+    <rect x="239" y="333" width="322" height="165" rx="6" fill="none" stroke="#1e293b" stroke-opacity=".35"/>
+    <g opacity=".92"><ellipse cx="400" cy="424.96000000000004" rx="18" ry="12" fill="#000" opacity=".85"/>
+        <path d="M390.4 421.36 Q400 397.36,409.6 421.36" fill="none" stroke="#1e293b" stroke-width="3"/></g>
+    <rect x="265" y="293" width="54" height="16" rx="3" fill="#868f9f" stroke="#fff" stroke-opacity=".3"/>
+    <rect x="481" y="293" width="54" height="16" rx="3" fill="#868f9f" stroke="#fff" stroke-opacity=".3"/>
+    <rect x="237" y="504" width="326" height="8" fill="#191d23"/>
+    
+    <text x="251" y="496" font-family="Arial Black,Impact,sans-serif" font-size="11" letter-spacing="1.6" fill="#1e293b" fill-opacity=".45">SHADOW</text>
+  </g>
+</svg>

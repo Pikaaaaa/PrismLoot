@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="110 140 580 540" width="480" height="480" role="img" aria-label="Meteor crate">
+  <!-- prismloot:meteor-case:thumb -->
+  <defs>
+    <radialGradient id="meteorcase-thumbglow" cx="50%" cy="38%" r="50%">
+      <stop offset="0" stop-color="rgba(253,186,116,0.48)"/>
+      <stop offset="1" stop-color="rgba(5,5,8,0)"/>
+    </radialGradient>
+    <linearGradient id="meteorcase-mg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#fdba74"/><stop offset="1" stop-color="#7c2d12"/>
+    </linearGradient>
+    <filter id="meteorcase-thumbblur"><feGaussianBlur stdDeviation="14"/></filter>
+    <radialGradient id="meteorcase-thumbfloor" cx="50%" cy="50%" r="50%">
+      <stop offset="0" stop-color="rgba(253,186,116,0.22)"/><stop offset="1" stop-color="rgba(0,0,0,0)"/>
+    </radialGradient>
+  </defs>
+  <rect width="800" height="800" fill="#07070c"/>
+  <rect width="800" height="800" fill="url(#meteorcase-thumbglow)"/>
+  <ellipse cx="400" cy="600" rx="230" ry="36" fill="url(#meteorcase-thumbfloor)"/>
+  <circle cx="400" cy="330" r="210" fill="#fdba74" opacity="0.2" filter="url(#meteorcase-thumbblur)"/>
+  <circle cx="536" cy="506" r="1.4" fill="#7c2d12" opacity="0.25"/><circle cx="488" cy="402" r="1.9249999999999998" fill="#fdba74" opacity="0.35"/><circle cx="440" cy="298" r="2.4499999999999997" fill="#7c2d12" opacity="0.45"/><circle cx="392" cy="194" r="2.9749999999999996" fill="#fdba74" opacity="0.55"/><circle cx="344" cy="90" r="3.4999999999999996" fill="#7c2d12" opacity="0.65"/><circle cx="296" cy="506" r="1.4" fill="#fdba74" opacity="0.25"/><circle cx="248" cy="402" r="1.9249999999999998" fill="#7c2d12" opacity="0.35"/><circle cx="200" cy="298" r="2.4499999999999997" fill="#fdba74" opacity="0.45"/><circle cx="152" cy="194" r="2.9749999999999996" fill="#7c2d12" opacity="0.55"/><circle cx="664" cy="90" r="3.4999999999999996" fill="#fdba74" opacity="0.65"/><circle cx="616" cy="506" r="1.4" fill="#7c2d12" opacity="0.25"/><circle cx="568" cy="402" r="1.9249999999999998" fill="#fdba74" opacity="0.35"/><circle cx="520" cy="298" r="2.4499999999999997" fill="#7c2d12" opacity="0.45"/><circle cx="472" cy="194" r="2.9749999999999996" fill="#fdba74" opacity="0.55"/><circle cx="424" cy="90" r="3.4999999999999996" fill="#7c2d12" opacity="0.65"/><circle cx="376" cy="506" r="1.4" fill="#fdba74" opacity="0.25"/>
+  
+    <rect x="48" y="48" width="704" height="704" rx="36" fill="none" stroke="#7c2d12" stroke-opacity=".45" stroke-width="2"/>
+    <rect x="62" y="62" width="676" height="676" rx="30" fill="none" stroke="#fdba74" stroke-opacity=".25" stroke-width="1"/>
+    <circle cx="80" cy="80" r="6" fill="#fdba74"/>
+    <circle cx="720" cy="80" r="6" fill="#7c2d12"/>
+    <circle cx="80" cy="720" r="6" fill="#7c2d12"/>
+    <circle cx="720" cy="720" r="6" fill="#fdba74"/>
+  <g>
+    <linearGradient id="meteorcase-bodylid" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0" stop-color="#7e644e"/><stop offset="1" stop-color="#9a8675"/>
+    </linearGradient>
+    <linearGradient id="meteorcase-bodyside" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#5c3a28"/><stop offset="1" stop-color="#341a15"/>
+    </linearGradient>
+    <linearGradient id="meteorcase-bodyfront" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#9e7853"/><stop offset="1" stop-color="#594431"/>
+    </linearGradient>
+    <clipPath id="meteorcase-clip"><rect x="234" y="328" width="332" height="170" rx="6"/></clipPath>
+    <ellipse cx="400" cy="562" rx="168.95999999999998" ry="22" fill="#000" opacity=".55"/>
+    <polygon points="576,274 648,216 648,456 576,514" fill="url(#meteorcase-bodyside)" stroke="#feecd8" stroke-width="1.2"/>
+    <polygon points="224,274 296,216 648,216 576,274" fill="url(#meteorcase-bodylid)" stroke="#feecd8" stroke-width="1.6"/>
+    <rect x="224" y="274" width="352" height="42" fill="url(#meteorcase-bodylid)" stroke="#feecd8" stroke-width="1.2"/>
+    <rect x="224" y="316" width="352" height="198" fill="url(#meteorcase-bodyfront)" stroke="#feecd8" stroke-width="1.5"/>
+    <g clip-path="url(#meteorcase-clip)">
+      <rect x="234" y="328" width="332" height="170" fill="#664e37"/>
+      <polyline points="264,328 366.8,413 254,498" fill="none" stroke="#fff" stroke-width="3" opacity=".65"/>
+      <polyline points="526,328 416.6,426.6 548,498" fill="none" stroke="#7c2d12" stroke-width="3"/>
+    </g>
+    <rect x="234" y="328" width="332" height="170" rx="6" fill="none" stroke="#fdba74" stroke-opacity=".35"/>
+    <g opacity=".92"><circle cx="404.5" cy="423.46000000000004" r="15" fill="#fdba74"/>
+        <path d="M404.5 423.46000000000004 L370 388.96000000000004" stroke="#7c2d12" stroke-width="10" stroke-linecap="round"/>
+        <path d="M400 418.96000000000004 L379 402.46000000000004" stroke="#fff" stroke-width="4"/></g>
+    <rect x="260" y="288" width="54" height="16" rx="3" fill="#cf8c1e" stroke="#fff" stroke-opacity=".3"/>
+    <rect x="486" y="288" width="54" height="16" rx="3" fill="#cf8c1e" stroke="#fff" stroke-opacity=".3"/>
+    <rect x="232" y="504" width="336" height="8" fill="#1f0b05"/>
+    <polygon points="224,274 246,274 246,292" fill="#cf8c1e" opacity=".8"/>
+      <polygon points="576,274 554,274 554,292" fill="#cf8c1e" opacity=".8"/>
+    <text x="246" y="496" font-family="Arial Black,Impact,sans-serif" font-size="11" letter-spacing="1.6" fill="#fdba74" fill-opacity=".45">METEOR</text>
+  </g>
+</svg>

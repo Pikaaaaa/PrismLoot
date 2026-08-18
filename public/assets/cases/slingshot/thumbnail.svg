@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="110 140 580 540" width="480" height="480" role="img" aria-label="Slingshot crate">
+  <!-- prismloot:slingshot:thumb -->
+  <defs>
+    <radialGradient id="slingshot-thumbglow" cx="50%" cy="38%" r="50%">
+      <stop offset="0" stop-color="rgba(244,63,94,0.32)"/>
+      <stop offset="1" stop-color="rgba(5,5,8,0)"/>
+    </radialGradient>
+    <linearGradient id="slingshot-mg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f43f5e"/><stop offset="1" stop-color="#fb923c"/>
+    </linearGradient>
+    <filter id="slingshot-thumbblur"><feGaussianBlur stdDeviation="14"/></filter>
+    <radialGradient id="slingshot-thumbfloor" cx="50%" cy="50%" r="50%">
+      <stop offset="0" stop-color="rgba(244,63,94,0.22)"/><stop offset="1" stop-color="rgba(0,0,0,0)"/>
+    </radialGradient>
+  </defs>
+  <rect width="800" height="800" fill="#07070c"/>
+  <rect width="800" height="800" fill="url(#slingshot-thumbglow)"/>
+  <ellipse cx="400" cy="600" rx="230" ry="36" fill="url(#slingshot-thumbfloor)"/>
+  <circle cx="400" cy="330" r="160" fill="#f43f5e" opacity="0.12" filter="url(#slingshot-thumbblur)"/>
+  <circle cx="678" cy="168" r="1.4" fill="#fb923c" opacity="0.25"/><circle cx="304" cy="506" r="1.9249999999999998" fill="#f43f5e" opacity="0.35"/><circle cx="490" cy="324" r="2.4499999999999997" fill="#fb923c" opacity="0.45"/><circle cx="676" cy="142" r="2.9749999999999996" fill="#f43f5e" opacity="0.55"/><circle cx="302" cy="480" r="3.4999999999999996" fill="#fb923c" opacity="0.65"/><circle cx="488" cy="298" r="1.4" fill="#f43f5e" opacity="0.25"/><circle cx="674" cy="116" r="1.9249999999999998" fill="#fb923c" opacity="0.35"/>
+  
+  <g>
+    <linearGradient id="slingshot-bodylid" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0" stop-color="#7a3144"/><stop offset="1" stop-color="#975e6d"/>
+    </linearGradient>
+    <linearGradient id="slingshot-bodyside" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#7e3d2f"/><stop offset="1" stop-color="#603d23"/>
+    </linearGradient>
+    <linearGradient id="slingshot-bodyfront" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#982f46"/><stop offset="1" stop-color="#561d2a"/>
+    </linearGradient>
+    <clipPath id="slingshot-clip"><rect x="242" y="327" width="316" height="171" rx="6"/></clipPath>
+    <ellipse cx="400" cy="562" rx="161.28" ry="22" fill="#000" opacity=".55"/>
+    <polygon points="568,273 644,209 644,450 568,514" fill="url(#slingshot-bodyside)" stroke="#fcc9d2" stroke-width="1.2"/>
+    <polygon points="232,273 308,209 644,209 568,273" fill="url(#slingshot-bodylid)" stroke="#fcc9d2" stroke-width="1.6"/>
+    <rect x="232" y="273" width="336" height="42" fill="url(#slingshot-bodylid)" stroke="#fcc9d2" stroke-width="1.2"/>
+    <rect x="232" y="315" width="336" height="199" fill="url(#slingshot-bodyfront)" stroke="#fcc9d2" stroke-width="1.5"/>
+    <g clip-path="url(#slingshot-clip)">
+      <rect x="242" y="327" width="316" height="171" fill="#631f2f"/>
+      <rect x="212" y="327" width="10" height="171" transform="skewX(-22)" fill="#fb923c" opacity=".22"/><rect x="262.85714285714283" y="327" width="16" height="171" transform="skewX(-22)" fill="#f43f5e" opacity=".22"/><rect x="313.7142857142857" y="327" width="22" height="171" transform="skewX(-22)" fill="#fb923c" opacity=".22"/><rect x="364.57142857142856" y="327" width="10" height="171" transform="skewX(-22)" fill="#f43f5e" opacity=".22"/><rect x="415.42857142857144" y="327" width="16" height="171" transform="skewX(-22)" fill="#fb923c" opacity=".22"/><rect x="466.2857142857143" y="327" width="22" height="171" transform="skewX(-22)" fill="#f43f5e" opacity=".22"/><rect x="517.1428571428571" y="327" width="10" height="171" transform="skewX(-22)" fill="#fb923c" opacity=".22"/>
+    </g>
+    <rect x="242" y="327" width="316" height="171" rx="6" fill="none" stroke="#f43f5e" stroke-opacity=".35"/>
+    <g opacity=".92"><path d="M376 418.48 H403.6 L392 410.08000000000004 M403.6 418.48 L392 426.88 M403.6 418.48 L424 418.48" fill="none" stroke="#f43f5e" stroke-width="7" stroke-linejoin="round"/></g>
+    <rect x="268" y="287" width="54" height="16" rx="3" fill="#a893a5" stroke="#fff" stroke-opacity=".3"/>
+    <rect x="478" y="287" width="54" height="16" rx="3" fill="#a893a5" stroke="#fff" stroke-opacity=".3"/>
+    <rect x="240" y="504" width="320" height="8" fill="#3f250f"/>
+    
+    <text x="254" y="496" font-family="Arial Black,Impact,sans-serif" font-size="11" letter-spacing="1.6" fill="#f43f5e" fill-opacity=".45">SLINGSHOT</text>
+  </g>
+</svg>

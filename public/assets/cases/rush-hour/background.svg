@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" width="1600" height="900" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Rush Hour opening backdrop">
+  <!-- prismloot:rush-hour:background -->
+  <defs>
+    <radialGradient id="rushhour-bgv" cx="50%" cy="40%" r="75%">
+      <stop offset="0" stop-color="rgba(56,189,248,0.28)"/>
+      <stop offset=".55" stop-color="#08080e"/>
+      <stop offset="1" stop-color="#050507"/>
+    </radialGradient>
+    <linearGradient id="chromeGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#38bdf8"/><stop offset="1" stop-color="#fbbf24"/>
+    </linearGradient>
+  </defs>
+  <rect width="1600" height="900" fill="#050507"/>
+  <rect width="1600" height="900" fill="url(#rushhour-bgv)"/>
+  <circle cx="220" cy="120" r="280" fill="#fbbf24" opacity=".08"/>
+  <circle cx="1400" cy="760" r="320" fill="#38bdf8" opacity=".08"/>
+  <rect x="80" y="630" width="100" height="270" fill="#fbbf24" opacity=".12"/><rect x="230" y="480" width="100" height="420" fill="#38bdf8" opacity=".12"/><rect x="380" y="690" width="100" height="210" fill="#fbbf24" opacity=".12"/><rect x="530" y="300" width="100" height="600" fill="#38bdf8" opacity=".12"/><rect x="680" y="570" width="100" height="330" fill="#fbbf24" opacity=".12"/><rect x="830" y="420" width="100" height="480" fill="#38bdf8" opacity=".12"/><rect x="980" y="660" width="100" height="240" fill="#fbbf24" opacity=".12"/><rect x="1130" y="360" width="100" height="540" fill="#38bdf8" opacity=".12"/><rect x="1280" y="615" width="100" height="285" fill="#fbbf24" opacity=".12"/><rect x="1430" y="450" width="100" height="450" fill="#38bdf8" opacity=".12"/>
+  
+</svg>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" width="1600" height="900" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Fracture opening backdrop">
+  <!-- prismloot:fracture-line:background -->
+  <defs>
+    <radialGradient id="fractureline-bgv" cx="50%" cy="40%" r="75%">
+      <stop offset="0" stop-color="rgba(192,132,252,0.28)"/>
+      <stop offset=".55" stop-color="#08080e"/>
+      <stop offset="1" stop-color="#050507"/>
+    </radialGradient>
+    <linearGradient id="chromeGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#c084fc"/><stop offset="1" stop-color="#fb7185"/>
+    </linearGradient>
+  </defs>
+  <rect width="1600" height="900" fill="#050507"/>
+  <rect width="1600" height="900" fill="url(#fractureline-bgv)"/>
+  <circle cx="220" cy="120" r="280" fill="#fb7185" opacity=".08"/>
+  <circle cx="1400" cy="760" r="320" fill="#c084fc" opacity=".08"/>
+  <polyline points="80,80 400,300 200,500 900,820" fill="none" stroke="#c084fc" stroke-width="8" opacity=".2"/>
+        <polyline points="1500,40 1100,280 1400,520 700,860" fill="none" stroke="#fb7185" stroke-width="8" opacity=".18"/>
+  
+</svg>

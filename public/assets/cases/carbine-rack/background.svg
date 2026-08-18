@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" width="1600" height="900" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Terminal opening backdrop">
+  <!-- prismloot:terminal-case:background -->
+  <defs>
+    <radialGradient id="terminalcase-bgv" cx="50%" cy="40%" r="75%">
+      <stop offset="0" stop-color="rgba(148,163,184,0.28)"/>
+      <stop offset=".55" stop-color="#08080e"/>
+      <stop offset="1" stop-color="#050507"/>
+    </radialGradient>
+    <linearGradient id="chromeGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#94a3b8"/><stop offset="1" stop-color="#22d3ee"/>
+    </linearGradient>
+  </defs>
+  <rect width="1600" height="900" fill="#050507"/>
+  <rect width="1600" height="900" fill="url(#terminalcase-bgv)"/>
+  <circle cx="220" cy="120" r="280" fill="#22d3ee" opacity=".08"/>
+  <circle cx="1400" cy="760" r="320" fill="#94a3b8" opacity=".08"/>
+  <text x="80" y="60" fill="#94a3b8" opacity=".12" font-family="monospace" font-size="18">59887c48 0x10c997</text><text x="80" y="100" fill="#94a3b8" opacity=".12" font-family="monospace" font-size="18">59887c49 0x16621f</text><text x="80" y="140" fill="#94a3b8" opacity=".12" font-family="monospace" font-size="18">59887c4a 0x1bfaa6</text><text x="80" y="180" fill="#94a3b8" opacity=".12" font-family="monospace" font-size="18">59887c4b 0x21932e</text><text x="80" y="220" fill="#94a3b8" opacity=".12" font-family="monospace" font-size="18">59887c4c 0x272bb6</text><text x="80" y="260" fill="#94a3b8" opacity=".12" font-family="monospace" font-size="18">59887c4d 0x2cc43e</text><text x="80" y="300" fill="#94a3b8" opacity=".12" font-family="monospace" font-size="18">59887c4e 0x325cc5</text><text x="80" y="340" fill="#94a3b8" opacity=".12" font-family="monospace" font-size="18">59887c4f 0x37f54d</text><text x="80" y="380" fill="#94a3b8" opacity=".12" font-family="monospace" font-size="18">59887c50 0x3d8dd5</text><text x="80" y="420" fill="#94a3b8" opacity=".12" font-family="monospace" font-size="18">59887c51 0x43265d</text><text x="80" y="460" fill="#94a3b8" opacity=".12" font-family="monospace" font-size="18">59887c52 0x48bee4</text><text x="80" y="500" fill="#94a3b8" opacity=".12" font-family="monospace" font-size="18">59887c53 0x4e576c</text><text x="80" y="540" fill="#94a3b8" opacity=".12" font-family="monospace" font-size="18">59887c54 0x53eff4</text><text x="80" y="580" fill="#94a3b8" opacity=".12" font-family="monospace" font-size="18">59887c55 0x59887c</text><text x="80" y="620" fill="#94a3b8" opacity=".12" font-family="monospace" font-size="18">59887c56 0x5f2104</text><text x="80" y="660" fill="#94a3b8" opacity=".12" font-family="monospace" font-size="18">59887c57 0x64b98b</text>
+  
+</svg>

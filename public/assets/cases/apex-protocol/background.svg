@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" width="1600" height="900" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Apex Case opening backdrop">
+  <!-- prismloot:apex-protocol:background -->
+  <defs>
+    <radialGradient id="apexprotocol-bgv" cx="50%" cy="40%" r="75%">
+      <stop offset="0" stop-color="rgba(232,121,249,0.28)"/>
+      <stop offset=".55" stop-color="#08080e"/>
+      <stop offset="1" stop-color="#050507"/>
+    </radialGradient>
+    <linearGradient id="chromeGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#e879f9"/><stop offset="1" stop-color="#22d3ee"/>
+    </linearGradient>
+  </defs>
+  <rect width="1600" height="900" fill="#050507"/>
+  <rect width="1600" height="900" fill="url(#apexprotocol-bgv)"/>
+  <circle cx="220" cy="120" r="280" fill="#22d3ee" opacity=".08"/>
+  <circle cx="1400" cy="760" r="320" fill="#e879f9" opacity=".08"/>
+  <circle cx="200" cy="160" r="120" fill="none" stroke="#e879f9" stroke-opacity=".2" stroke-width="3"/>
+        <circle cx="1400" cy="700" r="180" fill="none" stroke="#22d3ee" stroke-opacity=".2" stroke-width="3"/>
+  <rect x="24" y="24" width="1552" height="852" rx="28" fill="none" stroke="#e879f9" stroke-opacity=".18" stroke-width="2"/>
+</svg>

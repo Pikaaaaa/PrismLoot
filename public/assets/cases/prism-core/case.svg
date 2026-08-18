@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" width="800" height="800" role="img" aria-label="Prism Case crate">
+  <!-- prismloot:prism-core:hero -->
+  <defs>
+    <radialGradient id="prismcore-heroglow" cx="50%" cy="38%" r="50%">
+      <stop offset="0" stop-color="rgba(46,233,255,0.32)"/>
+      <stop offset="1" stop-color="rgba(5,5,8,0)"/>
+    </radialGradient>
+    <linearGradient id="prismcore-mg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#2ee9ff"/><stop offset="1" stop-color="#d946ef"/>
+    </linearGradient>
+    <filter id="prismcore-heroblur"><feGaussianBlur stdDeviation="14"/></filter>
+    <radialGradient id="prismcore-herofloor" cx="50%" cy="50%" r="50%">
+      <stop offset="0" stop-color="rgba(46,233,255,0.22)"/><stop offset="1" stop-color="rgba(0,0,0,0)"/>
+    </radialGradient>
+  </defs>
+  <rect width="800" height="800" fill="#07070c"/>
+  <rect width="800" height="800" fill="url(#prismcore-heroglow)"/>
+  <ellipse cx="400" cy="600" rx="230" ry="36" fill="url(#prismcore-herofloor)"/>
+  <circle cx="400" cy="330" r="160" fill="#2ee9ff" opacity="0.12" filter="url(#prismcore-heroblur)"/>
+  <circle cx="318" cy="168" r="1.4" fill="#d946ef" opacity="0.25"/><circle cx="384" cy="506" r="1.9249999999999998" fill="#2ee9ff" opacity="0.35"/><circle cx="450" cy="324" r="2.4499999999999997" fill="#d946ef" opacity="0.45"/><circle cx="516" cy="142" r="2.9749999999999996" fill="#2ee9ff" opacity="0.55"/><circle cx="582" cy="480" r="3.4999999999999996" fill="#d946ef" opacity="0.65"/><circle cx="648" cy="298" r="1.4" fill="#2ee9ff" opacity="0.25"/><circle cx="154" cy="116" r="1.9249999999999998" fill="#d946ef" opacity="0.35"/>
+  
+  <g>
+    <linearGradient id="prismcore-bodylid" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0" stop-color="#277888"/><stop offset="1" stop-color="#5796a2"/>
+    </linearGradient>
+    <linearGradient id="prismcore-bodyside" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#4c4a81"/><stop offset="1" stop-color="#542262"/>
+    </linearGradient>
+    <linearGradient id="prismcore-bodyfront" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#2394a6"/><stop offset="1" stop-color="#15545f"/>
+    </linearGradient>
+    <clipPath id="prismcore-clip"><rect x="248" y="328" width="304" height="170" rx="6"/></clipPath>
+    <ellipse cx="400" cy="562" rx="155.51999999999998" ry="22" fill="#000" opacity=".55"/>
+    <polygon points="562,274 638,210 638,450 562,514" fill="url(#prismcore-bodyside)" stroke="#c4f9ff" stroke-width="1.2"/>
+    <polygon points="238,274 314,210 638,210 562,274" fill="url(#prismcore-bodylid)" stroke="#c4f9ff" stroke-width="1.6"/>
+    <rect x="238" y="274" width="324" height="42" fill="url(#prismcore-bodylid)" stroke="#c4f9ff" stroke-width="1.2"/>
+    <rect x="238" y="316" width="324" height="198" fill="url(#prismcore-bodyfront)" stroke="#c4f9ff" stroke-width="1.5"/>
+    <g clip-path="url(#prismcore-clip)">
+      <rect x="248" y="328" width="304" height="170" fill="#18606c"/>
+      <polygon points="276,340 290,348 290,364 276,372 262,364 262,348" fill="none" stroke="#d946ef" stroke-opacity=".55" stroke-width="1.6"/><polygon points="330,340 344,348 344,364 330,372 316,364 316,348" fill="none" stroke="#2ee9ff" stroke-opacity=".55" stroke-width="1.6"/><polygon points="384,340 398,348 398,364 384,372 370,364 370,348" fill="none" stroke="#d946ef" stroke-opacity=".55" stroke-width="1.6"/><polygon points="438,340 452,348 452,364 438,372 424,364 424,348" fill="none" stroke="#2ee9ff" stroke-opacity=".55" stroke-width="1.6"/><polygon points="492,340 506,348 506,364 492,372 478,364 478,348" fill="none" stroke="#d946ef" stroke-opacity=".55" stroke-width="1.6"/><polygon points="546,340 560,348 560,364 546,372 532,364 532,348" fill="none" stroke="#2ee9ff" stroke-opacity=".55" stroke-width="1.6"/><polygon points="303,382 317,390 317,406 303,414 289,406 289,390" fill="none" stroke="#d946ef" stroke-opacity=".55" stroke-width="1.6"/><polygon points="357,382 371,390 371,406 357,414 343,406 343,390" fill="none" stroke="#2ee9ff" stroke-opacity=".55" stroke-width="1.6"/><polygon points="411,382 425,390 425,406 411,414 397,406 397,390" fill="none" stroke="#d946ef" stroke-opacity=".55" stroke-width="1.6"/><polygon points="465,382 479,390 479,406 465,414 451,406 451,390" fill="none" stroke="#2ee9ff" stroke-opacity=".55" stroke-width="1.6"/><polygon points="519,382 533,390 533,406 519,414 505,406 505,390" fill="none" stroke="#d946ef" stroke-opacity=".55" stroke-width="1.6"/><polygon points="573,382 587,390 587,406 573,414 559,406 559,390" fill="none" stroke="#2ee9ff" stroke-opacity=".55" stroke-width="1.6"/><polygon points="276,424 290,432 290,448 276,456 262,448 262,432" fill="none" stroke="#d946ef" stroke-opacity=".55" stroke-width="1.6"/><polygon points="330,424 344,432 344,448 330,456 316,448 316,432" fill="none" stroke="#2ee9ff" stroke-opacity=".55" stroke-width="1.6"/><polygon points="384,424 398,432 398,448 384,456 370,448 370,432" fill="none" stroke="#d946ef" stroke-opacity=".55" stroke-width="1.6"/><polygon points="438,424 452,432 452,448 438,456 424,448 424,432" fill="none" stroke="#2ee9ff" stroke-opacity=".55" stroke-width="1.6"/><polygon points="492,424 506,432 506,448 492,456 478,448 478,432" fill="none" stroke="#d946ef" stroke-opacity=".55" stroke-width="1.6"/><polygon points="546,424 560,432 560,448 546,456 532,448 532,432" fill="none" stroke="#2ee9ff" stroke-opacity=".55" stroke-width="1.6"/><polygon points="303,466 317,474 317,490 303,498 289,490 289,474" fill="none" stroke="#d946ef" stroke-opacity=".55" stroke-width="1.6"/><polygon points="357,466 371,474 371,490 357,498 343,490 343,474" fill="none" stroke="#2ee9ff" stroke-opacity=".55" stroke-width="1.6"/><polygon points="411,466 425,474 425,490 411,498 397,490 397,474" fill="none" stroke="#d946ef" stroke-opacity=".55" stroke-width="1.6"/><polygon points="465,466 479,474 479,490 465,498 451,490 451,474" fill="none" stroke="#2ee9ff" stroke-opacity=".55" stroke-width="1.6"/><polygon points="519,466 533,474 533,490 519,498 505,490 505,474" fill="none" stroke="#d946ef" stroke-opacity=".55" stroke-width="1.6"/><polygon points="573,466 587,474 587,490 573,498 559,490 559,474" fill="none" stroke="#2ee9ff" stroke-opacity=".55" stroke-width="1.6"/><polygon points="276,508 290,516 290,532 276,540 262,532 262,516" fill="none" stroke="#d946ef" stroke-opacity=".55" stroke-width="1.6"/><polygon points="330,508 344,516 344,532 330,540 316,532 316,516" fill="none" stroke="#2ee9ff" stroke-opacity=".55" stroke-width="1.6"/><polygon points="384,508 398,516 398,532 384,540 370,532 370,516" fill="none" stroke="#d946ef" stroke-opacity=".55" stroke-width="1.6"/><polygon points="438,508 452,516 452,532 438,540 424,532 424,516" fill="none" stroke="#2ee9ff" stroke-opacity=".55" stroke-width="1.6"/><polygon points="492,508 506,516 506,532 492,540 478,532 478,516" fill="none" stroke="#d946ef" stroke-opacity=".55" stroke-width="1.6"/><polygon points="546,508 560,516 560,532 546,540 532,532 532,516" fill="none" stroke="#2ee9ff" stroke-opacity=".55" stroke-width="1.6"/>
+    </g>
+    <rect x="248" y="328" width="304" height="170" rx="6" fill="none" stroke="#2ee9ff" stroke-opacity=".35"/>
+    <g opacity=".92"><polygon points="400,394.96000000000004 421.6,414.16 413.2,440.56000000000006 386.8,440.56000000000006 378.4,414.16" fill="url(#prismcore-mg)" stroke="#fff" stroke-opacity=".55" stroke-width="2"/>
+        <polygon points="400,405.76000000000005 409.12,418.96000000000004 400,429.76000000000005 390.88,418.96000000000004" fill="#fff" fill-opacity=".28"/></g>
+    <rect x="274" y="288" width="54" height="16" rx="3" fill="#89aebe" stroke="#fff" stroke-opacity=".3"/>
+    <rect x="472" y="288" width="54" height="16" rx="3" fill="#89aebe" stroke="#fff" stroke-opacity=".3"/>
+    <rect x="246" y="504" width="308" height="8" fill="#36123c"/>
+    
+    <text x="260" y="496" font-family="Arial Black,Impact,sans-serif" font-size="11" letter-spacing="1.6" fill="#2ee9ff" fill-opacity=".45">PRISM CASE</text>
+  </g>
+</svg>

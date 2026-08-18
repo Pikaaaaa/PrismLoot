@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="110 140 580 540" width="480" height="480" role="img" aria-label="Gold Rush crate">
+  <!-- prismloot:gold-rush:thumb -->
+  <defs>
+    <radialGradient id="goldrush-thumbglow" cx="50%" cy="38%" r="50%">
+      <stop offset="0" stop-color="rgba(250,204,21,0.48)"/>
+      <stop offset="1" stop-color="rgba(5,5,8,0)"/>
+    </radialGradient>
+    <linearGradient id="goldrush-mg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#facc15"/><stop offset="1" stop-color="#b45309"/>
+    </linearGradient>
+    <filter id="goldrush-thumbblur"><feGaussianBlur stdDeviation="14"/></filter>
+    <radialGradient id="goldrush-thumbfloor" cx="50%" cy="50%" r="50%">
+      <stop offset="0" stop-color="rgba(250,204,21,0.22)"/><stop offset="1" stop-color="rgba(0,0,0,0)"/>
+    </radialGradient>
+  </defs>
+  <rect width="800" height="800" fill="#07070c"/>
+  <rect width="800" height="800" fill="url(#goldrush-thumbglow)"/>
+  <ellipse cx="400" cy="600" rx="230" ry="36" fill="url(#goldrush-thumbfloor)"/>
+  <circle cx="400" cy="330" r="210" fill="#facc15" opacity="0.2" filter="url(#goldrush-thumbblur)"/>
+  <circle cx="196" cy="246" r="1.4" fill="#b45309" opacity="0.25"/><circle cx="408" cy="402" r="1.9249999999999998" fill="#facc15" opacity="0.35"/><circle cx="620" cy="558" r="2.4499999999999997" fill="#b45309" opacity="0.45"/><circle cx="272" cy="194" r="2.9749999999999996" fill="#facc15" opacity="0.55"/><circle cx="484" cy="350" r="3.4999999999999996" fill="#b45309" opacity="0.65"/><circle cx="136" cy="506" r="1.4" fill="#facc15" opacity="0.25"/><circle cx="348" cy="142" r="1.9249999999999998" fill="#b45309" opacity="0.35"/><circle cx="560" cy="298" r="2.4499999999999997" fill="#facc15" opacity="0.45"/><circle cx="212" cy="454" r="2.9749999999999996" fill="#b45309" opacity="0.55"/><circle cx="424" cy="90" r="3.4999999999999996" fill="#facc15" opacity="0.65"/><circle cx="636" cy="246" r="1.4" fill="#b45309" opacity="0.25"/><circle cx="288" cy="402" r="1.9249999999999998" fill="#facc15" opacity="0.35"/><circle cx="500" cy="558" r="2.4499999999999997" fill="#b45309" opacity="0.45"/><circle cx="152" cy="194" r="2.9749999999999996" fill="#facc15" opacity="0.55"/><circle cx="364" cy="350" r="3.4999999999999996" fill="#b45309" opacity="0.65"/><circle cx="576" cy="506" r="1.4" fill="#facc15" opacity="0.25"/>
+  
+    <rect x="48" y="48" width="704" height="704" rx="36" fill="none" stroke="#b45309" stroke-opacity=".45" stroke-width="2"/>
+    <rect x="62" y="62" width="676" height="676" rx="30" fill="none" stroke="#facc15" stroke-opacity=".25" stroke-width="1"/>
+    <circle cx="80" cy="80" r="6" fill="#facc15"/>
+    <circle cx="720" cy="80" r="6" fill="#b45309"/>
+    <circle cx="80" cy="720" r="6" fill="#b45309"/>
+    <circle cx="720" cy="720" r="6" fill="#facc15"/>
+  <g>
+    <linearGradient id="goldrush-bodylid" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0" stop-color="#7d6c26"/><stop offset="1" stop-color="#9a8c56"/>
+    </linearGradient>
+    <linearGradient id="goldrush-bodyside" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#6b4812"/><stop offset="1" stop-color="#472711"/>
+    </linearGradient>
+    <linearGradient id="goldrush-bodyfront" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#9c821c"/><stop offset="1" stop-color="#584a13"/>
+    </linearGradient>
+    <clipPath id="goldrush-clip"><rect x="242" y="328" width="316" height="170" rx="6"/></clipPath>
+    <ellipse cx="400" cy="562" rx="161.28" ry="22" fill="#000" opacity=".55"/>
+    <polygon points="568,274 636,212 636,452 568,514" fill="url(#goldrush-bodyside)" stroke="#fef1bd" stroke-width="1.2"/>
+    <polygon points="232,274 300,212 636,212 568,274" fill="url(#goldrush-bodylid)" stroke="#fef1bd" stroke-width="1.6"/>
+    <rect x="232" y="274" width="336" height="42" fill="url(#goldrush-bodylid)" stroke="#fef1bd" stroke-width="1.2"/>
+    <rect x="232" y="316" width="336" height="198" fill="url(#goldrush-bodyfront)" stroke="#fef1bd" stroke-width="1.5"/>
+    <g clip-path="url(#goldrush-clip)">
+      <rect x="242" y="328" width="316" height="170" fill="#655513"/>
+      <rect x="258" y="342" width="284" height="142" fill="none" stroke="#b45309" stroke-width="3" opacity=".7"/>
+      <rect x="270" y="354" width="260" height="118" fill="none" stroke="#facc15" stroke-width="1.5" opacity=".55"/>
+      <polygon points="400,364 510,413 400,462 290,413" fill="#facc15" opacity=".18" stroke="#b45309" stroke-opacity=".5"/>
+    </g>
+    <rect x="242" y="328" width="316" height="170" rx="6" fill="none" stroke="#facc15" stroke-opacity=".35"/>
+    <g opacity=".92"><g>
+        <rect x="374.5" y="410.96000000000004" width="51" height="12.6" rx="4" fill="#facc15"/>
+        <rect x="379" y="402.46000000000004" width="42" height="12.6" rx="4" fill="#b45309"/>
+        <rect x="383.5" y="388.96000000000004" width="33" height="12.6" rx="4" fill="#facc15"/>
+      </g></g>
+    <rect x="268" y="288" width="54" height="16" rx="3" fill="#e2991b" stroke="#fff" stroke-opacity=".3"/>
+    <rect x="478" y="288" width="54" height="16" rx="3" fill="#e2991b" stroke="#fff" stroke-opacity=".3"/>
+    <rect x="240" y="504" width="320" height="8" fill="#2d1502"/>
+    <polygon points="232,274 254,274 254,292" fill="#e2991b" opacity=".8"/>
+      <polygon points="568,274 546,274 546,292" fill="#e2991b" opacity=".8"/>
+    <text x="254" y="496" font-family="Arial Black,Impact,sans-serif" font-size="11" letter-spacing="1.6" fill="#facc15" fill-opacity=".45">GOLD RUSH</text>
+  </g>
+</svg>

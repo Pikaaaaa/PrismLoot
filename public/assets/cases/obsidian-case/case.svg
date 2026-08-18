@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" width="800" height="800" role="img" aria-label="Obsidian crate">
+  <!-- prismloot:obsidian-case:hero -->
+  <defs>
+    <radialGradient id="obsidiancase-heroglow" cx="50%" cy="38%" r="50%">
+      <stop offset="0" stop-color="rgba(109,40,217,0.48)"/>
+      <stop offset="1" stop-color="rgba(5,5,8,0)"/>
+    </radialGradient>
+    <linearGradient id="obsidiancase-mg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#6d28d9"/><stop offset="1" stop-color="#111827"/>
+    </linearGradient>
+    <filter id="obsidiancase-heroblur"><feGaussianBlur stdDeviation="14"/></filter>
+    <radialGradient id="obsidiancase-herofloor" cx="50%" cy="50%" r="50%">
+      <stop offset="0" stop-color="rgba(109,40,217,0.22)"/><stop offset="1" stop-color="rgba(0,0,0,0)"/>
+    </radialGradient>
+  </defs>
+  <rect width="800" height="800" fill="#07070c"/>
+  <rect width="800" height="800" fill="url(#obsidiancase-heroglow)"/>
+  <ellipse cx="400" cy="600" rx="230" ry="36" fill="url(#obsidiancase-herofloor)"/>
+  <circle cx="400" cy="330" r="210" fill="#6d28d9" opacity="0.2" filter="url(#obsidiancase-heroblur)"/>
+  <circle cx="507" cy="337" r="1.4" fill="#111827" opacity="0.25"/><circle cx="636" cy="454" r="1.9249999999999998" fill="#6d28d9" opacity="0.35"/><circle cx="205" cy="571" r="2.4499999999999997" fill="#111827" opacity="0.45"/><circle cx="334" cy="168" r="2.9749999999999996" fill="#6d28d9" opacity="0.55"/><circle cx="463" cy="285" r="3.4999999999999996" fill="#111827" opacity="0.65"/><circle cx="592" cy="402" r="1.4" fill="#6d28d9" opacity="0.25"/><circle cx="161" cy="519" r="1.9249999999999998" fill="#111827" opacity="0.35"/><circle cx="290" cy="116" r="2.4499999999999997" fill="#6d28d9" opacity="0.45"/><circle cx="419" cy="233" r="2.9749999999999996" fill="#111827" opacity="0.55"/><circle cx="548" cy="350" r="3.4999999999999996" fill="#6d28d9" opacity="0.65"/><circle cx="677" cy="467" r="1.4" fill="#111827" opacity="0.25"/><circle cx="246" cy="584" r="1.9249999999999998" fill="#6d28d9" opacity="0.35"/><circle cx="375" cy="181" r="2.4499999999999997" fill="#111827" opacity="0.45"/><circle cx="504" cy="298" r="2.9749999999999996" fill="#6d28d9" opacity="0.55"/><circle cx="633" cy="415" r="3.4999999999999996" fill="#111827" opacity="0.65"/><circle cx="202" cy="532" r="1.4" fill="#6d28d9" opacity="0.25"/>
+  
+    <rect x="48" y="48" width="704" height="704" rx="36" fill="none" stroke="#111827" stroke-opacity=".45" stroke-width="2"/>
+    <rect x="62" y="62" width="676" height="676" rx="30" fill="none" stroke="#6d28d9" stroke-opacity=".25" stroke-width="1"/>
+    <circle cx="80" cy="80" r="6" fill="#6d28d9"/>
+    <circle cx="720" cy="80" r="6" fill="#111827"/>
+    <circle cx="80" cy="720" r="6" fill="#111827"/>
+    <circle cx="720" cy="720" r="6" fill="#6d28d9"/>
+  <g>
+    <linearGradient id="obsidiancase-bodylid" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0" stop-color="#422778"/><stop offset="1" stop-color="#6c5796"/>
+    </linearGradient>
+    <linearGradient id="obsidiancase-bodyside" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#211642"/><stop offset="1" stop-color="#0e121c"/>
+    </linearGradient>
+    <linearGradient id="obsidiancase-bodyfront" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#49218f"/><stop offset="1" stop-color="#2a1553"/>
+    </linearGradient>
+    <clipPath id="obsidiancase-clip"><rect x="245" y="329" width="310" height="169" rx="6"/></clipPath>
+    <ellipse cx="400" cy="562" rx="158.4" ry="22" fill="#000" opacity=".55"/>
+    <polygon points="565,275 636,214 636,453 565,514" fill="url(#obsidiancase-bodyside)" stroke="#d6c3f4" stroke-width="1.2"/>
+    <polygon points="235,275 306,214 636,214 565,275" fill="url(#obsidiancase-bodylid)" stroke="#d6c3f4" stroke-width="1.6"/>
+    <rect x="235" y="275" width="330" height="42" fill="url(#obsidiancase-bodylid)" stroke="#d6c3f4" stroke-width="1.2"/>
+    <rect x="235" y="317" width="330" height="197" fill="url(#obsidiancase-bodyfront)" stroke="#d6c3f4" stroke-width="1.5"/>
+    <g clip-path="url(#obsidiancase-clip)">
+      <rect x="245" y="329" width="310" height="169" fill="#30175e"/>
+      <polygon points="245,329 384.5,329 307,498" fill="#fff" opacity=".14"/>
+      <polyline points="285,329 335,405.05 275,498" fill="none" stroke="#fff" stroke-opacity=".45" stroke-width="2"/>
+      <polyline points="505,329 445,421.95 535,498" fill="none" stroke="#6d28d9" stroke-opacity=".5" stroke-width="2"/>
+    </g>
+    <rect x="245" y="329" width="310" height="169" rx="6" fill="none" stroke="#6d28d9" stroke-opacity=".35"/>
+    <g opacity=".92"><polygon points="400,389.44 410.5,413.44 421,423.94 406,449.44 388,431.44 377.5,411.44" fill="#6d28d9" stroke="#111827" stroke-width="2"/>
+        <polygon points="394,407.44 418,419.44 390,441.44" fill="#fff" opacity=".25"/></g>
+    <rect x="271" y="289" width="54" height="16" rx="3" fill="#a98525" stroke="#fff" stroke-opacity=".3"/>
+    <rect x="475" y="289" width="54" height="16" rx="3" fill="#a98525" stroke="#fff" stroke-opacity=".3"/>
+    <rect x="243" y="504" width="314" height="8" fill="#04060a"/>
+    <polygon points="235,275 257,275 257,293" fill="#a98525" opacity=".8"/>
+      <polygon points="565,275 543,275 543,293" fill="#a98525" opacity=".8"/>
+    <text x="257" y="496" font-family="Arial Black,Impact,sans-serif" font-size="11" letter-spacing="1.6" fill="#6d28d9" fill-opacity=".45">OBSIDIAN</text>
+  </g>
+</svg>

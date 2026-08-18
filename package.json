@@ -1,0 +1,47 @@
+{
+  "name": "prismloot",
+  "version": "0.1.0",
+  "private": true,
+  "engines": {
+    "node": ">=20.9.0"
+  },
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start --hostname 0.0.0.0",
+    "start:passenger": "node server.js",
+    "lint": "eslint",
+    "postinstall": "node scripts/prisma-env.mjs generate",
+    "db:generate": "node scripts/prisma-env.mjs generate",
+    "db:migrate": "node scripts/prisma-env.mjs migrate dev",
+    "db:seed": "node scripts/prisma-env.mjs db seed",
+    "db:reset": "node scripts/prisma-env.mjs migrate reset --force",
+    "db:push": "node scripts/prisma-env.mjs db push",
+    "art:cases": "node scripts/generate-case-art.mjs",
+    "validate:case-assets": "node scripts/validate-case-assets.mjs",
+    "catalog:skins": "node scripts/build-skin-catalog.mjs"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.19.3",
+    "framer-motion": "^13.1.0",
+    "lucide-react": "^1.31.0",
+    "next": "16.3.1",
+    "react": "19.2.8",
+    "react-dom": "19.2.8"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "16.3.1",
+    "prisma": "^6.19.3",
+    "tailwindcss": "^4",
+    "tsx": "^4.23.12",
+    "typescript": "^5"
+  },
+  "prisma": {
+    "seed": "tsx prisma/seed.ts"
+  }
+}

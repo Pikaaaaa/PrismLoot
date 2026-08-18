@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" width="800" height="800" role="img" aria-label="Cyber Strike crate">
+  <!-- prismloot:cyber-strike:hero -->
+  <defs>
+    <radialGradient id="cyberstrike-heroglow" cx="50%" cy="38%" r="50%">
+      <stop offset="0" stop-color="rgba(56,189,248,0.32)"/>
+      <stop offset="1" stop-color="rgba(5,5,8,0)"/>
+    </radialGradient>
+    <linearGradient id="cyberstrike-mg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#38bdf8"/><stop offset="1" stop-color="#a3e635"/>
+    </linearGradient>
+    <filter id="cyberstrike-heroblur"><feGaussianBlur stdDeviation="14"/></filter>
+    <radialGradient id="cyberstrike-herofloor" cx="50%" cy="50%" r="50%">
+      <stop offset="0" stop-color="rgba(56,189,248,0.22)"/><stop offset="1" stop-color="rgba(0,0,0,0)"/>
+    </radialGradient>
+  </defs>
+  <rect width="800" height="800" fill="#07070c"/>
+  <rect width="800" height="800" fill="url(#cyberstrike-heroglow)"/>
+  <ellipse cx="400" cy="600" rx="230" ry="36" fill="url(#cyberstrike-herofloor)"/>
+  <circle cx="400" cy="330" r="160" fill="#38bdf8" opacity="0.12" filter="url(#cyberstrike-heroblur)"/>
+  <circle cx="519" cy="389" r="1.4" fill="#a3e635" opacity="0.25"/><circle cx="652" cy="558" r="1.9249999999999998" fill="#38bdf8" opacity="0.35"/><circle cx="225" cy="207" r="2.4499999999999997" fill="#a3e635" opacity="0.45"/><circle cx="358" cy="376" r="2.9749999999999996" fill="#38bdf8" opacity="0.55"/><circle cx="491" cy="545" r="3.4999999999999996" fill="#a3e635" opacity="0.65"/><circle cx="624" cy="194" r="1.4" fill="#38bdf8" opacity="0.25"/><circle cx="197" cy="363" r="1.9249999999999998" fill="#a3e635" opacity="0.35"/>
+  
+  <g>
+    <linearGradient id="cyberstrike-bodylid" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0" stop-color="#2b6585"/><stop offset="1" stop-color="#5a87a0"/>
+    </linearGradient>
+    <linearGradient id="cyberstrike-bodyside" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#406e4c"/><stop offset="1" stop-color="#425a21"/>
+    </linearGradient>
+    <linearGradient id="cyberstrike-bodyfront" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#297aa1"/><stop offset="1" stop-color="#19465c"/>
+    </linearGradient>
+    <clipPath id="cyberstrike-clip"><rect x="242" y="327" width="316" height="171" rx="6"/></clipPath>
+    <ellipse cx="400" cy="562" rx="161.28" ry="22" fill="#000" opacity=".55"/>
+    <polygon points="568,273 643,208 643,449 568,514" fill="url(#cyberstrike-bodyside)" stroke="#c7edfd" stroke-width="1.2"/>
+    <polygon points="232,273 307,208 643,208 568,273" fill="url(#cyberstrike-bodylid)" stroke="#c7edfd" stroke-width="1.6"/>
+    <rect x="232" y="273" width="336" height="42" fill="url(#cyberstrike-bodylid)" stroke="#c7edfd" stroke-width="1.2"/>
+    <rect x="232" y="315" width="336" height="199" fill="url(#cyberstrike-bodyfront)" stroke="#c7edfd" stroke-width="1.5"/>
+    <g clip-path="url(#cyberstrike-clip)">
+      <rect x="242" y="327" width="316" height="171" fill="#1b4f69"/>
+      <rect x="264" y="349" width="272" height="127" rx="8" fill="#041016" opacity=".7" stroke="#38bdf8" stroke-opacity=".45"/>
+      <rect x="278" y="367" width="71" height="8" rx="2" fill="#a3e635" opacity=".45"/><rect x="278" y="393" width="75" height="8" rx="2" fill="#38bdf8" opacity=".45"/><rect x="278" y="419" width="77" height="8" rx="2" fill="#a3e635" opacity=".45"/><rect x="278" y="445" width="78" height="8" rx="2" fill="#38bdf8" opacity=".45"/><rect x="278" y="471" width="34" height="8" rx="2" fill="#a3e635" opacity=".45"/>
+    </g>
+    <rect x="242" y="327" width="316" height="171" rx="6" fill="none" stroke="#38bdf8" stroke-opacity=".35"/>
+    <g opacity=".92"><rect x="383.2" y="401.68" width="33.599999999999994" height="33.599999999999994" rx="8" fill="none" stroke="#38bdf8" stroke-width="3"/>
+        <circle cx="391.6" cy="418.48" r="6" fill="#a3e635"/>
+        <circle cx="409.6" cy="412.48" r="5" fill="#38bdf8"/>
+        <path d="M391.6 418.48 H400 V412.48 H409.6 M400 418.48 V429.28000000000003 H413.2" fill="none" stroke="#a3e635" stroke-width="3"/></g>
+    <rect x="268" y="287" width="54" height="16" rx="3" fill="#8aa7bd" stroke="#fff" stroke-opacity=".3"/>
+    <rect x="478" y="287" width="54" height="16" rx="3" fill="#8aa7bd" stroke="#fff" stroke-opacity=".3"/>
+    <rect x="240" y="504" width="320" height="8" fill="#293a0d"/>
+    
+    <text x="254" y="496" font-family="Arial Black,Impact,sans-serif" font-size="11" letter-spacing="1.6" fill="#38bdf8" fill-opacity=".45">CYBER STRIKE</text>
+  </g>
+</svg>

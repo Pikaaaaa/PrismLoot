@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" width="800" height="800" role="img" aria-label="Longshot crate">
+  <!-- prismloot:awp-line:hero -->
+  <defs>
+    <radialGradient id="awpline-heroglow" cx="50%" cy="38%" r="50%">
+      <stop offset="0" stop-color="rgba(132,204,22,0.48)"/>
+      <stop offset="1" stop-color="rgba(5,5,8,0)"/>
+    </radialGradient>
+    <linearGradient id="awpline-mg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#84cc16"/><stop offset="1" stop-color="#14532d"/>
+    </linearGradient>
+    <filter id="awpline-heroblur"><feGaussianBlur stdDeviation="14"/></filter>
+    <radialGradient id="awpline-herofloor" cx="50%" cy="50%" r="50%">
+      <stop offset="0" stop-color="rgba(132,204,22,0.22)"/><stop offset="1" stop-color="rgba(0,0,0,0)"/>
+    </radialGradient>
+  </defs>
+  <rect width="800" height="800" fill="#07070c"/>
+  <rect width="800" height="800" fill="url(#awpline-heroglow)"/>
+  <ellipse cx="400" cy="600" rx="230" ry="36" fill="url(#awpline-herofloor)"/>
+  <circle cx="400" cy="330" r="210" fill="#84cc16" opacity="0.2" filter="url(#awpline-heroblur)"/>
+  <circle cx="224" cy="194" r="1.4" fill="#14532d" opacity="0.25"/><circle cx="632" cy="298" r="1.9249999999999998" fill="#84cc16" opacity="0.35"/><circle cx="480" cy="402" r="2.4499999999999997" fill="#14532d" opacity="0.45"/><circle cx="328" cy="506" r="2.9749999999999996" fill="#84cc16" opacity="0.55"/><circle cx="176" cy="90" r="3.4999999999999996" fill="#14532d" opacity="0.65"/><circle cx="584" cy="194" r="1.4" fill="#84cc16" opacity="0.25"/><circle cx="432" cy="298" r="1.9249999999999998" fill="#14532d" opacity="0.35"/><circle cx="280" cy="402" r="2.4499999999999997" fill="#84cc16" opacity="0.45"/><circle cx="128" cy="506" r="2.9749999999999996" fill="#14532d" opacity="0.55"/><circle cx="536" cy="90" r="3.4999999999999996" fill="#84cc16" opacity="0.65"/><circle cx="384" cy="194" r="1.4" fill="#14532d" opacity="0.25"/><circle cx="232" cy="298" r="1.9249999999999998" fill="#84cc16" opacity="0.35"/><circle cx="640" cy="402" r="2.4499999999999997" fill="#14532d" opacity="0.45"/><circle cx="488" cy="506" r="2.9749999999999996" fill="#84cc16" opacity="0.55"/><circle cx="336" cy="90" r="3.4999999999999996" fill="#14532d" opacity="0.65"/><circle cx="184" cy="194" r="1.4" fill="#84cc16" opacity="0.25"/>
+  
+    <rect x="48" y="48" width="704" height="704" rx="36" fill="none" stroke="#14532d" stroke-opacity=".45" stroke-width="2"/>
+    <rect x="62" y="62" width="676" height="676" rx="30" fill="none" stroke="#84cc16" stroke-opacity=".25" stroke-width="1"/>
+    <circle cx="80" cy="80" r="6" fill="#84cc16"/>
+    <circle cx="720" cy="80" r="6" fill="#14532d"/>
+    <circle cx="80" cy="720" r="6" fill="#14532d"/>
+    <circle cx="720" cy="720" r="6" fill="#84cc16"/>
+  <g>
+    <linearGradient id="awpline-bodylid" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0" stop-color="#4b6c26"/><stop offset="1" stop-color="#738c56"/>
+    </linearGradient>
+    <linearGradient id="awpline-bodyside" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#26481c"/><stop offset="1" stop-color="#0f271e"/>
+    </linearGradient>
+    <linearGradient id="awpline-bodyfront" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#56821c"/><stop offset="1" stop-color="#314a13"/>
+    </linearGradient>
+    <clipPath id="awpline-clip"><rect x="214" y="354" width="372" height="144" rx="6"/></clipPath>
+    <ellipse cx="400" cy="562" rx="188.16" ry="22" fill="#000" opacity=".55"/>
+    <polygon points="596,300 668,242 668,456 596,514" fill="url(#awpline-bodyside)" stroke="#ddf1be" stroke-width="1.2"/>
+    <polygon points="204,300 276,242 668,242 596,300" fill="url(#awpline-bodylid)" stroke="#ddf1be" stroke-width="1.6"/>
+    <rect x="204" y="300" width="392" height="42" fill="url(#awpline-bodylid)" stroke="#ddf1be" stroke-width="1.2"/>
+    <rect x="204" y="342" width="392" height="172" fill="url(#awpline-bodyfront)" stroke="#ddf1be" stroke-width="1.5"/>
+    <g clip-path="url(#awpline-clip)">
+      <rect x="214" y="354" width="372" height="144" fill="#385514"/>
+      <rect x="232" y="366" width="10" height="120" rx="2" fill="#000" opacity=".35"/><rect x="284" y="366" width="10" height="120" rx="2" fill="#000" opacity=".35"/><rect x="336" y="366" width="10" height="120" rx="2" fill="#000" opacity=".35"/><rect x="388" y="366" width="10" height="120" rx="2" fill="#000" opacity=".35"/><rect x="440" y="366" width="10" height="120" rx="2" fill="#000" opacity=".35"/><rect x="492" y="366" width="10" height="120" rx="2" fill="#000" opacity=".35"/><circle cx="242" cy="376" r="4" fill="#14532d" stroke="#fff" stroke-opacity=".35"/><circle cx="322" cy="376" r="4" fill="#14532d" stroke="#fff" stroke-opacity=".35"/><circle cx="402" cy="376" r="4" fill="#14532d" stroke="#fff" stroke-opacity=".35"/><circle cx="482" cy="376" r="4" fill="#14532d" stroke="#fff" stroke-opacity=".35"/><circle cx="242" cy="476" r="4" fill="#14532d" stroke="#fff" stroke-opacity=".35"/><circle cx="322" cy="476" r="4" fill="#14532d" stroke="#fff" stroke-opacity=".35"/><circle cx="402" cy="476" r="4" fill="#14532d" stroke="#fff" stroke-opacity=".35"/><circle cx="482" cy="476" r="4" fill="#14532d" stroke="#fff" stroke-opacity=".35"/>
+    </g>
+    <rect x="214" y="354" width="372" height="144" rx="6" fill="none" stroke="#84cc16" stroke-opacity=".35"/>
+    <g opacity=".92"><circle cx="400" cy="431.44" r="24" fill="none" stroke="#84cc16" stroke-width="8"/>
+        <circle cx="400" cy="431.44" r="13.5" fill="none" stroke="#14532d" stroke-width="3"/>
+        <path d="M400 401.44 V461.44 M370 431.44 H430" stroke="#fff" stroke-width="2"/></g>
+    <rect x="240" y="314" width="54" height="16" rx="3" fill="#aa9927" stroke="#fff" stroke-opacity=".3"/>
+    <rect x="506" y="314" width="54" height="16" rx="3" fill="#aa9927" stroke="#fff" stroke-opacity=".3"/>
+    <rect x="212" y="504" width="376" height="8" fill="#05150b"/>
+    <polygon points="204,300 226,300 226,318" fill="#aa9927" opacity=".8"/>
+      <polygon points="596,300 574,300 574,318" fill="#aa9927" opacity=".8"/>
+    <text x="226" y="496" font-family="Arial Black,Impact,sans-serif" font-size="11" letter-spacing="1.6" fill="#84cc16" fill-opacity=".45">LONGSHOT</text>
+  </g>
+</svg>

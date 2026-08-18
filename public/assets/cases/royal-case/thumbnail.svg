@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="110 140 580 540" width="480" height="480" role="img" aria-label="Royal crate">
+  <!-- prismloot:royal-case:thumb -->
+  <defs>
+    <radialGradient id="royalcase-thumbglow" cx="50%" cy="38%" r="50%">
+      <stop offset="0" stop-color="rgba(251,191,36,0.48)"/>
+      <stop offset="1" stop-color="rgba(5,5,8,0)"/>
+    </radialGradient>
+    <linearGradient id="royalcase-mg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#fbbf24"/><stop offset="1" stop-color="#f59e0b"/>
+    </linearGradient>
+    <filter id="royalcase-thumbblur"><feGaussianBlur stdDeviation="14"/></filter>
+    <radialGradient id="royalcase-thumbfloor" cx="50%" cy="50%" r="50%">
+      <stop offset="0" stop-color="rgba(251,191,36,0.22)"/><stop offset="1" stop-color="rgba(0,0,0,0)"/>
+    </radialGradient>
+  </defs>
+  <rect width="800" height="800" fill="#07070c"/>
+  <rect width="800" height="800" fill="url(#royalcase-thumbglow)"/>
+  <ellipse cx="400" cy="600" rx="230" ry="36" fill="url(#royalcase-thumbfloor)"/>
+  <circle cx="400" cy="330" r="210" fill="#fbbf24" opacity="0.2" filter="url(#royalcase-thumbblur)"/>
+  <circle cx="459" cy="129" r="1.4" fill="#f59e0b" opacity="0.25"/><circle cx="572" cy="558" r="1.9249999999999998" fill="#fbbf24" opacity="0.35"/><circle cx="125" cy="467" r="2.4499999999999997" fill="#f59e0b" opacity="0.45"/><circle cx="238" cy="376" r="2.9749999999999996" fill="#fbbf24" opacity="0.55"/><circle cx="351" cy="285" r="3.4999999999999996" fill="#f59e0b" opacity="0.65"/><circle cx="464" cy="194" r="1.4" fill="#fbbf24" opacity="0.25"/><circle cx="577" cy="103" r="1.9249999999999998" fill="#f59e0b" opacity="0.35"/><circle cx="130" cy="532" r="2.4499999999999997" fill="#fbbf24" opacity="0.45"/><circle cx="243" cy="441" r="2.9749999999999996" fill="#f59e0b" opacity="0.55"/><circle cx="356" cy="350" r="3.4999999999999996" fill="#fbbf24" opacity="0.65"/><circle cx="469" cy="259" r="1.4" fill="#f59e0b" opacity="0.25"/><circle cx="582" cy="168" r="1.9249999999999998" fill="#fbbf24" opacity="0.35"/><circle cx="135" cy="597" r="2.4499999999999997" fill="#f59e0b" opacity="0.45"/><circle cx="248" cy="506" r="2.9749999999999996" fill="#fbbf24" opacity="0.55"/><circle cx="361" cy="415" r="3.4999999999999996" fill="#f59e0b" opacity="0.65"/><circle cx="474" cy="324" r="1.4" fill="#fbbf24" opacity="0.25"/>
+  
+    <rect x="48" y="48" width="704" height="704" rx="36" fill="none" stroke="#f59e0b" stroke-opacity=".45" stroke-width="2"/>
+    <rect x="62" y="62" width="676" height="676" rx="30" fill="none" stroke="#fbbf24" stroke-opacity=".25" stroke-width="1"/>
+    <circle cx="80" cy="80" r="6" fill="#fbbf24"/>
+    <circle cx="720" cy="80" r="6" fill="#f59e0b"/>
+    <circle cx="80" cy="720" r="6" fill="#f59e0b"/>
+    <circle cx="720" cy="720" r="6" fill="#fbbf24"/>
+  <g>
+    <linearGradient id="royalcase-bodylid" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0" stop-color="#7d662c"/><stop offset="1" stop-color="#9a885a"/>
+    </linearGradient>
+    <linearGradient id="royalcase-bodyside" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#7d5a16"/><stop offset="1" stop-color="#5e4112"/>
+    </linearGradient>
+    <linearGradient id="royalcase-bodyfront" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#9d7b24"/><stop offset="1" stop-color="#584617"/>
+    </linearGradient>
+    <clipPath id="royalcase-clip"><rect x="243" y="328" width="314" height="170" rx="6"/></clipPath>
+    <ellipse cx="400" cy="562" rx="160.32" ry="22" fill="#000" opacity=".55"/>
+    <polygon points="567,274 640,213 640,453 567,514" fill="url(#royalcase-bodyside)" stroke="#feedc2" stroke-width="1.2"/>
+    <polygon points="233,274 306,213 640,213 567,274" fill="url(#royalcase-bodylid)" stroke="#feedc2" stroke-width="1.6"/>
+    <rect x="233" y="274" width="334" height="42" fill="url(#royalcase-bodylid)" stroke="#feedc2" stroke-width="1.2"/>
+    <rect x="233" y="316" width="334" height="198" fill="url(#royalcase-bodyfront)" stroke="#feedc2" stroke-width="1.5"/>
+    <g clip-path="url(#royalcase-clip)">
+      <rect x="243" y="328" width="314" height="170" fill="#665019"/>
+      <rect x="259" y="342" width="282" height="142" fill="none" stroke="#f59e0b" stroke-width="3" opacity=".7"/>
+      <rect x="271" y="354" width="258" height="118" fill="none" stroke="#fbbf24" stroke-width="1.5" opacity=".55"/>
+      <polygon points="400,364 509,413 400,462 291,413" fill="#fbbf24" opacity=".18" stroke="#f59e0b" stroke-opacity=".5"/>
+    </g>
+    <rect x="243" y="328" width="314" height="170" rx="6" fill="none" stroke="#fbbf24" stroke-opacity=".35"/>
+    <g opacity=".92"><path d="M370 432.46000000000004 L377.5 402.46000000000004 L392.5 418.96000000000004 L400 388.96000000000004 L407.5 418.96000000000004 L422.5 402.46000000000004 L430 432.46000000000004 Z" fill="#fbbf24" stroke="#fff" stroke-width="2"/>
+        <rect x="374.5" y="432.46000000000004" width="51" height="6.6" rx="3" fill="#f59e0b"/></g>
+    <rect x="269" y="288" width="54" height="16" rx="3" fill="#f9b31b" stroke="#fff" stroke-opacity=".3"/>
+    <rect x="477" y="288" width="54" height="16" rx="3" fill="#f9b31b" stroke="#fff" stroke-opacity=".3"/>
+    <rect x="241" y="504" width="318" height="8" fill="#3d2803"/>
+    <polygon points="233,274 255,274 255,292" fill="#f9b31b" opacity=".8"/>
+      <polygon points="567,274 545,274 545,292" fill="#f9b31b" opacity=".8"/>
+    <text x="255" y="496" font-family="Arial Black,Impact,sans-serif" font-size="11" letter-spacing="1.6" fill="#fbbf24" fill-opacity=".45">ROYAL</text>
+  </g>
+</svg>

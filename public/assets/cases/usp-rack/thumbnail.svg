@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="110 140 580 540" width="480" height="480" role="img" aria-label="Spectrum crate">
+  <!-- prismloot:spectrum-case:thumb -->
+  <defs>
+    <radialGradient id="spectrumcase-thumbglow" cx="50%" cy="38%" r="50%">
+      <stop offset="0" stop-color="rgba(244,114,182,0.32)"/>
+      <stop offset="1" stop-color="rgba(5,5,8,0)"/>
+    </radialGradient>
+    <linearGradient id="spectrumcase-mg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f472b6"/><stop offset="1" stop-color="#22d3ee"/>
+    </linearGradient>
+    <filter id="spectrumcase-thumbblur"><feGaussianBlur stdDeviation="14"/></filter>
+    <radialGradient id="spectrumcase-thumbfloor" cx="50%" cy="50%" r="50%">
+      <stop offset="0" stop-color="rgba(244,114,182,0.22)"/><stop offset="1" stop-color="rgba(0,0,0,0)"/>
+    </radialGradient>
+  </defs>
+  <rect width="800" height="800" fill="#07070c"/>
+  <rect width="800" height="800" fill="url(#spectrumcase-thumbglow)"/>
+  <ellipse cx="400" cy="600" rx="230" ry="36" fill="url(#spectrumcase-thumbfloor)"/>
+  <circle cx="400" cy="330" r="160" fill="#f472b6" opacity="0.12" filter="url(#spectrumcase-thumbblur)"/>
+  <circle cx="561" cy="311" r="1.4" fill="#22d3ee" opacity="0.25"/><circle cx="148" cy="142" r="1.9249999999999998" fill="#f472b6" opacity="0.35"/><circle cx="295" cy="493" r="2.4499999999999997" fill="#22d3ee" opacity="0.45"/><circle cx="442" cy="324" r="2.9749999999999996" fill="#f472b6" opacity="0.55"/><circle cx="589" cy="155" r="3.4999999999999996" fill="#22d3ee" opacity="0.65"/><circle cx="176" cy="506" r="1.4" fill="#f472b6" opacity="0.25"/><circle cx="323" cy="337" r="1.9249999999999998" fill="#22d3ee" opacity="0.35"/>
+  
+  <g>
+    <linearGradient id="spectrumcase-bodylid" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0" stop-color="#7a4669"/><stop offset="1" stop-color="#976f8a"/>
+    </linearGradient>
+    <linearGradient id="spectrumcase-bodyside" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#415a73"/><stop offset="1" stop-color="#145462"/>
+    </linearGradient>
+    <linearGradient id="spectrumcase-bodyfront" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#984d7a"/><stop offset="1" stop-color="#562d47"/>
+    </linearGradient>
+    <clipPath id="spectrumcase-clip"><rect x="238" y="324" width="324" height="174" rx="6"/></clipPath>
+    <ellipse cx="400" cy="562" rx="165.12" ry="22" fill="#000" opacity=".55"/>
+    <polygon points="572,270 641,211 641,455 572,514" fill="url(#spectrumcase-bodyside)" stroke="#fcd8eb" stroke-width="1.2"/>
+    <polygon points="228,270 297,211 641,211 572,270" fill="url(#spectrumcase-bodylid)" stroke="#fcd8eb" stroke-width="1.6"/>
+    <rect x="228" y="270" width="344" height="42" fill="url(#spectrumcase-bodylid)" stroke="#fcd8eb" stroke-width="1.2"/>
+    <rect x="228" y="312" width="344" height="202" fill="url(#spectrumcase-bodyfront)" stroke="#fcd8eb" stroke-width="1.5"/>
+    <g clip-path="url(#spectrumcase-clip)">
+      <rect x="238" y="324" width="324" height="174" fill="#633350"/>
+      <polygon points="266,336 280,344 280,360 266,368 252,360 252,344" fill="none" stroke="#22d3ee" stroke-opacity=".55" stroke-width="1.6"/><polygon points="320,336 334,344 334,360 320,368 306,360 306,344" fill="none" stroke="#f472b6" stroke-opacity=".55" stroke-width="1.6"/><polygon points="374,336 388,344 388,360 374,368 360,360 360,344" fill="none" stroke="#22d3ee" stroke-opacity=".55" stroke-width="1.6"/><polygon points="428,336 442,344 442,360 428,368 414,360 414,344" fill="none" stroke="#f472b6" stroke-opacity=".55" stroke-width="1.6"/><polygon points="482,336 496,344 496,360 482,368 468,360 468,344" fill="none" stroke="#22d3ee" stroke-opacity=".55" stroke-width="1.6"/><polygon points="536,336 550,344 550,360 536,368 522,360 522,344" fill="none" stroke="#f472b6" stroke-opacity=".55" stroke-width="1.6"/><polygon points="293,378 307,386 307,402 293,410 279,402 279,386" fill="none" stroke="#22d3ee" stroke-opacity=".55" stroke-width="1.6"/><polygon points="347,378 361,386 361,402 347,410 333,402 333,386" fill="none" stroke="#f472b6" stroke-opacity=".55" stroke-width="1.6"/><polygon points="401,378 415,386 415,402 401,410 387,402 387,386" fill="none" stroke="#22d3ee" stroke-opacity=".55" stroke-width="1.6"/><polygon points="455,378 469,386 469,402 455,410 441,402 441,386" fill="none" stroke="#f472b6" stroke-opacity=".55" stroke-width="1.6"/><polygon points="509,378 523,386 523,402 509,410 495,402 495,386" fill="none" stroke="#22d3ee" stroke-opacity=".55" stroke-width="1.6"/><polygon points="563,378 577,386 577,402 563,410 549,402 549,386" fill="none" stroke="#f472b6" stroke-opacity=".55" stroke-width="1.6"/><polygon points="266,420 280,428 280,444 266,452 252,444 252,428" fill="none" stroke="#22d3ee" stroke-opacity=".55" stroke-width="1.6"/><polygon points="320,420 334,428 334,444 320,452 306,444 306,428" fill="none" stroke="#f472b6" stroke-opacity=".55" stroke-width="1.6"/><polygon points="374,420 388,428 388,444 374,452 360,444 360,428" fill="none" stroke="#22d3ee" stroke-opacity=".55" stroke-width="1.6"/><polygon points="428,420 442,428 442,444 428,452 414,444 414,428" fill="none" stroke="#f472b6" stroke-opacity=".55" stroke-width="1.6"/><polygon points="482,420 496,428 496,444 482,452 468,444 468,428" fill="none" stroke="#22d3ee" stroke-opacity=".55" stroke-width="1.6"/><polygon points="536,420 550,428 550,444 536,452 522,444 522,428" fill="none" stroke="#f472b6" stroke-opacity=".55" stroke-width="1.6"/><polygon points="293,462 307,470 307,486 293,494 279,486 279,470" fill="none" stroke="#22d3ee" stroke-opacity=".55" stroke-width="1.6"/><polygon points="347,462 361,470 361,486 347,494 333,486 333,470" fill="none" stroke="#f472b6" stroke-opacity=".55" stroke-width="1.6"/><polygon points="401,462 415,470 415,486 401,494 387,486 387,470" fill="none" stroke="#22d3ee" stroke-opacity=".55" stroke-width="1.6"/><polygon points="455,462 469,470 469,486 455,494 441,486 441,470" fill="none" stroke="#f472b6" stroke-opacity=".55" stroke-width="1.6"/><polygon points="509,462 523,470 523,486 509,494 495,486 495,470" fill="none" stroke="#22d3ee" stroke-opacity=".55" stroke-width="1.6"/><polygon points="563,462 577,470 577,486 563,494 549,486 549,470" fill="none" stroke="#f472b6" stroke-opacity=".55" stroke-width="1.6"/><polygon points="266,504 280,512 280,528 266,536 252,528 252,512" fill="none" stroke="#22d3ee" stroke-opacity=".55" stroke-width="1.6"/><polygon points="320,504 334,512 334,528 320,536 306,528 306,512" fill="none" stroke="#f472b6" stroke-opacity=".55" stroke-width="1.6"/><polygon points="374,504 388,512 388,528 374,536 360,528 360,512" fill="none" stroke="#22d3ee" stroke-opacity=".55" stroke-width="1.6"/><polygon points="428,504 442,512 442,528 428,536 414,528 414,512" fill="none" stroke="#f472b6" stroke-opacity=".55" stroke-width="1.6"/><polygon points="482,504 496,512 496,528 482,536 468,528 468,512" fill="none" stroke="#22d3ee" stroke-opacity=".55" stroke-width="1.6"/><polygon points="536,504 550,512 550,528 536,536 522,528 522,512" fill="none" stroke="#f472b6" stroke-opacity=".55" stroke-width="1.6"/>
+    </g>
+    <rect x="238" y="324" width="324" height="174" rx="6" fill="none" stroke="#f472b6" stroke-opacity=".35"/>
+    <g opacity=".92"><rect x="376" y="400.24" width="7.68" height="33.599999999999994" rx="4" fill="#22d3ee"/><rect x="385.6" y="400.24" width="7.68" height="33.599999999999994" rx="4" fill="#818cf8"/><rect x="395.2" y="400.24" width="7.68" height="33.599999999999994" rx="4" fill="#e879f9"/><rect x="404.8" y="400.24" width="7.68" height="33.599999999999994" rx="4" fill="#fb7185"/><rect x="414.4" y="400.24" width="7.68" height="33.599999999999994" rx="4" fill="#fbbf24"/></g>
+    <rect x="264" y="284" width="54" height="16" rx="3" fill="#a89bb3" stroke="#fff" stroke-opacity=".3"/>
+    <rect x="482" y="284" width="54" height="16" rx="3" fill="#a89bb3" stroke="#fff" stroke-opacity=".3"/>
+    <rect x="236" y="504" width="328" height="8" fill="#09353c"/>
+    
+    <text x="250" y="496" font-family="Arial Black,Impact,sans-serif" font-size="11" letter-spacing="1.6" fill="#f472b6" fill-opacity=".45">SPECTRUM</text>
+  </g>
+</svg>

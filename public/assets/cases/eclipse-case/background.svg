@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" width="1600" height="900" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Eclipse opening backdrop">
+  <!-- prismloot:eclipse-case:background -->
+  <defs>
+    <radialGradient id="eclipsecase-bgv" cx="50%" cy="40%" r="75%">
+      <stop offset="0" stop-color="rgba(15,23,42,0.28)"/>
+      <stop offset=".55" stop-color="#08080e"/>
+      <stop offset="1" stop-color="#050507"/>
+    </radialGradient>
+    <linearGradient id="chromeGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0f172a"/><stop offset="1" stop-color="#fbbf24"/>
+    </linearGradient>
+  </defs>
+  <rect width="1600" height="900" fill="#050507"/>
+  <rect width="1600" height="900" fill="url(#eclipsecase-bgv)"/>
+  <circle cx="220" cy="120" r="280" fill="#fbbf24" opacity=".08"/>
+  <circle cx="1400" cy="760" r="320" fill="#0f172a" opacity=".08"/>
+  <circle cx="800" cy="220" r="160" fill="#fbbf24" opacity=".2"/>
+        <circle cx="830" cy="220" r="130" fill="#050508"/>
+  
+</svg>

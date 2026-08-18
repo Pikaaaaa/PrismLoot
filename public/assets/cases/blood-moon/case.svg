@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" width="800" height="800" role="img" aria-label="Blood Moon crate">
+  <!-- prismloot:blood-moon:hero -->
+  <defs>
+    <radialGradient id="bloodmoon-heroglow" cx="50%" cy="38%" r="50%">
+      <stop offset="0" stop-color="rgba(159,18,57,0.48)"/>
+      <stop offset="1" stop-color="rgba(5,5,8,0)"/>
+    </radialGradient>
+    <linearGradient id="bloodmoon-mg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#9f1239"/><stop offset="1" stop-color="#f97316"/>
+    </linearGradient>
+    <filter id="bloodmoon-heroblur"><feGaussianBlur stdDeviation="14"/></filter>
+    <radialGradient id="bloodmoon-herofloor" cx="50%" cy="50%" r="50%">
+      <stop offset="0" stop-color="rgba(159,18,57,0.22)"/><stop offset="1" stop-color="rgba(0,0,0,0)"/>
+    </radialGradient>
+  </defs>
+  <rect width="800" height="800" fill="#07070c"/>
+  <rect width="800" height="800" fill="url(#bloodmoon-heroglow)"/>
+  <ellipse cx="400" cy="600" rx="230" ry="36" fill="url(#bloodmoon-herofloor)"/>
+  <circle cx="400" cy="330" r="210" fill="#9f1239" opacity="0.2" filter="url(#bloodmoon-heroblur)"/>
+  <circle cx="651" cy="441" r="1.4" fill="#f97316" opacity="0.25"/><circle cx="268" cy="142" r="1.9249999999999998" fill="#9f1239" opacity="0.35"/><circle cx="445" cy="363" r="2.4499999999999997" fill="#f97316" opacity="0.45"/><circle cx="622" cy="584" r="2.9749999999999996" fill="#9f1239" opacity="0.55"/><circle cx="239" cy="285" r="3.4999999999999996" fill="#f97316" opacity="0.65"/><circle cx="416" cy="506" r="1.4" fill="#9f1239" opacity="0.25"/><circle cx="593" cy="207" r="1.9249999999999998" fill="#f97316" opacity="0.35"/><circle cx="210" cy="428" r="2.4499999999999997" fill="#9f1239" opacity="0.45"/><circle cx="387" cy="129" r="2.9749999999999996" fill="#f97316" opacity="0.55"/><circle cx="564" cy="350" r="3.4999999999999996" fill="#9f1239" opacity="0.65"/><circle cx="181" cy="571" r="1.4" fill="#f97316" opacity="0.25"/><circle cx="358" cy="272" r="1.9249999999999998" fill="#9f1239" opacity="0.35"/><circle cx="535" cy="493" r="2.4499999999999997" fill="#f97316" opacity="0.45"/><circle cx="152" cy="194" r="2.9749999999999996" fill="#9f1239" opacity="0.55"/><circle cx="329" cy="415" r="3.4999999999999996" fill="#f97316" opacity="0.65"/><circle cx="506" cy="116" r="1.4" fill="#9f1239" opacity="0.25"/>
+  
+    <rect x="48" y="48" width="704" height="704" rx="36" fill="none" stroke="#f97316" stroke-opacity=".45" stroke-width="2"/>
+    <rect x="62" y="62" width="676" height="676" rx="30" fill="none" stroke="#9f1239" stroke-opacity=".25" stroke-width="1"/>
+    <circle cx="80" cy="80" r="6" fill="#9f1239"/>
+    <circle cx="720" cy="80" r="6" fill="#f97316"/>
+    <circle cx="80" cy="720" r="6" fill="#f97316"/>
+    <circle cx="720" cy="720" r="6" fill="#9f1239"/>
+  <g>
+    <linearGradient id="bloodmoon-bodylid" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0" stop-color="#571e35"/><stop offset="1" stop-color="#7c5061"/>
+    </linearGradient>
+    <linearGradient id="bloodmoon-bodyside" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#6d2c1d"/><stop offset="1" stop-color="#603216"/>
+    </linearGradient>
+    <linearGradient id="bloodmoon-bodyfront" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#661431"/><stop offset="1" stop-color="#3b0e1f"/>
+    </linearGradient>
+    <clipPath id="bloodmoon-clip"><rect x="242" y="328" width="316" height="170" rx="6"/></clipPath>
+    <ellipse cx="400" cy="562" rx="161.28" ry="22" fill="#000" opacity=".55"/>
+    <polygon points="568,274 639,213 639,453 568,514" fill="url(#bloodmoon-bodyside)" stroke="#e4bdc8" stroke-width="1.2"/>
+    <polygon points="232,274 303,213 639,213 568,274" fill="url(#bloodmoon-bodylid)" stroke="#e4bdc8" stroke-width="1.6"/>
+    <rect x="232" y="274" width="336" height="42" fill="url(#bloodmoon-bodylid)" stroke="#e4bdc8" stroke-width="1.2"/>
+    <rect x="232" y="316" width="336" height="198" fill="url(#bloodmoon-bodyfront)" stroke="#e4bdc8" stroke-width="1.5"/>
+    <g clip-path="url(#bloodmoon-clip)">
+      <rect x="242" y="328" width="316" height="170" fill="#430e21"/>
+      <ellipse cx="400" cy="413" rx="120.08" ry="47.6" fill="none" stroke="#9f1239" stroke-width="4"/>
+      <ellipse cx="400" cy="413" rx="82.16" ry="30.599999999999998" fill="none" stroke="#f97316" stroke-width="3" transform="rotate(28 400 413)"/>
+    </g>
+    <rect x="242" y="328" width="316" height="170" rx="6" fill="none" stroke="#9f1239" stroke-opacity=".35"/>
+    <g opacity=".92"><circle cx="400" cy="418.96000000000004" r="21.599999999999998" fill="#9f1239"/>
+        <circle cx="408.4" cy="415.36" r="17.4" fill="#1a0510"/>
+        <circle cx="394" cy="428.96000000000004" r="8" fill="#f97316" opacity=".5"/></g>
+    <rect x="268" y="288" width="54" height="16" rx="3" fill="#faa41f" stroke="#fff" stroke-opacity=".3"/>
+    <rect x="478" y="288" width="54" height="16" rx="3" fill="#faa41f" stroke="#fff" stroke-opacity=".3"/>
+    <rect x="240" y="504" width="320" height="8" fill="#3e1d06"/>
+    <polygon points="232,274 254,274 254,292" fill="#faa41f" opacity=".8"/>
+      <polygon points="568,274 546,274 546,292" fill="#faa41f" opacity=".8"/>
+    <text x="254" y="496" font-family="Arial Black,Impact,sans-serif" font-size="11" letter-spacing="1.6" fill="#9f1239" fill-opacity=".45">BLOOD MOON</text>
+  </g>
+</svg>

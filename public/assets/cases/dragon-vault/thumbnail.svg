@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="110 140 580 540" width="480" height="480" role="img" aria-label="Dragon Case crate">
+  <!-- prismloot:dragon-vault:thumb -->
+  <defs>
+    <radialGradient id="dragonvault-thumbglow" cx="50%" cy="38%" r="50%">
+      <stop offset="0" stop-color="rgba(239,68,68,0.48)"/>
+      <stop offset="1" stop-color="rgba(5,5,8,0)"/>
+    </radialGradient>
+    <linearGradient id="dragonvault-mg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ef4444"/><stop offset="1" stop-color="#fbbf24"/>
+    </linearGradient>
+    <filter id="dragonvault-thumbblur"><feGaussianBlur stdDeviation="14"/></filter>
+    <radialGradient id="dragonvault-thumbfloor" cx="50%" cy="50%" r="50%">
+      <stop offset="0" stop-color="rgba(239,68,68,0.22)"/><stop offset="1" stop-color="rgba(0,0,0,0)"/>
+    </radialGradient>
+  </defs>
+  <rect width="800" height="800" fill="#07070c"/>
+  <rect width="800" height="800" fill="url(#dragonvault-thumbglow)"/>
+  <ellipse cx="400" cy="600" rx="230" ry="36" fill="url(#dragonvault-thumbfloor)"/>
+  <circle cx="400" cy="330" r="210" fill="#ef4444" opacity="0.2" filter="url(#dragonvault-thumbblur)"/>
+  <circle cx="155" cy="545" r="1.4" fill="#fbbf24" opacity="0.25"/><circle cx="540" cy="350" r="1.9249999999999998" fill="#ef4444" opacity="0.35"/><circle cx="365" cy="155" r="2.4499999999999997" fill="#fbbf24" opacity="0.45"/><circle cx="190" cy="480" r="2.9749999999999996" fill="#ef4444" opacity="0.55"/><circle cx="575" cy="285" r="3.4999999999999996" fill="#fbbf24" opacity="0.65"/><circle cx="400" cy="90" r="1.4" fill="#ef4444" opacity="0.25"/><circle cx="225" cy="415" r="1.9249999999999998" fill="#fbbf24" opacity="0.35"/><circle cx="610" cy="220" r="2.4499999999999997" fill="#ef4444" opacity="0.45"/><circle cx="435" cy="545" r="2.9749999999999996" fill="#fbbf24" opacity="0.55"/><circle cx="260" cy="350" r="3.4999999999999996" fill="#ef4444" opacity="0.65"/><circle cx="645" cy="155" r="1.4" fill="#fbbf24" opacity="0.25"/><circle cx="470" cy="480" r="1.9249999999999998" fill="#ef4444" opacity="0.35"/><circle cx="295" cy="285" r="2.4499999999999997" fill="#fbbf24" opacity="0.45"/><circle cx="120" cy="90" r="2.9749999999999996" fill="#ef4444" opacity="0.55"/><circle cx="505" cy="415" r="3.4999999999999996" fill="#fbbf24" opacity="0.65"/><circle cx="330" cy="220" r="1.4" fill="#ef4444" opacity="0.25"/>
+  
+    <rect x="48" y="48" width="704" height="704" rx="36" fill="none" stroke="#fbbf24" stroke-opacity=".45" stroke-width="2"/>
+    <rect x="62" y="62" width="676" height="676" rx="30" fill="none" stroke="#ef4444" stroke-opacity=".25" stroke-width="1"/>
+    <circle cx="80" cy="80" r="6" fill="#ef4444"/>
+    <circle cx="720" cy="80" r="6" fill="#fbbf24"/>
+    <circle cx="80" cy="720" r="6" fill="#fbbf24"/>
+    <circle cx="720" cy="720" r="6" fill="#ef4444"/>
+  <g>
+    <linearGradient id="dragonvault-bodylid" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0" stop-color="#78333a"/><stop offset="1" stop-color="#966065"/>
+    </linearGradient>
+    <linearGradient id="dragonvault-bodyside" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#7d4b23"/><stop offset="1" stop-color="#604d1b"/>
+    </linearGradient>
+    <linearGradient id="dragonvault-bodyfront" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#963237"/><stop offset="1" stop-color="#551e22"/>
+    </linearGradient>
+    <clipPath id="dragonvault-clip"><rect x="241" y="324" width="318" height="174" rx="6"/></clipPath>
+    <ellipse cx="400" cy="562" rx="162.23999999999998" ry="22" fill="#000" opacity=".55"/>
+    <polygon points="569,270 646,209 646,453 569,514" fill="url(#dragonvault-bodyside)" stroke="#fbcbcb" stroke-width="1.2"/>
+    <polygon points="231,270 308,209 646,209 569,270" fill="url(#dragonvault-bodylid)" stroke="#fbcbcb" stroke-width="1.6"/>
+    <rect x="231" y="270" width="338" height="42" fill="url(#dragonvault-bodylid)" stroke="#fbcbcb" stroke-width="1.2"/>
+    <rect x="231" y="312" width="338" height="202" fill="url(#dragonvault-bodyfront)" stroke="#fbcbcb" stroke-width="1.5"/>
+    <g clip-path="url(#dragonvault-clip)">
+      <rect x="241" y="324" width="318" height="174" fill="#612125"/>
+      <rect x="257" y="338" width="286" height="146" fill="none" stroke="#fbbf24" stroke-width="3" opacity=".7"/>
+      <rect x="269" y="350" width="262" height="122" fill="none" stroke="#ef4444" stroke-width="1.5" opacity=".55"/>
+      <polygon points="400,360 511,411 400,462 289,411" fill="#ef4444" opacity=".18" stroke="#fbbf24" stroke-opacity=".5"/>
+    </g>
+    <rect x="241" y="324" width="318" height="174" rx="6" fill="none" stroke="#ef4444" stroke-opacity=".35"/>
+    <g opacity=".92"><path d="M379 427.54 Q370 405.04 390 396.04 Q420 387.04 404.5 411.04 Q425.5 400.54 427 425.04 Q406 423.04 400 433.54 Q388 438.04 379 427.54" fill="#ef4444" stroke="#fbbf24" stroke-width="2.5"/>
+        <circle cx="396.4" cy="410.44" r="5" fill="#fff"/>
+        <path d="M406 421.04 Q430 432.04 413.5 442.54" fill="none" stroke="#fbbf24" stroke-width="4"/></g>
+    <rect x="267" y="284" width="54" height="16" rx="3" fill="#fbbf24" stroke="#fff" stroke-opacity=".3"/>
+    <rect x="479" y="284" width="54" height="16" rx="3" fill="#fbbf24" stroke="#fff" stroke-opacity=".3"/>
+    <rect x="239" y="504" width="322" height="8" fill="#3f3009"/>
+    <polygon points="231,270 253,270 253,288" fill="#fbbf24" opacity=".8"/>
+      <polygon points="569,270 547,270 547,288" fill="#fbbf24" opacity=".8"/>
+    <text x="253" y="496" font-family="Arial Black,Impact,sans-serif" font-size="11" letter-spacing="1.6" fill="#ef4444" fill-opacity=".45">DRAGON CASE</text>
+  </g>
+</svg>

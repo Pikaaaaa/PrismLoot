@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" width="1600" height="900" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Nova opening backdrop">
+  <!-- prismloot:nova-case:background -->
+  <defs>
+    <radialGradient id="novacase-bgv" cx="50%" cy="40%" r="75%">
+      <stop offset="0" stop-color="rgba(253,230,138,0.28)"/>
+      <stop offset=".55" stop-color="#08080e"/>
+      <stop offset="1" stop-color="#050507"/>
+    </radialGradient>
+    <linearGradient id="chromeGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#fde68a"/><stop offset="1" stop-color="#f97316"/>
+    </linearGradient>
+  </defs>
+  <rect width="1600" height="900" fill="#050507"/>
+  <rect width="1600" height="900" fill="url(#novacase-bgv)"/>
+  <circle cx="220" cy="120" r="280" fill="#f97316" opacity=".08"/>
+  <circle cx="1400" cy="760" r="320" fill="#fde68a" opacity=".08"/>
+  <line x1="800" y1="200" x2="1300" y2="200" stroke="#f97316" opacity=".16" stroke-width="3"/><line x1="800" y1="200" x2="1261.9397662556435" y2="268.88301782571614" stroke="#fde68a" opacity=".16" stroke-width="3"/><line x1="800" y1="200" x2="1153.553390593274" y2="327.27922061357856" stroke="#f97316" opacity=".16" stroke-width="3"/><line x1="800" y1="200" x2="991.3417161825449" y2="366.2983158520316" stroke="#fde68a" opacity=".16" stroke-width="3"/><line x1="800" y1="200" x2="800" y2="380" stroke="#f97316" opacity=".16" stroke-width="3"/><line x1="800" y1="200" x2="608.6582838174552" y2="366.2983158520316" stroke="#fde68a" opacity=".16" stroke-width="3"/><line x1="800" y1="200" x2="446.4466094067263" y2="327.27922061357856" stroke="#f97316" opacity=".16" stroke-width="3"/><line x1="800" y1="200" x2="338.06023374435665" y2="268.8830178257162" stroke="#fde68a" opacity=".16" stroke-width="3"/><line x1="800" y1="200" x2="300" y2="200.00000000000003" stroke="#f97316" opacity=".16" stroke-width="3"/><line x1="800" y1="200" x2="338.0602337443566" y2="131.11698217428386" stroke="#fde68a" opacity=".16" stroke-width="3"/><line x1="800" y1="200" x2="446.44660940672617" y2="72.72077938642146" stroke="#f97316" opacity=".16" stroke-width="3"/><line x1="800" y1="200" x2="608.6582838174548" y2="33.70168414796842" stroke="#fde68a" opacity=".16" stroke-width="3"/><line x1="800" y1="200" x2="799.9999999999999" y2="20" stroke="#f97316" opacity=".16" stroke-width="3"/><line x1="800" y1="200" x2="991.341716182545" y2="33.70168414796839" stroke="#fde68a" opacity=".16" stroke-width="3"/><line x1="800" y1="200" x2="1153.5533905932737" y2="72.72077938642141" stroke="#f97316" opacity=".16" stroke-width="3"/><line x1="800" y1="200" x2="1261.9397662556432" y2="131.11698217428375" stroke="#fde68a" opacity=".16" stroke-width="3"/>
+  
+</svg>

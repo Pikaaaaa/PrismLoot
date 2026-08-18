@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" width="1600" height="900" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Hex opening backdrop">
+  <!-- prismloot:hex-case:background -->
+  <defs>
+    <radialGradient id="hexcase-bgv" cx="50%" cy="40%" r="75%">
+      <stop offset="0" stop-color="rgba(192,132,252,0.28)"/>
+      <stop offset=".55" stop-color="#08080e"/>
+      <stop offset="1" stop-color="#050507"/>
+    </radialGradient>
+    <linearGradient id="chromeGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#c084fc"/><stop offset="1" stop-color="#22d3ee"/>
+    </linearGradient>
+  </defs>
+  <rect width="1600" height="900" fill="#050507"/>
+  <rect width="1600" height="900" fill="url(#hexcase-bgv)"/>
+  <circle cx="220" cy="120" r="280" fill="#22d3ee" opacity=".08"/>
+  <circle cx="1400" cy="760" r="320" fill="#c084fc" opacity=".08"/>
+  <polygon points="160,100 240,150 240,250 160,300 80,250 80,150" fill="none" stroke="#c084fc" stroke-opacity=".16" stroke-width="3"/><polygon points="480,100 560,150 560,250 480,300 400,250 400,150" fill="none" stroke="#c084fc" stroke-opacity=".16" stroke-width="3"/><polygon points="800,100 880,150 880,250 800,300 720,250 720,150" fill="none" stroke="#c084fc" stroke-opacity=".16" stroke-width="3"/><polygon points="1120,100 1200,150 1200,250 1120,300 1040,250 1040,150" fill="none" stroke="#c084fc" stroke-opacity=".16" stroke-width="3"/><polygon points="1440,100 1520,150 1520,250 1440,300 1360,250 1360,150" fill="none" stroke="#c084fc" stroke-opacity=".16" stroke-width="3"/><polygon points="160,480 240,530 240,630 160,680 80,630 80,530" fill="none" stroke="#c084fc" stroke-opacity=".16" stroke-width="3"/><polygon points="480,480 560,530 560,630 480,680 400,630 400,530" fill="none" stroke="#c084fc" stroke-opacity=".16" stroke-width="3"/><polygon points="800,480 880,530 880,630 800,680 720,630 720,530" fill="none" stroke="#c084fc" stroke-opacity=".16" stroke-width="3"/><polygon points="1120,480 1200,530 1200,630 1120,680 1040,630 1040,530" fill="none" stroke="#c084fc" stroke-opacity=".16" stroke-width="3"/><polygon points="1440,480 1520,530 1520,630 1440,680 1360,630 1360,530" fill="none" stroke="#c084fc" stroke-opacity=".16" stroke-width="3"/>
+  <rect x="24" y="24" width="1552" height="852" rx="28" fill="none" stroke="#c084fc" stroke-opacity=".18" stroke-width="2"/>
+</svg>

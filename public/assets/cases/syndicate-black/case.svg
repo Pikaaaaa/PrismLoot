@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" width="800" height="800" role="img" aria-label="Syndicate Black crate">
+  <!-- prismloot:syndicate-black:hero -->
+  <defs>
+    <radialGradient id="syndicateblack-heroglow" cx="50%" cy="38%" r="50%">
+      <stop offset="0" stop-color="rgba(244,63,94,0.32)"/>
+      <stop offset="1" stop-color="rgba(5,5,8,0)"/>
+    </radialGradient>
+    <linearGradient id="syndicateblack-mg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f43f5e"/><stop offset="1" stop-color="#111827"/>
+    </linearGradient>
+    <filter id="syndicateblack-heroblur"><feGaussianBlur stdDeviation="14"/></filter>
+    <radialGradient id="syndicateblack-herofloor" cx="50%" cy="50%" r="50%">
+      <stop offset="0" stop-color="rgba(244,63,94,0.22)"/><stop offset="1" stop-color="rgba(0,0,0,0)"/>
+    </radialGradient>
+  </defs>
+  <rect width="800" height="800" fill="#07070c"/>
+  <rect width="800" height="800" fill="url(#syndicateblack-heroglow)"/>
+  <ellipse cx="400" cy="600" rx="230" ry="36" fill="url(#syndicateblack-herofloor)"/>
+  <circle cx="400" cy="330" r="160" fill="#f43f5e" opacity="0.12" filter="url(#syndicateblack-heroblur)"/>
+  <circle cx="435" cy="545" r="1.4" fill="#111827" opacity="0.25"/><circle cx="540" cy="350" r="1.9249999999999998" fill="#f43f5e" opacity="0.35"/><circle cx="645" cy="155" r="2.4499999999999997" fill="#111827" opacity="0.45"/><circle cx="190" cy="480" r="2.9749999999999996" fill="#f43f5e" opacity="0.55"/><circle cx="295" cy="285" r="3.4999999999999996" fill="#111827" opacity="0.65"/><circle cx="400" cy="90" r="1.4" fill="#f43f5e" opacity="0.25"/><circle cx="505" cy="415" r="1.9249999999999998" fill="#111827" opacity="0.35"/>
+  
+  <g>
+    <linearGradient id="syndicateblack-bodylid" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0" stop-color="#7a3144"/><stop offset="1" stop-color="#975e6d"/>
+    </linearGradient>
+    <linearGradient id="syndicateblack-bodyside" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#3c1b29"/><stop offset="1" stop-color="#0e121c"/>
+    </linearGradient>
+    <linearGradient id="syndicateblack-bodyfront" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#982f46"/><stop offset="1" stop-color="#561d2a"/>
+    </linearGradient>
+    <clipPath id="syndicateblack-clip"><rect x="249" y="333" width="302" height="165" rx="6"/></clipPath>
+    <ellipse cx="400" cy="562" rx="154.56" ry="22" fill="#000" opacity=".55"/>
+    <polygon points="561,279 636,218 636,453 561,514" fill="url(#syndicateblack-bodyside)" stroke="#fcc9d2" stroke-width="1.2"/>
+    <polygon points="239,279 314,218 636,218 561,279" fill="url(#syndicateblack-bodylid)" stroke="#fcc9d2" stroke-width="1.6"/>
+    <rect x="239" y="279" width="322" height="42" fill="url(#syndicateblack-bodylid)" stroke="#fcc9d2" stroke-width="1.2"/>
+    <rect x="239" y="321" width="322" height="193" fill="url(#syndicateblack-bodyfront)" stroke="#fcc9d2" stroke-width="1.5"/>
+    <g clip-path="url(#syndicateblack-clip)">
+      <rect x="249" y="333" width="302" height="165" fill="#631f2f"/>
+      <polygon points="273,482 400,351 527,482" fill="#f43f5e" opacity=".2" stroke="#111827" stroke-width="2"/>
+    </g>
+    <rect x="249" y="333" width="302" height="165" rx="6" fill="none" stroke="#f43f5e" stroke-opacity=".35"/>
+    <g opacity=".92"><path d="M400 397.36 L417.28 434.56 H382.72 Z" fill="none" stroke="#f43f5e" stroke-width="3"/>
+        <circle cx="400" cy="427.36" r="6.720000000000001" fill="#111827"/>
+        <path d="M390 427.36 L400 403.36 L410 427.36 Z" fill="#111"/></g>
+    <rect x="275" y="293" width="54" height="16" rx="3" fill="#a893a5" stroke="#fff" stroke-opacity=".3"/>
+    <rect x="471" y="293" width="54" height="16" rx="3" fill="#a893a5" stroke="#fff" stroke-opacity=".3"/>
+    <rect x="247" y="504" width="306" height="8" fill="#04060a"/>
+    
+    <text x="261" y="496" font-family="Arial Black,Impact,sans-serif" font-size="11" letter-spacing="1.6" fill="#f43f5e" fill-opacity=".45">SYNDICATE BLAC</text>
+  </g>
+</svg>

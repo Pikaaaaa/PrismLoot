@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" width="1600" height="900" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Prism Case opening backdrop">
+  <!-- prismloot:prism-core:background -->
+  <defs>
+    <radialGradient id="prismcore-bgv" cx="50%" cy="40%" r="75%">
+      <stop offset="0" stop-color="rgba(46,233,255,0.28)"/>
+      <stop offset=".55" stop-color="#08080e"/>
+      <stop offset="1" stop-color="#050507"/>
+    </radialGradient>
+    <linearGradient id="chromeGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#2ee9ff"/><stop offset="1" stop-color="#d946ef"/>
+    </linearGradient>
+  </defs>
+  <rect width="1600" height="900" fill="#050507"/>
+  <rect width="1600" height="900" fill="url(#prismcore-bgv)"/>
+  <circle cx="220" cy="120" r="280" fill="#d946ef" opacity=".08"/>
+  <circle cx="1400" cy="760" r="320" fill="#2ee9ff" opacity=".08"/>
+  <polygon points="80,80 240,40 200,260" fill="#2ee9ff" opacity=".12"/>
+        <polygon points="1500,80 1580,340 1200,160" fill="#d946ef" opacity=".12"/>
+  
+</svg>

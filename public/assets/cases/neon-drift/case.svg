@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" width="800" height="800" role="img" aria-label="Neon Case crate">
+  <!-- prismloot:neon-drift:hero -->
+  <defs>
+    <radialGradient id="neondrift-heroglow" cx="50%" cy="38%" r="50%">
+      <stop offset="0" stop-color="rgba(34,211,238,0.32)"/>
+      <stop offset="1" stop-color="rgba(5,5,8,0)"/>
+    </radialGradient>
+    <linearGradient id="neondrift-mg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#22d3ee"/><stop offset="1" stop-color="#818cf8"/>
+    </linearGradient>
+    <filter id="neondrift-heroblur"><feGaussianBlur stdDeviation="14"/></filter>
+    <radialGradient id="neondrift-herofloor" cx="50%" cy="50%" r="50%">
+      <stop offset="0" stop-color="rgba(34,211,238,0.22)"/><stop offset="1" stop-color="rgba(0,0,0,0)"/>
+    </radialGradient>
+  </defs>
+  <rect width="800" height="800" fill="#07070c"/>
+  <rect width="800" height="800" fill="url(#neondrift-heroglow)"/>
+  <ellipse cx="400" cy="600" rx="230" ry="36" fill="url(#neondrift-herofloor)"/>
+  <circle cx="400" cy="330" r="160" fill="#22d3ee" opacity="0.12" filter="url(#neondrift-heroblur)"/>
+  <circle cx="643" cy="233" r="1.4" fill="#818cf8" opacity="0.25"/><circle cx="444" cy="246" r="1.9249999999999998" fill="#22d3ee" opacity="0.35"/><circle cx="245" cy="259" r="2.4499999999999997" fill="#818cf8" opacity="0.45"/><circle cx="606" cy="272" r="2.9749999999999996" fill="#22d3ee" opacity="0.55"/><circle cx="407" cy="285" r="3.4999999999999996" fill="#818cf8" opacity="0.65"/><circle cx="208" cy="298" r="1.4" fill="#22d3ee" opacity="0.25"/><circle cx="569" cy="311" r="1.9249999999999998" fill="#818cf8" opacity="0.35"/>
+  
+  <g>
+    <linearGradient id="neondrift-bodylid" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0" stop-color="#226f81"/><stop offset="1" stop-color="#538f9d"/>
+    </linearGradient>
+    <linearGradient id="neondrift-bodyside" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#325980"/><stop offset="1" stop-color="#363b65"/>
+    </linearGradient>
+    <linearGradient id="neondrift-bodyfront" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1c879b"/><stop offset="1" stop-color="#124d59"/>
+    </linearGradient>
+    <clipPath id="neondrift-clip"><rect x="243" y="325" width="314" height="173" rx="6"/></clipPath>
+    <ellipse cx="400" cy="562" rx="160.32" ry="22" fill="#000" opacity=".55"/>
+    <polygon points="567,271 638,210 638,453 567,514" fill="url(#neondrift-bodyside)" stroke="#c1f3fa" stroke-width="1.2"/>
+    <polygon points="233,271 304,210 638,210 567,271" fill="url(#neondrift-bodylid)" stroke="#c1f3fa" stroke-width="1.6"/>
+    <rect x="233" y="271" width="334" height="42" fill="url(#neondrift-bodylid)" stroke="#c1f3fa" stroke-width="1.2"/>
+    <rect x="233" y="313" width="334" height="201" fill="url(#neondrift-bodyfront)" stroke="#c1f3fa" stroke-width="1.5"/>
+    <g clip-path="url(#neondrift-clip)">
+      <rect x="243" y="325" width="314" height="173" fill="#135866"/>
+      <rect x="213" y="325" width="10" height="173" transform="skewX(-22)" fill="#818cf8" opacity=".22"/><rect x="257.25" y="325" width="16" height="173" transform="skewX(-22)" fill="#22d3ee" opacity=".22"/><rect x="301.5" y="325" width="22" height="173" transform="skewX(-22)" fill="#818cf8" opacity=".22"/><rect x="345.75" y="325" width="10" height="173" transform="skewX(-22)" fill="#22d3ee" opacity=".22"/><rect x="390" y="325" width="16" height="173" transform="skewX(-22)" fill="#818cf8" opacity=".22"/><rect x="434.25" y="325" width="22" height="173" transform="skewX(-22)" fill="#22d3ee" opacity=".22"/><rect x="478.5" y="325" width="10" height="173" transform="skewX(-22)" fill="#818cf8" opacity=".22"/><rect x="522.75" y="325" width="16" height="173" transform="skewX(-22)" fill="#22d3ee" opacity=".22"/>
+    </g>
+    <rect x="243" y="325" width="314" height="173" rx="6" fill="none" stroke="#22d3ee" stroke-opacity=".35"/>
+    <g opacity=".92"><rect x="376" y="393.52" width="5.28" height="48" rx="4" fill="#818cf8" opacity=".95"/><rect x="387.52" y="393.52" width="5.28" height="48" rx="4" fill="#22d3ee" opacity=".95"/><rect x="399.04" y="393.52" width="5.28" height="48" rx="4" fill="#818cf8" opacity=".95"/><rect x="410.56" y="393.52" width="5.28" height="48" rx="4" fill="#22d3ee" opacity=".95"/><rect x="422.08" y="393.52" width="5.28" height="48" rx="4" fill="#818cf8" opacity=".95"/></g>
+    <rect x="269" y="285" width="54" height="16" rx="3" fill="#87abbc" stroke="#fff" stroke-opacity=".3"/>
+    <rect x="477" y="285" width="54" height="16" rx="3" fill="#87abbc" stroke="#fff" stroke-opacity=".3"/>
+    <rect x="241" y="504" width="318" height="8" fill="#20233e"/>
+    
+    <text x="255" y="496" font-family="Arial Black,Impact,sans-serif" font-size="11" letter-spacing="1.6" fill="#22d3ee" fill-opacity=".45">NEON CASE</text>
+  </g>
+</svg>

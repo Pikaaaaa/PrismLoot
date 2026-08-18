@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" width="800" height="800" role="img" aria-label="Commando crate">
+  <!-- prismloot:commando:hero -->
+  <defs>
+    <radialGradient id="commando-heroglow" cx="50%" cy="38%" r="50%">
+      <stop offset="0" stop-color="rgba(163,230,53,0.32)"/>
+      <stop offset="1" stop-color="rgba(5,5,8,0)"/>
+    </radialGradient>
+    <linearGradient id="commando-mg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#a3e635"/><stop offset="1" stop-color="#3f6212"/>
+    </linearGradient>
+    <filter id="commando-heroblur"><feGaussianBlur stdDeviation="14"/></filter>
+    <radialGradient id="commando-herofloor" cx="50%" cy="50%" r="50%">
+      <stop offset="0" stop-color="rgba(163,230,53,0.22)"/><stop offset="1" stop-color="rgba(0,0,0,0)"/>
+    </radialGradient>
+  </defs>
+  <rect width="800" height="800" fill="#07070c"/>
+  <rect width="800" height="800" fill="url(#commando-heroglow)"/>
+  <ellipse cx="400" cy="600" rx="230" ry="36" fill="url(#commando-herofloor)"/>
+  <circle cx="400" cy="330" r="160" fill="#a3e635" opacity="0.12" filter="url(#commando-heroblur)"/>
+  <circle cx="135" cy="285" r="1.4" fill="#3f6212" opacity="0.25"/><circle cx="140" cy="350" r="1.9249999999999998" fill="#a3e635" opacity="0.35"/><circle cx="145" cy="415" r="2.4499999999999997" fill="#3f6212" opacity="0.45"/><circle cx="150" cy="480" r="2.9749999999999996" fill="#a3e635" opacity="0.55"/><circle cx="155" cy="545" r="3.4999999999999996" fill="#3f6212" opacity="0.65"/><circle cx="160" cy="90" r="1.4" fill="#a3e635" opacity="0.25"/><circle cx="165" cy="155" r="1.9249999999999998" fill="#3f6212" opacity="0.35"/>
+  
+  <g>
+    <linearGradient id="commando-bodylid" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0" stop-color="#587733"/><stop offset="1" stop-color="#7d9560"/>
+    </linearGradient>
+    <linearGradient id="commando-bodyside" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#39511b"/><stop offset="1" stop-color="#1f2c15"/>
+    </linearGradient>
+    <linearGradient id="commando-bodyfront" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#69922e"/><stop offset="1" stop-color="#3c531d"/>
+    </linearGradient>
+    <clipPath id="commando-clip"><rect x="230" y="331" width="340" height="167" rx="6"/></clipPath>
+    <ellipse cx="400" cy="562" rx="172.79999999999998" ry="22" fill="#000" opacity=".55"/>
+    <polygon points="580,277 655,212 655,449 580,514" fill="url(#commando-bodyside)" stroke="#e5f8c6" stroke-width="1.2"/>
+    <polygon points="220,277 295,212 655,212 580,277" fill="url(#commando-bodylid)" stroke="#e5f8c6" stroke-width="1.6"/>
+    <rect x="220" y="277" width="360" height="42" fill="url(#commando-bodylid)" stroke="#e5f8c6" stroke-width="1.2"/>
+    <rect x="220" y="319" width="360" height="195" fill="url(#commando-bodyfront)" stroke="#e5f8c6" stroke-width="1.5"/>
+    <g clip-path="url(#commando-clip)">
+      <rect x="230" y="331" width="340" height="167" fill="#445f1f"/>
+      <rect x="190" y="331" width="22" height="167" transform="skewX(-18)" fill="#3f6212" opacity=".28"/><rect x="248" y="331" width="22" height="167" transform="skewX(-18)" fill="#a3e635" opacity=".28"/><rect x="306" y="331" width="22" height="167" transform="skewX(-18)" fill="#3f6212" opacity=".28"/><rect x="364" y="331" width="22" height="167" transform="skewX(-18)" fill="#a3e635" opacity=".28"/><rect x="422" y="331" width="22" height="167" transform="skewX(-18)" fill="#3f6212" opacity=".28"/><rect x="480" y="331" width="22" height="167" transform="skewX(-18)" fill="#a3e635" opacity=".28"/><rect x="538" y="331" width="22" height="167" transform="skewX(-18)" fill="#3f6212" opacity=".28"/>
+    </g>
+    <rect x="230" y="331" width="340" height="167" rx="6" fill="none" stroke="#a3e635" stroke-opacity=".35"/>
+    <g opacity=".92"><text x="400" y="425.67999999999995" text-anchor="middle" font-family="Impact,Arial Black,sans-serif" font-size="20.4" fill="#a3e635" opacity=".95">CM</text>
+        <rect x="379.6" y="396.4" width="40.8" height="3.3600000000000003" fill="#3f6212"/>
+        <rect x="379.6" y="440.79999999999995" width="40.8" height="3.3600000000000003" fill="#3f6212"/></g>
+    <rect x="256" y="291" width="54" height="16" rx="3" fill="#9bae9e" stroke="#fff" stroke-opacity=".3"/>
+    <rect x="490" y="291" width="54" height="16" rx="3" fill="#9bae9e" stroke="#fff" stroke-opacity=".3"/>
+    <rect x="228" y="504" width="344" height="8" fill="#101905"/>
+    
+    <text x="242" y="496" font-family="Arial Black,Impact,sans-serif" font-size="11" letter-spacing="1.6" fill="#a3e635" fill-opacity=".45">COMMANDO</text>
+  </g>
+</svg>

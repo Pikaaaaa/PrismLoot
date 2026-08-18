@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" width="800" height="800" role="img" aria-label="Titan crate">
+  <!-- prismloot:titan-case:hero -->
+  <defs>
+    <radialGradient id="titancase-heroglow" cx="50%" cy="38%" r="50%">
+      <stop offset="0" stop-color="rgba(248,250,252,0.48)"/>
+      <stop offset="1" stop-color="rgba(5,5,8,0)"/>
+    </radialGradient>
+    <linearGradient id="titancase-mg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f8fafc"/><stop offset="1" stop-color="#64748b"/>
+    </linearGradient>
+    <filter id="titancase-heroblur"><feGaussianBlur stdDeviation="14"/></filter>
+    <radialGradient id="titancase-herofloor" cx="50%" cy="50%" r="50%">
+      <stop offset="0" stop-color="rgba(248,250,252,0.22)"/><stop offset="1" stop-color="rgba(0,0,0,0)"/>
+    </radialGradient>
+  </defs>
+  <rect width="800" height="800" fill="#07070c"/>
+  <rect width="800" height="800" fill="url(#titancase-heroglow)"/>
+  <ellipse cx="400" cy="600" rx="230" ry="36" fill="url(#titancase-herofloor)"/>
+  <circle cx="400" cy="330" r="210" fill="#f8fafc" opacity="0.2" filter="url(#titancase-heroblur)"/>
+  <circle cx="632" cy="402" r="1.4" fill="#64748b" opacity="0.25"/><circle cx="616" cy="194" r="1.9249999999999998" fill="#f8fafc" opacity="0.35"/><circle cx="600" cy="506" r="2.4499999999999997" fill="#64748b" opacity="0.45"/><circle cx="584" cy="298" r="2.9749999999999996" fill="#f8fafc" opacity="0.55"/><circle cx="568" cy="90" r="3.4999999999999996" fill="#64748b" opacity="0.65"/><circle cx="552" cy="402" r="1.4" fill="#f8fafc" opacity="0.25"/><circle cx="536" cy="194" r="1.9249999999999998" fill="#64748b" opacity="0.35"/><circle cx="520" cy="506" r="2.4499999999999997" fill="#f8fafc" opacity="0.45"/><circle cx="504" cy="298" r="2.9749999999999996" fill="#64748b" opacity="0.55"/><circle cx="488" cy="90" r="3.4999999999999996" fill="#f8fafc" opacity="0.65"/><circle cx="472" cy="402" r="1.4" fill="#64748b" opacity="0.25"/><circle cx="456" cy="194" r="1.9249999999999998" fill="#f8fafc" opacity="0.35"/><circle cx="440" cy="506" r="2.4499999999999997" fill="#64748b" opacity="0.45"/><circle cx="424" cy="298" r="2.9749999999999996" fill="#f8fafc" opacity="0.55"/><circle cx="408" cy="90" r="3.4999999999999996" fill="#64748b" opacity="0.65"/><circle cx="392" cy="402" r="1.4" fill="#f8fafc" opacity="0.25"/>
+  
+    <rect x="48" y="48" width="704" height="704" rx="36" fill="none" stroke="#64748b" stroke-opacity=".45" stroke-width="2"/>
+    <rect x="62" y="62" width="676" height="676" rx="30" fill="none" stroke="#f8fafc" stroke-opacity=".25" stroke-width="1"/>
+    <circle cx="80" cy="80" r="6" fill="#f8fafc"/>
+    <circle cx="720" cy="80" r="6" fill="#64748b"/>
+    <circle cx="80" cy="720" r="6" fill="#64748b"/>
+    <circle cx="720" cy="720" r="6" fill="#f8fafc"/>
+  <g>
+    <linearGradient id="titancase-bodylid" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0" stop-color="#7c7f87"/><stop offset="1" stop-color="#999ba1"/>
+    </linearGradient>
+    <linearGradient id="titancase-bodyside" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#545a65"/><stop offset="1" stop-color="#2b323f"/>
+    </linearGradient>
+    <linearGradient id="titancase-bodyfront" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#9b9da3"/><stop offset="1" stop-color="#57595e"/>
+    </linearGradient>
+    <clipPath id="titancase-clip"><rect x="238" y="328" width="324" height="170" rx="6"/></clipPath>
+    <ellipse cx="400" cy="562" rx="165.12" ry="22" fill="#000" opacity=".55"/>
+    <polygon points="572,274 646,216 646,456 572,514" fill="url(#titancase-bodyside)" stroke="#fdfefe" stroke-width="1.2"/>
+    <polygon points="228,274 302,216 646,216 572,274" fill="url(#titancase-bodylid)" stroke="#fdfefe" stroke-width="1.6"/>
+    <rect x="228" y="274" width="344" height="42" fill="url(#titancase-bodylid)" stroke="#fdfefe" stroke-width="1.2"/>
+    <rect x="228" y="316" width="344" height="198" fill="url(#titancase-bodyfront)" stroke="#fdfefe" stroke-width="1.5"/>
+    <g clip-path="url(#titancase-clip)">
+      <rect x="238" y="328" width="324" height="170" fill="#64666b"/>
+      <rect x="256" y="340" width="10" height="146" rx="2" fill="#000" opacity=".35"/><rect x="308" y="340" width="10" height="146" rx="2" fill="#000" opacity=".35"/><rect x="360" y="340" width="10" height="146" rx="2" fill="#000" opacity=".35"/><rect x="412" y="340" width="10" height="146" rx="2" fill="#000" opacity=".35"/><rect x="464" y="340" width="10" height="146" rx="2" fill="#000" opacity=".35"/><rect x="516" y="340" width="10" height="146" rx="2" fill="#000" opacity=".35"/><circle cx="266" cy="350" r="4" fill="#64748b" stroke="#fff" stroke-opacity=".35"/><circle cx="346" cy="350" r="4" fill="#64748b" stroke="#fff" stroke-opacity=".35"/><circle cx="426" cy="350" r="4" fill="#64748b" stroke="#fff" stroke-opacity=".35"/><circle cx="506" cy="350" r="4" fill="#64748b" stroke="#fff" stroke-opacity=".35"/><circle cx="266" cy="476" r="4" fill="#64748b" stroke="#fff" stroke-opacity=".35"/><circle cx="346" cy="476" r="4" fill="#64748b" stroke="#fff" stroke-opacity=".35"/><circle cx="426" cy="476" r="4" fill="#64748b" stroke="#fff" stroke-opacity=".35"/><circle cx="506" cy="476" r="4" fill="#64748b" stroke="#fff" stroke-opacity=".35"/>
+    </g>
+    <rect x="238" y="328" width="324" height="170" rx="6" fill="none" stroke="#f8fafc" stroke-opacity=".35"/>
+    <g opacity=".92"><rect x="383.5" y="393.46000000000004" width="33" height="51" rx="10" fill="#f8fafc" opacity=".85"/>
+        <rect x="391.6" y="408.46000000000004" width="16.8" height="21" fill="#111" opacity=".5"/>
+        <circle cx="400" cy="402.46000000000004" r="8" fill="#64748b"/></g>
+    <rect x="264" y="288" width="54" height="16" rx="3" fill="#c6a548" stroke="#fff" stroke-opacity=".3"/>
+    <rect x="482" y="288" width="54" height="16" rx="3" fill="#c6a548" stroke="#fff" stroke-opacity=".3"/>
+    <rect x="236" y="504" width="328" height="8" fill="#191d23"/>
+    <polygon points="228,274 250,274 250,292" fill="#c6a548" opacity=".8"/>
+      <polygon points="572,274 550,274 550,292" fill="#c6a548" opacity=".8"/>
+    <text x="250" y="496" font-family="Arial Black,Impact,sans-serif" font-size="11" letter-spacing="1.6" fill="#f8fafc" fill-opacity=".45">TITAN</text>
+  </g>
+</svg>

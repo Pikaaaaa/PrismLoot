@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="110 140 580 540" width="480" height="480" role="img" aria-label="Galaxy crate">
+  <!-- prismloot:galaxy-case:thumb -->
+  <defs>
+    <radialGradient id="galaxycase-thumbglow" cx="50%" cy="38%" r="50%">
+      <stop offset="0" stop-color="rgba(99,102,241,0.32)"/>
+      <stop offset="1" stop-color="rgba(5,5,8,0)"/>
+    </radialGradient>
+    <linearGradient id="galaxycase-mg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#6366f1"/><stop offset="1" stop-color="#e879f9"/>
+    </linearGradient>
+    <filter id="galaxycase-thumbblur"><feGaussianBlur stdDeviation="14"/></filter>
+    <radialGradient id="galaxycase-thumbfloor" cx="50%" cy="50%" r="50%">
+      <stop offset="0" stop-color="rgba(99,102,241,0.22)"/><stop offset="1" stop-color="rgba(0,0,0,0)"/>
+    </radialGradient>
+  </defs>
+  <rect width="800" height="800" fill="#07070c"/>
+  <rect width="800" height="800" fill="url(#galaxycase-thumbglow)"/>
+  <ellipse cx="400" cy="600" rx="230" ry="36" fill="url(#galaxycase-thumbfloor)"/>
+  <circle cx="400" cy="330" r="160" fill="#6366f1" opacity="0.12" filter="url(#galaxycase-thumbblur)"/>
+  <circle cx="144" cy="194" r="1.4" fill="#e879f9" opacity="0.25"/><circle cx="152" cy="298" r="1.9249999999999998" fill="#6366f1" opacity="0.35"/><circle cx="160" cy="402" r="2.4499999999999997" fill="#e879f9" opacity="0.45"/><circle cx="168" cy="506" r="2.9749999999999996" fill="#6366f1" opacity="0.55"/><circle cx="176" cy="90" r="3.4999999999999996" fill="#e879f9" opacity="0.65"/><circle cx="184" cy="194" r="1.4" fill="#6366f1" opacity="0.25"/><circle cx="192" cy="298" r="1.9249999999999998" fill="#e879f9" opacity="0.35"/>
+  
+  <g>
+    <linearGradient id="galaxycase-bodylid" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0" stop-color="#3d4182"/><stop offset="1" stop-color="#686b9e"/>
+    </linearGradient>
+    <linearGradient id="galaxycase-bodyside" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#5c3e81"/><stop offset="1" stop-color="#5a3465"/>
+    </linearGradient>
+    <linearGradient id="galaxycase-bodyfront" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#43469d"/><stop offset="1" stop-color="#27295a"/>
+    </linearGradient>
+    <clipPath id="galaxycase-clip"><rect x="234" y="329" width="332" height="169" rx="6"/></clipPath>
+    <ellipse cx="400" cy="562" rx="168.95999999999998" ry="22" fill="#000" opacity=".55"/>
+    <polygon points="576,275 644,217 644,456 576,514" fill="url(#galaxycase-bodyside)" stroke="#d3d4fb" stroke-width="1.2"/>
+    <polygon points="224,275 292,217 644,217 576,275" fill="url(#galaxycase-bodylid)" stroke="#d3d4fb" stroke-width="1.6"/>
+    <rect x="224" y="275" width="352" height="42" fill="url(#galaxycase-bodylid)" stroke="#d3d4fb" stroke-width="1.2"/>
+    <rect x="224" y="317" width="352" height="197" fill="url(#galaxycase-bodyfront)" stroke="#d3d4fb" stroke-width="1.5"/>
+    <g clip-path="url(#galaxycase-clip)">
+      <rect x="234" y="329" width="332" height="169" fill="#2c2e67"/>
+      <ellipse cx="400" cy="413.5" rx="126.16" ry="47.32000000000001" fill="none" stroke="#6366f1" stroke-width="4"/>
+      <ellipse cx="400" cy="413.5" rx="86.32000000000001" ry="30.419999999999998" fill="none" stroke="#e879f9" stroke-width="3" transform="rotate(28 400 413.5)"/>
+    </g>
+    <rect x="234" y="329" width="332" height="169" rx="6" fill="none" stroke="#6366f1" stroke-opacity=".35"/>
+    <g opacity=".92"><ellipse cx="400" cy="419.44" rx="24" ry="7.68" fill="none" stroke="#6366f1" stroke-width="3" transform="rotate(-24 400 419.44)"/>
+        <ellipse cx="400" cy="419.44" rx="16.799999999999997" ry="5.28" fill="none" stroke="#e879f9" stroke-width="2" transform="rotate(18 400 419.44)"/>
+        <circle cx="400" cy="419.44" r="4.800000000000001" fill="#fff"/></g>
+    <rect x="260" y="289" width="54" height="16" rx="3" fill="#9199bc" stroke="#fff" stroke-opacity=".3"/>
+    <rect x="486" y="289" width="54" height="16" rx="3" fill="#9199bc" stroke="#fff" stroke-opacity=".3"/>
+    <rect x="232" y="504" width="336" height="8" fill="#3a1e3e"/>
+    
+    <text x="246" y="496" font-family="Arial Black,Impact,sans-serif" font-size="11" letter-spacing="1.6" fill="#6366f1" fill-opacity=".45">GALAXY</text>
+  </g>
+</svg>

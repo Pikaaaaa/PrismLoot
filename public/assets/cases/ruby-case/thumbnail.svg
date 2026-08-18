@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="110 140 580 540" width="480" height="480" role="img" aria-label="Ruby crate">
+  <!-- prismloot:ruby-case:thumb -->
+  <defs>
+    <radialGradient id="rubycase-thumbglow" cx="50%" cy="38%" r="50%">
+      <stop offset="0" stop-color="rgba(225,29,72,0.48)"/>
+      <stop offset="1" stop-color="rgba(5,5,8,0)"/>
+    </radialGradient>
+    <linearGradient id="rubycase-mg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#e11d48"/><stop offset="1" stop-color="#fb7185"/>
+    </linearGradient>
+    <filter id="rubycase-thumbblur"><feGaussianBlur stdDeviation="14"/></filter>
+    <radialGradient id="rubycase-thumbfloor" cx="50%" cy="50%" r="50%">
+      <stop offset="0" stop-color="rgba(225,29,72,0.22)"/><stop offset="1" stop-color="rgba(0,0,0,0)"/>
+    </radialGradient>
+  </defs>
+  <rect width="800" height="800" fill="#07070c"/>
+  <rect width="800" height="800" fill="url(#rubycase-thumbglow)"/>
+  <ellipse cx="400" cy="600" rx="230" ry="36" fill="url(#rubycase-thumbfloor)"/>
+  <circle cx="400" cy="330" r="210" fill="#e11d48" opacity="0.2" filter="url(#rubycase-thumbblur)"/>
+  <circle cx="676" cy="246" r="1.4" fill="#fb7185" opacity="0.25"/><circle cx="488" cy="402" r="1.9249999999999998" fill="#e11d48" opacity="0.35"/><circle cx="300" cy="558" r="2.4499999999999997" fill="#fb7185" opacity="0.45"/><circle cx="672" cy="194" r="2.9749999999999996" fill="#e11d48" opacity="0.55"/><circle cx="484" cy="350" r="3.4999999999999996" fill="#fb7185" opacity="0.65"/><circle cx="296" cy="506" r="1.4" fill="#e11d48" opacity="0.25"/><circle cx="668" cy="142" r="1.9249999999999998" fill="#fb7185" opacity="0.35"/><circle cx="480" cy="298" r="2.4499999999999997" fill="#e11d48" opacity="0.45"/><circle cx="292" cy="454" r="2.9749999999999996" fill="#fb7185" opacity="0.55"/><circle cx="664" cy="90" r="3.4999999999999996" fill="#e11d48" opacity="0.65"/><circle cx="476" cy="246" r="1.4" fill="#fb7185" opacity="0.25"/><circle cx="288" cy="402" r="1.9249999999999998" fill="#e11d48" opacity="0.35"/><circle cx="660" cy="558" r="2.4499999999999997" fill="#fb7185" opacity="0.45"/><circle cx="472" cy="194" r="2.9749999999999996" fill="#e11d48" opacity="0.55"/><circle cx="284" cy="350" r="3.4999999999999996" fill="#fb7185" opacity="0.65"/><circle cx="656" cy="506" r="1.4" fill="#e11d48" opacity="0.25"/>
+  
+    <rect x="48" y="48" width="704" height="704" rx="36" fill="none" stroke="#fb7185" stroke-opacity=".45" stroke-width="2"/>
+    <rect x="62" y="62" width="676" height="676" rx="30" fill="none" stroke="#e11d48" stroke-opacity=".25" stroke-width="1"/>
+    <circle cx="80" cy="80" r="6" fill="#e11d48"/>
+    <circle cx="720" cy="80" r="6" fill="#fb7185"/>
+    <circle cx="80" cy="720" r="6" fill="#fb7185"/>
+    <circle cx="720" cy="720" r="6" fill="#e11d48"/>
+  <g>
+    <linearGradient id="rubycase-bodylid" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0" stop-color="#72223b"/><stop offset="1" stop-color="#915366"/>
+    </linearGradient>
+    <linearGradient id="rubycase-bodyside" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#7a2d3f"/><stop offset="1" stop-color="#60313d"/>
+    </linearGradient>
+    <linearGradient id="rubycase-bodyfront" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#8d1b39"/><stop offset="1" stop-color="#501223"/>
+    </linearGradient>
+    <clipPath id="rubycase-clip"><rect x="245" y="329" width="310" height="169" rx="6"/></clipPath>
+    <ellipse cx="400" cy="562" rx="158.4" ry="22" fill="#000" opacity=".55"/>
+    <polygon points="565,275 637,213 637,452 565,514" fill="url(#rubycase-bodyside)" stroke="#f7c0cc" stroke-width="1.2"/>
+    <polygon points="235,275 307,213 637,213 565,275" fill="url(#rubycase-bodylid)" stroke="#f7c0cc" stroke-width="1.6"/>
+    <rect x="235" y="275" width="330" height="42" fill="url(#rubycase-bodylid)" stroke="#f7c0cc" stroke-width="1.2"/>
+    <rect x="235" y="317" width="330" height="197" fill="url(#rubycase-bodyfront)" stroke="#f7c0cc" stroke-width="1.5"/>
+    <g clip-path="url(#rubycase-clip)">
+      <rect x="245" y="329" width="310" height="169" fill="#5c1227"/>
+      <rect x="261" y="343" width="278" height="141" fill="none" stroke="#fb7185" stroke-width="3" opacity=".7"/>
+      <rect x="273" y="355" width="254" height="117" fill="none" stroke="#e11d48" stroke-width="1.5" opacity=".55"/>
+      <polygon points="400,365 507,413.5 400,462 293,413.5" fill="#e11d48" opacity=".18" stroke="#fb7185" stroke-opacity=".5"/>
+    </g>
+    <rect x="245" y="329" width="310" height="169" rx="6" fill="none" stroke="#e11d48" stroke-opacity=".35"/>
+    <g opacity=".92"><ellipse cx="400" cy="419.44" rx="18.6" ry="24.599999999999998" fill="#e11d48" stroke="#fff" stroke-width="2"/>
+        <polygon points="400,402.94 409.6,419.44 400,434.44 390.4,419.44" fill="#fff" opacity=".28"/></g>
+    <rect x="271" y="289" width="54" height="16" rx="3" fill="#fba446" stroke="#fff" stroke-opacity=".3"/>
+    <rect x="475" y="289" width="54" height="16" rx="3" fill="#fba446" stroke="#fff" stroke-opacity=".3"/>
+    <rect x="243" y="504" width="314" height="8" fill="#3f1c21"/>
+    <polygon points="235,275 257,275 257,293" fill="#fba446" opacity=".8"/>
+      <polygon points="565,275 543,275 543,293" fill="#fba446" opacity=".8"/>
+    <text x="257" y="496" font-family="Arial Black,Impact,sans-serif" font-size="11" letter-spacing="1.6" fill="#e11d48" fill-opacity=".45">RUBY</text>
+  </g>
+</svg>

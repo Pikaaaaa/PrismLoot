@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="110 140 580 540" width="480" height="480" role="img" aria-label="Chrome crate">
+  <!-- prismloot:chrome-case:thumb -->
+  <defs>
+    <radialGradient id="chromecase-thumbglow" cx="50%" cy="38%" r="50%">
+      <stop offset="0" stop-color="rgba(229,231,235,0.32)"/>
+      <stop offset="1" stop-color="rgba(5,5,8,0)"/>
+    </radialGradient>
+    <linearGradient id="chromecase-mg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#e5e7eb"/><stop offset="1" stop-color="#67e8f9"/>
+    </linearGradient>
+    <filter id="chromecase-thumbblur"><feGaussianBlur stdDeviation="14"/></filter>
+    <radialGradient id="chromecase-thumbfloor" cx="50%" cy="50%" r="50%">
+      <stop offset="0" stop-color="rgba(229,231,235,0.22)"/><stop offset="1" stop-color="rgba(0,0,0,0)"/>
+    </radialGradient>
+  </defs>
+  <rect width="800" height="800" fill="#07070c"/>
+  <rect width="800" height="800" fill="url(#chromecase-thumbglow)"/>
+  <ellipse cx="400" cy="600" rx="230" ry="36" fill="url(#chromecase-thumbfloor)"/>
+  <circle cx="400" cy="330" r="160" fill="#e5e7eb" opacity="0.12" filter="url(#chromecase-thumbblur)"/>
+  <circle cx="222" cy="272" r="1.4" fill="#67e8f9" opacity="0.25"/><circle cx="256" cy="194" r="1.9249999999999998" fill="#e5e7eb" opacity="0.35"/><circle cx="290" cy="116" r="2.4499999999999997" fill="#67e8f9" opacity="0.45"/><circle cx="324" cy="558" r="2.9749999999999996" fill="#e5e7eb" opacity="0.55"/><circle cx="358" cy="480" r="3.4999999999999996" fill="#67e8f9" opacity="0.65"/><circle cx="392" cy="402" r="1.4" fill="#e5e7eb" opacity="0.25"/><circle cx="426" cy="324" r="1.9249999999999998" fill="#67e8f9" opacity="0.35"/>
+  
+  <g>
+    <linearGradient id="chromecase-bodylid" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0" stop-color="#747780"/><stop offset="1" stop-color="#93959c"/>
+    </linearGradient>
+    <linearGradient id="chromecase-bodyside" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#527780"/><stop offset="1" stop-color="#2d5b65"/>
+    </linearGradient>
+    <linearGradient id="chromecase-bodyfront" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#90939a"/><stop offset="1" stop-color="#515358"/>
+    </linearGradient>
+    <clipPath id="chromecase-clip"><rect x="240" y="327" width="320" height="171" rx="6"/></clipPath>
+    <ellipse cx="400" cy="562" rx="163.2" ry="22" fill="#000" opacity=".55"/>
+    <polygon points="570,273 640,209 640,450 570,514" fill="url(#chromecase-bodyside)" stroke="#f8f8f9" stroke-width="1.2"/>
+    <polygon points="230,273 300,209 640,209 570,273" fill="url(#chromecase-bodylid)" stroke="#f8f8f9" stroke-width="1.6"/>
+    <rect x="230" y="273" width="340" height="42" fill="url(#chromecase-bodylid)" stroke="#f8f8f9" stroke-width="1.2"/>
+    <rect x="230" y="315" width="340" height="199" fill="url(#chromecase-bodyfront)" stroke="#f8f8f9" stroke-width="1.5"/>
+    <g clip-path="url(#chromecase-clip)">
+      <rect x="240" y="327" width="320" height="171" fill="#5d5f64"/>
+      <path d="M258,349 L438.4,349 L393.6,397 L274,397 Z" fill="#fff" opacity=".16"/>
+      <rect x="260" y="347" width="280" height="131" fill="none" stroke="#e5e7eb" stroke-opacity=".4"/>
+    </g>
+    <rect x="240" y="327" width="320" height="171" rx="6" fill="none" stroke="#e5e7eb" stroke-opacity=".35"/>
+    <g opacity=".92"><rect x="382" y="405.28000000000003" width="36" height="26.400000000000002" rx="8" fill="#e5e7eb" stroke="#fff" stroke-width="2"/>
+        <path d="M386.8 408.48 Q400 408.88 413.2 426.48" fill="none" stroke="#fff" stroke-width="8" opacity=".7"/></g>
+    <rect x="266" y="287" width="54" height="16" rx="3" fill="#a6aebb" stroke="#fff" stroke-opacity=".3"/>
+    <rect x="480" y="287" width="54" height="16" rx="3" fill="#a6aebb" stroke="#fff" stroke-opacity=".3"/>
+    <rect x="238" y="504" width="324" height="8" fill="#1a3a3e"/>
+    
+    <text x="252" y="496" font-family="Arial Black,Impact,sans-serif" font-size="11" letter-spacing="1.6" fill="#e5e7eb" fill-opacity=".45">CHROME</text>
+  </g>
+</svg>

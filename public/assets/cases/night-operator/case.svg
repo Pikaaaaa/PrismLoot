@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" width="800" height="800" role="img" aria-label="Night Operator crate">
+  <!-- prismloot:night-operator:hero -->
+  <defs>
+    <radialGradient id="nightoperator-heroglow" cx="50%" cy="38%" r="50%">
+      <stop offset="0" stop-color="rgba(129,140,248,0.32)"/>
+      <stop offset="1" stop-color="rgba(5,5,8,0)"/>
+    </radialGradient>
+    <linearGradient id="nightoperator-mg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#818cf8"/><stop offset="1" stop-color="#1e1b4b"/>
+    </linearGradient>
+    <filter id="nightoperator-heroblur"><feGaussianBlur stdDeviation="14"/></filter>
+    <radialGradient id="nightoperator-herofloor" cx="50%" cy="50%" r="50%">
+      <stop offset="0" stop-color="rgba(129,140,248,0.22)"/><stop offset="1" stop-color="rgba(0,0,0,0)"/>
+    </radialGradient>
+  </defs>
+  <rect width="800" height="800" fill="#07070c"/>
+  <rect width="800" height="800" fill="url(#nightoperator-heroglow)"/>
+  <ellipse cx="400" cy="600" rx="230" ry="36" fill="url(#nightoperator-herofloor)"/>
+  <circle cx="400" cy="330" r="160" fill="#818cf8" opacity="0.12" filter="url(#nightoperator-heroblur)"/>
+  <circle cx="284" cy="454" r="1.4" fill="#1e1b4b" opacity="0.25"/><circle cx="152" cy="298" r="1.9249999999999998" fill="#818cf8" opacity="0.35"/><circle cx="580" cy="142" r="2.4499999999999997" fill="#1e1b4b" opacity="0.45"/><circle cx="448" cy="506" r="2.9749999999999996" fill="#818cf8" opacity="0.55"/><circle cx="316" cy="350" r="3.4999999999999996" fill="#1e1b4b" opacity="0.65"/><circle cx="184" cy="194" r="1.4" fill="#818cf8" opacity="0.25"/><circle cx="612" cy="558" r="1.9249999999999998" fill="#1e1b4b" opacity="0.35"/>
+  
+  <g>
+    <linearGradient id="nightoperator-bodylid" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0" stop-color="#4a5185"/><stop offset="1" stop-color="#7277a0"/>
+    </linearGradient>
+    <linearGradient id="nightoperator-bodyside" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#292b52"/><stop offset="1" stop-color="#131329"/>
+    </linearGradient>
+    <linearGradient id="nightoperator-bodyfront" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#555ca1"/><stop offset="1" stop-color="#31355c"/>
+    </linearGradient>
+    <clipPath id="nightoperator-clip"><rect x="230" y="324" width="340" height="174" rx="6"/></clipPath>
+    <ellipse cx="400" cy="562" rx="172.79999999999998" ry="22" fill="#000" opacity=".55"/>
+    <polygon points="580,270 652,208 652,452 580,514" fill="url(#nightoperator-bodyside)" stroke="#dcdffd" stroke-width="1.2"/>
+    <polygon points="220,270 292,208 652,208 580,270" fill="url(#nightoperator-bodylid)" stroke="#dcdffd" stroke-width="1.6"/>
+    <rect x="220" y="270" width="360" height="42" fill="url(#nightoperator-bodylid)" stroke="#dcdffd" stroke-width="1.2"/>
+    <rect x="220" y="312" width="360" height="202" fill="url(#nightoperator-bodyfront)" stroke="#dcdffd" stroke-width="1.5"/>
+    <g clip-path="url(#nightoperator-clip)">
+      <rect x="230" y="324" width="340" height="174" fill="#373d69"/>
+      <rect x="190" y="324" width="22" height="174" transform="skewX(-18)" fill="#1e1b4b" opacity=".28"/><rect x="248" y="324" width="22" height="174" transform="skewX(-18)" fill="#818cf8" opacity=".28"/><rect x="306" y="324" width="22" height="174" transform="skewX(-18)" fill="#1e1b4b" opacity=".28"/><rect x="364" y="324" width="22" height="174" transform="skewX(-18)" fill="#818cf8" opacity=".28"/><rect x="422" y="324" width="22" height="174" transform="skewX(-18)" fill="#1e1b4b" opacity=".28"/><rect x="480" y="324" width="22" height="174" transform="skewX(-18)" fill="#818cf8" opacity=".28"/><rect x="538" y="324" width="22" height="174" transform="skewX(-18)" fill="#1e1b4b" opacity=".28"/>
+    </g>
+    <rect x="230" y="324" width="340" height="174" rx="6" fill="none" stroke="#818cf8" stroke-opacity=".35"/>
+    <g opacity=".92"><circle cx="400" cy="417.04" r="14.879999999999999" fill="none" stroke="#818cf8" stroke-width="3"/>
+        <circle cx="400" cy="417.04" r="4.32" fill="none" stroke="#1e1b4b" stroke-width="2"/>
+        <path d="M400 393.04 V410.32 M400 423.76000000000005 V441.04 M376 417.04 H393.28 M406.72 417.04 H424" stroke="#fff" stroke-width="2"/></g>
+    <rect x="256" y="284" width="54" height="16" rx="3" fill="#969fbd" stroke="#fff" stroke-opacity=".3"/>
+    <rect x="490" y="284" width="54" height="16" rx="3" fill="#969fbd" stroke="#fff" stroke-opacity=".3"/>
+    <rect x="228" y="504" width="344" height="8" fill="#080713"/>
+    
+    <text x="242" y="496" font-family="Arial Black,Impact,sans-serif" font-size="11" letter-spacing="1.6" fill="#818cf8" fill-opacity=".45">NIGHT OPERATOR</text>
+  </g>
+</svg>

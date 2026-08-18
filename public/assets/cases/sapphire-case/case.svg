@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" width="800" height="800" role="img" aria-label="Sapphire crate">
+  <!-- prismloot:sapphire-case:hero -->
+  <defs>
+    <radialGradient id="sapphirecase-heroglow" cx="50%" cy="38%" r="50%">
+      <stop offset="0" stop-color="rgba(37,99,235,0.32)"/>
+      <stop offset="1" stop-color="rgba(5,5,8,0)"/>
+    </radialGradient>
+    <linearGradient id="sapphirecase-mg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#2563eb"/><stop offset="1" stop-color="#22d3ee"/>
+    </linearGradient>
+    <filter id="sapphirecase-heroblur"><feGaussianBlur stdDeviation="14"/></filter>
+    <radialGradient id="sapphirecase-herofloor" cx="50%" cy="50%" r="50%">
+      <stop offset="0" stop-color="rgba(37,99,235,0.22)"/><stop offset="1" stop-color="rgba(0,0,0,0)"/>
+    </radialGradient>
+  </defs>
+  <rect width="800" height="800" fill="#07070c"/>
+  <rect width="800" height="800" fill="url(#sapphirecase-heroglow)"/>
+  <ellipse cx="400" cy="600" rx="230" ry="36" fill="url(#sapphirecase-herofloor)"/>
+  <circle cx="400" cy="330" r="160" fill="#2563eb" opacity="0.12" filter="url(#sapphirecase-heroblur)"/>
+  <circle cx="550" cy="480" r="1.4" fill="#22d3ee" opacity="0.25"/><circle cx="320" cy="90" r="1.9249999999999998" fill="#2563eb" opacity="0.35"/><circle cx="650" cy="220" r="2.4499999999999997" fill="#22d3ee" opacity="0.45"/><circle cx="420" cy="350" r="2.9749999999999996" fill="#2563eb" opacity="0.55"/><circle cx="190" cy="480" r="3.4999999999999996" fill="#22d3ee" opacity="0.65"/><circle cx="520" cy="90" r="1.4" fill="#2563eb" opacity="0.25"/><circle cx="290" cy="220" r="1.9249999999999998" fill="#22d3ee" opacity="0.35"/>
+  
+  <g>
+    <linearGradient id="sapphirecase-bodylid" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0" stop-color="#234080"/><stop offset="1" stop-color="#536a9c"/>
+    </linearGradient>
+    <linearGradient id="sapphirecase-bodyside" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#17577d"/><stop offset="1" stop-color="#145462"/>
+    </linearGradient>
+    <linearGradient id="sapphirecase-bodyfront" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1e459a"/><stop offset="1" stop-color="#132858"/>
+    </linearGradient>
+    <clipPath id="sapphirecase-clip"><rect x="238" y="335" width="324" height="163" rx="6"/></clipPath>
+    <ellipse cx="400" cy="562" rx="165.12" ry="22" fill="#000" opacity=".55"/>
+    <polygon points="572,281 644,217 644,450 572,514" fill="url(#sapphirecase-bodyside)" stroke="#c2d3f9" stroke-width="1.2"/>
+    <polygon points="228,281 300,217 644,217 572,281" fill="url(#sapphirecase-bodylid)" stroke="#c2d3f9" stroke-width="1.6"/>
+    <rect x="228" y="281" width="344" height="42" fill="url(#sapphirecase-bodylid)" stroke="#c2d3f9" stroke-width="1.2"/>
+    <rect x="228" y="323" width="344" height="191" fill="url(#sapphirecase-bodyfront)" stroke="#c2d3f9" stroke-width="1.5"/>
+    <g clip-path="url(#sapphirecase-clip)">
+      <rect x="238" y="335" width="324" height="163" fill="#142d64"/>
+      <polygon points="266,347 280,355 280,371 266,379 252,371 252,355" fill="none" stroke="#22d3ee" stroke-opacity=".55" stroke-width="1.6"/><polygon points="320,347 334,355 334,371 320,379 306,371 306,355" fill="none" stroke="#2563eb" stroke-opacity=".55" stroke-width="1.6"/><polygon points="374,347 388,355 388,371 374,379 360,371 360,355" fill="none" stroke="#22d3ee" stroke-opacity=".55" stroke-width="1.6"/><polygon points="428,347 442,355 442,371 428,379 414,371 414,355" fill="none" stroke="#2563eb" stroke-opacity=".55" stroke-width="1.6"/><polygon points="482,347 496,355 496,371 482,379 468,371 468,355" fill="none" stroke="#22d3ee" stroke-opacity=".55" stroke-width="1.6"/><polygon points="536,347 550,355 550,371 536,379 522,371 522,355" fill="none" stroke="#2563eb" stroke-opacity=".55" stroke-width="1.6"/><polygon points="293,389 307,397 307,413 293,421 279,413 279,397" fill="none" stroke="#22d3ee" stroke-opacity=".55" stroke-width="1.6"/><polygon points="347,389 361,397 361,413 347,421 333,413 333,397" fill="none" stroke="#2563eb" stroke-opacity=".55" stroke-width="1.6"/><polygon points="401,389 415,397 415,413 401,421 387,413 387,397" fill="none" stroke="#22d3ee" stroke-opacity=".55" stroke-width="1.6"/><polygon points="455,389 469,397 469,413 455,421 441,413 441,397" fill="none" stroke="#2563eb" stroke-opacity=".55" stroke-width="1.6"/><polygon points="509,389 523,397 523,413 509,421 495,413 495,397" fill="none" stroke="#22d3ee" stroke-opacity=".55" stroke-width="1.6"/><polygon points="563,389 577,397 577,413 563,421 549,413 549,397" fill="none" stroke="#2563eb" stroke-opacity=".55" stroke-width="1.6"/><polygon points="266,431 280,439 280,455 266,463 252,455 252,439" fill="none" stroke="#22d3ee" stroke-opacity=".55" stroke-width="1.6"/><polygon points="320,431 334,439 334,455 320,463 306,455 306,439" fill="none" stroke="#2563eb" stroke-opacity=".55" stroke-width="1.6"/><polygon points="374,431 388,439 388,455 374,463 360,455 360,439" fill="none" stroke="#22d3ee" stroke-opacity=".55" stroke-width="1.6"/><polygon points="428,431 442,439 442,455 428,463 414,455 414,439" fill="none" stroke="#2563eb" stroke-opacity=".55" stroke-width="1.6"/><polygon points="482,431 496,439 496,455 482,463 468,455 468,439" fill="none" stroke="#22d3ee" stroke-opacity=".55" stroke-width="1.6"/><polygon points="536,431 550,439 550,455 536,463 522,455 522,439" fill="none" stroke="#2563eb" stroke-opacity=".55" stroke-width="1.6"/><polygon points="293,473 307,481 307,497 293,505 279,497 279,481" fill="none" stroke="#22d3ee" stroke-opacity=".55" stroke-width="1.6"/><polygon points="347,473 361,481 361,497 347,505 333,497 333,481" fill="none" stroke="#2563eb" stroke-opacity=".55" stroke-width="1.6"/><polygon points="401,473 415,481 415,497 401,505 387,497 387,481" fill="none" stroke="#22d3ee" stroke-opacity=".55" stroke-width="1.6"/><polygon points="455,473 469,481 469,497 455,505 441,497 441,481" fill="none" stroke="#2563eb" stroke-opacity=".55" stroke-width="1.6"/><polygon points="509,473 523,481 523,497 509,505 495,497 495,481" fill="none" stroke="#22d3ee" stroke-opacity=".55" stroke-width="1.6"/><polygon points="563,473 577,481 577,497 563,505 549,497 549,481" fill="none" stroke="#2563eb" stroke-opacity=".55" stroke-width="1.6"/><polygon points="266,515 280,523 280,539 266,547 252,539 252,523" fill="none" stroke="#22d3ee" stroke-opacity=".55" stroke-width="1.6"/><polygon points="320,515 334,523 334,539 320,547 306,539 306,523" fill="none" stroke="#2563eb" stroke-opacity=".55" stroke-width="1.6"/><polygon points="374,515 388,523 388,539 374,547 360,539 360,523" fill="none" stroke="#22d3ee" stroke-opacity=".55" stroke-width="1.6"/><polygon points="428,515 442,523 442,539 428,547 414,539 414,523" fill="none" stroke="#2563eb" stroke-opacity=".55" stroke-width="1.6"/><polygon points="482,515 496,523 496,539 482,547 468,539 468,523" fill="none" stroke="#22d3ee" stroke-opacity=".55" stroke-width="1.6"/><polygon points="536,515 550,523 550,539 536,547 522,539 522,523" fill="none" stroke="#2563eb" stroke-opacity=".55" stroke-width="1.6"/>
+    </g>
+    <rect x="238" y="335" width="324" height="163" rx="6" fill="none" stroke="#2563eb" stroke-opacity=".35"/>
+    <g opacity=".92"><polygon points="400,398.32 420.64,410.32 420.64,434.32 400,446.32 379.36,434.32 379.36,410.32" fill="#2563eb" stroke="#fff" stroke-width="2"/>
+        <polygon points="400,412.71999999999997 407.68,422.32 400,431.92 392.32,422.32" fill="#fff" opacity=".3"/></g>
+    <rect x="264" y="295" width="54" height="16" rx="3" fill="#8799bb" stroke="#fff" stroke-opacity=".3"/>
+    <rect x="482" y="295" width="54" height="16" rx="3" fill="#8799bb" stroke="#fff" stroke-opacity=".3"/>
+    <rect x="236" y="504" width="328" height="8" fill="#09353c"/>
+    
+    <text x="250" y="496" font-family="Arial Black,Impact,sans-serif" font-size="11" letter-spacing="1.6" fill="#2563eb" fill-opacity=".45">SAPPHIRE</text>
+  </g>
+</svg>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" width="800" height="800" role="img" aria-label="Apex Case crate">
+  <!-- prismloot:apex-protocol:hero -->
+  <defs>
+    <radialGradient id="apexprotocol-heroglow" cx="50%" cy="38%" r="50%">
+      <stop offset="0" stop-color="rgba(232,121,249,0.48)"/>
+      <stop offset="1" stop-color="rgba(5,5,8,0)"/>
+    </radialGradient>
+    <linearGradient id="apexprotocol-mg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#e879f9"/><stop offset="1" stop-color="#22d3ee"/>
+    </linearGradient>
+    <filter id="apexprotocol-heroblur"><feGaussianBlur stdDeviation="14"/></filter>
+    <radialGradient id="apexprotocol-herofloor" cx="50%" cy="50%" r="50%">
+      <stop offset="0" stop-color="rgba(232,121,249,0.22)"/><stop offset="1" stop-color="rgba(0,0,0,0)"/>
+    </radialGradient>
+  </defs>
+  <rect width="800" height="800" fill="#07070c"/>
+  <rect width="800" height="800" fill="url(#apexprotocol-heroglow)"/>
+  <ellipse cx="400" cy="600" rx="230" ry="36" fill="url(#apexprotocol-herofloor)"/>
+  <circle cx="400" cy="330" r="210" fill="#e879f9" opacity="0.2" filter="url(#apexprotocol-heroblur)"/>
+  <circle cx="232" cy="402" r="1.4" fill="#22d3ee" opacity="0.25"/><circle cx="456" cy="194" r="1.9249999999999998" fill="#e879f9" opacity="0.35"/><circle cx="120" cy="506" r="2.4499999999999997" fill="#22d3ee" opacity="0.45"/><circle cx="344" cy="298" r="2.9749999999999996" fill="#e879f9" opacity="0.55"/><circle cx="568" cy="90" r="3.4999999999999996" fill="#22d3ee" opacity="0.65"/><circle cx="232" cy="402" r="1.4" fill="#e879f9" opacity="0.25"/><circle cx="456" cy="194" r="1.9249999999999998" fill="#22d3ee" opacity="0.35"/><circle cx="120" cy="506" r="2.4499999999999997" fill="#e879f9" opacity="0.45"/><circle cx="344" cy="298" r="2.9749999999999996" fill="#22d3ee" opacity="0.55"/><circle cx="568" cy="90" r="3.4999999999999996" fill="#e879f9" opacity="0.65"/><circle cx="232" cy="402" r="1.4" fill="#22d3ee" opacity="0.25"/><circle cx="456" cy="194" r="1.9249999999999998" fill="#e879f9" opacity="0.35"/><circle cx="120" cy="506" r="2.4499999999999997" fill="#22d3ee" opacity="0.45"/><circle cx="344" cy="298" r="2.9749999999999996" fill="#e879f9" opacity="0.55"/><circle cx="568" cy="90" r="3.4999999999999996" fill="#22d3ee" opacity="0.65"/><circle cx="232" cy="402" r="1.4" fill="#e879f9" opacity="0.25"/>
+  
+    <rect x="48" y="48" width="704" height="704" rx="36" fill="none" stroke="#22d3ee" stroke-opacity=".45" stroke-width="2"/>
+    <rect x="62" y="62" width="676" height="676" rx="30" fill="none" stroke="#e879f9" stroke-opacity=".25" stroke-width="1"/>
+    <circle cx="80" cy="80" r="6" fill="#e879f9"/>
+    <circle cx="720" cy="80" r="6" fill="#22d3ee"/>
+    <circle cx="80" cy="720" r="6" fill="#22d3ee"/>
+    <circle cx="720" cy="720" r="6" fill="#e879f9"/>
+  <g>
+    <linearGradient id="apexprotocol-bodylid" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0" stop-color="#754986"/><stop offset="1" stop-color="#9371a1"/>
+    </linearGradient>
+    <linearGradient id="apexprotocol-bodyside" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#3e5b80"/><stop offset="1" stop-color="#145462"/>
+    </linearGradient>
+    <linearGradient id="apexprotocol-bodyfront" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#9152a2"/><stop offset="1" stop-color="#522f5d"/>
+    </linearGradient>
+    <clipPath id="apexprotocol-clip"><rect x="238" y="333" width="324" height="165" rx="6"/></clipPath>
+    <ellipse cx="400" cy="562" rx="165.12" ry="22" fill="#000" opacity=".55"/>
+    <polygon points="572,279 646,221 646,456 572,514" fill="url(#apexprotocol-bodyside)" stroke="#f9d9fd" stroke-width="1.2"/>
+    <polygon points="228,279 302,221 646,221 572,279" fill="url(#apexprotocol-bodylid)" stroke="#f9d9fd" stroke-width="1.6"/>
+    <rect x="228" y="279" width="344" height="42" fill="url(#apexprotocol-bodylid)" stroke="#f9d9fd" stroke-width="1.2"/>
+    <rect x="228" y="321" width="344" height="193" fill="url(#apexprotocol-bodyfront)" stroke="#f9d9fd" stroke-width="1.5"/>
+    <g clip-path="url(#apexprotocol-clip)">
+      <rect x="238" y="333" width="324" height="165" fill="#5e356a"/>
+      <polygon points="262,482 400,351 538,482" fill="#e879f9" opacity=".2" stroke="#22d3ee" stroke-width="2"/>
+    </g>
+    <rect x="238" y="333" width="324" height="165" rx="6" fill="none" stroke="#e879f9" stroke-opacity=".35"/>
+    <g opacity=".92"><path d="M395.5 451.36 L400 391.36 L404.5 451.36 Z" fill="#e879f9" stroke="#fff" stroke-width="1.5"/>
+        <ellipse cx="400" cy="437.86" rx="12.6" ry="4.8" fill="#22d3ee" opacity=".8"/></g>
+    <rect x="264" y="293" width="54" height="16" rx="3" fill="#afc66b" stroke="#fff" stroke-opacity=".3"/>
+    <rect x="482" y="293" width="54" height="16" rx="3" fill="#afc66b" stroke="#fff" stroke-opacity=".3"/>
+    <rect x="236" y="504" width="328" height="8" fill="#09353c"/>
+    <polygon points="228,279 250,279 250,297" fill="#afc66b" opacity=".8"/>
+      <polygon points="572,279 550,279 550,297" fill="#afc66b" opacity=".8"/>
+    <text x="250" y="496" font-family="Arial Black,Impact,sans-serif" font-size="11" letter-spacing="1.6" fill="#e879f9" fill-opacity=".45">APEX CASE</text>
+  </g>
+</svg>

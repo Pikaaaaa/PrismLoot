@@ -1,0 +1,326 @@
+// Production Postgres. Local `npm run dev` keeps using prisma/schema.prisma (SQLite).
+// scripts/prisma-env.mjs selects this file when DATABASE_URL starts with postgres://
+// or when VERCEL=1 (so Vercel postinstall does not generate a SQLite client).
+// Keep models identical to schema.prisma (Float USD; switch to Decimal later if needed).
+// First deploy: set DATABASE_URL, then `npm run db:push` then `npm run db:seed`.
+// Do not apply prisma/migrations (those are SQLite).
+generator client {
+  provider      = "prisma-client-js"
+  // Vercel (Amazon Linux 2023) + local generate. Does not affect sqlite `npm run dev`.
+  binaryTargets = ["native", "rhel-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id          String   @id
+  steamId     String?  @unique
+  displayName String
+  email       String?
+  /// USD. Postgres: Decimal(12, 2).
+  balanceUsd  Float    @default(0)
+  currency    String   @default("USD")
+  /// USER | ADMIN
+  role        String   @default("USER")
+  banned      Boolean  @default(false)
+  /// Remaining playthrough (отыгровка) in USD. Incremented on gift-card redeem
+  /// by amount * wagerMultiplier; decremented by case/upgrade/contract volume.
+  wagerRemainingUsd Float @default(0)
+  /// Steam trade offer URL (partner + token). Required to request a skin withdrawal.
+  tradeUrl    String   @default("")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  inventory        InventoryItem[]
+  bestDrop         BestDrop?
+  caseOpens        CaseOpen[]
+  ledger           LedgerEntry[]
+  upgrades         UpgradeAttempt[]
+  contracts        ContractAttempt[]
+  promoRedemptions PromoRedemption[]
+  auditLogs        AdminAuditLog[]   @relation("AuditActor")
+  deposits         Deposit[]
+  withdrawals      Withdrawal[]
+  giftCards        GiftCard[]
+}
+
+/// Catalog row. Ids match data/skins.ts. Admin price/enabled win over static files on the server.
+model Skin {
+  id             String   @id
+  weapon         String
+  name           String
+  rarity         String
+  wear           String
+  image          String?
+  collection     String?
+  priceUsd       Float
+  enabled        Boolean  @default(true)
+  colors         String   @default("[]")
+  availableWears String   @default("[]")
+  updatedAt      DateTime @updatedAt
+
+  inventory InventoryItem[]
+  rewards   CaseReward[]
+  caseOpens CaseOpen[]
+}
+
+model Case {
+  id             String   @id
+  name           String
+  description    String   @default("")
+  priceUsd       Float
+  enabled        Boolean  @default(true)
+  rtp            Float
+  houseEdge      Float
+  rtpPreset      String
+  section        String
+  tags           String   @default("[]")
+  accent         String   @default("#2fddb0")
+  accent2        String   @default("#a78bfa")
+  blurb          String   @default("")
+  image          String?
+  thumbnail      String?
+  animationType  String   @default("roulette")
+  featuredReward String   @default("")
+  popularity     Int      @default(0)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  rewards CaseReward[]
+  opens   CaseOpen[]
+}
+
+model CaseReward {
+  id     String @id @default(cuid())
+  caseId String
+  skinId String
+  chance Float
+  weight Float  @default(0)
+  value  Float  @default(0)
+  rarity String @default("common")
+
+  case Case @relation(fields: [caseId], references: [id], onDelete: Cascade)
+  skin Skin @relation(fields: [skinId], references: [id])
+
+  @@unique([caseId, skinId])
+  @@index([caseId])
+}
+
+model InventoryItem {
+  id           String    @id
+  userId       String
+  skinId       String
+  wear         String
+  stattrak     Boolean   @default(false)
+  acquiredAt   DateTime  @default(now())
+  /// CASE | UPGRADE | CONTRACT | ADMIN | PROMO
+  source       String
+  soldAt       DateTime?
+  salePriceUsd Float?
+  caseOpenId   String?
+
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  skin        Skin      @relation(fields: [skinId], references: [id])
+  caseOpen    CaseOpen? @relation(fields: [caseOpenId], references: [id])
+  bestDropFor BestDrop?
+  withdrawals Withdrawal[]
+
+  @@index([userId, soldAt])
+  @@index([skinId])
+}
+
+/// All-time highest-value obtain per user. Survives sells (soft-sold inventory rows stay).
+model BestDrop {
+  userId          String   @id
+  inventoryItemId String   @unique
+  skinId          String
+  name            String
+  wear            String
+  rarity          String
+  weapon          String
+  image           String?
+  priceUsd        Float
+  obtainedAt      DateTime
+  source          String
+
+  user User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  item InventoryItem  @relation(fields: [inventoryItemId], references: [id])
+}
+
+model CaseOpen {
+  id        String   @id @default(cuid())
+  userId    String
+  caseId    String
+  skinId    String
+  costUsd   Float
+  payoutUsd Float
+  wear      String
+  createdAt DateTime @default(now())
+
+  user  User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  case  Case            @relation(fields: [caseId], references: [id])
+  skin  Skin            @relation(fields: [skinId], references: [id])
+  items InventoryItem[]
+
+  @@index([createdAt])
+  @@index([userId])
+}
+
+model LedgerEntry {
+  id           String   @id @default(cuid())
+  userId       String
+  /// DEPOSIT | GIFT | CASE_OPEN | SELL | UPGRADE | CONTRACT | ADMIN_GRANT | ADMIN_ADJUST | PROMO | WITHDRAW | WITHDRAW_REFUND
+  kind         String
+  amountUsd    Float
+  balanceAfter Float
+  note         String   @default("")
+  meta         String   @default("{}")
+  createdAt    DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, createdAt])
+}
+
+model UpgradeAttempt {
+  id           String   @id @default(cuid())
+  userId       String
+  inputIds     String
+  targetSkinId String
+  chance       Float
+  extraUsd     Float    @default(0)
+  success      Boolean
+  resultSkinId String?
+  createdAt    DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model ContractAttempt {
+  id           String   @id @default(cuid())
+  userId       String
+  inputIds     String
+  resultSkinId String?
+  createdAt    DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model PromoCode {
+  id             String   @id @default(cuid())
+  code           String   @unique
+  percentBonus   Int      @default(20)
+  enabled        Boolean  @default(true)
+  maxRedemptions Int?
+  note           String   @default("")
+  createdAt      DateTime @default(now())
+
+  redemptions PromoRedemption[]
+}
+
+model PromoRedemption {
+  id        String   @id @default(cuid())
+  promoId   String
+  userId    String
+  createdAt DateTime @default(now())
+
+  promo PromoCode @relation(fields: [promoId], references: [id], onDelete: Cascade)
+  user  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([promoId, userId])
+}
+
+/// Payout request. CASH rows debit balance; SKIN rows hold an inventory item
+/// (soldAt) until admin approves (stays gone) or rejects (returned to vault).
+model Withdrawal {
+  id               String    @id @default(cuid())
+  userId           String
+  amountUsd        Float
+  /// PENDING | APPROVED | REJECTED
+  status           String    @default("PENDING")
+  /// CASH | SKIN
+  kind             String    @default("CASH")
+  inventoryItemId  String?
+  itemName         String    @default("")
+  /// Snapshot of the player's trade URL at request time (admin uses this to send).
+  tradeUrl         String    @default("")
+  note             String    @default("")
+  createdAt        DateTime  @default(now())
+  reviewedBy       String?
+  reviewedAt       DateTime?
+
+  user          User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  inventoryItem InventoryItem? @relation(fields: [inventoryItemId], references: [id], onDelete: SetNull)
+
+  @@index([userId, createdAt])
+  @@index([status])
+  @@index([kind, status])
+  @@index([inventoryItemId])
+}
+
+/// Crypto cashier. Balance credits only after admin APPROVED (no chain watch).
+model Deposit {
+  id           String    @id @default(cuid())
+  userId       String
+  /// USDT | BTC | TRX | LTC | ETH | USDC
+  asset        String
+  network      String
+  address      String
+  amountUsd    Float
+  amountCrypto Float
+  /// PENDING | APPROVED | REJECTED
+  status       String    @default("PENDING")
+  txNote       String    @default("")
+  createdAt    DateTime  @default(now())
+  reviewedBy   String?
+  reviewedAt   DateTime?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, createdAt])
+  @@index([status])
+}
+
+/// PrismLoot gift cards. Public redeem on /deposit; issued from /admin/gift-cards.
+model GiftCard {
+  id               String    @id @default(cuid())
+  /// PL-XXXX-XXXX-XXXX
+  code             String    @unique
+  amountUsd        Float
+  /// UNUSED | REDEEMED | DISABLED
+  status           String    @default("UNUSED")
+  /// Playthrough multiplier applied on redeem. 0 = none; 10 = must wager 10× amount.
+  wagerMultiplier  Float     @default(10)
+  createdBy        String    @default("")
+  createdAt        DateTime  @default(now())
+  expiresAt        DateTime?
+  redeemedByUserId String?
+  redeemedAt       DateTime?
+  note             String    @default("")
+
+  redeemedBy User? @relation(fields: [redeemedByUserId], references: [id])
+
+  @@index([status])
+  @@index([redeemedByUserId])
+}
+
+model AdminAuditLog {
+  id         String   @id @default(cuid())
+  actorId    String?
+  action     String
+  targetType String   @default("")
+  targetId   String   @default("")
+  detail     String   @default("")
+  createdAt  DateTime @default(now())
+
+  actor User? @relation("AuditActor", fields: [actorId], references: [id])
+
+  @@index([createdAt])
+}
