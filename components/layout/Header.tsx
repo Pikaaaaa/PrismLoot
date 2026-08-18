@@ -328,18 +328,20 @@ export function Header({ hasSession = false }: { hasSession?: boolean }) {
               <SteamSignInButton />
             ) : null}
 
-            <select
-              aria-label="Display currency"
-              value={displayCurrency}
-              onChange={(event) => setCurrency(event.target.value as CurrencyCode)}
-              className="field hidden h-8 w-[4.5rem] shrink-0 cursor-pointer px-2 text-[0.75rem] font-semibold lg:block"
-            >
-              {DISPLAY_CURRENCIES.map((code) => (
-                <option key={code} value={code}>
-                  {code}
-                </option>
-              ))}
-            </select>
+            {user ? (
+              <select
+                aria-label="Display currency"
+                value={displayCurrency}
+                onChange={(event) => setCurrency(event.target.value as CurrencyCode)}
+                className="field hidden h-8 w-[4.5rem] shrink-0 cursor-pointer px-2 text-[0.75rem] font-semibold lg:block"
+              >
+                {DISPLAY_CURRENCIES.map((code) => (
+                  <option key={code} value={code}>
+                    {code}
+                  </option>
+                ))}
+              </select>
+            ) : null}
 
             {user ? (
               <span className="hidden h-full lg:contents">
