@@ -24,11 +24,12 @@ Vercel env (Production + Preview):
 | Name | Example |
 | --- | --- |
 | `DATABASE_URL` | Neon **pooled** URI (`…-pooler…?sslmode=require`) |
+| `DIRECT_URL` | Neon **unpooled** URI (no `-pooler`). Optional — build falls back to stripping `-pooler` from `DATABASE_URL` |
 | `ADMIN_SECRET` | long random string (never commit) |
 | `ADMIN_PATH` | `/pl-console-9f3k` |
 | `NEXT_PUBLIC_SITE_URL` | `https://your-domain.com` (no trailing slash) |
 
-`vercel.json` runs `prisma generate` + `db push` (Postgres schema) then `next build`. Seed **once** after the first successful deploy (upserts catalog/demo user; do not put seed in every build):
+`vercel.json` runs `prisma generate` + `db push` (Postgres schema) then `next build`. Full `npm run db:seed` is **optional** — opens lazy-upsert the Case/Skin rows they need. Seed once only if you want the whole catalog + demo user in Postgres up front (do not put seed in every build):
 
 ```bash
 DATABASE_URL="postgresql://…" npm run db:seed

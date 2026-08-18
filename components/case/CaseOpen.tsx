@@ -187,10 +187,19 @@ export function CaseOpen({ crate }: { crate: Crate }) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ caseId: crate.id, count: n }),
       });
-      const data = (await res.json()) as { ok: boolean; items?: InventoryItem[]; item?: InventoryItem; error?: string };
+      const data = (await res.json()) as {
+        ok: boolean;
+        items?: InventoryItem[];
+        item?: InventoryItem;
+        error?: string;
+        message?: string;
+      };
       const items = data.items?.length ? data.items : data.item ? [data.item] : [];
       if (!data.ok || !items.length) {
-        const detail = data.error ?? "The open request did not return a roll.";
+        const detail =
+          (data.message && !/^[A-Z][A-Z0-9_]+$/.test(data.message) ? data.message : null) ??
+          data.error ??
+          "The open request did not return a roll.";
         setPhase("idle");
         setOpenError(detail);
         store.toast({ title: "Open failed", detail, tone: "err" });

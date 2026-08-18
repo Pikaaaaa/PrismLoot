@@ -2,7 +2,6 @@ import { CASES, getCase } from "@/data/cases";
 import { calculateCaseEV } from "@/lib/economy";
 import { rollCase } from "@/lib/rewards/rewardEngine";
 import { recordCaseOpen } from "@/lib/server/runtime";
-import { validateCase } from "@/lib/economy/validation";
 import type { RolledCaseReward } from "@/lib/types";
 import { caseOpenHistory } from "./historyService";
 
@@ -21,7 +20,6 @@ export function openCase(caseId: string): {
     err.name = "CASE_NOT_FOUND";
     throw err;
   }
-  validateCase(crate);
   const roll = rollCase(crate.id);
   recordCaseOpen(crate.id, crate.price, roll.value);
   return {

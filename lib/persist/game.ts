@@ -1,3 +1,4 @@
+import { getCase } from "@/data/cases";
 import { SKIN_MAP } from "@/data/skins";
 import { looksLikeTradeUrl, normalizeTradeUrl } from "@/lib/auth/account";
 import {
@@ -11,13 +12,108 @@ import {
 import { DEMO_USER_ID, depositDelegate, ensurePrisma, giftCardDelegate, prisma, usd, withdrawalDelegate } from "@/lib/db";
 import { generateGiftCode, isGiftCodeFormat, normalizeGiftCode } from "@/lib/gift-cards/codes";
 import { clampWagerMultiplier } from "@/lib/gift-cards/wager";
+import { isPrismaFkError } from "@/lib/persist/errors";
 import { getSkinPrice } from "@/lib/services/prices";
-import type { InventoryItem, Wear } from "@/lib/types";
+import type { InventoryItem, Skin, Wear } from "@/lib/types";
 import type { BestDrop as DbBestDrop, Prisma } from "@prisma/client";
 
 export type PersistSource = "CASE" | "UPGRADE" | "CONTRACT" | "ADMIN" | "PROMO";
 
 type Tx = Prisma.TransactionClient;
+type CatalogDb = Pick<Tx, "skin" | "case">;
+
+function prismaErrorCode(err: unknown): string | undefined {
+  if (!err || typeof err !== "object" || !("code" in err)) return undefined;
+  const code = (err as { code?: unknown }).code;
+  return typeof code === "string" ? code : undefined;
+}
+
+function rethrowPlayPersist(context: Record<string, unknown>, err: unknown): never {
+  const message = err instanceof Error ? err.message : "";
+  const expected =
+    message === "USER_NOT_FOUND" ||
+    message === "USER_BANNED" ||
+    message === "INSUFFICIENT_BALANCE" ||
+    message === "ITEMS_UNAVAILABLE" ||
+    message === "AUTH_REQUIRED" ||
+    message === "CASE_NOT_FOUND";
+  if (!expected) {
+    console.error("[play] persist failed", {
+      ...context,
+      prismaCode: prismaErrorCode(err),
+      err,
+    });
+  }
+  if (isPrismaFkError(err)) throw new Error("CATALOG_MISSING");
+  throw err;
+}
+
+function skinRowFromCatalog(skin: Skin) {
+  return {
+    id: skin.id,
+    weapon: skin.weapon,
+    name: skin.name,
+    rarity: skin.rarity,
+    wear: skin.wear,
+    image: skin.image ?? null,
+    collection: skin.collection ?? null,
+    priceUsd: usd(skin.price),
+    enabled: true,
+    colors: JSON.stringify(skin.colors ?? []),
+    availableWears: JSON.stringify(skin.availableWears ?? []),
+  };
+}
+
+/** Insert missing Skin rows. Never overwrite admin priceUsd/enabled. */
+export async function ensurePlaySkins(tx: CatalogDb, skinIds: Iterable<string>) {
+  const unique = [...new Set([...skinIds].filter(Boolean))];
+  for (const id of unique) {
+    const catalog = SKIN_MAP[id];
+    if (!catalog) throw new Error("CATALOG_SKIN_MISSING");
+    await tx.skin.upsert({
+      where: { id },
+      create: skinRowFromCatalog(catalog),
+      update: {},
+    });
+  }
+}
+
+/**
+ * Vercel builds do not seed. Empty Neon Case/Skin tables fail CaseOpen/InventoryItem FKs.
+ * Lazy-upsert the opened crate + dropped skins; leave existing admin fields alone.
+ */
+export async function ensurePlayCatalog(
+  tx: CatalogDb,
+  input: { caseId: string; items: Array<{ id: string }> },
+) {
+  const crate = getCase(input.caseId);
+  if (!crate) throw new Error("CASE_NOT_FOUND");
+  await tx.case.upsert({
+    where: { id: input.caseId },
+    create: {
+      id: input.caseId,
+      name: crate.name,
+      description: crate.description,
+      priceUsd: usd(crate.price),
+      enabled: true,
+      rtp: crate.rtp,
+      houseEdge: crate.houseEdge,
+      rtpPreset: crate.rtpPreset,
+      section: crate.section,
+      tags: JSON.stringify(crate.tags),
+      accent: crate.accent,
+      accent2: crate.accent2,
+      blurb: crate.blurb,
+      image: crate.image ?? null,
+      thumbnail: crate.thumbnail ?? null,
+      animationType: crate.animationType,
+      featuredReward: crate.featuredReward,
+      popularity: crate.popularity,
+    },
+    update: {},
+  });
+  await ensurePlaySkins(tx, input.items.map((item) => item.id));
+}
 
 function itemPriceUsd(item: InventoryItem) {
   const quote = getSkinPrice(item.id, item.wear);
@@ -157,6 +253,7 @@ async function grantVaultItem(
 ) {
   const existing = await tx.inventoryItem.findUnique({ where: { id: input.item.instanceId } });
   if (existing) return false;
+  await ensurePlaySkins(tx, [input.item.id]);
   await tx.inventoryItem.create({
     data: {
       id: input.item.instanceId,
@@ -294,70 +391,85 @@ export async function persistCaseOpens(input: {
   const perCost = input.items.length ? usd(input.costUsd / input.items.length) : 0;
   const granted: InventoryItem[] = [];
 
-  await prisma.$transaction(async (tx) => {
-    const current = await tx.user.findUnique({ where: { id: userId } });
-    if (!current) throw new Error("USER_NOT_FOUND");
-    if (current.banned) throw new Error("USER_BANNED");
-    const ids = input.items.map((item) => item.instanceId);
-    const existing = ids.length
-      ? await tx.inventoryItem.findMany({ where: { id: { in: ids } } })
-      : [];
-    const have = new Set(existing.map((row) => row.id));
-    const fresh = input.items.filter((item) => !have.has(item.instanceId));
-    if (!fresh.length) return;
+  try {
+    // Catalog upserts outside the money tx: Neon pooler often kills long interactive txs,
+    // and Vercel never seeds Case/Skin rows. Second Open still works if the tx then fails.
+    await ensurePlayCatalog(prisma, { caseId: input.caseId, items: input.items });
+    await prisma.$transaction(async (tx) => {
+      await ensurePlayCatalog(tx, { caseId: input.caseId, items: input.items });
+      const current = await tx.user.findUnique({ where: { id: userId } });
+      if (!current) throw new Error("USER_NOT_FOUND");
+      if (current.banned) throw new Error("USER_BANNED");
+      const ids = input.items.map((item) => item.instanceId);
+      const existing = ids.length
+        ? await tx.inventoryItem.findMany({ where: { id: { in: ids } } })
+        : [];
+      const have = new Set(existing.map((row) => row.id));
+      const fresh = input.items.filter((item) => !have.has(item.instanceId));
+      if (!fresh.length) return;
 
-    if (existing.length === 0) {
-      if (current.balanceUsd + 1e-9 < input.costUsd) throw new Error("INSUFFICIENT_BALANCE");
-      const balance = usd(current.balanceUsd - input.costUsd);
-      await tx.user.update({
-        where: { id: userId },
-        data: {
-          balanceUsd: balance,
-          wagerRemainingUsd: nextWagerRemaining(current.wagerRemainingUsd, input.costUsd),
-        },
-      });
-      await tx.ledgerEntry.create({
-        data: {
-          userId,
-          kind: "CASE_OPEN",
-          amountUsd: usd(-input.costUsd),
-          balanceAfter: balance,
-          note: `Opened ${input.caseId} ×${input.items.length}`,
-          meta: JSON.stringify({ caseId: input.caseId, count: input.items.length }),
-        },
-      });
-    }
+      if (existing.length === 0) {
+        if (current.balanceUsd + 1e-9 < input.costUsd) throw new Error("INSUFFICIENT_BALANCE");
+        const balance = usd(current.balanceUsd - input.costUsd);
+        await tx.user.update({
+          where: { id: userId },
+          data: {
+            balanceUsd: balance,
+            wagerRemainingUsd: nextWagerRemaining(current.wagerRemainingUsd, input.costUsd),
+          },
+        });
+        await tx.ledgerEntry.create({
+          data: {
+            userId,
+            kind: "CASE_OPEN",
+            amountUsd: usd(-input.costUsd),
+            balanceAfter: balance,
+            note: `Opened ${input.caseId} ×${input.items.length}`,
+            meta: JSON.stringify({ caseId: input.caseId, count: input.items.length }),
+          },
+        });
+      }
 
-    for (const item of fresh) {
-      const payout = itemPriceUsd(item);
-      const open = await tx.caseOpen.create({
-        data: {
+      for (const item of fresh) {
+        const payout = itemPriceUsd(item);
+        const open = await tx.caseOpen.create({
+          data: {
+            userId,
+            caseId: input.caseId,
+            skinId: item.id,
+            costUsd: perCost,
+            payoutUsd: payout,
+            wear: item.wear,
+          },
+        });
+        const created = await grantVaultItem(tx, {
           userId,
-          caseId: input.caseId,
-          skinId: item.id,
-          costUsd: perCost,
-          payoutUsd: payout,
-          wear: item.wear,
-        },
-      });
-      const created = await grantVaultItem(tx, {
-        userId,
-        item,
-        source: "CASE",
-        caseOpenId: open.id,
-      });
-      if (created) granted.push(item);
-    }
-  });
+          item,
+          source: "CASE",
+          caseOpenId: open.id,
+        });
+        if (created) granted.push(item);
+      }
+    }, { maxWait: 8_000, timeout: 15_000 });
+  } catch (err) {
+    rethrowPlayPersist(
+      { op: "persistCaseOpens", userId, caseId: input.caseId, skinIds: input.items.map((item) => item.id) },
+      err,
+    );
+  }
 
   for (const item of granted) {
-    await maybeUpdateBestDrop({
-      userId,
-      itemId: item.instanceId,
-      item,
-      source: "CASE",
-      priceUsd: itemPriceUsd(item),
-    });
+    try {
+      await maybeUpdateBestDrop({
+        userId,
+        itemId: item.instanceId,
+        item,
+        source: "CASE",
+        priceUsd: itemPriceUsd(item),
+      });
+    } catch (err) {
+      console.error("[play] best drop update failed after open", { userId, itemId: item.instanceId, err });
+    }
   }
 }
 
@@ -511,54 +623,67 @@ export async function persistUpgradeAttempt(input: {
   const extra = usd(Math.max(0, input.extraUsd));
   let granted = false;
 
-  await prisma.$transaction(async (tx) => {
-    const current = await tx.user.findUnique({ where: { id: user.id } });
-    if (!current) throw new Error("USER_NOT_FOUND");
-    if (current.banned) throw new Error("USER_BANNED");
-    if (extra > 0 && current.balanceUsd + 1e-9 < extra) throw new Error("INSUFFICIENT_BALANCE");
-    const stakeUsd = await vaultStakeUsd(tx, user.id, input.sourceInstanceIds);
-    const volumeUsd = usd(extra + stakeUsd);
-    await consumeVaultItems(tx, user.id, input.sourceInstanceIds);
-    let balance = current.balanceUsd;
-    if (extra > 0) {
-      balance = usd(balance - extra);
-    }
-    await tx.user.update({
-      where: { id: user.id },
-      data: {
-        balanceUsd: balance,
-        wagerRemainingUsd: nextWagerRemaining(current.wagerRemainingUsd, volumeUsd),
-      },
-    });
-    await tx.ledgerEntry.create({
-      data: {
-        userId: user.id,
-        kind: "UPGRADE",
-        amountUsd: usd(-extra),
-        balanceAfter: usd(balance),
-        note: input.success ? `Upgrade win ${input.targetSkinId}` : "Upgrade fail",
-        meta: JSON.stringify({
-          sourceIds: input.sourceInstanceIds,
+  try {
+    await prisma.$transaction(async (tx) => {
+      const current = await tx.user.findUnique({ where: { id: user.id } });
+      if (!current) throw new Error("USER_NOT_FOUND");
+      if (current.banned) throw new Error("USER_BANNED");
+      if (extra > 0 && current.balanceUsd + 1e-9 < extra) throw new Error("INSUFFICIENT_BALANCE");
+      const stakeUsd = await vaultStakeUsd(tx, user.id, input.sourceInstanceIds);
+      const volumeUsd = usd(extra + stakeUsd);
+      await consumeVaultItems(tx, user.id, input.sourceInstanceIds);
+      let balance = current.balanceUsd;
+      if (extra > 0) {
+        balance = usd(balance - extra);
+      }
+      await tx.user.update({
+        where: { id: user.id },
+        data: {
+          balanceUsd: balance,
+          wagerRemainingUsd: nextWagerRemaining(current.wagerRemainingUsd, volumeUsd),
+        },
+      });
+      await tx.ledgerEntry.create({
+        data: {
+          userId: user.id,
+          kind: "UPGRADE",
+          amountUsd: usd(-extra),
+          balanceAfter: usd(balance),
+          note: input.success ? `Upgrade win ${input.targetSkinId}` : "Upgrade fail",
+          meta: JSON.stringify({
+            sourceIds: input.sourceInstanceIds,
+            targetSkinId: input.targetSkinId,
+            success: input.success,
+          }),
+        },
+      });
+      await tx.upgradeAttempt.create({
+        data: {
+          userId: user.id,
+          inputIds: JSON.stringify(input.sourceInstanceIds),
           targetSkinId: input.targetSkinId,
+          chance: input.chance,
+          extraUsd: extra,
           success: input.success,
-        }),
-      },
+          resultSkinId: input.item?.id ?? null,
+        },
+      });
+      if (input.success && input.item) {
+        await ensurePlaySkins(tx, [input.item.id]);
+        granted = await grantVaultItem(tx, { userId: user.id, item: input.item, source: "UPGRADE" });
+      }
     });
-    await tx.upgradeAttempt.create({
-      data: {
+  } catch (err) {
+    rethrowPlayPersist(
+      {
+        op: "persistUpgradeAttempt",
         userId: user.id,
-        inputIds: JSON.stringify(input.sourceInstanceIds),
         targetSkinId: input.targetSkinId,
-        chance: input.chance,
-        extraUsd: extra,
-        success: input.success,
-        resultSkinId: input.item?.id ?? null,
+        skinId: input.item?.id,
       },
-    });
-    if (input.success && input.item) {
-      granted = await grantVaultItem(tx, { userId: user.id, item: input.item, source: "UPGRADE" });
-    }
-  });
+      err,
+    );
+  }
 
   if (granted && input.item) {
     await maybeUpdateBestDrop({
@@ -582,48 +707,56 @@ export async function persistContractAttempt(input: {
   const extra = usd(Math.max(0, input.extraUsd ?? 0));
   let granted = false;
 
-  await prisma.$transaction(async (tx) => {
-    const current = await tx.user.findUnique({ where: { id: user.id } });
-    if (!current) throw new Error("USER_NOT_FOUND");
-    if (current.banned) throw new Error("USER_BANNED");
-    if (extra > 0 && current.balanceUsd + 1e-9 < extra) throw new Error("INSUFFICIENT_BALANCE");
-    const stakeUsd = await vaultStakeUsd(tx, user.id, input.sourceInstanceIds);
-    const volumeUsd = usd(extra + stakeUsd);
-    await consumeVaultItems(tx, user.id, input.sourceInstanceIds);
-    let balance = current.balanceUsd;
-    if (extra > 0) {
-      balance = usd(balance - extra);
-    }
-    await tx.user.update({
-      where: { id: user.id },
-      data: {
-        balanceUsd: balance,
-        wagerRemainingUsd: nextWagerRemaining(current.wagerRemainingUsd, volumeUsd),
-      },
-    });
-    await tx.ledgerEntry.create({
-      data: {
-        userId: user.id,
-        kind: "CONTRACT",
-        amountUsd: usd(-extra),
-        balanceAfter: usd(balance),
-        note: `Contract → ${input.item.name}`,
-        meta: JSON.stringify({
-          sourceIds: input.sourceInstanceIds,
+  try {
+    await prisma.$transaction(async (tx) => {
+      const current = await tx.user.findUnique({ where: { id: user.id } });
+      if (!current) throw new Error("USER_NOT_FOUND");
+      if (current.banned) throw new Error("USER_BANNED");
+      if (extra > 0 && current.balanceUsd + 1e-9 < extra) throw new Error("INSUFFICIENT_BALANCE");
+      const stakeUsd = await vaultStakeUsd(tx, user.id, input.sourceInstanceIds);
+      const volumeUsd = usd(extra + stakeUsd);
+      await consumeVaultItems(tx, user.id, input.sourceInstanceIds);
+      let balance = current.balanceUsd;
+      if (extra > 0) {
+        balance = usd(balance - extra);
+      }
+      await tx.user.update({
+        where: { id: user.id },
+        data: {
+          balanceUsd: balance,
+          wagerRemainingUsd: nextWagerRemaining(current.wagerRemainingUsd, volumeUsd),
+        },
+      });
+      await tx.ledgerEntry.create({
+        data: {
+          userId: user.id,
+          kind: "CONTRACT",
+          amountUsd: usd(-extra),
+          balanceAfter: usd(balance),
+          note: `Contract → ${input.item.name}`,
+          meta: JSON.stringify({
+            sourceIds: input.sourceInstanceIds,
+            resultSkinId: input.item.id,
+            extraUsd: extra,
+          }),
+        },
+      });
+      await tx.contractAttempt.create({
+        data: {
+          userId: user.id,
+          inputIds: JSON.stringify(input.sourceInstanceIds),
           resultSkinId: input.item.id,
-          extraUsd: extra,
-        }),
-      },
+        },
+      });
+      await ensurePlaySkins(tx, [input.item.id]);
+      granted = await grantVaultItem(tx, { userId: user.id, item: input.item, source: "CONTRACT" });
     });
-    await tx.contractAttempt.create({
-      data: {
-        userId: user.id,
-        inputIds: JSON.stringify(input.sourceInstanceIds),
-        resultSkinId: input.item.id,
-      },
-    });
-    granted = await grantVaultItem(tx, { userId: user.id, item: input.item, source: "CONTRACT" });
-  });
+  } catch (err) {
+    rethrowPlayPersist(
+      { op: "persistContractAttempt", userId: user.id, skinId: input.item.id },
+      err,
+    );
+  }
 
   if (granted) {
     await maybeUpdateBestDrop({

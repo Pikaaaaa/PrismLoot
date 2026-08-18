@@ -1,11 +1,40 @@
 import { NextResponse } from "next/server";
 
+export function prismaErrorCode(err: unknown): string | undefined {
+  const seen = new Set<unknown>();
+  let current: unknown = err;
+  for (let i = 0; i < 4 && current && typeof current === "object" && !seen.has(current); i++) {
+    seen.add(current);
+    if ("code" in current) {
+      const code = (current as { code?: unknown }).code;
+      if (typeof code === "string" && code) return code;
+    }
+    current = (current as { cause?: unknown }).cause;
+  }
+  return undefined;
+}
+
+/** Prisma P2003/P2014 — missing Case/Skin rows (empty Neon catalog). */
+export function isPrismaFkError(err: unknown) {
+  const seen = new Set<unknown>();
+  let current: unknown = err;
+  for (let i = 0; i < 4 && current && typeof current === "object" && !seen.has(current); i++) {
+    seen.add(current);
+    const code = prismaErrorCode(current);
+    if (code === "P2003" || code === "P2014") return true;
+    current = (current as { cause?: unknown }).cause;
+  }
+  return false;
+}
+
 export const PLAY_ERROR_STATUS: Record<string, number> = {
   AUTH_REQUIRED: 401,
   USER_BANNED: 403,
   INSUFFICIENT_BALANCE: 400,
   ITEMS_UNAVAILABLE: 409,
   USER_NOT_FOUND: 404,
+  CATALOG_MISSING: 503,
+  CATALOG_SKIN_MISSING: 500,
   INVALID_ASSET: 400,
   AMOUNT_TOO_LOW: 400,
   ALREADY_REVIEWED: 409,
@@ -30,6 +59,8 @@ export const PLAY_ERROR_LABEL: Record<string, string> = {
   INSUFFICIENT_BALANCE: "Not enough balance.",
   ITEMS_UNAVAILABLE: "Скин больше не в инвентаре.",
   USER_NOT_FOUND: "User not found.",
+  CATALOG_MISSING: "Catalog is still syncing. Try opening again.",
+  CATALOG_SKIN_MISSING: "That skin is missing from the catalog.",
   INVALID_ASSET: "Choose a valid asset and network.",
   AMOUNT_TOO_LOW: "Amount is below the minimum.",
   ALREADY_REVIEWED: "This request was already reviewed.",
@@ -53,6 +84,7 @@ export const PLAY_ERROR_LABEL: Record<string, string> = {
 };
 
 export function playErrorMessage(err: unknown) {
+  if (isPrismaFkError(err)) return "CATALOG_MISSING";
   return err instanceof Error ? err.message : "FAILED";
 }
 
@@ -64,8 +96,15 @@ export function humanPlayError(code?: string | null) {
 export function jsonPlayError(err: unknown, fallback = "FAILED") {
   const raw = playErrorMessage(err);
   const known = raw in PLAY_ERROR_STATUS || raw in PLAY_ERROR_LABEL;
-  if (!known) console.error(`[play] ${fallback}`, err);
   const error = known ? raw : fallback;
   const status = PLAY_ERROR_STATUS[error] ?? (error === fallback ? 500 : 400);
+  if (!known || isPrismaFkError(err) || error === fallback || error === "GIFT_CARD_UNAVAILABLE") {
+    console.error(`[play] ${fallback}`, {
+      error,
+      prismaCode: prismaErrorCode(err),
+      message: err instanceof Error ? err.message : String(err),
+      err,
+    });
+  }
   return NextResponse.json({ ok: false, error, message: humanPlayError(error) }, { status });
 }

@@ -2,8 +2,8 @@
 // scripts/prisma-env.mjs selects this file when DATABASE_URL starts with postgres://
 // or when VERCEL=1 (so Vercel postinstall does not generate a SQLite client).
 // Keep models identical to schema.prisma (Float USD; switch to Decimal later if needed).
-// First deploy: set DATABASE_URL, then `npm run db:push` then `npm run db:seed`.
-// Do not apply prisma/migrations (those are SQLite).
+// First deploy: set DATABASE_URL, then `npm run db:push`. `npm run db:seed` is optional
+// (play paths lazy-upsert Case/Skin). Do not apply prisma/migrations (those are SQLite).
 generator client {
   provider      = "prisma-client-js"
   // Vercel (Amazon Linux 2023) + local generate. Does not affect sqlite `npm run dev`.
@@ -11,8 +11,10 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  // Unpooled Neon URI. prisma-env.mjs / lib/db.ts fall back to DATABASE_URL with `-pooler` stripped.
+  directUrl = env("DIRECT_URL")
 }
 
 model User {

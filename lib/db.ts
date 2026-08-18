@@ -5,6 +5,39 @@ import { PrismaClient } from "@prisma/client";
 const globalForPrisma = globalThis as unknown as { prisma?: PrismaClient };
 const nodeRequire = createRequire(import.meta.url);
 
+function withSearchParam(url: string, key: string, value: string) {
+  try {
+    const parsed = new URL(url);
+    if (!parsed.searchParams.has(key)) parsed.searchParams.set(key, value);
+    return parsed.toString();
+  } catch {
+    return url;
+  }
+}
+
+/** Neon pooled host → unpooled (for Prisma `directUrl` / `db push`). */
+export function neonDirectUrl(raw: string) {
+  return raw.replace("-pooler.", ".");
+}
+
+/**
+ * PgBouncer transaction mode (Neon `-pooler`) needs `pgbouncer=true` or
+ * Prisma interactive transactions (`$transaction(async tx => …)`) fail at runtime.
+ */
+export function neonRuntimeUrl(raw: string) {
+  if (!raw.includes("-pooler")) return raw;
+  return withSearchParam(withSearchParam(raw, "pgbouncer", "true"), "connect_timeout", "15");
+}
+
+function prepareNeonEnv() {
+  const url = process.env.DATABASE_URL ?? "";
+  if (!/^postgres(ql)?:\/\//i.test(url)) return;
+  if (!process.env.DIRECT_URL) process.env.DIRECT_URL = neonDirectUrl(url);
+  process.env.DATABASE_URL = neonRuntimeUrl(url);
+}
+
+prepareNeonEnv();
+
 function prismaCtor(): typeof PrismaClient {
   try {
     const cache = nodeRequire.cache;
@@ -76,7 +109,16 @@ export function depositDelegate() {
 }
 
 export function giftCardDelegate() {
-  return (ensurePrisma() as unknown as { giftCard?: GiftCardDelegate }).giftCard ?? null;
+  try {
+    const db = (ensurePrisma() as unknown as { giftCard?: GiftCardDelegate }).giftCard;
+    if (!db) {
+      console.error("[db] Prisma client has no giftCard delegate — run: node scripts/prisma-env.mjs generate");
+    }
+    return db ?? null;
+  } catch (err) {
+    console.error("[db] giftCard delegate failed", err);
+    return null;
+  }
 }
 
 export function withdrawalDelegate() {

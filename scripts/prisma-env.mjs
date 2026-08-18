@@ -39,6 +39,16 @@ const url = process.env.DATABASE_URL ?? "";
 const postgres =
   /^postgres(ql)?:\/\//i.test(url) || process.env.VERCEL === "1";
 const schema = postgres ? "prisma/schema.postgres.prisma" : "prisma/schema.prisma";
+if (postgres && url) {
+  if (url.includes("-pooler") && !/[?&]pgbouncer=/i.test(url)) {
+    process.env.DATABASE_URL = url.includes("?")
+      ? `${url}&pgbouncer=true&connect_timeout=15`
+      : `${url}?pgbouncer=true&connect_timeout=15`;
+  }
+  if (!process.env.DIRECT_URL) {
+    process.env.DIRECT_URL = (process.env.DATABASE_URL ?? url).replace("-pooler.", ".");
+  }
+}
 const extra = process.argv.slice(2);
 
 if (!extra.length) {
@@ -47,6 +57,12 @@ if (!extra.length) {
 }
 
 console.error(`[prisma] ${postgres ? "postgresql" : "sqlite"} → ${schema}`);
+
+const schemaSource = readFileSync(path.join(root, schema), "utf8");
+if (!schemaSource.includes("model GiftCard")) {
+  console.error(`[prisma] GiftCard model missing from ${schema}`);
+  process.exit(1);
+}
 
 const bin = path.join(root, "node_modules", ".bin", process.platform === "win32" ? "prisma.cmd" : "prisma");
 const result = spawnSync(bin, [...extra, "--schema", schema], {

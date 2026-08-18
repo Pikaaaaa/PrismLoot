@@ -35,7 +35,7 @@ function looksLikeErrorCode(value?: string) {
 
 function humanAdminError(code?: string) {
   if (!code) return null;
-  if (code === "GIFT_CARD_UNAVAILABLE") return "Could not create gift cards.";
+  if (code === "GIFT_CARD_UNAVAILABLE") return "Gift cards could not be processed. Try again.";
   if (code === "GIFT_CARD_INVALID") return "That gift card was not found.";
   if (code === "GIFT_CARD_USED") return "This card was already redeemed — it cannot be disabled.";
   if (code === "AMOUNT_TOO_LOW") return "Amount must be at least $1.";
@@ -72,18 +72,18 @@ export default function AdminGiftCardsPage() {
       const q = status === "ALL" ? "" : `?status=${status}`;
       const res = await fetch(`/api/admin/gift-cards${q}`);
       const json = (await res.json()) as { ok?: boolean; cards?: Card[]; error?: string; message?: string };
-      if (Array.isArray(json.cards)) {
-        setError(null);
-        setRows(json.cards);
-        return;
-      }
       if (res.status === 401) {
         setError("Admin session expired. Sign in again.");
         setRows([]);
         return;
       }
+      const cards = Array.isArray(json.cards) ? json.cards : [];
+      setRows(cards);
+      if (!res.ok || json.ok === false) {
+        setError(displayAdminError(json, "Could not load gift cards."));
+        return;
+      }
       setError(null);
-      setRows([]);
     } catch {
       setError("Could not load gift cards.");
       setRows([]);
