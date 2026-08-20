@@ -300,18 +300,6 @@ export function UpgradePanel() {
   });
   const canRoll = ready && phase !== "rolling" && phase !== "success" && phase !== "fail";
 
-  const blockReason = !selected.length
-    ? "Select an item to stake"
-    : unpriced
-      ? "Price unavailable on an input skin"
-      : !target
-        ? "Select a target"
-        : isDowngrade
-          ? "Target must be worth more than your stake"
-          : tooLow
-            ? `Chance below ${UPGRADE_MIN_CHANCE}% — cheaper target or more stake`
-            : null;
-
   function resetRound() {
     revealCommitted.current = false;
     setFrozenChance(null);
@@ -655,7 +643,6 @@ export function UpgradePanel() {
                   {locked ? "Rolling" : "Upgrade"}
                 </Button>
               )}
-              {blockReason && phase === "idle" ? <p className="meta text-center">{blockReason}</p> : null}
             </div>
           </div>
 
@@ -708,7 +695,7 @@ export function UpgradePanel() {
 
       <div className="upgrade-panes">
         <section className="upgrade-pane">
-          <div className="mb-2 flex min-w-0 flex-wrap items-center gap-2">
+          <div className="upgrade-pane-toolbar">
             <h2 className="min-w-0 truncate">My items ({store.hydrated ? visibleInventory.length : "—"})</h2>
             <span className="ml-auto w-full min-w-0 sm:w-40">
               <SearchInput
@@ -747,16 +734,19 @@ export function UpgradePanel() {
                     skin={item}
                     selected={selectedIds.includes(item.instanceId)}
                     onClick={() => toggleItem(item)}
+                    footer={<p className="skin-card-foot" aria-hidden>&nbsp;</p>}
                   />
                 ))}
               </div>
-              <Pager page={invPageSafe} pageCount={invPages} onPage={setInvPage} className="mt-2" />
+              <div className="upgrade-pane-pager">
+                <Pager page={invPageSafe} pageCount={invPages} onPage={setInvPage} />
+              </div>
             </>
           )}
         </section>
 
         <section className="upgrade-pane">
-          <div className="mb-2 flex min-w-0 flex-wrap items-center gap-2">
+          <div className="upgrade-pane-toolbar">
             <h2 className="min-w-0 truncate">Select an item</h2>
             <SelectField
               value={sortDir}
@@ -822,17 +812,21 @@ export function UpgradePanel() {
                       disabled={tooCheap}
                       onClick={() => pickTarget(row.skin)}
                       footer={
-                        inputValue > 0 ? (
-                          <p className="meta tabular">
-                            {tooCheap ? "—" : formatUpgradeChance(computeUpgradeChance(inputValue, row.price))}
-                          </p>
-                        ) : null
+                        <p className="skin-card-foot meta tabular">
+                          {inputValue > 0
+                            ? tooCheap
+                              ? "—"
+                              : formatUpgradeChance(computeUpgradeChance(inputValue, row.price))
+                            : "\u00a0"}
+                        </p>
                       }
                     />
                   );
                 })}
               </div>
-              <Pager page={catalogPageSafe} pageCount={catalogPages} onPage={setCatalogPage} className="mt-2" />
+              <div className="upgrade-pane-pager">
+                <Pager page={catalogPageSafe} pageCount={catalogPages} onPage={setCatalogPage} />
+              </div>
             </>
           )}
         </section>

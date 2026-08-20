@@ -58,29 +58,26 @@ export function RarityFX({ rarity }: { rarity: Rarity }) {
   );
 }
 
-/** Gold jackpot bloom — only for juiced hits (≥5× on cases > 5000 RUB), not every covert. */
+/**
+ * Ambient sparks only — no centered bloom.
+ * Gold highlight must live on juiced cards in ResultModal, never here.
+ */
 export function JackpotFX() {
   return (
-    <div className="pointer-events-none absolute inset-0 overflow-hidden">
-      <div
-        className="absolute inset-0"
-        style={{
-          background:
-            "radial-gradient(circle at 50% 38%, rgba(228,174,57,0.35), transparent 42%), radial-gradient(circle at 50% 70%, rgba(255,255,255,0.08), transparent 55%)",
-        }}
-      />
-      {Array.from({ length: 18 }).map((_, i) => (
+    <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden" aria-hidden>
+      {Array.from({ length: 10 }).map((_, i) => (
         <span
           key={i}
-          className="absolute rounded-full"
+          className="absolute rounded-full opacity-70"
           style={{
-            left: `${8 + ((i * 17) % 84)}%`,
-            top: `${12 + ((i * 29) % 70)}%`,
+            // Keep sparks near the edges so they never read as a middle-column glow.
+            left: `${i % 2 === 0 ? 4 + (i % 5) * 3 : 88 - (i % 5) * 3}%`,
+            top: `${10 + ((i * 19) % 75)}%`,
             width: i % 3 === 0 ? 3 : 2,
             height: i % 3 === 0 ? 3 : 2,
             background: i % 2 ? "#fde68a" : "#e4ae39",
-            boxShadow: "0 0 10px rgba(228,174,57,0.7)",
-            animation: `floaty ${1.6 + (i % 4) * 0.35}s ease-in-out ${i * 0.08}s infinite`,
+            boxShadow: "0 0 8px rgba(228,174,57,0.55)",
+            animation: `floaty ${1.8 + (i % 4) * 0.35}s ease-in-out ${i * 0.1}s infinite`,
           }}
         />
       ))}

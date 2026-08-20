@@ -293,8 +293,8 @@ export function ContractPanel() {
         </p>
       </div>
 
-      <div className="grid items-start gap-3 lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)]">
-        <section className="surface surface-pad flex min-w-0 flex-col gap-3">
+      <div className="grid items-stretch gap-3 lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)]">
+        <section className="surface surface-pad flex min-h-0 min-w-0 flex-col gap-3">
           <SectionHeading
             title="My items"
             count={store.hydrated ? vaultCount : undefined}
@@ -312,7 +312,7 @@ export function ContractPanel() {
           />
 
           {!store.hydrated ? (
-            <div className="contract-grid">
+            <div className="contract-grid flex-1">
               {Array.from({ length: 6 }).map((_, i) => (
                 <SkinCardSkeleton key={i} />
               ))}
@@ -320,7 +320,7 @@ export function ContractPanel() {
           ) : vaultCount === 0 ? (
             <EmptyState
               compact
-              className="min-h-[18rem]"
+              className="flex flex-1 flex-col items-center justify-center"
               title="You have no items"
               action={
                 <Link href="/cases">
@@ -333,12 +333,13 @@ export function ContractPanel() {
           ) : available.length === 0 ? (
             <EmptyState
               compact
+              className="flex flex-1 flex-col items-center justify-center"
               title={boardFull ? "Board is full" : "No matching skins"}
               detail={boardFull ? "Clear a slot to swap in another skin." : "Try another search."}
             />
           ) : (
-            <>
-              <div className="contract-grid">
+            <div className="flex min-h-0 flex-1 flex-col">
+              <div className="contract-grid flex-1 content-start">
                 {pageSlice.map((item) => (
                   <SkinCard
                     key={item.instanceId}
@@ -351,13 +352,13 @@ export function ContractPanel() {
                 ))}
               </div>
               <Pager page={pageSafe} pageCount={pages} onPage={setPage} className="mt-2" />
-            </>
+            </div>
           )}
         </section>
 
-        <section className="surface surface-pad min-w-0 lg:sticky lg:top-[calc(var(--header-h)+1rem)]">
+        <section className="surface surface-pad flex min-h-0 min-w-0 flex-col">
           {deskOpen ? (
-            <div className="flex flex-col gap-5">
+            <div className="flex min-h-0 flex-1 flex-col gap-5">
               {store.user ? (
               <label className={extraCap <= 0 ? "opacity-50" : "opacity-80"}>
                 <span className="mb-1.5 flex items-center justify-between gap-2">
@@ -413,6 +414,7 @@ export function ContractPanel() {
               <Button
                 fullWidth
                 size="lg"
+                className="mt-auto"
                 loading={busy}
                 disabled={!canSign}
                 icon={<Handshake className="h-4 w-4" />}
@@ -422,16 +424,18 @@ export function ContractPanel() {
               </Button>
             </div>
           ) : (
-            <ContractResult
-              phase={phase}
-              preview={preview}
-              reward={reward}
-              profit={profit}
-              error={error}
-              reduceMotion={store.reduceMotion}
-              onRetry={() => void run()}
-              onDismiss={dismissReveal}
-            />
+            <div className="flex min-h-0 flex-1 flex-col justify-center">
+              <ContractResult
+                phase={phase}
+                preview={preview}
+                reward={reward}
+                profit={profit}
+                error={error}
+                reduceMotion={store.reduceMotion}
+                onRetry={() => void run()}
+                onDismiss={dismissReveal}
+              />
+            </div>
           )}
         </section>
       </div>

@@ -278,10 +278,10 @@ export function Header({ hasSession = false }: { hasSession?: boolean }) {
       )}
     >
         <div className="page-wrap flex h-[var(--header-h)] items-center gap-2">
-          <Link href="/" aria-label="PrismLoot home" className="flex shrink-0 items-center gap-1.5">
+          <Link href="/" aria-label="PrismLoot home" className="group flex shrink-0 items-center gap-1.5">
             <PrismLogo className="h-6 w-6" />
-            <span className="font-display text-[0.8125rem] font-extrabold tracking-tight">
-              Prism<span className="text-mute">Loot</span>
+            <span className="font-display text-[0.8125rem] font-extrabold tracking-tight transition-colors group-hover:text-cyan">
+              Prism<span className="text-mute transition-colors group-hover:text-cyan/70">Loot</span>
             </span>
           </Link>
 

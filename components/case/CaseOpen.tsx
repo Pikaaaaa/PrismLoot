@@ -23,7 +23,7 @@ import { getSkinPrice, priceUpdatedLabel, sellValueUsd } from "@/lib/services/pr
 import { canSellDrop, ownedDrops } from "@/lib/inventoryOwnership";
 import { useAppStore } from "@/lib/store";
 import type { Crate, InventoryItem } from "@/lib/types";
-import { formatDropChance, formatMoney } from "@/lib/utils";
+import { cn, formatDropChance, formatMoney } from "@/lib/utils";
 import { FastForward, Volume2, VolumeX, Zap } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -566,7 +566,7 @@ export function CaseOpen({ crate }: { crate: Crate }) {
       <ResultModal
         open={phase === "reveal" && pending.length > 0}
         items={pending}
-        juiced={juicedItems.length > 0}
+        juicedIds={juicedItems.map((item) => item.instanceId)}
         stillOwned={stillOwned}
         canSell={canSell}
         sellLabel={
@@ -598,7 +598,7 @@ export function CaseOpen({ crate }: { crate: Crate }) {
 function ResultModal({
   open,
   items,
-  juiced,
+  juicedIds,
   stillOwned,
   canSell,
   sellLabel,
@@ -609,7 +609,7 @@ function ResultModal({
 }: {
   open: boolean;
   items: InventoryItem[];
-  juiced: boolean;
+  juicedIds: string[];
   stillOwned: boolean;
   canSell: boolean;
   sellLabel: string;
@@ -619,12 +619,15 @@ function ResultModal({
   onUpgrade?: () => void;
 }) {
   const lead = items[0];
+  const juicedSet = useMemo(() => new Set(juicedIds), [juicedIds]);
+  const anyJuiced = juicedIds.length > 0;
+
   return (
     <Modal
       open={open}
       onClose={onKeep}
-      title={juiced ? "Jackpot" : items.length > 1 ? `Opened ×${items.length}` : "Opened"}
-      description={juiced ? "A high-multiple hit on this crate." : undefined}
+      title={anyJuiced ? "Jackpot" : items.length > 1 ? `Opened ×${items.length}` : "Opened"}
+      description={anyJuiced ? "A high-multiple hit on this crate." : undefined}
       size={items.length > 1 ? "lg" : "md"}
       footer={
         <div className="flex flex-col gap-2">
@@ -650,25 +653,43 @@ function ResultModal({
       }
     >
       <div className="relative text-center">
-        {juiced ? <JackpotFX /> : null}
+        {anyJuiced ? <JackpotFX /> : null}
         {items.length === 1 && lead ? (
-          <SingleResult item={lead} />
+          <SingleResult item={lead} juiced={juicedSet.has(lead.instanceId)} />
         ) : (
-          <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
-            {items.map((item) => (
-              <div key={item.instanceId} className="min-w-0">
-                <SkinVisual
-                  skin={item}
-                  framed={false}
-                  showWear={false}
-                  pad={4}
-                  className="mx-auto h-20 w-full rounded-[var(--radius-sm)] bg-graphite"
-                />
-                <p className="mt-1 truncate text-xs font-semibold">{item.name}</p>
-                <p className="meta truncate">{WEAR_META[item.wear].short}</p>
-                <Price quote={getSkinPrice(item.id, item.wear)} className="text-sm" />
-              </div>
-            ))}
+          <div className="relative z-[1] grid grid-cols-2 gap-2 sm:grid-cols-3">
+            {items.map((item) => {
+              const juiced = juicedSet.has(item.instanceId);
+              return (
+                <div
+                  key={item.instanceId}
+                  className={cn("relative min-w-0", juiced ? "jackpot-hit" : "p-1.5")}
+                >
+                  <SkinVisual
+                    skin={item}
+                    framed={false}
+                    showWear={false}
+                    pad={4}
+                    className="mx-auto h-20 w-full rounded-[var(--radius-sm)] bg-graphite"
+                  />
+                  <p
+                    className={cn(
+                      "mt-1 truncate text-xs font-semibold text-ink",
+                      juiced && "jackpot-hit__name",
+                    )}
+                  >
+                    {item.name}
+                  </p>
+                  <p className={cn("meta truncate", juiced && "jackpot-hit__meta")}>
+                    {WEAR_META[item.wear].short}
+                  </p>
+                  <Price
+                    quote={getSkinPrice(item.id, item.wear)}
+                    className={cn("text-sm", juiced && "jackpot-hit__price")}
+                  />
+                </div>
+              );
+            })}
           </div>
         )}
       </div>
@@ -676,26 +697,28 @@ function ResultModal({
   );
 }
 
-function SingleResult({ item }: { item: InventoryItem }) {
+function SingleResult({ item, juiced }: { item: InventoryItem; juiced: boolean }) {
   const quote = getSkinPrice(item.id, item.wear);
   return (
-    <>
+    <div className={cn("relative z-[1] mx-auto max-w-md", juiced && "jackpot-hit jackpot-hit--solo")}>
       <SkinVisual
         skin={item}
         framed={false}
         featured
         showWear={false}
         pad={8}
-        className="mx-auto h-44 max-w-md rounded-[var(--radius-md)] bg-graphite"
+        className="mx-auto h-44 w-full rounded-[var(--radius-md)] bg-graphite"
       />
-      <h3 className="mt-3">{item.name}</h3>
-      <p className="meta">{WEAR_META[item.wear].label}</p>
+      <h3 className={cn("mt-3", juiced && "jackpot-hit__name")}>{item.name}</h3>
+      <p className={cn(juiced ? "jackpot-hit__meta text-[length:var(--type-meta)]" : "meta")}>
+        {WEAR_META[item.wear].label}
+      </p>
       <div className="mt-2 flex justify-center gap-2">
         <RarityPill rarity={item.rarity} />
-        <Price quote={quote} />
+        <Price quote={quote} className={cn(juiced && "jackpot-hit__price")} />
       </div>
       <p className="meta mt-1">{priceUpdatedLabel(quote)}</p>
-    </>
+    </div>
   );
 }
 

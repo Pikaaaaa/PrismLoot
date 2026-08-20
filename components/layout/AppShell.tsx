@@ -41,7 +41,7 @@ export function AppShell({
       >
         {waitingOnSession ? (
           <div className="grid min-h-[50vh] place-items-center">
-            <PrismLogo className="h-10 w-10" />
+            <PrismLogo className="h-10 w-10" pulse />
           </div>
         ) : locked ? (
           <SteamGate />

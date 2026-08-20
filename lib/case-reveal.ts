@@ -1,4 +1,3 @@
-import { convertFromUsd } from "@/lib/services/prices/currency";
 import { secureUnit } from "@/lib/rewards/rng";
 
 export const TAPE_LEN = 48;
@@ -10,11 +9,10 @@ export const BAIT_EDGE_PAD = 10;
 export const BAIT_MIN_FRAC = 0.28;
 export const BAIT_MAX_FRAC = 0.42;
 
-/** Case USD > 5000 RUB (same FX as UI) and drop market ≥ 5× case price. Presentation only. */
+/** Jackpot FX: case price > $500 USD and drop market ≥ 2.5× case price. Presentation only. */
 export function isJuicedHit(casePriceUsd: number, dropUsd: number | null | undefined): boolean {
   if (!(casePriceUsd > 0) || dropUsd == null || !(dropUsd > 0)) return false;
-  const rub = convertFromUsd(casePriceUsd, "RUB");
-  return rub > 5000 && dropUsd >= casePriceUsd * 5;
+  return casePriceUsd > 500 && dropUsd >= casePriceUsd * 2.5;
 }
 
 export function clampBaitOffset(offset: number, cardW: number) {

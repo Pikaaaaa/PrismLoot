@@ -1,6 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/Button";
+import { PrismLogo } from "@/components/visuals/ParticleField";
 import { SkinVisual } from "@/components/visuals/SkinVisual";
 import { CASES, SKINS, SKIN_MAP } from "@/lib/mock-data";
 import { RARITY_META, rarityRank } from "@/lib/rarity";
@@ -65,8 +66,16 @@ export function HomeHero() {
 
       <div className="relative grid gap-6 p-5 sm:p-7 lg:min-h-[21rem] lg:grid-cols-[minmax(0,1fr)_minmax(0,0.92fr)] lg:items-center lg:gap-10 lg:p-9">
         <div className="flex min-w-0 flex-col">
-          <p className="label">Provably fair CS2 unboxing</p>
-          <h1 className="mt-2 text-[length:var(--type-display)]">
+          <div className="flex items-center gap-3">
+            <PrismLogo className="h-11 w-11 shrink-0 sm:h-12 sm:w-12" pulse />
+            <div className="min-w-0">
+              <p className="font-display text-[length:var(--type-h2)] font-extrabold tracking-tight">
+                Prism<span className="text-mute">Loot</span>
+              </p>
+              <p className="label mt-0.5">Provably fair CS2 unboxing</p>
+            </div>
+          </div>
+          <h1 className="mt-4 text-[length:var(--type-display)]">
             Open CS2 cases, keep every drop.
           </h1>
           <p className="mt-3 max-w-md text-sm text-soft">
@@ -98,6 +107,7 @@ export function HomeHero() {
           aria-hidden
           className="pointer-events-none relative hidden h-52 w-full select-none sm:block lg:h-[17rem]"
         >
+          <PrismLogo className="absolute left-1/2 top-1/2 h-44 w-44 -translate-x-1/2 -translate-y-1/2 opacity-[0.07] lg:h-56 lg:w-56" />
           <span
             className="absolute left-1/2 top-1/2 h-40 w-40 -translate-x-1/2 -translate-y-1/2 rounded-full blur-3xl lg:h-56 lg:w-56"
             style={{ background: leadGlow }}
