@@ -7,7 +7,7 @@ const drop: BestDrop = {
   skinId: "kara-ruby",
   wear: "fn",
   instanceId: "drop-ruby",
-  snapshot: { name: "Karambit | Doppler (Ruby)", rarity: "gold", weapon: "Knife" },
+  snapshot: { name: "Karambit | Doppler (Ruby)", rarity: "ultrarare", weapon: "Karambit" },
   valueUsd: 7250,
   obtainedAt: 1,
 };
@@ -17,8 +17,8 @@ function row(extra: Partial<InventoryItem> = {}): InventoryItem {
     instanceId: "drop-ruby",
     id: "kara-ruby",
     name: "Karambit | Doppler (Ruby)",
-    weapon: "Knife",
-    rarity: "gold",
+    weapon: "Karambit",
+    rarity: "ultrarare",
     wear: "fn",
     price: 7250,
     obtainedAt: 1,
@@ -28,7 +28,7 @@ function row(extra: Partial<InventoryItem> = {}): InventoryItem {
 
 test("ownedBestDropItem ignores sold history rows", () => {
   assert.equal(ownedBestDropItem(drop, [row({ leftVia: "sell", soldAt: 2 })]), undefined);
-  assert.equal(ownedBestDropItem(drop, [row()]).instanceId, "drop-ruby");
+  assert.equal(ownedBestDropItem(drop, [row()])?.instanceId, "drop-ruby");
 });
 
 test("bestDropStatusLabel follows leftVia, not history presence", () => {
