@@ -291,6 +291,14 @@
     line-height: 1.2;
   }
 
+  /* Hex weave from the PrismLoot mark, masked away from the item silhouette. */
+  .art-hex {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='49' viewBox='0 0 28 49'%3E%3Cpath fill='%23ffffff' fill-rule='evenodd' d='M13.99 9.25l13 7.5v15l-13 7.5L1 31.75v-15l12.99-7.5zM3 17.9v12.7l10.99 6.34 11-6.35V17.9l-11-6.34L3 17.9zM0 15l12.98-7.5V0h-2v6.35L0 12.69v2.3zm0 18.5L12.98 41v8h-2v-6.85L0 35.81v-2.3zM15 0v7.5L27.99 15H28v-2.31h-.01L17 6.35V0h-2zm0 49v-8l12.99-7.5H28v2.31h-.01L17 42.15V49h-2z'/%3E%3C/svg%3E");
+    background-size: 28px 49px;
+    -webkit-mask-image: radial-gradient(ellipse 58% 58% at 50% 46%, transparent 12%, #000 76%);
+    mask-image: radial-gradient(ellipse 58% 58% at 50% 46%, transparent 12%, #000 76%);
+  }
+
   .skin-card-price {
     font-family: var(--font-manrope), var(--font-geist-sans), sans-serif;
     font-variant-numeric: tabular-nums;
@@ -436,17 +444,27 @@
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 0.75rem;
+    align-items: stretch;
+  }
+
+  .contract-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.625rem;
+    align-content: start;
+    align-items: stretch;
+    min-width: 0;
   }
 
   .upgrade-grid {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 0.5rem;
+    gap: 0.625rem;
     align-content: start;
     min-width: 0;
     min-height: 0;
     flex: 1;
-    max-height: 22rem;
+    max-height: 27rem;
     overflow-x: hidden;
     overflow-y: auto;
     overscroll-behavior: contain;
@@ -482,7 +500,7 @@
 
   .upgrade-pane {
     display: flex;
-    min-height: 20.5rem;
+    min-height: 22rem;
     min-width: 0;
     flex-direction: column;
     overflow: hidden;
@@ -662,6 +680,10 @@
     }
 
     .vault-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .contract-grid {
       grid-template-columns: repeat(3, minmax(0, 1fr));
     }
 

@@ -51,6 +51,16 @@ export const PLAY_ERROR_STATUS: Record<string, number> = {
   WITHDRAWAL_UNAVAILABLE: 503,
   TRADE_URL_REQUIRED: 400,
   TRADE_URL_INVALID: 400,
+  EMAIL_INVALID: 400,
+  PROMO_INVALID: 400,
+  CASE_NOT_FOUND: 404,
+  CASE_COUPON_UNAVAILABLE: 503,
+  CASE_COUPON_INVALID: 400,
+  CASE_COUPON_USED: 409,
+  CASE_COUPON_EXPIRED: 410,
+  CASE_COUPON_DISABLED: 409,
+  CASE_COUPON_EXHAUSTED: 409,
+  CASE_COUPON_EXISTS: 409,
 };
 
 export const PLAY_ERROR_LABEL: Record<string, string> = {
@@ -77,9 +87,21 @@ export const PLAY_ERROR_LABEL: Record<string, string> = {
   WITHDRAWAL_UNAVAILABLE: "Вывод временно недоступен. Повторите через секунду.",
   TRADE_URL_REQUIRED: "Укажи трейд-ссылку в профиле",
   TRADE_URL_INVALID: "Это не похоже на трейд-ссылку Steam. Проверь её в профиле.",
+  EMAIL_INVALID: "That does not look like an email address.",
+  PROMO_INVALID: "That promo code is not valid.",
   INVALID_INPUT: "Check the form and try again.",
   CREATE_FAILED: "Could not create gift cards.",
   DISABLE_FAILED: "Could not disable that card.",
+  CASE_NOT_FOUND: "That case is not in the catalog.",
+  CASE_COUPON_UNAVAILABLE: "Free-case codes could not be processed. Try again.",
+  CASE_COUPON_INVALID: "That free-case code is not valid.",
+  CASE_COUPON_USED: "You already redeemed this free-case code.",
+  CASE_COUPON_EXPIRED: "This free-case code has expired.",
+  CASE_COUPON_DISABLED: "This free-case code was disabled.",
+  CASE_COUPON_EXHAUSTED: "This free-case code has no uses left.",
+  CASE_COUPON_EXISTS: "That code already exists.",
+  CASE_COUPON_CREATE_FAILED: "Could not create free-case codes.",
+  CASE_COUPON_DISABLE_FAILED: "Could not disable that code.",
   WITHDRAW_FAILED: "Не удалось создать заявку на вывод.",
 };
 

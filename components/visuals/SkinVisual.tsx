@@ -50,7 +50,7 @@ export function SkinVisual({
       )}
     >
       {framed && <div className="absolute inset-0 bg-graphite" />}
-      {chrome ? <RarityChrome rarity={skin.rarity} /> : null}
+      {chrome ? <RarityChrome rarity={skin.rarity} inset={!framed} /> : null}
       <div
         className="absolute inset-0 z-[1] box-border flex items-center justify-center"
         style={{ padding: pad ?? (framed ? 8 : 0) }}

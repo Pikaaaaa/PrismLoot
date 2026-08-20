@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/Button";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { FilterChip, FilterRow, SearchInput, SelectField } from "@/components/ui/FilterBar";
 import { Modal } from "@/components/ui/Modal";
+import { Pager } from "@/components/ui/Pager";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { SkinGridSkeleton } from "@/components/ui/Skeleton";
 import { UserAvatar } from "@/components/ui/UserAvatar";
@@ -17,17 +18,19 @@ import { SELL_COEFFICIENT } from "@/lib/economy/config";
 import { RARITY_DESC, RARITY_META, WEAR_META, rarityRank } from "@/lib/rarity";
 import { convertPrice } from "@/lib/services/prices/currency";
 import { formatQuotePrice, getSkinPrice, sellValueUsd } from "@/lib/services/prices/priceProvider";
-import { isWithdrawPending } from "@/lib/inventoryOwnership";
+import { isInVault, isWithdrawPending, vaultStatusLabel } from "@/lib/inventoryOwnership";
 import { useAppStore } from "@/lib/store";
 import type { InventoryItem, Rarity } from "@/lib/types";
 import { cn, formatBalance, formatMoney } from "@/lib/utils";
 import { PackageOpen, X } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useMemo, useState, type ReactNode } from "react";
+import { useMemo, useState, useEffect, type ReactNode } from "react";
 
 type SortId = "new" | "old" | "price-desc" | "price-asc" | "rarity" | "name";
+type VaultFilter = "all" | "vault" | "sold" | "used" | "withdrawn" | "error" | "pending";
 
+const PAGE_SIZE = 20;
 const SORTS: Array<{ id: SortId; label: string }> = [
   { id: "new", label: "Newest first" },
   { id: "old", label: "Oldest first" },
@@ -39,6 +42,7 @@ const SORTS: Array<{ id: SortId; label: string }> = [
 
 const CARD_ACTIONS: ItemActionId[] = ["sell", "upgrade", "contract", "withdraw", "details"];
 const PENDING_LOCKED_ACTIONS: ItemActionId[] = ["sell", "upgrade", "contract", "withdraw"];
+const HISTORY_ACTIONS: ItemActionId[] = ["details"];
 
 type SellRow = { item: InventoryItem; value: number };
 
@@ -70,7 +74,7 @@ function withdrawErrorRu(code?: string, message?: string) {
 function pricedRows(list: InventoryItem[]): SellRow[] {
   const rows: SellRow[] = [];
   for (const item of list) {
-    if (isWithdrawPending(item)) continue;
+    if (!isInVault(item)) continue;
     const value = sellValueUsd(item.id, SELL_COEFFICIENT, item.wear);
     if (value != null) rows.push({ item, value });
   }
@@ -81,30 +85,61 @@ function pricedRows(list: InventoryItem[]): SellRow[] {
  * @param compact Embedded variant for the profile dashboard: the account row is
  * dropped because the page above it already shows avatar, balance and stats.
  */
-export function InventoryVault({ compact = false }: { compact?: boolean }) {
+export function InventoryVault({
+  compact = false,
+  variant = "default",
+}: {
+  compact?: boolean;
+  variant?: "default" | "profile";
+}) {
   const store = useAppStore();
   const router = useRouter();
+  const profileLayout = variant === "profile";
 
   const [q, setQ] = useState("");
   const [sort, setSort] = useState<SortId>("new");
+  const [dropFilter, setDropFilter] = useState<VaultFilter>("all");
   const [rarities, setRarities] = useState<Rarity[]>([]);
   const [minPrice, setMinPrice] = useState("");
   const [maxPrice, setMaxPrice] = useState("");
-  const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const [confirmSell, setConfirmSell] = useState<InventoryItem | null>(null);
-  const [bulkSellOpen, setBulkSellOpen] = useState(false);
   const [sellAllOpen, setSellAllOpen] = useState(false);
   const [details, setDetails] = useState<InventoryItem | null>(null);
   const [sending, setSending] = useState<InventoryItem | null>(null);
   const [tradeNeeded, setTradeNeeded] = useState(false);
+  const [page, setPage] = useState(0);
 
   const min = Number.parseFloat(minPrice);
   const max = Number.parseFloat(maxPrice);
   const filtersActive = q !== "" || rarities.length > 0 || Number.isFinite(min) || Number.isFinite(max);
 
+  const liveCount = useMemo(() => store.inventory.filter(isInVault).length, [store.inventory]);
+  const soldCount = useMemo(
+    () => store.inventory.filter((item) => item.leftVia === "sell").length,
+    [store.inventory],
+  );
+  const usedCount = useMemo(
+    () => store.inventory.filter((item) => item.leftVia === "upgrade" || item.leftVia === "contract").length,
+    [store.inventory],
+  );
+  const withdrawnCount = useMemo(
+    () => store.inventory.filter((item) => item.leftVia === "withdraw" && !isWithdrawPending(item)).length,
+    [store.inventory],
+  );
+  const pendingCount = useMemo(
+    () => store.inventory.filter((item) => isWithdrawPending(item)).length,
+    [store.inventory],
+  );
+
   const items = useMemo(() => {
     const needle = q.trim().toLowerCase();
     const filtered = store.inventory.filter((item) => {
+      if (dropFilter === "vault" && !isInVault(item)) return false;
+      if (dropFilter === "sold" && item.leftVia !== "sell") return false;
+      if (dropFilter === "used" && item.leftVia !== "upgrade" && item.leftVia !== "contract") return false;
+      if (dropFilter === "withdrawn" && (item.leftVia !== "withdraw" || isWithdrawPending(item))) return false;
+      if (dropFilter === "pending" && !isWithdrawPending(item)) return false;
+      if (dropFilter === "error") return false;
       if (
         needle &&
         !item.name.toLowerCase().includes(needle) &&
@@ -143,36 +178,39 @@ export function InventoryVault({ compact = false }: { compact?: boolean }) {
       }
     });
     // Quotes are read through a module cache, so a price tick has to re-run this.
-  }, [q, rarities, sort, min, max, store.inventory, store.priceTick, store.displayCurrency]);
+  }, [
+    q,
+    rarities,
+    sort,
+    min,
+    max,
+    dropFilter,
+    store.inventory,
+    store.priceTick,
+    store.displayCurrency,
+  ]);
 
-  const selected = useMemo(
-    () => store.inventory.filter((item) => selectedIds.includes(item.instanceId) && !isWithdrawPending(item)),
-    [selectedIds, store.inventory],
-  );
+  useEffect(() => {
+    setPage(0);
+  }, [dropFilter, q, sort, rarities, minPrice, maxPrice]);
+
+  const pageCount = Math.max(1, Math.ceil(items.length / PAGE_SIZE));
+  const pageSafe = Math.min(page, pageCount - 1);
+  const pagedItems = items.slice(pageSafe * PAGE_SIZE, pageSafe * PAGE_SIZE + PAGE_SIZE);
 
   const sellableShown = useMemo(() => pricedRows(items), [items, store.priceTick]);
-  const sellableSelected = useMemo(() => pricedRows(selected), [selected, store.priceTick]);
   const shownTotal = sellableShown.reduce((sum, row) => sum + row.value, 0);
-  const selectedTotal = sellableSelected.reduce((sum, row) => sum + row.value, 0);
 
   const best = useMemo(() => {
     let winner: { item: InventoryItem; price: number } | null = null;
     for (const item of store.inventory) {
-      if (isWithdrawPending(item)) continue;
+      if (!isInVault(item)) continue;
       const quote = getSkinPrice(item.id, item.wear);
       if (!quote.available || quote.price == null) continue;
       if (!winner || quote.price > winner.price) winner = { item, price: quote.price };
     }
     return winner;
   }, [store.inventory, store.priceTick]);
-
-  function toggleSelected(id: string) {
-    const item = store.inventory.find((row) => row.instanceId === id);
-    if (item && isWithdrawPending(item)) return;
-    setSelectedIds((current) =>
-      current.includes(id) ? current.filter((row) => row !== id) : [...current, id],
-    );
-  }
 
   function toggleRarity(rarity: Rarity) {
     setRarities((current) =>
@@ -185,6 +223,7 @@ export function InventoryVault({ compact = false }: { compact?: boolean }) {
     setRarities([]);
     setMinPrice("");
     setMaxPrice("");
+    setDropFilter("all");
   }
 
   function sellRows(rows: SellRow[], label: string) {
@@ -204,7 +243,6 @@ export function InventoryVault({ compact = false }: { compact?: boolean }) {
       amount: total,
     });
     store.toast({ title: "Sold", detail: `${label} · ${formatMoney(total)}`, tone: "ok" });
-    setSelectedIds((current) => current.filter((id) => !rows.some((row) => row.item.instanceId === id)));
   }
 
   function sellOne(item: InventoryItem) {
@@ -221,7 +259,7 @@ export function InventoryVault({ compact = false }: { compact?: boolean }) {
 
   function goUpgrade(list: InventoryItem[]) {
     const priced = [...list]
-      .filter((item) => !isWithdrawPending(item))
+      .filter((item) => isInVault(item))
       .sort((a, b) => (getSkinPrice(b.id, b.wear).price ?? 0) - (getSkinPrice(a.id, a.wear).price ?? 0));
     const lead = priced[0];
     if (!lead) return;
@@ -294,7 +332,6 @@ export function InventoryVault({ compact = false }: { compact?: boolean }) {
         return;
       }
       store.markWithdrawPending(item.instanceId);
-      setSelectedIds((current) => current.filter((id) => id !== item.instanceId));
       setDetails(null);
       store.addHistory({
         kind: "withdraw",
@@ -318,7 +355,7 @@ export function InventoryVault({ compact = false }: { compact?: boolean }) {
   }
 
   function onCardAction(id: ItemActionId, item: InventoryItem) {
-    if (isWithdrawPending(item) && id !== "details") return;
+    if (!isInVault(item) && id !== "details") return;
     if (id === "sell") setConfirmSell(item);
     if (id === "upgrade") goUpgrade([item]);
     if (id === "contract") router.push("/contracts");
@@ -330,6 +367,8 @@ export function InventoryVault({ compact = false }: { compact?: boolean }) {
   const detailsQuote = details ? getSkinPrice(details.id, details.wear) : null;
   const detailsSell = details ? sellValueUsd(details.id, SELL_COEFFICIENT, details.wear) : null;
   const detailsPending = details ? isWithdrawPending(details) : false;
+  const detailsLive = details ? isInVault(details) : false;
+  const detailsStatus = details ? vaultStatusLabel(details) : null;
 
   return (
     <section className="section-stack">
@@ -347,7 +386,7 @@ export function InventoryVault({ compact = false }: { compact?: boolean }) {
           </div>
 
           <div className="grid flex-1 grid-cols-2 items-stretch gap-3 sm:grid-cols-3">
-            <VaultStat label="Items" value={store.inventory.length.toLocaleString()} />
+            <VaultStat label="Items" value={liveCount.toLocaleString()} />
             <VaultStat label="Vault value" value={formatMoney(store.inventoryValue)} />
             <VaultStat
               label="Best item"
@@ -359,12 +398,35 @@ export function InventoryVault({ compact = false }: { compact?: boolean }) {
         </header>
       )}
 
+      {profileLayout ? (
+        <div className="flex flex-col gap-4">
+          <h2 className="text-center font-display text-[length:var(--type-h2)] tracking-[0.12em]">YOUR ITEMS</h2>
+          <div className="flex flex-wrap items-center gap-2">
+            <VaultStatusChips
+              dropFilter={dropFilter}
+              onChange={setDropFilter}
+              counts={{ liveCount, soldCount, usedCount, withdrawnCount, pendingCount }}
+            />
+            <div className="ml-auto">
+              <Button
+                variant="ghost"
+                size="sm"
+                disabled={sellableShown.length === 0}
+                onClick={() => setSellAllOpen(true)}
+              >
+                {sellableShown.length === 0 ? "No items for sale" : `Sell all · ${formatMoney(shownTotal)}`}
+              </Button>
+            </div>
+          </div>
+        </div>
+      ) : (
+        <>
       <SectionHeading
         title="Vault"
-        count={store.inventory.length}
+        count={liveCount}
         description={
           items.length === store.inventory.length
-            ? "Every skin you own. Pending withdrawals stay here marked Отправляется."
+            ? "Every drop stays listed. Sold and used skins keep their place with a status."
             : `${items.length} of ${store.inventory.length} shown`
         }
         actions={
@@ -421,6 +483,14 @@ export function InventoryVault({ compact = false }: { compact?: boolean }) {
         </div>
 
         <FilterRow>
+          <VaultStatusChips
+            dropFilter={dropFilter}
+            onChange={setDropFilter}
+            counts={{ liveCount, soldCount, usedCount, withdrawnCount, pendingCount }}
+          />
+        </FilterRow>
+
+        <FilterRow>
           <FilterChip active={rarities.length === 0} onClick={() => setRarities([])}>
             All rarities
           </FilterChip>
@@ -444,14 +514,16 @@ export function InventoryVault({ compact = false }: { compact?: boolean }) {
           ))}
         </FilterRow>
       </div>
+        </>
+      )}
 
       {!store.hydrated ? (
         <SkinGridSkeleton count={10} />
       ) : store.inventory.length === 0 ? (
         <EmptyState
           icon={<PackageOpen />}
-          title="Your vault is empty"
-          detail="Open a case — every drop lands here instantly."
+          title={profileLayout ? "No items yet" : "Your vault is empty"}
+          detail={profileLayout ? "Open a case — every drop lands here." : "Open a case — every drop lands here instantly."}
           action={
             <Button size="sm" onClick={() => router.push("/cases")}>
               Open a case
@@ -470,18 +542,20 @@ export function InventoryVault({ compact = false }: { compact?: boolean }) {
         />
       ) : (
         <div className="vault-grid">
-          {items.map((item) => {
+          {pagedItems.map((item) => {
             const pending = isWithdrawPending(item);
+            const live = isInVault(item);
+            const status = vaultStatusLabel(item);
             return (
               <SkinCard
                 key={item.instanceId}
                 skin={item}
                 vault
                 pending={pending}
-                selected={!pending && selectedIds.includes(item.instanceId)}
-                onClick={pending ? undefined : () => toggleSelected(item.instanceId)}
+                muted={!live && !pending}
+                statusLabel={status}
                 actions
-                actionIds={CARD_ACTIONS}
+                actionIds={live || pending ? CARD_ACTIONS : HISTORY_ACTIONS}
                 actionDisabledIds={pending ? PENDING_LOCKED_ACTIONS : undefined}
                 onAction={(id) => onCardAction(id, item)}
               />
@@ -490,27 +564,8 @@ export function InventoryVault({ compact = false }: { compact?: boolean }) {
         </div>
       )}
 
-      {selected.length ? (
-        <div className="sticky bottom-20 z-30 lg:bottom-4">
-          <div className="glass-strong flex flex-wrap items-center gap-2 rounded-[var(--radius-lg)] px-3 py-2.5 shadow-[var(--shadow-lg)]">
-            <p className="mr-auto min-w-0 text-[length:var(--type-sm)]">
-              <span className="font-semibold">{selected.length} selected</span>
-              <span className="tabular text-mute"> · {formatMoney(selectedTotal)}</span>
-            </p>
-            <Button size="sm" variant="gold" disabled={!sellableSelected.length} onClick={() => setBulkSellOpen(true)}>
-              Sell selected
-            </Button>
-            <Button size="sm" variant="ghost" onClick={() => goUpgrade(selected)}>
-              Upgrade
-            </Button>
-            <Button size="sm" variant="ghost" onClick={() => router.push("/contracts")}>
-              Contract
-            </Button>
-            <Button size="sm" variant="quiet" onClick={() => setSelectedIds([])}>
-              Clear
-            </Button>
-          </div>
-        </div>
+      {store.hydrated && items.length > PAGE_SIZE ? (
+        <Pager page={pageSafe} pageCount={pageCount} onPage={setPage} />
       ) : null}
 
       <Modal
@@ -537,37 +592,6 @@ export function InventoryVault({ compact = false }: { compact?: boolean }) {
         <p className="text-[length:var(--type-sm)] text-soft">
           Instant sale of <strong className="text-ink">{confirmSell?.name}</strong>{" "}
           {confirmValue != null ? `for ${formatMoney(confirmValue)}.` : "is unavailable — no market price."}
-        </p>
-      </Modal>
-
-      <Modal
-        open={bulkSellOpen}
-        onClose={() => setBulkSellOpen(false)}
-        title="Sell selected items?"
-        size="sm"
-        footer={
-          <div className="flex w-full min-w-0 flex-wrap gap-2">
-            <Button variant="ghost" className="min-w-0 flex-1" onClick={() => setBulkSellOpen(false)}>
-              Cancel
-            </Button>
-            <Button
-              variant="gold"
-              className="min-w-0 flex-1"
-              disabled={sellableSelected.length === 0}
-              onClick={() => {
-                sellRows(sellableSelected, `${sellableSelected.length} skins`);
-                setBulkSellOpen(false);
-              }}
-            >
-              Confirm sell
-            </Button>
-          </div>
-        }
-      >
-        <p className="text-[length:var(--type-sm)] text-soft">
-          {sellableSelected.length === 0
-            ? "None of the selected skins have a market quote."
-            : `Sell ${sellableSelected.length} skins for ${formatMoney(selectedTotal)}.`}
         </p>
       </Modal>
 
@@ -609,6 +633,7 @@ export function InventoryVault({ compact = false }: { compact?: boolean }) {
         description={details ? `${WEAR_META[details.wear].label} · ${details.collection ?? "Collection"}` : undefined}
         size="md"
         footer={
+          detailsLive ? (
           <div className="flex flex-wrap gap-2">
             <Button
               variant="gold"
@@ -628,6 +653,11 @@ export function InventoryVault({ compact = false }: { compact?: boolean }) {
               Withdraw
             </Button>
           </div>
+          ) : detailsPending ? (
+            <Badge tone="warn">Отправляется</Badge>
+          ) : detailsStatus ? (
+            <Badge tone="accent">{detailsStatus}</Badge>
+          ) : null
         }
       >
         {details ? (
@@ -642,6 +672,15 @@ export function InventoryVault({ compact = false }: { compact?: boolean }) {
               <DetailRow label="Exterior">{WEAR_META[details.wear].label}</DetailRow>
               <DetailRow label="StatTrak">
                 {details.stattrak ? <Badge tone="warn">StatTrak™</Badge> : <span className="text-mute">No</span>}
+              </DetailRow>
+              <DetailRow label="Status">
+                {detailsPending ? (
+                  <Badge tone="warn">Отправляется</Badge>
+                ) : detailsStatus ? (
+                  <Badge tone="accent">{detailsStatus}</Badge>
+                ) : (
+                  <Badge tone="accent">In vault</Badge>
+                )}
               </DetailRow>
               <DetailRow label="Market price">
                 <span className="price">{detailsQuote ? formatQuotePrice(detailsQuote) : "—"}</span>
@@ -690,6 +729,41 @@ export function InventoryVault({ compact = false }: { compact?: boolean }) {
 
       {sending ? <SkinWithdrawSend item={sending} /> : null}
     </section>
+  );
+}
+
+function VaultStatusChips({
+  dropFilter,
+  onChange,
+  counts,
+}: {
+  dropFilter: VaultFilter;
+  onChange: (id: VaultFilter) => void;
+  counts: {
+    liveCount: number;
+    soldCount: number;
+    usedCount: number;
+    withdrawnCount: number;
+    pendingCount: number;
+  };
+}) {
+  const chips: Array<{ id: VaultFilter; label: string }> = [
+    { id: "all", label: "All drop" },
+    { id: "vault", label: `In vault (${counts.liveCount})` },
+    { id: "sold", label: `Sold (${counts.soldCount})` },
+    { id: "used", label: `Used (${counts.usedCount})` },
+    { id: "withdrawn", label: `Withdrawn (${counts.withdrawnCount})` },
+    { id: "pending", label: `In process (${counts.pendingCount})` },
+    { id: "error", label: "Error (0)" },
+  ];
+  return (
+    <>
+      {chips.map((chip) => (
+        <FilterChip key={chip.id} active={dropFilter === chip.id} onClick={() => onChange(chip.id)}>
+          {chip.label}
+        </FilterChip>
+      ))}
+    </>
   );
 }
 

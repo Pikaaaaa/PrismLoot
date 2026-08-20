@@ -38,6 +38,7 @@ import type {
   CurrencyCode,
   HistoryEntry,
   InventoryItem,
+  InventoryLeftVia,
   LiveDrop,
   PriceQuote,
   PublicUser,
@@ -47,11 +48,14 @@ import type {
 } from "./types";
 import { formatBalance, uid } from "./utils";
 import { DISCONNECTED_STEAM, type SteamIdentity } from "@/lib/auth/steam";
+import { parseHistoryEntries } from "@/components/profile/activity";
 import {
   mergeBestDrop,
   parseBestDrop,
   pickHigherBestDrop,
 } from "./bestDrop";
+import type { FreeCaseClaimSummary } from "@/lib/case-coupons/types";
+import { isInVault } from "@/lib/inventoryOwnership";
 
 const PREFS_KEY = "prismloot-prefs-v3";
 const LEGACY_DEMO_KEYS = ["prismloot-demo-v2", "prismloot-demo-v1", "prismloot-demo"];
@@ -72,12 +76,15 @@ type State = {
   reduceMotion: boolean;
   displayCurrency: CurrencyCode;
   savedPromo: string | null;
+  savedCasePromo: string | null;
   tradeUrl: string;
   accountEmail: string;
   steam: SteamIdentity;
   priceTick: number;
   banned: boolean;
   wagerRemainingUsd: number;
+  joinedAt: number | null;
+  freeCaseClaims: FreeCaseClaimSummary[];
 };
 
 type Action =
@@ -100,6 +107,7 @@ type Action =
       item: InventoryItem | null;
     }
   | { type: "REMOVE_ITEMS"; ids: string[] }
+  | { type: "MARK_LEFT"; ids: string[]; leftVia: InventoryLeftVia }
   | { type: "MARK_WITHDRAW_PENDING"; instanceId: string }
   | { type: "ADD_HISTORY"; entry: HistoryEntry }
   | { type: "SET_BATTLES"; battles: Battle[] }
@@ -109,6 +117,9 @@ type Action =
   | { type: "SET_SETTING"; key: "liveFeedOn" | "reduceMotion"; value: boolean }
   | { type: "SET_CURRENCY"; value: CurrencyCode }
   | { type: "SAVE_PROMO"; code: string }
+  | { type: "SAVE_CASE_PROMO"; code: string }
+  | { type: "ADD_FREE_CLAIM"; claim: FreeCaseClaimSummary }
+  | { type: "CONSUME_FREE_CLAIMS"; caseId: string; count: number }
   | { type: "SET_TRADE_URL"; value: string }
   | { type: "SET_EMAIL"; value: string }
   | { type: "PRICE_TICK" }
@@ -120,7 +131,11 @@ type Action =
       banned: boolean;
       wagerRemainingUsd?: number;
       tradeUrl?: string;
+      accountEmail?: string;
+      joinedAt?: number | null;
+      history?: HistoryEntry[];
       stats?: Partial<UserStats>;
+      freeCaseClaims?: FreeCaseClaimSummary[];
     }
   | { type: "SET_WAGER"; remaining: number }
   | { type: "APPLY_WAGER_VOLUME"; volume: number };
@@ -153,6 +168,9 @@ const emptyStats: UserStats = {
   battles: 0,
   upgrades: 0,
   contracts: 0,
+  wageredUsd: 0,
+  upgradesWon: 0,
+  upgradesLost: 0,
   bestDrop: null,
   bestDropBackfilled: true,
   biggestWin: { name: "", price: 0 },
@@ -173,12 +191,15 @@ const initial: State = {
   reduceMotion: false,
   displayCurrency: "USD",
   savedPromo: null,
+  savedCasePromo: null,
   tradeUrl: "",
   accountEmail: "",
   steam: DISCONNECTED_STEAM,
   priceTick: 0,
   banned: false,
   wagerRemainingUsd: 0,
+  joinedAt: null,
+  freeCaseClaims: [],
 };
 
 function persistable(state: State) {
@@ -187,7 +208,17 @@ function persistable(state: State) {
     reduceMotion: state.reduceMotion,
     displayCurrency: state.displayCurrency,
     savedPromo: state.savedPromo,
+    savedCasePromo: state.savedCasePromo,
   };
+}
+
+function mergeSessionHistory(local: HistoryEntry[], server?: HistoryEntry[]) {
+  if (!server) return local;
+  const seen = new Set(server.map((entry) => `${entry.kind}|${entry.title}|${entry.at}`));
+  const extra = local.filter(
+    (entry) => entry.id.startsWith("h_") && !seen.has(`${entry.kind}|${entry.title}|${entry.at}`),
+  );
+  return [...extra, ...server].slice(0, 80);
 }
 
 function reducer(state: State, action: Action): State {
@@ -199,6 +230,7 @@ function reducer(state: State, action: Action): State {
         reduceMotion: action.payload.reduceMotion ?? state.reduceMotion,
         displayCurrency: action.payload.displayCurrency ?? state.displayCurrency,
         savedPromo: action.payload.savedPromo ?? state.savedPromo,
+        savedCasePromo: action.payload.savedCasePromo ?? state.savedCasePromo,
         user: null,
         steam: DISCONNECTED_STEAM,
         balance: 0,
@@ -208,6 +240,8 @@ function reducer(state: State, action: Action): State {
         banned: false,
         wagerRemainingUsd: 0,
         tradeUrl: "",
+        joinedAt: null,
+        freeCaseClaims: [],
         hydrated: true,
       };
     case "SET_HYDRATED":
@@ -229,6 +263,8 @@ function reducer(state: State, action: Action): State {
         banned: false,
         wagerRemainingUsd: 0,
         tradeUrl: "",
+        joinedAt: null,
+        freeCaseClaims: [],
       };
     case "ADD_TOAST": {
       const dup = state.toasts.find(
@@ -265,17 +301,25 @@ function reducer(state: State, action: Action): State {
         wagerRemainingUsd: Math.max(0, +(state.wagerRemainingUsd - action.amount).toFixed(2)),
         inventory: [...fresh, ...state.inventory],
         stats: mergeBestDrop(
-          { ...state.stats, openedCases: state.stats.openedCases + action.items.length },
+          {
+            ...state.stats,
+            openedCases: state.stats.openedCases + action.items.length,
+            wageredUsd: +(state.stats.wageredUsd + action.amount).toFixed(2),
+          },
           action.items,
         ),
       };
     }
     case "APPLY_UPGRADE": {
       const extra = action.extra > 0 ? action.extra : 0;
-      const stripped = state.inventory.filter((i) => !action.removeIds.includes(i.instanceId));
-      const have = new Set(stripped.map((i) => i.instanceId));
+      const marked = state.inventory.map((item) =>
+        action.removeIds.includes(item.instanceId)
+          ? { ...item, leftVia: "upgrade" as const, soldAt: item.soldAt ?? Date.now() }
+          : item,
+      );
+      const have = new Set(marked.map((i) => i.instanceId));
       const next =
-        action.item && !have.has(action.item.instanceId) ? [action.item, ...stripped] : stripped;
+        action.item && !have.has(action.item.instanceId) ? [action.item, ...marked] : marked;
       const staked = state.inventory
         .filter((item) => action.removeIds.includes(item.instanceId))
         .reduce((sum, item) => {
@@ -287,7 +331,20 @@ function reducer(state: State, action: Action): State {
         balance: +(state.balance - extra).toFixed(2),
         wagerRemainingUsd: Math.max(0, +(state.wagerRemainingUsd - extra - staked).toFixed(2)),
         inventory: next,
-        stats: action.item ? mergeBestDrop(state.stats, [action.item]) : state.stats,
+        stats: action.item
+          ? mergeBestDrop(
+              {
+                ...state.stats,
+                wageredUsd: +(state.stats.wageredUsd + extra).toFixed(2),
+                upgradesWon: state.stats.upgradesWon + 1,
+              },
+              [action.item],
+            )
+          : {
+              ...state.stats,
+              wageredUsd: +(state.stats.wageredUsd + extra).toFixed(2),
+              upgradesLost: state.stats.upgradesLost + 1,
+            },
       };
     }
     case "REMOVE_ITEMS":
@@ -295,11 +352,27 @@ function reducer(state: State, action: Action): State {
         ...state,
         inventory: state.inventory.filter((i) => !action.ids.includes(i.instanceId)),
       };
+    case "MARK_LEFT":
+      return {
+        ...state,
+        inventory: state.inventory.map((item) =>
+          action.ids.includes(item.instanceId)
+            ? { ...item, leftVia: action.leftVia, soldAt: item.soldAt ?? Date.now() }
+            : item,
+        ),
+      };
     case "MARK_WITHDRAW_PENDING":
       return {
         ...state,
         inventory: state.inventory.map((item) =>
-          item.instanceId === action.instanceId ? { ...item, withdrawPending: true } : item,
+          item.instanceId === action.instanceId
+            ? {
+                ...item,
+                withdrawPending: true,
+                leftVia: "withdraw",
+                soldAt: item.soldAt ?? Date.now(),
+              }
+            : item,
         ),
       };
     case "ADD_HISTORY":
@@ -331,6 +404,37 @@ function reducer(state: State, action: Action): State {
       return { ...state, displayCurrency: action.value };
     case "SAVE_PROMO":
       return { ...state, savedPromo: action.code };
+    case "SAVE_CASE_PROMO":
+      return { ...state, savedCasePromo: action.code };
+    case "ADD_FREE_CLAIM": {
+      const existing = state.freeCaseClaims.find((row) => row.caseId === action.claim.caseId);
+      if (existing) {
+        return {
+          ...state,
+          freeCaseClaims: state.freeCaseClaims.map((row) =>
+            row.caseId === action.claim.caseId
+              ? { ...row, remaining: row.remaining + action.claim.remaining, caseName: action.claim.caseName }
+              : row,
+          ),
+        };
+      }
+      return { ...state, freeCaseClaims: [...state.freeCaseClaims, action.claim] };
+    }
+    case "CONSUME_FREE_CLAIMS": {
+      let left = Math.max(0, action.count);
+      if (left <= 0) return state;
+      return {
+        ...state,
+        freeCaseClaims: state.freeCaseClaims
+          .map((row) => {
+            if (row.caseId !== action.caseId || left <= 0) return row;
+            const take = Math.min(left, row.remaining);
+            left -= take;
+            return { ...row, remaining: row.remaining - take };
+          })
+          .filter((row) => row.remaining > 0),
+      };
+    }
     case "SET_TRADE_URL":
       return { ...state, tradeUrl: action.value };
     case "SET_EMAIL":
@@ -355,6 +459,11 @@ function reducer(state: State, action: Action): State {
           typeof action.wagerRemainingUsd === "number" ? Math.max(0, action.wagerRemainingUsd) : state.wagerRemainingUsd,
         tradeUrl:
           typeof action.tradeUrl === "string" && action.tradeUrl.trim() ? action.tradeUrl.trim() : state.tradeUrl,
+        accountEmail:
+          typeof action.accountEmail === "string" ? action.accountEmail : state.accountEmail,
+        joinedAt: typeof action.joinedAt === "number" ? action.joinedAt : state.joinedAt,
+        history: mergeSessionHistory(state.history, action.history),
+        freeCaseClaims: Array.isArray(action.freeCaseClaims) ? action.freeCaseClaims : state.freeCaseClaims,
         stats: {
           ...state.stats,
           ...action.stats,
@@ -381,7 +490,7 @@ type Store = State & {
   addItem: (item: InventoryItem) => void;
   applyOpen: (amount: number, items: InventoryItem[]) => boolean;
   applyUpgrade: (input: { extra: number; removeIds: string[]; item: InventoryItem | null }) => boolean;
-  removeItems: (ids: string[], sales?: Record<string, number>) => void;
+  removeItems: (ids: string[], sales?: Record<string, number>, leftVia?: InventoryLeftVia) => void;
   markWithdrawPending: (instanceId: string) => void;
   addHistory: (entry: Omit<HistoryEntry, "id" | "at">) => void;
   pushDrop: (drop: Partial<LiveDrop> & { skin?: Skin; caseName?: string }) => void;
@@ -389,9 +498,12 @@ type Store = State & {
   bumpStat: (key: "openedCases" | "battles" | "upgrades" | "contracts" | "biggestWin", extra?: Partial<UserStats>) => void;
   setSetting: (key: "liveFeedOn" | "reduceMotion", value: boolean) => void;
   setCurrency: (code: CurrencyCode) => void;
-  savePromo: (code: string) => void;
+  savePromo: (code: string) => Promise<boolean>;
+  saveCasePromo: (code: string) => void;
+  addFreeCaseClaim: (claim: FreeCaseClaimSummary) => void;
+  consumeFreeCaseClaims: (caseId: string, count: number) => void;
   setTradeUrl: (url: string) => void;
-  setAccountEmail: (email: string) => void;
+  setAccountEmail: (email: string) => Promise<boolean>;
   setWagerRemaining: (remaining: number) => void;
   applyWagerVolume: (volumeUsd: number) => void;
   beginSteamLogin: () => void;
@@ -466,6 +578,7 @@ export function AppStoreProvider({ children }: { children: ReactNode }) {
             reduceMotion: parsed.reduceMotion ?? false,
             displayCurrency: isValidCurrency(parsed.displayCurrency) ? parsed.displayCurrency : "USD",
             savedPromo: typeof parsed.savedPromo === "string" ? parsed.savedPromo : null,
+            savedCasePromo: typeof parsed.savedCasePromo === "string" ? parsed.savedCasePromo : null,
           },
         });
         return;
@@ -502,7 +615,18 @@ export function AppStoreProvider({ children }: { children: ReactNode }) {
           banned?: boolean;
           wagerRemainingUsd?: number;
           tradeUrl?: string;
-          stats?: { openedCases?: number; upgrades?: number; contracts?: number };
+          stats?: {
+            openedCases?: number;
+            upgrades?: number;
+            contracts?: number;
+            wageredUsd?: number;
+            upgradesWon?: number;
+            upgradesLost?: number;
+          };
+          history?: unknown;
+          joinedAt?: number;
+          email?: string | null;
+          freeCaseClaims?: FreeCaseClaimSummary[];
         };
         if (cancelled) return;
         if (!data.ok) {
@@ -527,7 +651,11 @@ export function AppStoreProvider({ children }: { children: ReactNode }) {
           banned: Boolean(data.banned),
           wagerRemainingUsd: typeof data.wagerRemainingUsd === "number" ? data.wagerRemainingUsd : undefined,
           tradeUrl: typeof data.tradeUrl === "string" ? data.tradeUrl : undefined,
+          accountEmail: typeof data.email === "string" ? data.email : undefined,
+          joinedAt: typeof data.joinedAt === "number" ? data.joinedAt : undefined,
+          history: Array.isArray(data.history) ? parseHistoryEntries(data.history) : undefined,
           stats: data.stats,
+          freeCaseClaims: Array.isArray(data.freeCaseClaims) ? data.freeCaseClaims : undefined,
         });
       } catch {
         if (!cancelled) dispatch({ type: "SESSION_READY" });
@@ -575,6 +703,7 @@ export function AppStoreProvider({ children }: { children: ReactNode }) {
     const auth = params.get("auth");
     if (!auth) return;
     if (auth === "ok") toast({ title: "Signed in with Steam", tone: "ok" });
+    else if (auth === "local") toast({ title: "Local session", detail: "NovaPrime on this machine — not Steam.", tone: "ok" });
     else if (auth === "error") toast({ title: "Steam sign-in failed", detail: "Try again from the header.", tone: "err" });
     else if (auth === "cancel") toast({ title: "Steam sign-in cancelled", tone: "warn" });
     params.delete("auth");
@@ -624,7 +753,7 @@ export function AppStoreProvider({ children }: { children: ReactNode }) {
   const inventoryValue = useMemo(
     () =>
       state.inventory.reduce((sum, item) => {
-        if (item.withdrawPending) return sum;
+        if (!isInVault(item)) return sum;
         const quote = getSkinPrice(item.id, item.wear);
         return quote.available && quote.price != null ? sum + quote.price : sum;
       }, 0),
@@ -705,12 +834,12 @@ export function AppStoreProvider({ children }: { children: ReactNode }) {
         dispatch({ type: "APPLY_UPGRADE", extra, removeIds, item });
         return true;
       },
-      removeItems: (ids, sales) => {
-        dispatch({ type: "REMOVE_ITEMS", ids });
+      removeItems: (ids, sales, leftVia = "sell") => {
+        dispatch({ type: "MARK_LEFT", ids, leftVia });
         void fetch("/api/persist/inventory", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ ids, sales }),
+          body: JSON.stringify({ ids, sales, leftVia }),
         }).catch(() => undefined);
       },
       markWithdrawPending: (instanceId) => dispatch({ type: "MARK_WITHDRAW_PENDING", instanceId }),
@@ -747,19 +876,42 @@ export function AppStoreProvider({ children }: { children: ReactNode }) {
         dispatch({ type: "SET_CURRENCY", value: code });
         dispatch({ type: "PRICE_TICK" });
       },
-      savePromo: (code) => {
-        dispatch({ type: "SAVE_PROMO", code });
-        void fetch("/api/persist/promo", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ code }),
-        }).catch(() => undefined);
-        toast({
-          title: "Promo saved — deposits coming soon",
-          detail: `${code} · demo only, no top-up`,
-          tone: "ok",
-        });
+      /** The server owns the code list, so nothing is stored until it accepts one. */
+      savePromo: async (code) => {
+        const normalized = code.trim().toUpperCase();
+        if (!normalized) return false;
+        try {
+          const res = await fetch("/api/persist/promo", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ code: normalized }),
+          });
+          const json = (await res.json()) as { ok?: boolean; already?: boolean; message?: string };
+          if (!res.ok || !json.ok) {
+            toast({
+              title: "Code not accepted",
+              detail: json.message ?? "That promo code is not valid.",
+              tone: "err",
+            });
+            return false;
+          }
+          dispatch({ type: "SAVE_PROMO", code: normalized });
+          toast({
+            title: json.already ? "Promo already applied" : "Promo saved",
+            detail: `${normalized} · bonus on your next deposit`,
+            tone: "ok",
+          });
+          return true;
+        } catch {
+          toast({ title: "Could not apply", detail: "Network error. Try again.", tone: "err" });
+          return false;
+        }
       },
+      saveCasePromo: (code) => {
+        dispatch({ type: "SAVE_CASE_PROMO", code });
+      },
+      addFreeCaseClaim: (claim) => dispatch({ type: "ADD_FREE_CLAIM", claim }),
+      consumeFreeCaseClaims: (caseId, count) => dispatch({ type: "CONSUME_FREE_CLAIMS", caseId, count }),
       setTradeUrl: (url) => {
         dispatch({ type: "SET_TRADE_URL", value: url });
         void fetch("/api/persist/trade-url", {
@@ -768,7 +920,30 @@ export function AppStoreProvider({ children }: { children: ReactNode }) {
           body: JSON.stringify({ url }),
         }).catch(() => undefined);
       },
-      setAccountEmail: (email) => dispatch({ type: "SET_EMAIL", value: email }),
+      setAccountEmail: async (email) => {
+        const next = email.trim();
+        try {
+          const res = await fetch("/api/persist/email", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email: next }),
+          });
+          const json = (await res.json()) as { ok?: boolean; message?: string };
+          if (!res.ok || !json.ok) {
+            toast({
+              title: "Email not saved",
+              detail: json.message ?? "Check the address and try again.",
+              tone: "err",
+            });
+            return false;
+          }
+        } catch {
+          toast({ title: "Email not saved", detail: "Network error. Try again.", tone: "err" });
+          return false;
+        }
+        dispatch({ type: "SET_EMAIL", value: next });
+        return true;
+      },
       beginSteamLogin: () => {
         window.location.assign("/api/auth/steam");
       },

@@ -1,5 +1,48 @@
 import type { HistoryEntry, InventoryItem } from "@/lib/types";
 
+const HISTORY_KINDS = new Set<HistoryEntry["kind"]>([
+  "open",
+  "sell",
+  "upgrade",
+  "contract",
+  "battle",
+  "deposit",
+  "giveaway",
+  "withdraw",
+]);
+
+/** Accept `/api/me` history payloads without trusting the shape blindly. */
+export function parseHistoryEntries(raw: unknown): HistoryEntry[] {
+  if (!Array.isArray(raw)) return [];
+  const rows: HistoryEntry[] = [];
+  for (const item of raw) {
+    if (!item || typeof item !== "object") continue;
+    const row = item as Partial<HistoryEntry>;
+    if (typeof row.id !== "string" || !row.id) continue;
+    if (typeof row.kind !== "string" || !HISTORY_KINDS.has(row.kind as HistoryEntry["kind"])) continue;
+    if (typeof row.title !== "string" || typeof row.detail !== "string") continue;
+    if (typeof row.amount !== "number" || !Number.isFinite(row.amount)) continue;
+    if (typeof row.at !== "number" || !Number.isFinite(row.at)) continue;
+    rows.push({
+      id: row.id,
+      kind: row.kind as HistoryEntry["kind"],
+      title: row.title,
+      detail: row.detail,
+      amount: row.amount,
+      at: row.at,
+      itemName: typeof row.itemName === "string" ? row.itemName : undefined,
+      sourceName: typeof row.sourceName === "string" ? row.sourceName : undefined,
+      targetName: typeof row.targetName === "string" ? row.targetName : undefined,
+      chance: typeof row.chance === "number" ? row.chance : undefined,
+      result:
+        row.result === "success" || row.result === "fail" || row.result === "win" || row.result === "loss"
+          ? row.result
+          : undefined,
+    });
+  }
+  return rows;
+}
+
 export type ActivitySummary = {
   upgradesWon: number;
   upgradesLost: number;
@@ -46,7 +89,14 @@ const MONTH_YEAR = new Intl.DateTimeFormat("en-US", {
  * Oldest trace of the account. UTC-pinned so the server and the client render
  * the same string.
  */
-export function memberSinceLabel(history: HistoryEntry[], inventory: InventoryItem[]) {
+export function memberSinceLabel(
+  history: HistoryEntry[],
+  inventory: InventoryItem[],
+  joinedAt?: number | null,
+) {
+  if (joinedAt && Number.isFinite(joinedAt) && joinedAt > 0) {
+    return MONTH_YEAR.format(new Date(joinedAt));
+  }
   const stamps = [...history.map((h) => h.at), ...inventory.map((i) => i.obtainedAt)].filter(
     (at) => Number.isFinite(at) && at > 0,
   );

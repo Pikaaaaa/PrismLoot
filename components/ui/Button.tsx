@@ -31,6 +31,7 @@ type Props = ButtonHTMLAttributes<HTMLButtonElement> & {
   iconRight?: ReactNode;
   loading?: boolean;
   fullWidth?: boolean;
+  href?: string;
 };
 
 export function Button({
@@ -43,26 +44,42 @@ export function Button({
   fullWidth = false,
   disabled,
   children,
+  href,
+  type = "button",
   ...props
 }: Props) {
+  const classes = cn(
+    "inline-flex items-center justify-center font-semibold whitespace-nowrap",
+    "transition-[background-color,border-color,color,box-shadow,filter,transform] duration-[var(--dur-fast)] ease-[var(--ease)]",
+    "active:scale-[0.985] disabled:pointer-events-none disabled:opacity-40",
+    SIZES[size],
+    VARIANTS[variant],
+    fullWidth && "w-full min-w-0",
+    className,
+  );
+  const inner = (
+    <>
+      {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : icon}
+      {children}
+      {loading ? null : iconRight}
+    </>
+  );
+  if (href && !disabled && !loading) {
+    return (
+      <a href={href} className={classes}>
+        {inner}
+      </a>
+    );
+  }
   return (
     <button
-      className={cn(
-        "inline-flex items-center justify-center font-semibold whitespace-nowrap",
-        "transition-[background-color,border-color,color,box-shadow,filter,transform] duration-[var(--dur-fast)] ease-[var(--ease)]",
-        "active:scale-[0.985] disabled:pointer-events-none disabled:opacity-40",
-        SIZES[size],
-        VARIANTS[variant],
-        fullWidth && "w-full min-w-0",
-        className,
-      )}
+      type={type}
+      className={classes}
       disabled={disabled || loading}
       aria-busy={loading || undefined}
       {...props}
     >
-      {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : icon}
-      {children}
-      {loading ? null : iconRight}
+      {inner}
     </button>
   );
 }

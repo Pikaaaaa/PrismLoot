@@ -1,17 +1,18 @@
 "use client";
 
-import { SteamSignInButton } from "@/components/auth/SteamButton";
+import { SignInActions } from "@/components/auth/SignInActions";
 import { CoinMark } from "@/components/deposit/CoinMark";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { EmptyState, ErrorState } from "@/components/ui/EmptyState";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { Skeleton } from "@/components/ui/Skeleton";
+import { DEMO_PROMO_CODE } from "@/components/layout/PromoBanner";
 import { publicDepositCatalog } from "@/lib/deposits/catalog";
 import { formatWagerMultiplier } from "@/lib/gift-cards/wager";
 import { useAppStore } from "@/lib/store";
 import { cn, formatBalance, formatMoney, timeAgo } from "@/lib/utils";
-import { Check, Copy, Gift, Wallet } from "lucide-react";
+import { Check, Copy, Gift, Ticket, Wallet } from "lucide-react";
 import { useCallback, useEffect, useMemo, useState } from "react";
 
 type Network = {
@@ -102,6 +103,7 @@ export function DepositCashier() {
   const [copied, setCopied] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [giftSuccess, setGiftSuccess] = useState<{ amountUsd: number; wagerMultiplier: number } | null>(null);
+  const [promoDraft, setPromoDraft] = useState("");
 
   const load = useCallback(async () => {
     try {
@@ -134,6 +136,10 @@ export function DepositCashier() {
     void load();
   }, [load]);
 
+  useEffect(() => {
+    if (store.savedPromo) setPromoDraft(store.savedPromo);
+  }, [store.savedPromo]);
+
   const coin = coins.find((row) => row.asset === asset) ?? coins[0] ?? null;
   const network = useMemo(() => {
     if (!coin) return null;
@@ -162,6 +168,16 @@ export function DepositCashier() {
     } catch {
       store.toast({ title: "Не удалось скопировать", tone: "warn" });
     }
+  }
+
+  function applyPromo() {
+    const code = promoDraft.trim().toUpperCase();
+    if (!code) {
+      store.toast({ title: "Введите промокод", detail: `Например ${DEMO_PROMO_CODE}.`, tone: "warn" });
+      return;
+    }
+    setPromoDraft(code);
+    void store.savePromo(code);
   }
 
   async function submit() {
@@ -271,7 +287,7 @@ export function DepositCashier() {
           <p className="font-semibold text-ink">Sign in with Steam</p>
           <p className="meta mt-1.5">Deposits and gift cards need a Steam account.</p>
           <div className="mt-4 flex justify-center">
-            <SteamSignInButton />
+            <SignInActions />
           </div>
         </div>
       </div>
@@ -444,6 +460,31 @@ export function DepositCashier() {
                 <p className="meta mt-1.5">
                   Минимум {formatMoney(coin.minUsd)} · к оплате {cryptoLabel} {coin.ticker}
                 </p>
+                <div className="mt-3">
+                  <span className="label">Промокод</span>
+                  <div className="mt-1 flex gap-2">
+                    <input
+                      value={promoDraft}
+                      onChange={(e) => setPromoDraft(e.target.value.toUpperCase())}
+                      placeholder={DEMO_PROMO_CODE}
+                      aria-label="Промокод на бонус к пополнению"
+                      className="field min-w-0 flex-1 uppercase"
+                      autoComplete="off"
+                      spellCheck={false}
+                    />
+                    <Button size="sm" icon={<Ticket className="h-3.5 w-3.5" />} onClick={applyPromo}>
+                      Применить
+                    </Button>
+                  </div>
+                  {store.savedPromo ? (
+                    <div className="mt-1.5 flex flex-wrap items-center gap-2">
+                      <Badge tone="gold">{store.savedPromo}</Badge>
+                      <span className="meta">бонус к сумме пополнения</span>
+                    </div>
+                  ) : (
+                    <p className="meta mt-1.5">Бонус к депозиту, например {DEMO_PROMO_CODE}</p>
+                  )}
+                </div>
               </div>
 
               <div className="rounded-[var(--radius-md)] border border-line bg-graphite p-3">

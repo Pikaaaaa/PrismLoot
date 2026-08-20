@@ -18,6 +18,7 @@ import {
   ImageIcon,
   FlaskConical,
   Banknote,
+  Box,
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
@@ -29,6 +30,7 @@ const MAIN = [
   { rest: "/deposits", label: "Deposits", icon: Wallet },
   { rest: "/withdrawals", label: "Withdrawals", icon: Banknote },
   { rest: "/gift-cards", label: "Gift cards", icon: Gift },
+  { rest: "/case-coupons", label: "Free cases", icon: Box },
   { rest: "/catalog", label: "Catalog", icon: Boxes },
   { rest: "/drops", label: "Drops", icon: Package },
   { rest: "/promos", label: "Promos", icon: Ticket },

@@ -10,6 +10,7 @@ import {
   rewriteAdminToInternal,
 } from "@/lib/admin/path";
 import { isSteamRequiredPath } from "@/lib/auth/gates";
+import { allowLocalSession } from "@/lib/auth/local";
 import { PLAYER_SESSION_COOKIE } from "@/lib/auth/session";
 import { STEAM_LOGIN_PATH } from "@/lib/auth/steam";
 
@@ -42,7 +43,12 @@ export function proxy(request: NextRequest) {
     return response;
   }
 
-  if (isSteamRequiredPath(pathname) && !request.cookies.get(PLAYER_SESSION_COOKIE)?.value) {
+  if (
+    !pathname.startsWith("/api/") &&
+    isSteamRequiredPath(pathname) &&
+    !request.cookies.get(PLAYER_SESSION_COOKIE)?.value &&
+    !allowLocalSession(request.headers)
+  ) {
     const steam = request.nextUrl.clone();
     steam.pathname = STEAM_LOGIN_PATH;
     steam.search = "";

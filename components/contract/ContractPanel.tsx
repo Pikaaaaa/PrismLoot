@@ -7,21 +7,24 @@ import { SkinCard } from "@/components/skin/SkinCard";
 import { Button } from "@/components/ui/Button";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { SearchInput, SelectField } from "@/components/ui/FilterBar";
+import { Pager } from "@/components/ui/Pager";
 import { Price } from "@/components/ui/Price";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Skeleton, SkinCardSkeleton } from "@/components/ui/Skeleton";
 import { Tooltip } from "@/components/ui/Tooltip";
 import { previewContract } from "@/lib/engine/contract";
 import { CONTRACT_MAX_ITEMS, CONTRACT_MIN_ITEMS } from "@/lib/economy/config";
+import { isInVault } from "@/lib/inventoryOwnership";
 import { getSkinPrice } from "@/lib/services/prices/priceProvider";
 import { useAppStore } from "@/lib/store";
 import type { InventoryItem } from "@/lib/types";
 import { formatBalance, formatMoney } from "@/lib/utils";
 import { CircleDollarSign, CircleHelp, Handshake, Plus, Shuffle, Wallet } from "lucide-react";
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 const SLOTS = CONTRACT_MAX_ITEMS;
+const PAGE_SIZE = 9;
 
 function sleep(ms: number) {
   return new Promise<void>((resolve) => window.setTimeout(resolve, ms));
@@ -35,6 +38,7 @@ export function ContractPanel() {
   const store = useAppStore();
   const [slots, setSlots] = useState<Array<InventoryItem | null>>(Array(SLOTS).fill(null));
   const [query, setQuery] = useState("");
+  const [page, setPage] = useState(0);
   const [extra, setExtra] = useState(0);
   const [hasInk, setHasInk] = useState(false);
   const [padReset, setPadReset] = useState(0);
@@ -72,7 +76,7 @@ export function ContractPanel() {
     const needle = query.trim().toLowerCase();
     return store.inventory
       .filter((item) => {
-        if (item.withdrawPending) return false;
+        if (!isInVault(item)) return false;
         if (selectedIds.has(item.instanceId)) return false;
         if (
           needle &&
@@ -86,7 +90,15 @@ export function ContractPanel() {
       .sort((a, b) => skinValue(b) - skinValue(a));
   }, [store.inventory, store.priceTick, store.displayCurrency, selectedIds, query]);
 
-  const vaultCount = store.inventory.filter((item) => !item.withdrawPending).length;
+  const pages = Math.max(1, Math.ceil(available.length / PAGE_SIZE));
+  const pageSafe = Math.min(page, pages - 1);
+  const pageSlice = available.slice(pageSafe * PAGE_SIZE, pageSafe * PAGE_SIZE + PAGE_SIZE);
+
+  useEffect(() => {
+    setPage(0);
+  }, [query]);
+
+  const vaultCount = store.inventory.filter(isInVault).length;
   const shortOnBoard = selected.length < CONTRACT_MIN_ITEMS;
   const needed = Math.max(0, CONTRACT_MIN_ITEMS - selected.length);
   const boardFull = selected.length >= SLOTS;
@@ -94,7 +106,7 @@ export function ContractPanel() {
   const deskOpen = phase === "idle";
 
   function put(item: InventoryItem) {
-    if (busy || boardFull || item.withdrawPending) return;
+    if (busy || boardFull || !isInVault(item)) return;
     setSlots((prev) => {
       const i = prev.findIndex((slot) => !slot);
       if (i < 0) return prev;
@@ -165,7 +177,7 @@ export function ContractPanel() {
         store.toast({ title: "Contract rejected", detail: data.error, tone: "err" });
         return;
       }
-      store.removeItems(selected.map((item) => item.instanceId));
+      store.removeItems(selected.map((item) => item.instanceId), undefined, "contract");
       store.addItem(data.item);
       if (extraStake > 0) store.spend(extraStake);
       store.bumpStat("contracts");
@@ -300,7 +312,7 @@ export function ContractPanel() {
           />
 
           {!store.hydrated ? (
-            <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-3">
+            <div className="contract-grid">
               {Array.from({ length: 6 }).map((_, i) => (
                 <SkinCardSkeleton key={i} />
               ))}
@@ -325,18 +337,21 @@ export function ContractPanel() {
               detail={boardFull ? "Clear a slot to swap in another skin." : "Try another search."}
             />
           ) : (
-            <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-3">
-              {available.map((item) => (
-                <SkinCard
-                  key={item.instanceId}
-                  skin={item}
-                  compact
-                  disabled={busy || boardFull}
-                  onClick={() => put(item)}
-                  className="h-full"
-                />
-              ))}
-            </div>
+            <>
+              <div className="contract-grid">
+                {pageSlice.map((item) => (
+                  <SkinCard
+                    key={item.instanceId}
+                    skin={item}
+                    compact
+                    disabled={busy || boardFull}
+                    onClick={() => put(item)}
+                    className="h-full"
+                  />
+                ))}
+              </div>
+              <Pager page={pageSafe} pageCount={pages} onPage={setPage} className="mt-2" />
+            </>
           )}
         </section>
 

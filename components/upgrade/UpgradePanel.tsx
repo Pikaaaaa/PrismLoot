@@ -1,7 +1,7 @@
 "use client";
 
 import { SkinCard } from "@/components/skin/SkinCard";
-import { Badge, RarityPill } from "@/components/ui/Badge";
+import { RarityPill } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { EmptyWellMark } from "@/components/ui/EmptyWellMark";
@@ -32,16 +32,16 @@ import { clearPendingUpgrade, readPendingUpgrade, writePendingUpgrade } from "@/
 import { WEAR_META } from "@/lib/rarity";
 import { convertPrice } from "@/lib/services/prices/currency";
 import { formatQuotePrice, getSkinPrice, listingWearFor, sellValueUsd } from "@/lib/services/prices/priceProvider";
-import { canSellDrop } from "@/lib/inventoryOwnership";
+import { canSellDrop, isInVault } from "@/lib/inventoryOwnership";
 import { useAppStore } from "@/lib/store";
 import type { InventoryItem, Skin } from "@/lib/types";
-import { cn, formatMoney, timeAgo } from "@/lib/utils";
+import { cn, formatMoney } from "@/lib/utils";
 import { ChevronsUp } from "lucide-react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
 
-const PAGE_SIZE = 9;
+const PAGE_SIZE = 6;
 const TARGET_BAND_REL = 0.08;
 const TARGET_BAND_NEAREST = 12;
 
@@ -196,7 +196,7 @@ export function UpgradePanel() {
   }, [catalogOpen, catQuery, fromPrice, toPrice, sortDir, inputValue, store.priceTick, store.displayCurrency]);
 
   const visibleInventory = useMemo(() => {
-    const live = store.inventory.filter((item) => !item.withdrawPending);
+    const live = store.inventory.filter((item) => isInVault(item));
     if (phase !== "rolling") return live;
     return live.filter((item) => {
       if (gained && item.instanceId === gained.instanceId) return false;
@@ -236,7 +236,7 @@ export function UpgradePanel() {
     if (phase !== "idle") return;
     const from = params.get("from");
     const valid = new Set(
-      store.inventory.filter((item) => !item.withdrawPending).map((item) => item.instanceId),
+      store.inventory.filter((item) => isInVault(item)).map((item) => item.instanceId),
     );
     setSelectedIds((prev) => {
       let next = prev.filter((id) => valid.has(id));
@@ -437,7 +437,7 @@ export function UpgradePanel() {
   }
 
   function toggleItem(item: InventoryItem) {
-    if (locked || item.withdrawPending) return;
+    if (locked || !isInVault(item)) return;
     setSelectedIds((prev) => {
       if (prev.includes(item.instanceId)) return prev.filter((id) => id !== item.instanceId);
       if (prev.length >= UPGRADE_MAX_ITEMS) {
@@ -721,7 +721,7 @@ export function UpgradePanel() {
           </div>
           {!store.hydrated ? (
             <div className="upgrade-grid">
-              {Array.from({ length: 6 }).map((_, i) => (
+              {Array.from({ length: PAGE_SIZE }).map((_, i) => (
                 <SkinCardSkeleton key={i} />
               ))}
             </div>
@@ -745,7 +745,6 @@ export function UpgradePanel() {
                   <SkinCard
                     key={item.instanceId}
                     skin={item}
-                    compact
                     selected={selectedIds.includes(item.instanceId)}
                     onClick={() => toggleItem(item)}
                   />
@@ -818,7 +817,6 @@ export function UpgradePanel() {
                     <SkinCard
                       key={row.skin.id}
                       skin={row.skin}
-                      compact
                       showWear={false}
                       selected={target?.id === row.skin.id}
                       disabled={tooCheap}
@@ -839,8 +837,6 @@ export function UpgradePanel() {
           )}
         </section>
       </div>
-
-      <RecentUpgrades />
 
       <Modal
         open={phase === "success" && !!gained}
@@ -884,40 +880,5 @@ function UpgradeWinCard({ item }: { item: InventoryItem }) {
       <p className="meta mt-1">{WEAR_META[item.wear].label}</p>
       <p className="price mt-2 text-cyan">{formatQuotePrice(quote)}</p>
     </div>
-  );
-}
-
-function RecentUpgrades() {
-  const { history } = useAppStore();
-  const rows = history.filter((h) => h.kind === "upgrade").slice(0, 6);
-  if (!rows.length) return null;
-  return (
-    <section>
-      <p className="label">Recent upgrades</p>
-      <div className="mt-2 space-y-1">
-        {rows.map((h) => (
-          <div
-            key={h.id}
-            className="flex items-center justify-between gap-2 rounded-[var(--radius-sm)] border border-line bg-graphite px-3 py-1.5"
-          >
-            <p className="meta min-w-0 truncate">
-              <span className="text-ink">{h.sourceName ?? "Input"}</span>
-              <span> → </span>
-              <span className="text-ink">{h.targetName ?? h.detail}</span>
-            </p>
-            <span className="flex shrink-0 items-center gap-2">
-              <Badge tone={h.result === "success" ? "accent" : "violet"}>
-                {h.result === "success" ? "Win" : "Fail"}
-              </Badge>
-              <span className="meta tabular">
-                {h.chance != null ? `${Number(h.chance).toFixed(2)}%` : ""}
-                {h.chance != null ? " · " : ""}
-                {timeAgo(h.at)}
-              </span>
-            </span>
-          </div>
-        ))}
-      </div>
-    </section>
   );
 }

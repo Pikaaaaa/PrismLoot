@@ -48,9 +48,14 @@ function cookieBase() {
   };
 }
 
-export function applySessionCookie(res: NextResponse, userId: string) {
+export function applySessionCookie(
+  res: NextResponse,
+  userId: string,
+  extra?: { secure?: boolean },
+) {
   res.cookies.set(PLAYER_SESSION_COOKIE, signUserId(userId), {
     ...cookieBase(),
+    ...(extra?.secure !== undefined ? { secure: extra.secure } : {}),
     maxAge: 60 * 60 * 24 * 30,
   });
 }

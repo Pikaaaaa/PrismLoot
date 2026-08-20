@@ -34,7 +34,7 @@ export function ItemActions({
   if (!ids.length) return null;
   const locked = new Set(disabledIds ?? []);
   return (
-    <div className={cn("mt-auto flex items-center gap-0.5 border-t border-line px-1 py-1", className)}>
+    <div className={cn("mt-auto flex h-9 shrink-0 items-center gap-0.5 border-t border-line px-1", className)}>
       {ids.map((id) => {
         const action = ACTION_META[id];
         const Icon = action.icon;

@@ -10,8 +10,8 @@ export async function POST(req: Request) {
     const code = typeof body.code === "string" ? body.code.trim().toUpperCase() : "";
     if (!code) return NextResponse.json({ ok: false, error: "code required" }, { status: 400 });
     const result = await persistPromoRedeem({ userId, code });
-    if (!result.ok) return NextResponse.json({ ok: false, error: result.error }, { status: 400 });
-    return NextResponse.json({ ok: true, already: result.already });
+    if (!result.ok) throw new Error("PROMO_INVALID");
+    return NextResponse.json({ ok: true, code, already: result.already });
   } catch (err) {
     return jsonPlayError(err, "PERSIST_FAILED");
   }

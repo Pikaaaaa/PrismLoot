@@ -2,7 +2,7 @@
 
 import { useAppStore } from "@/lib/store";
 import { cn } from "@/lib/utils";
-import { Backpack, House, Layers, Sparkles } from "lucide-react";
+import { House, Layers, Sparkles } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -10,7 +10,6 @@ const ITEMS = [
   { href: "/", label: "Home", icon: House },
   { href: "/upgrade", label: "Upgrade", icon: Sparkles },
   { href: "/contracts", label: "Contracts", icon: Layers },
-  { href: "/inventory", label: "Vault", icon: Backpack },
 ] as const;
 
 /**

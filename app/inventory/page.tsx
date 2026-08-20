@@ -13,7 +13,7 @@ export default function InventoryPage() {
       <PageHeader
         kicker="Vault"
         title="Inventory"
-        description="Every skin you own. Sell, stake in an upgrade, feed a contract, or request a withdrawal."
+        description="Every drop stays listed. Sell, stake, or withdraw live skins — sold and used items keep a status."
         actions={
           <>
             <Button

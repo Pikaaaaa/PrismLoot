@@ -36,6 +36,10 @@ export async function GET() {
       banned: snapshot.banned,
       inventory: snapshot.inventory,
       bestDrop: snapshot.bestDrop,
+      history: snapshot.history,
+      joinedAt: snapshot.joinedAt,
+      email: snapshot.email,
+      freeCaseClaims: snapshot.freeCaseClaims,
       stats: snapshot.stats,
     });
   } catch (err) {

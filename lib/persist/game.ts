@@ -9,12 +9,17 @@ import {
   isDepositAsset,
   type DepositAsset,
 } from "@/lib/deposits/catalog";
-import { DEMO_USER_ID, depositDelegate, ensurePrisma, giftCardDelegate, prisma, usd, withdrawalDelegate } from "@/lib/db";
+import { isCaseCouponSchemaError } from "@/lib/case-coupons/ensure";
+import { consumeFreeCaseClaims, listUserFreeCaseClaims } from "@/lib/case-coupons/store";
+import type { FreeCaseClaimSummary } from "@/lib/case-coupons/types";
+import { depositDelegate, ensurePrisma, giftCardDelegate, prisma, usd, withdrawalDelegate } from "@/lib/db";
 import { generateGiftCode, isGiftCodeFormat, normalizeGiftCode } from "@/lib/gift-cards/codes";
 import { clampWagerMultiplier } from "@/lib/gift-cards/wager";
+import { loadPlayerActivity } from "@/lib/persist/activity";
 import { isPrismaFkError } from "@/lib/persist/errors";
+import { ensureInventoryHistorySchema } from "@/lib/persist/inventory-schema";
 import { getSkinPrice } from "@/lib/services/prices";
-import type { InventoryItem, Skin, Wear } from "@/lib/types";
+import type { InventoryItem, InventoryLeftVia, Skin, Wear } from "@/lib/types";
 import type { BestDrop as DbBestDrop, Prisma } from "@prisma/client";
 
 export type PersistSource = "CASE" | "UPGRADE" | "CONTRACT" | "ADMIN" | "PROMO";
@@ -137,17 +142,66 @@ export function serializeBestDrop(row: DbBestDrop & { item?: { soldAt: Date | nu
   };
 }
 
-export function serializeVaultItem(row: {
-  id: string;
-  skinId: string;
-  wear: string;
-  stattrak: boolean;
-  acquiredAt: Date;
-}): InventoryItem | null {
+function parseLeftVia(value: unknown): InventoryLeftVia | null {
+  if (value === "sell" || value === "upgrade" || value === "contract" || value === "withdraw") return value;
+  return null;
+}
+
+function parseIdList(raw: string): string[] {
+  try {
+    const parsed = JSON.parse(raw) as unknown;
+    return Array.isArray(parsed) ? parsed.map((id) => String(id)).filter(Boolean) : [];
+  } catch {
+    return [];
+  }
+}
+
+function inferLeftVia(
+  row: { id: string; soldAt?: Date | null; salePriceUsd?: number | null; leftVia?: string | null },
+  ctx: { pending: Set<string>; withdrawn: Set<string>; upgradeIds: Set<string>; contractIds: Set<string> },
+): InventoryLeftVia | null {
+  const stamped = parseLeftVia(row.leftVia);
+  if (stamped) return stamped;
+  if (ctx.pending.has(row.id) || ctx.withdrawn.has(row.id)) return "withdraw";
+  if (!row.soldAt) return null;
+  if (row.salePriceUsd != null) return "sell";
+  if (ctx.upgradeIds.has(row.id)) return "upgrade";
+  if (ctx.contractIds.has(row.id)) return "contract";
+  return "sell";
+}
+
+async function stampLeftVia(tx: Tx, ids: string[], leftVia: InventoryLeftVia | null) {
+  if (!ids.length) return;
+  try {
+    await tx.inventoryItem.updateMany({
+      where: { id: { in: ids } },
+      data: { leftVia } as { leftVia: InventoryLeftVia | null },
+    });
+  } catch {
+    for (const id of ids) {
+      await tx.$executeRaw`UPDATE "InventoryItem" SET "leftVia" = ${leftVia} WHERE "id" = ${id}`;
+    }
+  }
+}
+
+export function serializeVaultItem(
+  row: {
+    id: string;
+    skinId: string;
+    wear: string;
+    stattrak: boolean;
+    acquiredAt: Date;
+    soldAt?: Date | null;
+    salePriceUsd?: number | null;
+    leftVia?: string | null;
+  },
+  extras?: { withdrawPending?: boolean; leftVia?: InventoryLeftVia | null },
+): InventoryItem | null {
   const catalog = SKIN_MAP[row.skinId];
   if (!catalog) return null;
   const wear = row.wear as Wear;
   const quote = getSkinPrice(row.skinId, wear);
+  const leftVia = extras?.leftVia !== undefined ? extras.leftVia : parseLeftVia(row.leftVia);
   return {
     ...catalog,
     wear,
@@ -155,36 +209,10 @@ export function serializeVaultItem(row: {
     price: quote.available && quote.price != null ? quote.price : catalog.price,
     instanceId: row.id,
     obtainedAt: row.acquiredAt.getTime(),
+    soldAt: row.soldAt ? row.soldAt.getTime() : null,
+    leftVia,
+    withdrawPending: extras?.withdrawPending || undefined,
   };
-}
-
-const DEMO_TRADE_URL =
-  "https://steamcommunity.com/tradeoffer/new/?partner=123456789&token=PrismLootDemo";
-
-export async function ensureDemoUser() {
-  const user = await prisma.user.upsert({
-    where: { id: DEMO_USER_ID },
-    create: {
-      id: DEMO_USER_ID,
-      displayName: "NovaPrime",
-      role: "USER",
-      balanceUsd: 12500,
-      tradeUrl: DEMO_TRADE_URL,
-    },
-    update: {},
-  });
-  const existing = normalizeTradeUrl((user as { tradeUrl?: string }).tradeUrl ?? "");
-  if (looksLikeTradeUrl(existing)) return user;
-  try {
-    return await prisma.user.update({
-      where: { id: user.id },
-      data: { tradeUrl: DEMO_TRADE_URL },
-    });
-  } catch (err) {
-    console.warn("[withdraw] User.tradeUrl update via Prisma failed, using SQL", err);
-    await prisma.$executeRaw`UPDATE User SET tradeUrl = ${DEMO_TRADE_URL} WHERE id = ${user.id}`;
-    return { ...user, tradeUrl: DEMO_TRADE_URL };
-  }
 }
 
 export async function loadPlayUser(userId?: string) {
@@ -269,7 +297,7 @@ async function grantVaultItem(
   return true;
 }
 
-async function consumeVaultItems(tx: Tx, userId: string, ids: string[]) {
+async function consumeVaultItems(tx: Tx, userId: string, ids: string[], leftVia: InventoryLeftVia) {
   if (!ids.length) throw new Error("ITEMS_UNAVAILABLE");
   const rows = await tx.inventoryItem.findMany({ where: { id: { in: ids }, userId } });
   if (rows.length !== ids.length || rows.some((row) => row.soldAt)) {
@@ -279,6 +307,7 @@ async function consumeVaultItems(tx: Tx, userId: string, ids: string[]) {
     where: { id: { in: ids }, userId, soldAt: null },
     data: { soldAt: new Date() },
   });
+  await stampLeftVia(tx, ids, leftVia);
 }
 
 /**
@@ -304,59 +333,93 @@ async function vaultStakeUsd(tx: Tx, userId: string, ids: string[]) {
 }
 
 /** Inventory rows held by a pending SKIN withdrawal (soldAt set, still shown in vault). */
-async function pendingSkinHoldIds(userId: string): Promise<string[]> {
+async function loadSkinWithdrawIds(userId: string): Promise<{ pending: string[]; withdrawn: string[] }> {
+  const empty = { pending: [] as string[], withdrawn: [] as string[] };
   const db = withdrawalDelegate();
   try {
     if (db) {
       const rows = await db.findMany({
-        where: { userId, status: "PENDING", kind: "SKIN" },
-        select: { inventoryItemId: true },
+        where: { userId, kind: "SKIN" },
+        select: { inventoryItemId: true, status: true },
       });
-      return rows.map((row) => row.inventoryItemId).filter((id): id is string => Boolean(id));
+      const pending: string[] = [];
+      const withdrawn: string[] = [];
+      for (const row of rows) {
+        const id = row.inventoryItemId;
+        if (!id) continue;
+        if (row.status === "PENDING") pending.push(id);
+        else if (row.status === "APPROVED") withdrawn.push(id);
+      }
+      return { pending, withdrawn };
     }
-    const rows = await prisma.$queryRaw<Array<{ inventoryItemId: string | null }>>`
-      SELECT inventoryItemId FROM Withdrawal
-      WHERE userId = ${userId} AND status = ${"PENDING"} AND kind = ${"SKIN"}
+    const rows = await prisma.$queryRaw<Array<{ inventoryItemId: string | null; status: string }>>`
+      SELECT inventoryItemId, status FROM Withdrawal
+      WHERE userId = ${userId} AND kind = ${"SKIN"}
     `;
-    return rows.map((row) => row.inventoryItemId).filter((id): id is string => Boolean(id));
+    const pending: string[] = [];
+    const withdrawn: string[] = [];
+    for (const row of rows) {
+      const id = row.inventoryItemId;
+      if (!id) continue;
+      if (row.status === "PENDING") pending.push(id);
+      else if (row.status === "APPROVED") withdrawn.push(id);
+    }
+    return { pending, withdrawn };
   } catch (err) {
-    console.error("[me] pending skin holds failed", err);
-    return [];
+    console.error("[me] skin withdraw ids failed", err);
+    return empty;
   }
 }
 
 export async function loadPlayerSnapshot(userId: string) {
+  await ensureInventoryHistorySchema();
   const user = await loadPlayUser(userId);
-  const [vault, pendingHoldIds, best, openedCases, upgrades, contracts] = await Promise.all([
+  const [vault, withdrawIds, best, openedCases, upgradeRows, contractRows, activity] = await Promise.all([
     prisma.inventoryItem.findMany({
-      where: { userId: user.id, soldAt: null },
+      where: { userId: user.id },
       orderBy: { acquiredAt: "desc" },
     }),
-    pendingSkinHoldIds(user.id),
+    loadSkinWithdrawIds(user.id),
     prisma.bestDrop.findUnique({
       where: { userId: user.id },
       include: { item: { select: { soldAt: true } } },
     }),
     prisma.caseOpen.count({ where: { userId: user.id } }),
-    prisma.upgradeAttempt.count({ where: { userId: user.id } }),
-    prisma.contractAttempt.count({ where: { userId: user.id } }),
+    prisma.upgradeAttempt.findMany({ where: { userId: user.id }, select: { inputIds: true } }),
+    prisma.contractAttempt.findMany({ where: { userId: user.id }, select: { inputIds: true } }),
+    loadPlayerActivity(user.id),
   ]);
 
-  const vaultIds = new Set(vault.map((row) => row.id));
-  const missingHoldIds = pendingHoldIds.filter((id) => !vaultIds.has(id));
-  const held =
-    missingHoldIds.length > 0
-      ? await prisma.inventoryItem.findMany({ where: { id: { in: missingHoldIds }, userId: user.id } })
-      : [];
-  const pendingSet = new Set(pendingHoldIds);
-  const merged = [...held, ...vault].sort((a, b) => b.acquiredAt.getTime() - a.acquiredAt.getTime());
-  const inventory = merged
+  const pendingSet = new Set(withdrawIds.pending);
+  const withdrawnSet = new Set(withdrawIds.withdrawn);
+  const upgradeIds = new Set(upgradeRows.flatMap((row) => parseIdList(row.inputIds)));
+  const contractIds = new Set(contractRows.flatMap((row) => parseIdList(row.inputIds)));
+  const leftCtx = { pending: pendingSet, withdrawn: withdrawnSet, upgradeIds, contractIds };
+
+  const inventory = vault
     .map((row) => {
-      const item = serializeVaultItem(row);
-      if (!item) return null;
-      return pendingSet.has(row.id) ? { ...item, withdrawPending: true } : item;
+      const item = serializeVaultItem(row, {
+        withdrawPending: pendingSet.has(row.id),
+        leftVia: inferLeftVia(
+          {
+            id: row.id,
+            soldAt: row.soldAt,
+            salePriceUsd: row.salePriceUsd,
+            leftVia: (row as { leftVia?: string | null }).leftVia,
+          },
+          leftCtx,
+        ),
+      });
+      return item;
     })
     .filter((row): row is InventoryItem => !!row);
+
+  let freeCaseClaims: FreeCaseClaimSummary[] = [];
+  try {
+    freeCaseClaims = await listUserFreeCaseClaims(user.id);
+  } catch (err) {
+    console.error("[play] free case claims load failed", { userId: user.id, err });
+  }
 
   return {
     user: {
@@ -368,6 +431,8 @@ export async function loadPlayerSnapshot(userId: string) {
       balanceUsd: usd(user.balanceUsd),
       wagerRemainingUsd: usd(user.wagerRemainingUsd),
       tradeUrl: user.tradeUrl ?? "",
+      email: user.email ?? "",
+      createdAt: user.createdAt.getTime(),
     },
     balance: usd(user.balanceUsd),
     wagerRemainingUsd: usd(user.wagerRemainingUsd),
@@ -375,7 +440,18 @@ export async function loadPlayerSnapshot(userId: string) {
     banned: user.banned,
     inventory,
     bestDrop: best ? serializeBestDrop(best) : null,
-    stats: { openedCases, upgrades, contracts },
+    history: activity.history,
+    joinedAt: user.createdAt.getTime(),
+    email: user.email ?? "",
+    freeCaseClaims,
+    stats: {
+      openedCases,
+      upgrades: upgradeRows.length,
+      contracts: contractRows.length,
+      wageredUsd: activity.wageredUsd,
+      upgradesWon: activity.upgradesWon,
+      upgradesLost: activity.upgradesLost,
+    },
   };
 }
 
@@ -384,12 +460,14 @@ export async function persistCaseOpens(input: {
   caseId: string;
   costUsd: number;
   items: InventoryItem[];
-}) {
+}): Promise<{ chargedUsd: number; freeCount: number }> {
   const user = await loadPlayUser(input.userId);
   assertPlayable(user);
   const userId = user.id;
   const perCost = input.items.length ? usd(input.costUsd / input.items.length) : 0;
   const granted: InventoryItem[] = [];
+  let chargedUsd = usd(input.costUsd);
+  let freeCount = 0;
 
   try {
     // Catalog upserts outside the money tx: Neon pooler often kills long interactive txs,
@@ -406,38 +484,69 @@ export async function persistCaseOpens(input: {
         : [];
       const have = new Set(existing.map((row) => row.id));
       const fresh = input.items.filter((item) => !have.has(item.instanceId));
-      if (!fresh.length) return;
+      if (!fresh.length) {
+        chargedUsd = 0;
+        freeCount = 0;
+        return;
+      }
 
       if (existing.length === 0) {
-        if (current.balanceUsd + 1e-9 < input.costUsd) throw new Error("INSUFFICIENT_BALANCE");
-        const balance = usd(current.balanceUsd - input.costUsd);
-        await tx.user.update({
-          where: { id: userId },
-          data: {
-            balanceUsd: balance,
-            wagerRemainingUsd: nextWagerRemaining(current.wagerRemainingUsd, input.costUsd),
-          },
-        });
+        try {
+          freeCount = await consumeFreeCaseClaims(tx, {
+            userId,
+            caseId: input.caseId,
+            count: input.items.length,
+          });
+        } catch (err) {
+          if (!isCaseCouponSchemaError(err)) throw err;
+          console.error("[play] free case claim consume skipped", err);
+          freeCount = 0;
+        }
+        const paidCount = Math.max(0, input.items.length - freeCount);
+        chargedUsd = usd(perCost * paidCount);
+        if (chargedUsd > 0 && current.balanceUsd + 1e-9 < chargedUsd) {
+          throw new Error("INSUFFICIENT_BALANCE");
+        }
+        const balance = chargedUsd > 0 ? usd(current.balanceUsd - chargedUsd) : usd(current.balanceUsd);
+        if (chargedUsd > 0) {
+          await tx.user.update({
+            where: { id: userId },
+            data: {
+              balanceUsd: balance,
+              wagerRemainingUsd: nextWagerRemaining(current.wagerRemainingUsd, chargedUsd),
+            },
+          });
+        }
         await tx.ledgerEntry.create({
           data: {
             userId,
             kind: "CASE_OPEN",
-            amountUsd: usd(-input.costUsd),
+            amountUsd: usd(-chargedUsd),
             balanceAfter: balance,
-            note: `Opened ${input.caseId} ×${input.items.length}`,
-            meta: JSON.stringify({ caseId: input.caseId, count: input.items.length }),
+            note:
+              freeCount > 0
+                ? `Opened ${input.caseId} ×${input.items.length} (${freeCount} free)`
+                : `Opened ${input.caseId} ×${input.items.length}`,
+            meta: JSON.stringify({
+              caseId: input.caseId,
+              count: input.items.length,
+              freeCount,
+            }),
           },
         });
       }
 
+      let remainingFree = freeCount;
       for (const item of fresh) {
         const payout = itemPriceUsd(item);
+        const costUsd = remainingFree > 0 ? 0 : perCost;
+        if (remainingFree > 0) remainingFree -= 1;
         const open = await tx.caseOpen.create({
           data: {
             userId,
             caseId: input.caseId,
             skinId: item.id,
-            costUsd: perCost,
+            costUsd,
             payoutUsd: payout,
             wear: item.wear,
           },
@@ -471,19 +580,24 @@ export async function persistCaseOpens(input: {
       console.error("[play] best drop update failed after open", { userId, itemId: item.instanceId, err });
     }
   }
+
+  return { chargedUsd, freeCount };
 }
 
 export async function persistItemsLeftVault(input: {
   userId: string;
   ids: string[];
   sales?: Record<string, number>;
+  leftVia?: InventoryLeftVia;
 }) {
   if (!input.ids.length) return;
+  await ensureInventoryHistorySchema();
   const user = await loadPlayUser(input.userId);
   const userId = user.id;
   const now = new Date();
   let credit = 0;
   const soldIds: string[] = [];
+  const leftVia = input.leftVia ?? "sell";
 
   await prisma.$transaction(async (tx) => {
     for (const id of input.ids) {
@@ -495,6 +609,7 @@ export async function persistItemsLeftVault(input: {
         where: { id },
         data: { soldAt: now, salePriceUsd: saleUsd },
       });
+      await stampLeftVia(tx, [id], leftVia);
       if (saleUsd) credit = usd(credit + saleUsd);
       soldIds.push(id);
     }
@@ -618,6 +733,7 @@ export async function persistUpgradeAttempt(input: {
   success: boolean;
   item: InventoryItem | null;
 }) {
+  await ensureInventoryHistorySchema();
   const user = await loadPlayUser(input.userId);
   assertPlayable(user);
   const extra = usd(Math.max(0, input.extraUsd));
@@ -631,7 +747,7 @@ export async function persistUpgradeAttempt(input: {
       if (extra > 0 && current.balanceUsd + 1e-9 < extra) throw new Error("INSUFFICIENT_BALANCE");
       const stakeUsd = await vaultStakeUsd(tx, user.id, input.sourceInstanceIds);
       const volumeUsd = usd(extra + stakeUsd);
-      await consumeVaultItems(tx, user.id, input.sourceInstanceIds);
+      await consumeVaultItems(tx, user.id, input.sourceInstanceIds, "upgrade");
       let balance = current.balanceUsd;
       if (extra > 0) {
         balance = usd(balance - extra);
@@ -702,6 +818,7 @@ export async function persistContractAttempt(input: {
   extraUsd?: number;
   item: InventoryItem;
 }) {
+  await ensureInventoryHistorySchema();
   const user = await loadPlayUser(input.userId);
   assertPlayable(user);
   const extra = usd(Math.max(0, input.extraUsd ?? 0));
@@ -715,7 +832,7 @@ export async function persistContractAttempt(input: {
       if (extra > 0 && current.balanceUsd + 1e-9 < extra) throw new Error("INSUFFICIENT_BALANCE");
       const stakeUsd = await vaultStakeUsd(tx, user.id, input.sourceInstanceIds);
       const volumeUsd = usd(extra + stakeUsd);
-      await consumeVaultItems(tx, user.id, input.sourceInstanceIds);
+      await consumeVaultItems(tx, user.id, input.sourceInstanceIds, "contract");
       let balance = current.balanceUsd;
       if (extra > 0) {
         balance = usd(balance - extra);
@@ -1178,6 +1295,22 @@ export async function persistTradeUrl(input: { userId: string; url: string }) {
   return { tradeUrl };
 }
 
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
+export async function persistAccountEmail(input: { userId: string; email: string }) {
+  const user = await loadPlayUser(input.userId);
+  const email = input.email.trim().slice(0, 190);
+  if (email && !EMAIL_RE.test(email)) throw new Error("EMAIL_INVALID");
+  const value = email || null;
+  try {
+    await prisma.user.update({ where: { id: user.id }, data: { email: value } });
+  } catch (err) {
+    console.warn("[account] persistAccountEmail Prisma update failed, using SQL", err);
+    await prisma.$executeRaw`UPDATE User SET email = ${value} WHERE id = ${user.id}`;
+  }
+  return { email: email };
+}
+
 export async function persistWithdrawalCreate(input: { userId: string; amountUsd: number; note?: string }) {
   ensurePrisma();
   const db = withdrawalDelegate();
@@ -1240,6 +1373,7 @@ export async function persistSkinWithdrawalCreate(input: {
   const offered = normalizeTradeUrl(input.tradeUrl ?? "");
   if (offered && !looksLikeTradeUrl(offered)) throw new Error("TRADE_URL_INVALID");
 
+  await ensureInventoryHistorySchema();
   const user = await loadPlayUser(input.userId);
   assertPlayable(user);
   assertWithdrawable(user);
@@ -1278,6 +1412,7 @@ export async function persistSkinWithdrawalCreate(input: {
       where: { id: instanceId },
       data: { soldAt: new Date(), salePriceUsd: null },
     });
+    await stampLeftVia(tx as unknown as Tx, [instanceId], "withdraw");
 
     const row = await insertSkinWithdrawal(tx as unknown as TxLike, {
       userId: user.id,
@@ -1296,6 +1431,7 @@ export async function persistWithdrawalReview(input: {
   reviewerId: string;
 }) {
   ensurePrisma();
+  await ensureInventoryHistorySchema();
   const db = withdrawalDelegate();
   if (!db) {
     console.error("[withdraw] prisma.withdrawal missing — run npm run db:generate");
@@ -1314,6 +1450,7 @@ export async function persistWithdrawalReview(input: {
             where: { id: row.inventoryItemId, userId: row.userId },
             data: { soldAt: null, salePriceUsd: null },
           });
+          await stampLeftVia(tx as unknown as Tx, [row.inventoryItemId], null);
         }
       } else {
         const user = await tx.user.update({

@@ -22,13 +22,19 @@ export async function POST(req: Request) {
     const countRaw = Number(body.count);
     const count = Number.isFinite(countRaw) ? countRaw : 1;
     const result = openCases(caseId, count);
-    const charged = overlay ? +(overlay.priceUsd * result.items.length).toFixed(2) : result.charged;
-    await persistCaseOpens({ userId, caseId, costUsd: charged, items: result.items });
+    const catalogCharge = overlay ? +(overlay.priceUsd * result.items.length).toFixed(2) : result.charged;
+    const persist = await persistCaseOpens({
+      userId,
+      caseId,
+      costUsd: catalogCharge,
+      items: result.items,
+    });
     return NextResponse.json({
       ok: true,
       caseId,
       count: result.items.length,
-      charged,
+      charged: persist.chargedUsd,
+      freeCount: persist.freeCount,
       items: result.items,
       item: result.items[0],
       rolls: result.rolls,

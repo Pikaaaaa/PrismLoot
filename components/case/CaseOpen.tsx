@@ -1,6 +1,6 @@
 "use client";
 
-import { SteamSignInButton } from "@/components/auth/SteamButton";
+import { SignInActions } from "@/components/auth/SignInActions";
 import { CaseOpeningShow, IdleReel, JackpotFX } from "@/components/case/CaseOpeningShow";
 import { CaseRewardGrid, type RewardRow } from "@/components/case/CaseRewardGrid";
 import { readCaseOpenPrefs, writeCaseOpenPrefs, type CaseOpenPrefs } from "@/components/case/caseOpenPrefs";
@@ -74,7 +74,11 @@ export function CaseOpen({ crate }: { crate: Crate }) {
   const pool = useMemo(() => loot.map((row) => row.skin), [loot]);
   const featRow = loot.find((row) => row.skinId === crate.featuredReward);
   const quote = featured ? getSkinPrice(featured.id) : null;
-  const charge = +(crate.price * count).toFixed(2);
+  const freeLeft = store.freeCaseClaims
+    .filter((row) => row.caseId === crate.id)
+    .reduce((sum, row) => sum + row.remaining, 0);
+  const freeUsed = Math.min(count, freeLeft);
+  const charge = +((crate.price * (count - freeUsed)).toFixed(2));
   const compact = pending.length > 1;
   const durationMs = spinDurationMs({
     skip: prefs.skip,
@@ -173,7 +177,7 @@ export function CaseOpen({ crate }: { crate: Crate }) {
       store.beginSteamLogin();
       return;
     }
-    const total = +(crate.price * n).toFixed(2);
+    const total = +((crate.price * Math.max(0, n - Math.min(n, freeLeft))).toFixed(2));
     if (store.balance < total) {
       store.toast({ title: "Not enough balance", tone: "err" });
       return;
@@ -191,6 +195,8 @@ export function CaseOpen({ crate }: { crate: Crate }) {
         ok: boolean;
         items?: InventoryItem[];
         item?: InventoryItem;
+        charged?: number;
+        freeCount?: number;
         error?: string;
         message?: string;
       };
@@ -212,11 +218,14 @@ export function CaseOpen({ crate }: { crate: Crate }) {
         store.toast({ title: "Open failed", detail: "Rolled skin is not in this case", tone: "err" });
         return;
       }
-      if (!store.applyOpen(total, items)) {
+      const charged = typeof data.charged === "number" ? data.charged : total;
+      const usedFree = typeof data.freeCount === "number" ? data.freeCount : 0;
+      if (!store.applyOpen(charged, items)) {
         setPhase("idle");
         setOpenError("Balance could not be charged.");
         return;
       }
+      if (usedFree > 0) store.consumeFreeCaseClaims(crate.id, usedFree);
       const spinMs = spinDurationMs({
         skip: prefs.skip,
         fast: prefs.fast,
@@ -225,7 +234,7 @@ export function CaseOpen({ crate }: { crate: Crate }) {
       writePendingOpens({
         caseId: crate.id,
         count: n,
-        charge: total,
+        charge: charged,
         items,
         startedAt: Date.now(),
         spinMs,
@@ -236,7 +245,7 @@ export function CaseOpen({ crate }: { crate: Crate }) {
         kind: "open",
         title: n > 1 ? `Opened ${crate.name} ×${n}` : `Opened ${crate.name}`,
         detail: items.map((item) => item.name).join(", "),
-        amount: -total,
+        amount: -charged,
         itemName: items[0]?.name,
       });
       if (spinMs <= 0) {
@@ -346,6 +355,11 @@ export function CaseOpen({ crate }: { crate: Crate }) {
             <h1 className="mt-1">{crate.name}</h1>
             <p className="mt-2 max-w-xl text-sm text-soft">{crate.description}</p>
             <p className="price mt-4 text-[length:var(--type-h1)]">{formatMoney(crate.price)}</p>
+            {freeLeft > 0 ? (
+              <p className="mt-1 text-sm font-semibold text-cyan">
+                {freeLeft} free open{freeLeft === 1 ? "" : "s"} on this case
+              </p>
+            ) : null}
 
             <div className="mt-4 flex flex-wrap items-center gap-1.5">
               {COUNTS.map((n) => (
@@ -358,10 +372,18 @@ export function CaseOpen({ crate }: { crate: Crate }) {
             <div className="mt-3 flex flex-wrap items-center gap-2">
               {store.user ? (
                 <Button size="xl" loading={busy} onClick={() => void open(count)}>
-                  {busy ? "Opening…" : count > 1 ? `Open ×${count} · ${formatMoney(charge)}` : "Open"}
+                  {busy
+                    ? "Opening…"
+                    : freeUsed >= count
+                      ? count > 1
+                        ? `Open free ×${count}`
+                        : "Open free"
+                      : count > 1
+                        ? `Open ×${count} · ${formatMoney(charge)}`
+                        : "Open"}
                 </Button>
               ) : store.sessionReady ? (
-                <SteamSignInButton size="lg" />
+                <SignInActions size="lg" />
               ) : (
                 <Button size="xl" loading disabled>
                   Open

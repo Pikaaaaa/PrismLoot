@@ -1,6 +1,6 @@
 "use client";
 
-import { SteamSignInButton } from "@/components/auth/SteamButton";
+import { SignInActions } from "@/components/auth/SignInActions";
 import { BalanceWidget } from "@/components/ui/BalanceWidget";
 import { Button } from "@/components/ui/Button";
 import { EmptyState } from "@/components/ui/EmptyState";
@@ -18,7 +18,6 @@ import {
   History,
   LifeBuoy,
   LogOut,
-  Package,
   Plus,
   Settings,
   ShieldCheck,
@@ -33,14 +32,11 @@ import { useCallback, useEffect, useRef, useState, type KeyboardEvent, type Reac
 type NavItem = { href: string; label: string };
 type MenuLink = NavItem & { icon: LucideIcon };
 
-/** Bar destinations the shell owns that NAV_MAIN does not carry yet. */
-const SHELL_NAV: NavItem[] = [{ href: "/inventory", label: "Inventory" }];
-
-const BAR_ORDER = ["/", "/upgrade", "/contracts", "/inventory"];
+const BAR_ORDER = ["/", "/upgrade", "/contracts"];
 
 function buildBarNav(): NavItem[] {
   const byHref = new Map<string, NavItem>();
-  for (const item of [...NAV_MAIN, ...SHELL_NAV]) {
+  for (const item of NAV_MAIN) {
     if (!byHref.has(item.href)) byHref.set(item.href, { href: item.href, label: item.label });
   }
   const ordered: NavItem[] = [];
@@ -58,7 +54,6 @@ const BAR_NAV = buildBarNav();
 const PROFILE_NAV: MenuLink[] = [
   { href: "/profile", label: "Profile", icon: UserRound },
   { href: "/deposit", label: "Deposit", icon: Wallet },
-  { href: "/inventory", label: "Inventory", icon: Package },
   { href: "/history", label: "History", icon: History },
   { href: "/settings", label: "Settings", icon: Settings },
   { href: "/fairness", label: "Fairness", icon: ShieldCheck },
@@ -325,7 +320,7 @@ export function Header({ hasSession = false }: { hasSession?: boolean }) {
                 </Link>
               </>
             ) : showSignIn ? (
-              <SteamSignInButton />
+              <SignInActions className="shrink-0" localLabel="Local session" />
             ) : null}
 
             {user ? (

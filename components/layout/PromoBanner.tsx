@@ -28,7 +28,7 @@ function Segment({ value, label }: { value: string; label: string }) {
 }
 
 export function PromoBanner({ className }: { className?: string }) {
-  const { savePromo, savedPromo, toast } = useAppStore();
+  const { savePromo, savedPromo } = useAppStore();
   const [remaining, setRemaining] = useState(PROMO_WINDOW_MS);
   const [copied, setCopied] = useState(false);
   const applied = savedPromo === DEMO_PROMO_CODE;
@@ -58,8 +58,7 @@ export function PromoBanner({ className }: { className?: string }) {
     } catch {
       /* clipboard may be blocked — the code is still applied below */
     }
-    savePromo(DEMO_PROMO_CODE);
-    toast({ title: "Promo code applied", detail: `${DEMO_PROMO_CODE} · +20% on your next deposit`, tone: "ok" });
+    await savePromo(DEMO_PROMO_CODE);
   }
 
   const { h, m, s } = splitHMS(remaining);

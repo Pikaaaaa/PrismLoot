@@ -194,11 +194,17 @@ export interface Skin {
   updatedAt?: number;
 }
 
+/** How an inventory instance left the live vault. The row itself is kept. */
+export type InventoryLeftVia = "sell" | "upgrade" | "contract" | "withdraw";
+
 export interface InventoryItem extends Skin {
   instanceId: string;
   obtainedAt: number;
   /** Held by a pending skin withdrawal — still rendered in the vault. */
   withdrawPending?: boolean;
+  /** Epoch ms when the item left the live vault (`soldAt` on the row). */
+  soldAt?: number | null;
+  leftVia?: InventoryLeftVia | null;
 }
 
 export interface CaseLoot {
@@ -348,6 +354,10 @@ export interface UserStats {
   battles: number;
   upgrades: number;
   contracts: number;
+  /** Cash spent on cases + upgrade extras. Server aggregate, not the session log. */
+  wageredUsd: number;
+  upgradesWon: number;
+  upgradesLost: number;
   biggestWin: { name: string; price: number };
   /** Highest market quote of anything ever pulled — not current vault max. */
   bestDrop: BestDrop | null;

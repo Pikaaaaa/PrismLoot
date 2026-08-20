@@ -43,6 +43,7 @@ model User {
   deposits         Deposit[]
   withdrawals      Withdrawal[]
   giftCards        GiftCard[]
+  caseCouponClaims CaseCouponClaim[]
 }
 
 /// Catalog row. Ids match data/skins.ts. Admin price/enabled win over static files on the server.
@@ -89,6 +90,7 @@ model Case {
 
   rewards CaseReward[]
   opens   CaseOpen[]
+  coupons CaseCoupon[]
 }
 
 model CaseReward {
@@ -118,6 +120,8 @@ model InventoryItem {
   source       String
   soldAt       DateTime?
   salePriceUsd Float?
+  /// sell | upgrade | contract | withdraw — row stays listed after leaving the live vault
+  leftVia      String?
   caseOpenId   String?
 
   user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -307,6 +311,45 @@ model GiftCard {
 
   @@index([status])
   @@index([redeemedByUserId])
+}
+
+/// Free-case coupon. Redeeming grants N opens of `caseId` (claim, not an immediate unbox).
+model CaseCoupon {
+  id             String    @id @default(cuid())
+  code           String    @unique
+  caseId         String
+  maxUses        Int       @default(1)
+  remaining      Int       @default(1)
+  usedCount      Int       @default(0)
+  /// Free opens granted each time the code is redeemed.
+  opensPerRedeem Int       @default(1)
+  expiresAt      DateTime?
+  enabled        Boolean   @default(true)
+  createdBy      String    @default("")
+  createdAt      DateTime  @default(now())
+  note           String    @default("")
+
+  case   Case              @relation(fields: [caseId], references: [id])
+  claims CaseCouponClaim[]
+
+  @@index([enabled])
+  @@index([caseId])
+}
+
+model CaseCouponClaim {
+  id        String   @id @default(cuid())
+  couponId  String
+  userId    String
+  caseId    String
+  remaining Int      @default(1)
+  usedCount Int      @default(0)
+  createdAt DateTime @default(now())
+
+  coupon CaseCoupon @relation(fields: [couponId], references: [id], onDelete: Cascade)
+  user   User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([couponId, userId])
+  @@index([userId, caseId])
 }
 
 model AdminAuditLog {

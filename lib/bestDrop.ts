@@ -1,3 +1,4 @@
+import { isInVault, vaultStatusLabel } from "@/lib/inventoryOwnership";
 import { SKIN_MAP, SKINS } from "@/lib/mock-data";
 import { listingWearFor, getSkinPrice } from "@/lib/services/prices";
 import type { BestDrop, HistoryEntry, InventoryItem, Skin, UserStats, Wear } from "@/lib/types";
@@ -162,9 +163,23 @@ export function skinFromBestDrop(drop: BestDrop): Skin {
   };
 }
 
-export function ownedBestDropItem(drop: BestDrop, inventory: InventoryItem[]): InventoryItem | undefined {
+function matchBestDropRow(drop: BestDrop, inventory: InventoryItem[]): InventoryItem | undefined {
   if (drop.instanceId) {
     return inventory.find((item) => item.instanceId === drop.instanceId);
   }
-  return inventory.find((item) => item.id === drop.skinId && item.wear === drop.wear);
+  return inventory.find((item) => item.id === drop.skinId && item.wear === drop.wear && isInVault(item));
+}
+
+/** Live vault copy only — sold / used / withdrawn rows stay in inventory for history. */
+export function ownedBestDropItem(drop: BestDrop, inventory: InventoryItem[]): InventoryItem | undefined {
+  const row = matchBestDropRow(drop, inventory);
+  return row && isInVault(row) ? row : undefined;
+}
+
+export function bestDropStatusLabel(drop: BestDrop, inventory: InventoryItem[]): string {
+  const row = drop.instanceId
+    ? inventory.find((item) => item.instanceId === drop.instanceId)
+    : matchBestDropRow(drop, inventory);
+  if (row && isInVault(row)) return "In vault";
+  return (row ? vaultStatusLabel(row) : null) ?? "Sold";
 }

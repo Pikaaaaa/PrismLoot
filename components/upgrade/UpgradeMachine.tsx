@@ -210,8 +210,9 @@ export function UpgradeMachine({
           ) : null}
 
           <DialLabel deg={0} text="0%" />
+          <DialLabel deg={90} text="25%" />
           <DialLabel deg={180} text="50%" />
-          <DialLabel deg={338} text="100%" anchor="end" />
+          <DialLabel deg={270} text="75%" />
         </svg>
 
         <motion.div

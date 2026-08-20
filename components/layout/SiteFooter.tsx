@@ -5,7 +5,6 @@ const PRODUCT = [
   { href: "/", label: "Cases" },
   { href: "/upgrade", label: "Upgrade" },
   { href: "/contracts", label: "Contracts" },
-  { href: "/inventory", label: "Vault" },
   { href: "/deposit", label: "Deposit" },
 ];
 
