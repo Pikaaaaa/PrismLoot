@@ -48,7 +48,7 @@ type DepositRow = {
 const PRESETS = [10, 25, 50, 100];
 
 const METHOD_BTN =
-  "flex min-h-11 items-center gap-3 rounded-[var(--radius-sm)] border px-3 py-2.5 text-left sm:min-h-0";
+  "flex min-h-11 items-center gap-3 overflow-hidden rounded-[var(--radius-sm)] border px-3 py-2.5 text-left sm:min-h-0";
 
 function statusTone(status: string): "warn" | "accent" | "danger" | "outline" {
   if (status === "PENDING") return "warn";
@@ -364,11 +364,10 @@ export function DepositCashier() {
                     )}
                   >
                     <CoinMark ticker={row.ticker} color={row.color} />
-                    <span className="min-w-0 flex-1">
-                      <span className="block text-sm font-semibold">{row.ticker}</span>
-                      <span className="meta">{row.name}</span>
+                    <span className="min-w-0 flex-1 overflow-hidden">
+                      <span className="block truncate text-sm font-semibold leading-snug">{row.ticker}</span>
+                      <span className="meta block truncate leading-snug">{row.name}</span>
                     </span>
-                    <span className="meta hidden shrink-0 sm:inline">{row.networks.map((n) => n.label).join(" · ")}</span>
                   </button>
                 );
               })}
