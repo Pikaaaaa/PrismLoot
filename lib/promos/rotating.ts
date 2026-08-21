@@ -12,8 +12,9 @@ export type RotatingPromo = {
   windowIndex: number;
 };
 
+/** Enabled by default on all environments; set PROMO_ROTATION=0 to disable. */
 export function promoRotationEnabled() {
-  return process.env.PROMO_ROTATION === "1" || process.env.NODE_ENV === "development";
+  return process.env.PROMO_ROTATION !== "0";
 }
 
 export function promoWindowIndex(now = Date.now()) {
