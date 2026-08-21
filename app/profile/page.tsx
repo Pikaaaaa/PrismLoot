@@ -625,7 +625,7 @@ function ProfileInner() {
           <li>Inventory → Trade Offers → Who can send me Trade Offers?</li>
           <li>Copy the “third-party site” URL (partner + token).</li>
         </ol>
-        <p className="meta mt-3">DEMO only. PrismLoot does not call Steam or complete withdrawals.</p>
+        <p className="meta mt-3">Save your trade URL on this page — automated withdrawals send skins to that Steam account.</p>
       </Modal>
 
       <Modal open={historyOpen} onClose={closePanel} title="History" size="xl">
