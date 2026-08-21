@@ -65,7 +65,7 @@ function withdrawErrorMessage(code?: string, message?: string) {
   if (code === "USER_BANNED") return "This account is banned. Withdrawals are disabled.";
   if (code === "WAGER_LOCKED") return "Play through the remaining amount in cases, upgrades, or contracts first.";
   if (code === "ITEMS_UNAVAILABLE") return "That skin is no longer in your inventory.";
-  if (code === "WITHDRAWAL_PENDING") return "This skin is already in a withdrawal request.";
+  if (code === "WITHDRAWAL_PENDING") return "This skin is already on its way to Steam.";
   if (code === "WITHDRAWAL_UNAVAILABLE") return "Could not create a withdrawal request. Refresh the page and try again.";
   if (code && /^[A-Z][A-Z0-9_]+$/.test(code)) return "Could not complete the request. Try again.";
   return "Could not create the request.";
@@ -342,8 +342,8 @@ export function InventoryVault({
         itemName: item.name,
       });
       store.toast({
-        title: "Processing",
-        detail: "An admin will approve the withdrawal or return the skin to your inventory.",
+        title: "On the way",
+        detail: "Your skin will arrive in Steam soon.",
         tone: "ok",
       });
     } catch {
@@ -668,7 +668,7 @@ export function InventoryVault({
             </Button>
           </div>
           ) : detailsPending ? (
-            <Badge tone="warn">Processing</Badge>
+            <Badge tone="warn">On the way</Badge>
           ) : detailsStatus ? (
             <Badge tone="accent">{detailsStatus}</Badge>
           ) : null
@@ -695,7 +695,7 @@ export function InventoryVault({
               </DetailRow>
               <DetailRow label="Status">
                 {detailsPending ? (
-                  <Badge tone="warn">Processing</Badge>
+                  <Badge tone="warn">On the way</Badge>
                 ) : detailsStatus ? (
                   <Badge tone="accent">{detailsStatus}</Badge>
                 ) : (

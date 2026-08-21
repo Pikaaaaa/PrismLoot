@@ -84,7 +84,7 @@ export const PLAY_ERROR_LABEL: Record<string, string> = {
   GIFT_CARD_EXPIRED: "This gift card has expired.",
   GIFT_CARD_DISABLED: "This gift card was disabled.",
   WAGER_LOCKED: "Play through the remaining amount in cases, upgrades, or contracts first.",
-  WITHDRAWAL_PENDING: "You already have a pending withdrawal. Wait for a decision.",
+  WITHDRAWAL_PENDING: "This withdrawal is already in progress.",
   WITHDRAWAL_NOT_FOUND: "Withdrawal request not found.",
   WITHDRAWAL_UNAVAILABLE: "Withdrawals are temporarily unavailable. Try again in a moment.",
   TRADE_URL_REQUIRED: "Add your trade URL in profile.",
