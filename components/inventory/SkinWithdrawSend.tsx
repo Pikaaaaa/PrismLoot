@@ -13,7 +13,7 @@ export function SkinWithdrawSend({ item }: { item: InventoryItem }) {
       className="fixed inset-0 z-[90] grid place-items-center bg-black/70 p-4 backdrop-blur-sm"
       role="status"
       aria-live="polite"
-      aria-label="Отправка заявки на вывод"
+      aria-label="Submitting withdrawal request"
     >
       <div className="flex flex-col items-center gap-4">
         <motion.div
@@ -35,7 +35,7 @@ export function SkinWithdrawSend({ item }: { item: InventoryItem }) {
           transition={{ duration: 0.2 }}
         >
           <Send className="h-4 w-4 text-cyan" />
-          <p className="text-sm font-semibold">Отправка…</p>
+          <p className="text-sm font-semibold">Submitting…</p>
         </motion.div>
         <p className="meta max-w-xs text-center">{item.name}</p>
       </div>

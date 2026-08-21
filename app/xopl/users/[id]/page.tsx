@@ -211,12 +211,12 @@ export default function AdminUserDetailPage() {
             disabled={(user.wagerRemainingUsd ?? 0) <= 0}
             onClick={() => setResetOpen(true)}
           >
-            Сбросить вагер
+            Reset wager
           </Button>
           <p className="meta">
             {(user.wagerRemainingUsd ?? 0) > 0
-              ? `Отыгровка ${formatMoney(user.wagerRemainingUsd)} → 0. Игрок сможет выводить.`
-              : "Отыгровка уже 0."}
+              ? `Playthrough ${formatMoney(user.wagerRemainingUsd)} → 0. Player can withdraw.`
+              : "Playthrough is already 0."}
           </p>
         </div>
       </div>
@@ -311,12 +311,12 @@ export default function AdminUserDetailPage() {
       <Modal
         open={resetOpen}
         onClose={() => setResetOpen(false)}
-        title="Сбросить вагер"
-        description={`${user.displayName} · отыгровка ${formatMoney(user.wagerRemainingUsd ?? 0)}`}
+        title="Reset wager"
+        description={`${user.displayName} · playthrough ${formatMoney(user.wagerRemainingUsd ?? 0)}`}
         footer={
           <div className="flex flex-wrap justify-end gap-2">
             <Button size="sm" variant="ghost" onClick={() => setResetOpen(false)}>
-              Отмена
+              Cancel
             </Button>
             <Button
               size="sm"
@@ -327,13 +327,13 @@ export default function AdminUserDetailPage() {
                 });
               }}
             >
-              Обнулить
+              Reset to zero
             </Button>
           </div>
         }
       >
         <p className="text-sm text-soft">
-          Отыгровка станет 0. Игрок сможет запросить вывод (если нет другой блокировки). Баланс не меняется.
+          Playthrough will become 0. The player can request withdrawals (unless another block applies). Balance is unchanged.
         </p>
       </Modal>
     </div>

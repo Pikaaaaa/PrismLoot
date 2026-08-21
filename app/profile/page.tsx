@@ -222,7 +222,7 @@ function ProfileInner() {
     setTradeUrl(next);
     toast({
       title: next ? "Trade URL saved" : "Trade URL cleared",
-      detail: next ? "Нужна, чтобы вывести скин из инвентаря." : "Вывод скинов будет недоступен, пока ссылка пустая.",
+      detail: next ? "Required to withdraw skins from your inventory." : "Skin withdrawals stay disabled until you add a trade URL.",
       tone: "ok",
     });
   }

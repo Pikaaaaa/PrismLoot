@@ -184,7 +184,7 @@ export function SkinCard({
         <>
           <div aria-hidden className="pointer-events-none absolute inset-0 z-[8] bg-void/45" />
           <span className="absolute left-2 top-2 z-[9] grid h-5 place-items-center whitespace-nowrap rounded-[var(--radius-xs)] border border-amber/40 bg-void/85 px-2 text-[length:var(--type-micro)] font-semibold leading-none text-amber">
-            Отправляется
+            Processing
           </span>
         </>
       ) : statusLabel ? (
@@ -288,7 +288,7 @@ export function SkinCard({
       role={onClick ? "button" : undefined}
       tabIndex={onClick && !disabled ? 0 : undefined}
       aria-pressed={onClick ? selected : undefined}
-      aria-label={pending ? `${skin.name}, Отправляется` : statusLabel ? `${skin.name}, ${statusLabel}` : undefined}
+      aria-label={pending ? `${skin.name}, Processing` : statusLabel ? `${skin.name}, ${statusLabel}` : undefined}
     >
       {art}
       {body}

@@ -43,7 +43,7 @@ function typicalPayout(skinId: string, expected: number): number {
 function bandOf(typical: number, casePrice: number, expected: number): Band {
   const jackMark = Math.max(typical, expected) / Math.max(casePrice, 0.01);
   if (jackMark >= 4) return "jack";
-  // Band окуп by FT/MW (usual unbox wear), not EV — otherwise cheap skins wear-roll under the ticket.
+  // Band break-even by FT/MW (usual unbox wear), not EV — otherwise cheap skins wear-roll under the ticket.
   if (typical / Math.max(casePrice, 0.01) > 1) return "win";
   return "lose";
 }
@@ -235,7 +235,7 @@ function enforceSingleCap(pct: number[], idxs: number[], values: number[], cap: 
 }
 
 /**
- * Weighted loot: most opens lose, some окуп, rare jackpot.
+ * Weighted loot: most opens lose, some break even, rare jackpot.
  * EV locked to casePrice × RTP (house edge). Not 50/50. Not flat tiny-loss.
  */
 export function generateCaseWeights(

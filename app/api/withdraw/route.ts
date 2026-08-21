@@ -78,7 +78,7 @@ export async function POST(req: Request) {
     const instanceId = typeof body.instanceId === "string" ? body.instanceId.trim() : "";
     if (!instanceId) {
       return NextResponse.json(
-        { ok: false, error: "INVALID_INPUT", message: "Не выбран скин." },
+        { ok: false, error: "INVALID_INPUT", message: "No skin selected." },
         { status: 400 },
       );
     }

@@ -46,10 +46,10 @@ export const CASE_RTP = 0.93;
 export const CASE_HOUSE_EDGE = 0.07;
 
 /**
- * Variance targets (probability mass). Majority still lose; окуп is common enough
+ * Variance targets (probability mass). Majority still lose; break-even hits are common enough
  * that a short session can hit, jackpot stays rare.
  *   Lose  — payout < ticket (~65–72%)
- *   Win   — payout > ticket and < 4× (окуп, ~25–30%)
+ *   Win   — payout > ticket and < 4× (break-even band, ~25–30%)
  *   Jackpot — payout ≥ 4× (~2–3%)
  */
 export const CASE_LOSE_MASS = 68;

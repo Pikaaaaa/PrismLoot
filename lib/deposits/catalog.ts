@@ -53,12 +53,12 @@ export type DepositCoin = {
 
 const NETWORKS: Record<DepositNetworkId, DepositNetwork> = {
   trc20: { id: "trc20", label: "TRC-20", confirmations: "19 blocks" },
-  erc20: { id: "erc20", label: "ERC-20", confirmations: "12 блоков" },
+  erc20: { id: "erc20", label: "ERC-20", confirmations: "12 blocks" },
   bep20: { id: "bep20", label: "BSC (BEP20)", confirmations: "15 blocks" },
   bitcoin: { id: "bitcoin", label: "Bitcoin", confirmations: "2 blocks" },
   tron: { id: "tron", label: "TRON (TRC20)", confirmations: "19 blocks" },
-  litecoin: { id: "litecoin", label: "Litecoin", confirmations: "6 блоков" },
-  ethereum: { id: "ethereum", label: "Ethereum (ERC20)", confirmations: "12 блоков" },
+  litecoin: { id: "litecoin", label: "Litecoin", confirmations: "6 blocks" },
+  ethereum: { id: "ethereum", label: "Ethereum (ERC20)", confirmations: "12 blocks" },
   solana: { id: "solana", label: "SOL", confirmations: "1 block" },
   ton: { id: "ton", label: "TON", confirmations: "1 block" },
 };

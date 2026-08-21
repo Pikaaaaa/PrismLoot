@@ -153,7 +153,7 @@ export default function AdminGiftCardsPage() {
       <PageHeader
         kicker="Admin"
         title="Gift cards"
-        description="Issue PrismLoot codes (PL-XXXX-XXXX-XXXX). One redeem each. Credits USD on /deposit with a playthrough (отыгровка) multiplier."
+        description="Issue PrismLoot codes (PL-XXXX-XXXX-XXXX). One redeem each. Credits USD on /deposit with a playthrough multiplier."
       />
 
       <div className="surface surface-pad flex flex-col gap-4">

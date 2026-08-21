@@ -315,7 +315,7 @@ async function consumeVaultItems(tx: Tx, userId: string, ids: string[], leftVia:
 }
 
 /**
- * Playthrough (отыгровка) counts **bet volume**, not winnings:
+ * Playthrough counts **bet volume**, not winnings:
  * - cases: USD charged to open
  * - upgrades: extra USD + market value of skins staked
  * - contracts: market value of skins contracted

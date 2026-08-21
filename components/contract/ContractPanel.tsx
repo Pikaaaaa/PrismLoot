@@ -270,7 +270,7 @@ export function ContractPanel() {
               </p>
               <Link
                 href="/deposit"
-                aria-label="Пополнить баланс"
+                aria-label="Deposit"
                 className="grid h-5 w-5 shrink-0 place-items-center rounded-[var(--radius-xs)] border border-cyan/35 bg-cyan/10 text-cyan hover:bg-cyan/18"
               >
                 <Plus className="h-3 w-3" />

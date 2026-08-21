@@ -57,18 +57,18 @@ type PendingWithdraw = {
   inventoryItemId?: string | null;
 };
 
-function withdrawErrorRu(code?: string, message?: string) {
+function withdrawErrorMessage(code?: string, message?: string) {
   if (code === "TRADE_URL_REQUIRED" || code === "TRADE_URL_INVALID") {
-    return "Укажи трейд-ссылку в профиле";
+    return "Add your trade URL in profile.";
   }
   if (message && !/^[A-Z][A-Z0-9_]+$/.test(message)) return message;
-  if (code === "USER_BANNED") return "Аккаунт заблокирован. Вывод недоступен.";
-  if (code === "WAGER_LOCKED") return "Сначала отыграйте оставшуюся сумму в кейсах, апгрейдах или контрактах.";
-  if (code === "ITEMS_UNAVAILABLE") return "Скин больше не в инвентаре.";
-  if (code === "WITHDRAWAL_PENDING") return "Этот скин уже в заявке на вывод.";
-  if (code === "WITHDRAWAL_UNAVAILABLE") return "Не удалось создать заявку на вывод. Обнови страницу и попробуй снова.";
-  if (code && /^[A-Z][A-Z0-9_]+$/.test(code)) return "Не удалось выполнить запрос. Повторите попытку.";
-  return "Не удалось создать заявку.";
+  if (code === "USER_BANNED") return "This account is banned. Withdrawals are disabled.";
+  if (code === "WAGER_LOCKED") return "Play through the remaining amount in cases, upgrades, or contracts first.";
+  if (code === "ITEMS_UNAVAILABLE") return "That skin is no longer in your inventory.";
+  if (code === "WITHDRAWAL_PENDING") return "This skin is already in a withdrawal request.";
+  if (code === "WITHDRAWAL_UNAVAILABLE") return "Could not create a withdrawal request. Refresh the page and try again.";
+  if (code && /^[A-Z][A-Z0-9_]+$/.test(code)) return "Could not complete the request. Try again.";
+  return "Could not create the request.";
 }
 
 /** Only skins with a live market quote can be sold — never invent a price. */
@@ -278,11 +278,11 @@ export function InventoryVault({
     setSending(null);
     setTradeNeeded(true);
     store.toast({
-      title: "Укажи трейд-ссылку в профиле",
-      detail: "Без неё заявка на вывод не создаётся.",
+      title: "Add your trade URL in profile",
+      detail: "Withdrawals cannot be created without it.",
       tone: "err",
       href: "/profile#trade",
-      hrefLabel: "Открыть профиль",
+      hrefLabel: "Open profile",
     });
   }
 
@@ -290,7 +290,7 @@ export function InventoryVault({
     if (sending) return;
     if (isWithdrawPending(item)) return;
     if (!store.user) {
-      store.toast({ title: "Нужно войти", detail: "Войдите, чтобы отправить заявку на вывод.", tone: "warn" });
+      store.toast({ title: "Sign in required", detail: "Sign in to submit a withdrawal request.", tone: "warn" });
       return;
     }
     if (!looksLikeTradeUrl(store.tradeUrl)) {
@@ -299,8 +299,8 @@ export function InventoryVault({
     }
     if (store.wagerRemainingUsd > 0) {
       store.toast({
-        title: "Сначала отыграйте депозит",
-        detail: `Отыграйте ${formatMoney(store.wagerRemainingUsd)} в кейсах, апгрейдах или контрактах.`,
+        title: "Play through your deposit first",
+        detail: `Play through ${formatMoney(store.wagerRemainingUsd)} in cases, upgrades, or contracts.`,
         tone: "warn",
       });
       return;
@@ -329,27 +329,27 @@ export function InventoryVault({
           return;
         }
         console.error("[withdraw] request failed", json.error, json.message);
-        store.toast({ title: "Заявка не создана", detail: withdrawErrorRu(json.error, json.message), tone: "err" });
+        store.toast({ title: "Request not created", detail: withdrawErrorMessage(json.error, json.message), tone: "err" });
         return;
       }
       store.markWithdrawPending(item.instanceId);
       setDetails(null);
       store.addHistory({
         kind: "withdraw",
-        title: "Вывод скина",
+        title: "Skin withdrawal",
         detail: item.name,
         amount: 0,
         itemName: item.name,
       });
       store.toast({
-        title: "Отправляется",
-        detail: "Админ подтвердит вывод или вернёт скин в инвентарь.",
+        title: "Processing",
+        detail: "An admin will approve the withdrawal or return the skin to your inventory.",
         tone: "ok",
       });
     } catch {
       const wait = Math.max(0, minMs - (Date.now() - started));
       if (wait) await new Promise((resolve) => window.setTimeout(resolve, wait));
-      store.toast({ title: "Сеть недоступна", tone: "err" });
+      store.toast({ title: "Network unavailable", tone: "err" });
     } finally {
       setSending(null);
     }
@@ -668,7 +668,7 @@ export function InventoryVault({
             </Button>
           </div>
           ) : detailsPending ? (
-            <Badge tone="warn">Отправляется</Badge>
+            <Badge tone="warn">Processing</Badge>
           ) : detailsStatus ? (
             <Badge tone="accent">{detailsStatus}</Badge>
           ) : null
@@ -695,7 +695,7 @@ export function InventoryVault({
               </DetailRow>
               <DetailRow label="Status">
                 {detailsPending ? (
-                  <Badge tone="warn">Отправляется</Badge>
+                  <Badge tone="warn">Processing</Badge>
                 ) : detailsStatus ? (
                   <Badge tone="accent">{detailsStatus}</Badge>
                 ) : (
@@ -714,12 +714,12 @@ export function InventoryVault({
       <Modal
         open={tradeNeeded}
         onClose={() => setTradeNeeded(false)}
-        title="Нужна трейд-ссылка"
+        title="Trade URL required"
         size="sm"
         footer={
           <div className="flex w-full min-w-0 flex-wrap gap-2">
             <Button variant="ghost" className="min-w-0 flex-1" onClick={() => setTradeNeeded(false)}>
-              Закрыть
+              Close
             </Button>
             <Button
               className="min-w-0 flex-1"
@@ -728,21 +728,21 @@ export function InventoryVault({
                 router.push("/profile#trade");
               }}
             >
-              Открыть профиль
+              Open profile
             </Button>
           </div>
         }
       >
         <p className="text-[length:var(--type-sm)] text-soft">
-          Укажи трейд-ссылку в профиле. Без неё заявка на вывод не создаётся.
+          Add your trade URL in profile. Withdrawals cannot be created without it.
         </p>
         <p className="meta mt-2">
-          Формат:{" "}
+          Format:{" "}
           <span className="break-all text-soft">https://steamcommunity.com/tradeoffer/new/?partner=…</span>
         </p>
         <p className="mt-2">
           <Link href="/profile#trade" className="text-sm font-semibold text-cyan hover:brightness-110">
-            Перейти в профиль
+            Go to profile
           </Link>
         </p>
       </Modal>

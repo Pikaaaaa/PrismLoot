@@ -32,7 +32,7 @@ export function BalanceWidget({
     wagerRemainingUsd > 0
       ? `Balance ${formatBalance(balance)} · Playthrough ${formatMoney(wagerRemainingUsd)} left`
       : `Balance ${formatBalance(balance)}`;
-  const label = `${title}. Пополнить`;
+  const label = `${title}. Deposit`;
 
   if (href) {
     return (

@@ -29,7 +29,7 @@ model User {
   /// USER | ADMIN
   role        String   @default("USER")
   banned      Boolean  @default(false)
-  /// Remaining playthrough (отыгровка) in USD. Incremented on gift-card redeem
+  /// Remaining playthrough in USD. Incremented on gift-card redeem
   /// by amount * wagerMultiplier; decremented by case/upgrade/contract volume.
   wagerRemainingUsd Float @default(0)
   /// Steam trade offer URL (partner + token). Required to request a skin withdrawal.
