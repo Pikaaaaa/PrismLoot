@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { getSessionUserId, requireUserId } from "@/lib/auth/session";
 import { depositDelegate } from "@/lib/db";
 import { publicDepositCatalog } from "@/lib/deposits/catalog";
+import { isAnyLiveDepositEnabled } from "@/lib/deposits/live";
 import { jsonPlayError } from "@/lib/persist/errors";
 import { loadPlayerSnapshot, persistDepositCreate, serializeDeposit } from "@/lib/persist/game";
 
@@ -38,6 +39,7 @@ export async function GET() {
 
   return NextResponse.json({
     ok: true,
+    live: isAnyLiveDepositEnabled(),
     banned,
     catalog,
     deposits,
@@ -53,15 +55,17 @@ export async function POST(req: Request) {
       network?: unknown;
       amountUsd?: unknown;
       txNote?: unknown;
+      promoCode?: unknown;
     };
     const asset = typeof body.asset === "string" ? body.asset.trim().toUpperCase() : "";
     const network = typeof body.network === "string" ? body.network.trim().toLowerCase() : "";
     const amountUsd = Number(body.amountUsd);
     const txNote = typeof body.txNote === "string" ? body.txNote : "";
+    const promoCode = typeof body.promoCode === "string" ? body.promoCode : "";
     if (!asset || !network || !Number.isFinite(amountUsd)) {
       return NextResponse.json({ ok: false, error: "INVALID_INPUT" }, { status: 400 });
     }
-    const deposit = await persistDepositCreate({ userId, asset, network, amountUsd, txNote });
+    const deposit = await persistDepositCreate({ userId, asset, network, amountUsd, txNote, promoCode });
     return NextResponse.json({ ok: true, deposit });
   } catch (err) {
     return jsonPlayError(err, "DEPOSIT_FAILED");

@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "Deposit" ADD COLUMN "promoCode" TEXT NOT NULL DEFAULT '';
+ALTER TABLE "Deposit" ADD COLUMN "bonusUsd" REAL NOT NULL DEFAULT 0;

@@ -9,12 +9,15 @@ import {
   isDepositAsset,
   type DepositAsset,
 } from "@/lib/deposits/catalog";
+import { isLiveUsdtTrc20Enabled, liveUsdtTrc20Address, uniqueUsdtSendAmount } from "@/lib/deposits/live";
+import { amountsMatch, listRecentUsdtDeposits } from "@/lib/deposits/tron";
 import { isCaseCouponSchemaError } from "@/lib/case-coupons/ensure";
 import { consumeFreeCaseClaims, listUserFreeCaseClaims } from "@/lib/case-coupons/store";
 import type { FreeCaseClaimSummary } from "@/lib/case-coupons/types";
 import { depositDelegate, ensurePrisma, giftCardDelegate, prisma, usd, withdrawalDelegate } from "@/lib/db";
 import { generateGiftCode, isGiftCodeFormat, normalizeGiftCode } from "@/lib/gift-cards/codes";
 import { clampWagerMultiplier } from "@/lib/gift-cards/wager";
+import { resolvePromoCode } from "@/lib/promos/rotating";
 import { loadPlayerActivity } from "@/lib/persist/activity";
 import { isPrismaFkError } from "@/lib/persist/errors";
 import { ensureInventoryHistorySchema } from "@/lib/persist/inventory-schema";
@@ -713,16 +716,16 @@ export async function persistWagerReset(input: { userId: string; note?: string }
 export async function persistPromoRedeem(input: { userId: string; code: string }) {
   const userId = input.userId;
   await loadPlayUser(userId);
-  const promo = await prisma.promoCode.findUnique({ where: { code: input.code } });
-  if (!promo || !promo.enabled) return { ok: false as const, error: "INVALID_CODE" };
+  const promo = await resolvePromoCode(input.code);
+  if (!promo) return { ok: false as const, error: "INVALID_CODE" };
   try {
     await prisma.promoRedemption.create({
       data: { promoId: promo.id, userId },
     });
   } catch {
-    return { ok: true as const, already: true };
+    return { ok: true as const, already: true, percentBonus: promo.percentBonus };
   }
-  return { ok: true as const, already: false };
+  return { ok: true as const, already: false, percentBonus: promo.percentBonus };
 }
 
 export async function persistUpgradeAttempt(input: {
@@ -896,6 +899,9 @@ export function serializeDeposit(row: {
   amountCrypto: number;
   status: string;
   txNote: string;
+  txHash?: string;
+  promoCode?: string;
+  bonusUsd?: number;
   createdAt: Date;
   reviewedAt: Date | null;
   userId?: string;
@@ -912,7 +918,10 @@ export function serializeDeposit(row: {
     amountCrypto: row.amountCrypto,
     status: row.status,
     txNote: row.txNote,
-    createdAt: row.createdAt.toISOString(),
+    txHash: row.txHash ?? "",
+    promoCode: row.promoCode ?? "",
+  bonusUsd: usd(row.bonusUsd ?? 0),
+  createdAt: row.createdAt.toISOString(),
     reviewedAt: row.reviewedAt?.toISOString() ?? null,
   };
 }
@@ -923,6 +932,7 @@ export async function persistDepositCreate(input: {
   network: string;
   amountUsd: number;
   txNote?: string;
+  promoCode?: string;
 }) {
   const user = await loadPlayUser(input.userId);
   assertPlayable(user);
@@ -932,6 +942,10 @@ export async function persistDepositCreate(input: {
   if (!coin || !network) throw new Error("INVALID_ASSET");
   const amountUsd = usd(input.amountUsd);
   if (!(amountUsd >= coin.minUsd)) throw new Error("AMOUNT_TOO_LOW");
+
+  const rawPromo = typeof input.promoCode === "string" ? input.promoCode.trim().toUpperCase() : "";
+  const promoCode = rawPromo ? await resolveDepositPromo(user.id, rawPromo) : "";
+
   const address = demoDepositAddress(input.asset as DepositAsset, network.id);
   const amountCrypto = cryptoFromUsd(amountUsd, coin.usdRate);
   const db = depositDelegate();
@@ -946,9 +960,194 @@ export async function persistDepositCreate(input: {
       amountCrypto,
       status: "PENDING",
       txNote: (input.txNote ?? "").trim().slice(0, 240),
+      promoCode,
     },
   });
   return serializeDeposit(row);
+}
+
+async function resolveDepositPromo(userId: string, rawPromo: string) {
+  const code = rawPromo.trim().toUpperCase();
+  if (!code) return "";
+  const promo = await resolvePromoCode(code);
+  if (!promo) throw new Error("PROMO_INVALID");
+  const redemption = await prisma.promoRedemption.findUnique({
+    where: { promoId_userId: { promoId: promo.id, userId } },
+  });
+  if (!redemption) throw new Error("PROMO_NOT_APPLIED");
+  return promo.code;
+}
+
+async function creditDepositRow(
+  tx: Prisma.TransactionClient,
+  row: {
+    id: string;
+    userId: string;
+    asset: string;
+    network: string;
+    amountUsd: number;
+    promoCode: string;
+    txHash?: string;
+  },
+  metaExtra?: Record<string, unknown>,
+) {
+  let bonusUsd = 0;
+  let promoPercent = 0;
+  if (row.promoCode) {
+    const promo = await tx.promoCode.findUnique({ where: { code: row.promoCode } });
+    if (promo?.enabled) {
+      promoPercent = promo.percentBonus;
+      bonusUsd = usd((row.amountUsd * promo.percentBonus) / 100);
+    }
+  }
+  const creditUsd = usd(row.amountUsd + bonusUsd);
+  const user = await tx.user.update({
+    where: { id: row.userId },
+    data: { balanceUsd: { increment: creditUsd } },
+  });
+  await tx.ledgerEntry.create({
+    data: {
+      userId: row.userId,
+      kind: "DEPOSIT",
+      amountUsd: creditUsd,
+      balanceAfter: usd(user.balanceUsd),
+      note:
+        bonusUsd > 0
+          ? `Crypto ${row.asset} ${row.network} · +${promoPercent}% ${row.promoCode}`
+          : `Crypto ${row.asset} ${row.network}`,
+      meta: JSON.stringify({
+        depositId: row.id,
+        asset: row.asset,
+        network: row.network,
+        baseUsd: usd(row.amountUsd),
+        bonusUsd,
+        promoCode: row.promoCode || null,
+        txHash: row.txHash || null,
+        ...metaExtra,
+      }),
+    },
+  });
+  return { bonusUsd, creditUsd, balanceUsd: usd(user.balanceUsd) };
+}
+
+/** Register amount to watch on-chain (live USDT TRC-20). */
+export async function persistDepositWatch(input: {
+  userId: string;
+  amountUsd: number;
+  promoCode?: string;
+}) {
+  if (!isLiveUsdtTrc20Enabled()) throw new Error("DEPOSIT_UNAVAILABLE");
+  const user = await loadPlayUser(input.userId);
+  assertPlayable(user);
+
+  const coin = getDepositCoin("USDT");
+  if (!coin) throw new Error("INVALID_ASSET");
+  const network = getDepositNetwork(coin, "trc20");
+  if (!network) throw new Error("INVALID_ASSET");
+
+  const amountUsd = usd(input.amountUsd);
+  if (!(amountUsd >= coin.minUsd)) throw new Error("AMOUNT_TOO_LOW");
+
+  const promoCode = await resolveDepositPromo(user.id, input.promoCode ?? "");
+  const sendUsdt = uniqueUsdtSendAmount(amountUsd, user.id);
+  const address = liveUsdtTrc20Address();
+  const db = depositDelegate();
+  if (!db) throw new Error("DEPOSIT_UNAVAILABLE");
+
+  const existing = await db.findMany({
+    where: { userId: user.id, status: "PENDING", asset: "USDT", network: "trc20" },
+    orderBy: { createdAt: "desc" },
+    take: 1,
+  });
+  const prior = existing[0];
+  if (prior && !(prior.txHash ?? "")) {
+    const updated = await db.update({
+      where: { id: prior.id },
+      data: { amountUsd, amountCrypto: sendUsdt, promoCode, address },
+    });
+    return serializeDeposit(updated);
+  }
+
+  const row = await db.create({
+    data: {
+      userId: user.id,
+      asset: "USDT",
+      network: "trc20",
+      address,
+      amountUsd,
+      amountCrypto: sendUsdt,
+      status: "PENDING",
+      promoCode,
+    },
+  });
+  return serializeDeposit(row);
+}
+
+/** Scan Tron for a matching inbound transfer and credit balance. */
+export async function persistDepositPoll(userId: string) {
+  if (!isLiveUsdtTrc20Enabled()) return { ok: true as const, matched: false as const };
+
+  const db = depositDelegate();
+  if (!db) throw new Error("DEPOSIT_UNAVAILABLE");
+
+  const watchRows = await db.findMany({
+    where: { userId, status: "PENDING", asset: "USDT", network: "trc20" },
+    orderBy: { createdAt: "desc" },
+    take: 1,
+  });
+  const watch = watchRows[0];
+  if (!watch || (watch.txHash ?? "")) return { ok: true as const, matched: false as const };
+
+  const address = liveUsdtTrc20Address();
+  const transfers = await listRecentUsdtDeposits(address, 50);
+
+  for (const transfer of transfers) {
+    if (!amountsMatch(watch.amountCrypto, transfer.amountUsdt)) continue;
+
+    const usedRows = await db.findMany({
+      where: { txHash: transfer.txId, status: "APPROVED" },
+      take: 1,
+    });
+    if (usedRows.length) continue;
+
+    const result = await prisma.$transaction(async (tx) => {
+      const credit = await creditDepositRow(
+        tx,
+        {
+          id: watch.id,
+          userId: watch.userId,
+          asset: watch.asset,
+          network: watch.network,
+          amountUsd: watch.amountUsd,
+          promoCode: watch.promoCode ?? "",
+          txHash: transfer.txId,
+        },
+        { auto: true },
+      );
+      return credit;
+    });
+
+    const updated = await db.update({
+      where: { id: watch.id },
+      data: {
+        status: "APPROVED",
+        txHash: transfer.txId,
+        bonusUsd: result.bonusUsd,
+        reviewedAt: new Date(),
+        reviewedBy: "tron",
+      },
+    });
+
+    return {
+      ok: true as const,
+      matched: true as const,
+      deposit: serializeDeposit(updated),
+      balance: result.balanceUsd,
+      creditedUsd: result.creditUsd,
+    };
+  }
+
+  return { ok: true as const, matched: false as const };
 }
 
 export async function persistDepositReview(input: {
@@ -972,28 +1171,26 @@ export async function persistDepositReview(input: {
   }
 
   const result = await prisma.$transaction(async (tx) => {
-    const user = await tx.user.update({
-      where: { id: row.userId },
-      data: { balanceUsd: { increment: row.amountUsd } },
+    return creditDepositRow(tx, {
+      id: row.id,
+      userId: row.userId,
+      asset: row.asset,
+      network: row.network,
+      amountUsd: row.amountUsd,
+      promoCode: row.promoCode ?? "",
     });
-    await tx.ledgerEntry.create({
-      data: {
-        userId: row.userId,
-        kind: "DEPOSIT",
-        amountUsd: usd(row.amountUsd),
-        balanceAfter: usd(user.balanceUsd),
-        note: `Crypto ${row.asset} ${row.network}`,
-        meta: JSON.stringify({ depositId: row.id, asset: row.asset, network: row.network }),
-      },
-    });
-    return user;
   });
   const updated = await db.update({
     where: { id: row.id },
-    data: { status: "APPROVED", reviewedBy: input.reviewerId, reviewedAt: new Date() },
+    data: {
+      status: "APPROVED",
+      bonusUsd: result.bonusUsd,
+      reviewedBy: input.reviewerId,
+      reviewedAt: new Date(),
+    },
     include: { user: { select: { displayName: true } } },
   });
-  void result;
+  void result.creditUsd;
   return serializeDeposit(updated);
 }
 

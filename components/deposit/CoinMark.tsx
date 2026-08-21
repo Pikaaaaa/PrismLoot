@@ -8,7 +8,9 @@ const SLUG: Record<string, string> = {
   TRX: "trx",
   LTC: "ltc",
   ETH: "eth",
+  SOL: "sol",
   USDC: "usdc",
+  TON: "ton",
 };
 
 export function CoinMark({

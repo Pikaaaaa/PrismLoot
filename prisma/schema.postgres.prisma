@@ -285,6 +285,11 @@ model Deposit {
   /// PENDING | APPROVED | REJECTED
   status       String    @default("PENDING")
   txNote       String    @default("")
+  /// On-chain TRC-20 tx id when live deposit is matched.
+  txHash       String    @default("")
+  /// Applied promo code (validated at create). Bonus credited on approve.
+  promoCode    String    @default("")
+  bonusUsd     Float     @default(0)
   createdAt    DateTime  @default(now())
   reviewedBy   String?
   reviewedAt   DateTime?

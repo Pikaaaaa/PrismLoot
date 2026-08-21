@@ -166,6 +166,9 @@ type DepositRow = {
   amountCrypto: number;
   status: string;
   txNote: string;
+  txHash: string;
+  promoCode: string;
+  bonusUsd: number;
   createdAt: Date;
   reviewedBy: string | null;
   reviewedAt: Date | null;

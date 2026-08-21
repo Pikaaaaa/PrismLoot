@@ -5,9 +5,13 @@ import { cn } from "@/lib/utils";
 import { Check, Copy, Gift } from "lucide-react";
 import { useEffect, useState } from "react";
 
-export const DEMO_PROMO_CODE = "SOLAR-20";
-const PROMO_END_KEY = "prismloot-demo-solar20-end-v2";
-const PROMO_WINDOW_MS = 24 * 60 * 60 * 1000;
+export const DEMO_PROMO_CODE = "PRISM-18";
+
+type ActivePromo = {
+  code: string;
+  percentBonus: number;
+  endsAt: string;
+};
 
 function splitHMS(ms: number) {
   const total = Math.max(0, Math.floor(ms / 1000));
@@ -29,21 +33,51 @@ function Segment({ value, label }: { value: string; label: string }) {
 
 export function PromoBanner({ className }: { className?: string }) {
   const { savePromo, savedPromo } = useAppStore();
-  const [remaining, setRemaining] = useState(PROMO_WINDOW_MS);
+  const [promo, setPromo] = useState<ActivePromo | null>(null);
+  const [remaining, setRemaining] = useState(0);
   const [copied, setCopied] = useState(false);
-  const applied = savedPromo === DEMO_PROMO_CODE;
 
   useEffect(() => {
-    let end = Number(localStorage.getItem(PROMO_END_KEY));
-    if (!Number.isFinite(end) || end <= Date.now()) {
-      end = Date.now() + PROMO_WINDOW_MS;
-      localStorage.setItem(PROMO_END_KEY, String(end));
+    let cancelled = false;
+    async function load() {
+      try {
+        const res = await fetch("/api/promo/current");
+        const json = (await res.json()) as {
+          ok?: boolean;
+          enabled?: boolean;
+          code?: string;
+          percentBonus?: number;
+          endsAt?: string;
+        };
+        if (cancelled || !json.ok || !json.enabled || !json.code || !json.endsAt) {
+          if (!cancelled) setPromo(null);
+          return;
+        }
+        setPromo({
+          code: json.code,
+          percentBonus: json.percentBonus ?? 0,
+          endsAt: json.endsAt,
+        });
+      } catch {
+        if (!cancelled) setPromo(null);
+      }
     }
+    void load();
+    const refresh = window.setInterval(() => void load(), 60_000);
+    return () => {
+      cancelled = true;
+      window.clearInterval(refresh);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!promo) return;
+    const end = Date.parse(promo.endsAt);
     const tick = () => setRemaining(Math.max(0, end - Date.now()));
     tick();
     const id = window.setInterval(tick, 1000);
     return () => window.clearInterval(id);
-  }, []);
+  }, [promo]);
 
   useEffect(() => {
     if (!copied) return;
@@ -51,14 +85,20 @@ export function PromoBanner({ className }: { className?: string }) {
     return () => window.clearTimeout(id);
   }, [copied]);
 
+  if (!promo) return null;
+
+  const applied = savedPromo === promo.code;
+
   async function applyPromo() {
+    const active = promo;
+    if (!active) return;
     try {
-      await navigator.clipboard.writeText(DEMO_PROMO_CODE);
+      await navigator.clipboard.writeText(active.code);
       setCopied(true);
     } catch {
       /* clipboard may be blocked — the code is still applied below */
     }
-    await savePromo(DEMO_PROMO_CODE);
+    await savePromo(active.code);
   }
 
   const { h, m, s } = splitHMS(remaining);
@@ -70,7 +110,7 @@ export function PromoBanner({ className }: { className?: string }) {
           <Gift className="h-[1.125rem] w-[1.125rem]" />
         </span>
         <div className="min-w-0">
-          <p className="promo-value">+20%</p>
+          <p className="promo-value">+{promo.percentBonus}%</p>
           <p className="promo-offer-sub">Bonus to balance</p>
         </div>
       </div>
@@ -97,11 +137,11 @@ export function PromoBanner({ className }: { className?: string }) {
         type="button"
         onClick={() => void applyPromo()}
         className={cn("promo-code", applied && "is-applied")}
-        aria-label={`Copy and apply promo code ${DEMO_PROMO_CODE}`}
+        aria-label={`Copy and apply promo code ${promo.code}`}
       >
         <span className="min-w-0">
           <span className="promo-code-label">{applied ? "Applied" : "Promo code"}</span>
-          <span className="promo-code-value">{DEMO_PROMO_CODE}</span>
+          <span className="promo-code-value">{promo.code}</span>
         </span>
         {copied || applied ? (
           <Check className="promo-code-icon h-4 w-4" />

@@ -2,17 +2,17 @@
 
 import { SignInActions } from "@/components/auth/SignInActions";
 import { CoinMark } from "@/components/deposit/CoinMark";
+import { DepositAddressCard } from "@/components/deposit/DepositAddressCard";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { EmptyState, ErrorState } from "@/components/ui/EmptyState";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { Skeleton } from "@/components/ui/Skeleton";
-import { DEMO_PROMO_CODE } from "@/components/layout/PromoBanner";
-import { publicDepositCatalog } from "@/lib/deposits/catalog";
 import { formatWagerMultiplier } from "@/lib/gift-cards/wager";
+import { CURRENCY_META, formatBalance, formatCurrency } from "@/lib/services/prices/currency";
 import { useAppStore } from "@/lib/store";
-import { cn, formatBalance, formatMoney, timeAgo } from "@/lib/utils";
-import { Check, Copy, Gift, Ticket, Wallet } from "lucide-react";
+import { cn, formatMoney, timeAgo } from "@/lib/utils";
+import { Gift, Ticket } from "lucide-react";
 import { useCallback, useEffect, useMemo, useState } from "react";
 
 type Network = {
@@ -41,11 +41,14 @@ type DepositRow = {
   amountCrypto: number;
   status: string;
   txNote: string;
+  txHash?: string;
   createdAt: string;
 };
 
 const PRESETS = [10, 25, 50, 100];
-const STATIC_CATALOG = publicDepositCatalog() as Coin[];
+
+const METHOD_BTN =
+  "flex min-h-11 items-center gap-3 rounded-[var(--radius-sm)] border px-3 py-2.5 text-left sm:min-h-0";
 
 function statusTone(status: string): "warn" | "accent" | "danger" | "outline" {
   if (status === "PENDING") return "warn";
@@ -55,25 +58,25 @@ function statusTone(status: string): "warn" | "accent" | "danger" | "outline" {
 }
 
 function statusLabel(status: string) {
-  if (status === "PENDING") return "Ожидает";
-  if (status === "APPROVED") return "Зачислено";
-  if (status === "REJECTED") return "Отклонено";
+  if (status === "PENDING") return "Pending";
+  if (status === "APPROVED") return "Credited";
+  if (status === "REJECTED") return "Rejected";
   return status;
 }
 
-function playErrorRu(code?: string) {
-  if (code === "AUTH_REQUIRED") return "Войдите через Steam, чтобы пополнить баланс.";
-  if (code === "USER_BANNED") return "Аккаунт заблокирован. Пополнение недоступно.";
-  if (code === "AMOUNT_TOO_LOW") return "Сумма ниже минимума для этой монеты.";
-  if (code === "INVALID_ASSET") return "Выберите монету и сеть.";
-  if (code === "DEPOSIT_UNAVAILABLE") return "Касса ещё поднимается. Повторите через секунду.";
-  if (code === "GIFT_CARD_INVALID") return "Код не найден или указан неверно.";
-  if (code === "GIFT_CARD_USED") return "Эта карта уже использована.";
-  if (code === "GIFT_CARD_EXPIRED") return "Срок действия карты истёк.";
-  if (code === "GIFT_CARD_DISABLED") return "Карта отключена оператором.";
-  if (code === "GIFT_CARD_UNAVAILABLE") return "Не удалось активировать карту. Повторите попытку.";
-  if (code && /^[A-Z][A-Z0-9_]+$/.test(code)) return "Не удалось выполнить запрос. Повторите попытку.";
-  return code ?? "Не удалось создать заявку.";
+function depositError(code?: string) {
+  if (code === "AUTH_REQUIRED") return "Sign in with Steam to deposit.";
+  if (code === "USER_BANNED") return "This account is banned.";
+  if (code === "AMOUNT_TOO_LOW") return "Amount is below the minimum.";
+  if (code === "INVALID_ASSET") return "Choose a valid asset and network.";
+  if (code === "DEPOSIT_UNAVAILABLE") return "Cashier is not available yet. Try again shortly.";
+  if (code === "GIFT_CARD_INVALID") return "Gift card code not found.";
+  if (code === "GIFT_CARD_USED") return "This gift card was already redeemed.";
+  if (code === "GIFT_CARD_EXPIRED") return "This gift card has expired.";
+  if (code === "GIFT_CARD_DISABLED") return "This gift card was disabled.";
+  if (code === "GIFT_CARD_UNAVAILABLE") return "Could not redeem the gift card.";
+  if (code && /^[A-Z][A-Z0-9_]+$/.test(code)) return "Request failed. Try again.";
+  return code ?? "Something went wrong.";
 }
 
 function GiftMark() {
@@ -89,18 +92,17 @@ function GiftMark() {
 
 export function DepositCashier() {
   const store = useAppStore();
-  const [coins, setCoins] = useState<Coin[]>(STATIC_CATALOG);
+  const [coins, setCoins] = useState<Coin[]>([]);
   const [rows, setRows] = useState<DepositRow[]>([]);
+  const [catalogLoaded, setCatalogLoaded] = useState(false);
   const [banned, setBanned] = useState(false);
   const [loadError, setLoadError] = useState<string | null>(null);
   const [method, setMethod] = useState<"gift" | "crypto">("crypto");
   const [asset, setAsset] = useState("USDT");
   const [networkId, setNetworkId] = useState("trc20");
   const [amount, setAmount] = useState("25");
-  const [txNote, setTxNote] = useState("");
   const [giftCode, setGiftCode] = useState("");
   const [busy, setBusy] = useState(false);
-  const [copied, setCopied] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [giftSuccess, setGiftSuccess] = useState<{ amountUsd: number; wagerMultiplier: number } | null>(null);
   const [promoDraft, setPromoDraft] = useState("");
@@ -116,29 +118,35 @@ export function DepositCashier() {
         deposits?: DepositRow[];
       };
       if (!res.ok || !json.ok) {
-        setCoins(STATIC_CATALOG);
+        setCoins([]);
         setRows([]);
-        setLoadError(null);
+        setLoadError(depositError(json.error) || "Could not load deposit catalog.");
+        setCatalogLoaded(true);
+        return;
+      }
+      if (!json.catalog?.length) {
+        setCoins([]);
+        setRows([]);
+        setLoadError("Deposit catalog is empty.");
+        setCatalogLoaded(true);
         return;
       }
       setLoadError(null);
       setBanned(Boolean(json.banned));
-      setCoins(json.catalog?.length ? json.catalog : STATIC_CATALOG);
+      setCoins(json.catalog);
       setRows(json.deposits ?? []);
+      setCatalogLoaded(true);
     } catch {
-      setCoins(STATIC_CATALOG);
+      setCoins([]);
       setRows([]);
-      setLoadError(null);
+      setLoadError("Could not reach deposit API.");
+      setCatalogLoaded(true);
     }
   }, []);
 
   useEffect(() => {
     void load();
   }, [load]);
-
-  useEffect(() => {
-    if (store.savedPromo) setPromoDraft(store.savedPromo);
-  }, [store.savedPromo]);
 
   const coin = coins.find((row) => row.asset === asset) ?? coins[0] ?? null;
   const network = useMemo(() => {
@@ -153,66 +161,46 @@ export function DepositCashier() {
     }
   }, [coin, networkId]);
 
-  const amountUsd = Number(amount);
-  const validAmount = Boolean(coin && Number.isFinite(amountUsd) && amountUsd >= coin.minUsd);
-  const crypto = coin && validAmount ? amountUsd / coin.usdRate : 0;
-  const cryptoLabel =
-    crypto >= 1 ? crypto.toFixed(4) : crypto > 0 ? crypto.toFixed(8) : "—";
+  const amountUsdt = Number(amount);
+  const validAmount = Boolean(coin && Number.isFinite(amountUsdt) && amountUsdt >= coin.minUsd);
+  const amountUsd = validAmount ? amountUsdt : 0;
+  const displayCurrency = store.displayCurrency;
+  const displayMeta = CURRENCY_META[displayCurrency] ?? CURRENCY_META.USD;
+  const amountCrypto =
+    validAmount && coin && coin.usdRate > 0
+      ? +((amountUsdt / coin.usdRate).toFixed(coin.asset === "USDT" || coin.asset === "USDC" ? 2 : 8))
+      : null;
 
-  async function copyAddress() {
-    if (!network?.address) return;
-    try {
-      await navigator.clipboard.writeText(network.address);
-      setCopied(true);
-      window.setTimeout(() => setCopied(false), 1600);
-    } catch {
-      store.toast({ title: "Не удалось скопировать", tone: "warn" });
-    }
-  }
+  const addressLabel =
+    coin?.asset === "BTC"
+      ? "BTC address"
+      : coin?.asset === "ETH"
+        ? "ETH address"
+        : coin?.asset === "SOL"
+          ? "SOL address"
+          : coin?.asset === "TRX"
+            ? "TRX address"
+            : coin?.asset === "USDC"
+              ? "USDC address"
+              : coin?.asset === "TON"
+                ? "TON address"
+                : coin?.asset === "USDT" && network?.id === "trc20"
+                ? "USDT address (TRC-20)"
+                : `${coin?.ticker ?? "Deposit"} address`;
+  const promoPct = store.savedPromo?.match(/-(\d{2})$/)?.[1] ? Number(store.savedPromo.match(/-(\d{2})$/)![1]) : null;
+  const promoBonusUsd =
+    promoPct && validAmount && Number.isFinite(amountUsdt) ? +((amountUsdt * promoPct) / 100).toFixed(2) : 0;
+  const totalWithPromoUsd = validAmount && promoBonusUsd > 0 ? +(amountUsdt + promoBonusUsd).toFixed(2) : null;
 
   function applyPromo() {
     const code = promoDraft.trim().toUpperCase();
     if (!code) {
-      store.toast({ title: "Введите промокод", detail: `Например ${DEMO_PROMO_CODE}.`, tone: "warn" });
+      store.toast({ title: "Enter a promo code", detail: "Add a code before applying.", tone: "warn" });
       return;
     }
-    setPromoDraft(code);
-    void store.savePromo(code);
-  }
-
-  async function submit() {
-    if (!coin || !network || !validAmount) return;
-    setBusy(true);
-    setSubmitError(null);
-    try {
-      const res = await fetch("/api/deposit", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          asset: coin.asset,
-          network: network.id,
-          amountUsd,
-          txNote,
-        }),
-      });
-      const json = (await res.json()) as { ok?: boolean; error?: string };
-      if (!res.ok || !json.ok) {
-        setSubmitError(playErrorRu(json.error));
-        store.toast({ title: "Заявка не создана", detail: playErrorRu(json.error), tone: "err" });
-        return;
-      }
-      setTxNote("");
-      store.toast({
-        title: "Заявка отправлена",
-        detail: "Баланс зачислится после подтверждения админом.",
-        tone: "ok",
-      });
-      await load();
-    } catch {
-      setSubmitError("Сеть недоступна.");
-    } finally {
-      setBusy(false);
-    }
+    void store.savePromo(code).then((ok) => {
+      if (ok) setPromoDraft("");
+    });
   }
 
   async function redeemGift() {
@@ -230,17 +218,14 @@ export function DepositCashier() {
         error?: string;
         message?: string;
         amountUsd?: number;
-        balance?: number;
         wagerMultiplier?: number;
         wagerRemainingUsd?: number;
       };
       if (!res.ok || !json.ok) {
         const detail =
-          json.message && !/^[A-Z][A-Z0-9_]+$/.test(json.message)
-            ? json.message
-            : playErrorRu(json.error);
+          json.message && !/^[A-Z][A-Z0-9_]+$/.test(json.message) ? json.message : depositError(json.error);
         setSubmitError(detail);
-        store.toast({ title: "Карта не активирована", detail, tone: "err" });
+        store.toast({ title: "Gift card failed", detail, tone: "err" });
         return;
       }
       const credited = typeof json.amountUsd === "number" ? json.amountUsd : 0;
@@ -250,14 +235,14 @@ export function DepositCashier() {
       setGiftCode("");
       setGiftSuccess({ amountUsd: credited, wagerMultiplier: multiplier });
       store.toast({
-        title: "Карта активирована",
+        title: "Gift card redeemed",
         detail: credited
-          ? `+${formatMoney(credited)} · отыгровка ${formatWagerMultiplier(multiplier)}`
-          : "Баланс обновлён.",
+          ? `+${formatMoney(credited)} · wager ${formatWagerMultiplier(multiplier)}`
+          : "Balance updated.",
         tone: "ok",
       });
     } catch {
-      setSubmitError("Сеть недоступна.");
+      setSubmitError("Network error.");
     } finally {
       setBusy(false);
     }
@@ -266,7 +251,7 @@ export function DepositCashier() {
   if (!store.hydrated) {
     return (
       <div className="page-stack">
-        <PageHeader kicker="Кошелёк" title="Пополнение" />
+        <PageHeader kicker="Wallet" title="Deposit" />
         <div className="grid gap-3 lg:grid-cols-[minmax(0,18rem)_minmax(0,1fr)]">
           <div className="surface surface-pad space-y-2">
             {Array.from({ length: 6 }).map((_, i) => (
@@ -282,10 +267,10 @@ export function DepositCashier() {
   if (!store.user) {
     return (
       <div className="page-stack">
-        <PageHeader kicker="Кошелёк" title="Пополнение" />
+        <PageHeader kicker="Wallet" title="Deposit" />
         <div className="surface surface-pad mx-auto max-w-md text-center">
           <p className="font-semibold text-ink">Sign in with Steam</p>
-          <p className="meta mt-1.5">Deposits and gift cards need a Steam account.</p>
+          <p className="meta mt-1.5">Deposits and gift cards require a Steam account.</p>
           <div className="mt-4 flex justify-center">
             <SignInActions />
           </div>
@@ -294,82 +279,100 @@ export function DepositCashier() {
     );
   }
 
+  if (!catalogLoaded) {
+    return (
+      <div className="page-stack">
+        <PageHeader kicker="Wallet" title="Deposit" />
+        <div className="grid gap-3 lg:grid-cols-[minmax(0,18rem)_minmax(0,1fr)]">
+          <div className="surface surface-pad space-y-2">
+            {Array.from({ length: 3 }).map((_, i) => (
+              <Skeleton key={i} className="h-14 w-full" />
+            ))}
+          </div>
+          <Skeleton className="min-h-80 w-full" />
+        </div>
+      </div>
+    );
+  }
+
   if (loadError && coins.length === 0) {
     return (
       <div className="page-stack">
-        <PageHeader kicker="Кошелёк" title="Пополнение" />
-        <ErrorState title="Касса не загрузилась" detail={loadError} action={<Button onClick={() => void load()}>Повторить</Button>} />
+        <PageHeader kicker="Wallet" title="Deposit" />
+        <ErrorState title="Cashier failed to load" detail={loadError} action={<Button onClick={() => void load()}>Retry</Button>} />
       </div>
     );
   }
 
   return (
-    <div className="page-stack">
+    <div className="page-stack min-w-0">
       <PageHeader
-        kicker="Кошелёк"
-        title="Пополнение"
-        description="Крипта или подарочная карта PrismLoot. По крипте баланс появится после подтверждения админом. Скины выводятся из инвентаря."
+        kicker="Wallet"
+        title="Deposit"
+        description="Crypto or PrismLoot gift cards. Skins are withdrawn from inventory."
         actions={
-          <div className="text-right">
-            <p className="label">Баланс</p>
-            <p className="price text-[length:var(--type-h2)]">{formatBalance(store.balance)}</p>
+          <div className="w-full min-w-0 text-left sm:w-auto sm:text-right">
+            <p className="label">Balance</p>
+            <p className="price text-[length:var(--type-h2)]">{formatBalance(store.balance, displayCurrency)}</p>
             {store.wagerRemainingUsd > 0 ? (
-              <p className="meta mt-1">Отыгровка {formatMoney(store.wagerRemainingUsd)}</p>
+              <p className="meta mt-1">Wager {formatMoney(store.wagerRemainingUsd)}</p>
             ) : null}
           </div>
         }
       />
 
       {banned ? (
-        <ErrorState title="Аккаунт заблокирован" detail="Открывать кейсы, апгрейды, контракты и пополнения нельзя." />
+        <ErrorState title="Account banned" detail="Cases, upgrades, contracts, and deposits are disabled." />
       ) : null}
 
-      <div className="grid items-start gap-3 lg:grid-cols-[minmax(0,18rem)_minmax(0,1fr)]">
-        <section className="surface surface-pad">
-          <p className="label mb-2">1. Способ</p>
-          <div className="flex flex-col gap-1.5">
-            <button
-              type="button"
-              onClick={() => {
-                setMethod("gift");
-                setSubmitError(null);
-              }}
-              className={cn(
-                "flex items-center gap-3 rounded-[var(--radius-sm)] border px-3 py-2.5 text-left",
-                method === "gift" ? "border-cyan/35 bg-cyan/10" : "border-line bg-graphite hover:border-line-strong",
-              )}
-            >
-              <GiftMark />
-              <span className="min-w-0 flex-1">
-                <span className="block text-sm font-semibold">Подарочная карта</span>
-                <span className="meta">PrismLoot · мгновенно</span>
-              </span>
-            </button>
-            {coins.map((row) => {
-              const on = method === "crypto" && row.asset === coin?.asset;
-              return (
-                <button
-                  key={row.asset}
-                  type="button"
-                  onClick={() => {
-                    setMethod("crypto");
-                    setAsset(row.asset);
-                    setSubmitError(null);
-                  }}
-                  className={cn(
-                    "flex items-center gap-3 rounded-[var(--radius-sm)] border px-3 py-2.5 text-left",
-                    on ? "border-cyan/35 bg-cyan/10" : "border-line bg-graphite hover:border-line-strong",
-                  )}
-                >
-                  <CoinMark ticker={row.ticker} color={row.color} />
-                  <span className="min-w-0 flex-1">
-                    <span className="block text-sm font-semibold">{row.ticker}</span>
-                    <span className="meta">{row.name}</span>
-                  </span>
-                  <span className="meta">{row.networks.map((n) => n.label).join(" · ")}</span>
-                </button>
-              );
-            })}
+      <div className="grid min-w-0 items-start gap-3 lg:grid-cols-[minmax(0,18rem)_minmax(0,1fr)]">
+        <section className="surface surface-pad min-w-0">
+          <p className="label mb-2">1. Method</p>
+          <div className="max-h-[min(52vh,26rem)] overflow-y-auto overscroll-contain [-webkit-overflow-scrolling:touch] lg:max-h-none lg:overflow-visible">
+            <div className="flex flex-col gap-1.5 pr-0.5">
+              <button
+                type="button"
+                onClick={() => {
+                  setMethod("gift");
+                  setSubmitError(null);
+                }}
+                className={cn(
+                  METHOD_BTN,
+                  method === "gift" ? "border-cyan/35 bg-cyan/10" : "border-line bg-graphite hover:border-line-strong",
+                )}
+              >
+                <GiftMark />
+                <span className="min-w-0 flex-1">
+                  <span className="block text-sm font-semibold">Gift card</span>
+                  <span className="meta">PrismLoot · instant</span>
+                </span>
+              </button>
+              {coins.map((row) => {
+                const on = method === "crypto" && row.asset === coin?.asset;
+                return (
+                  <button
+                    key={row.asset}
+                    type="button"
+                    onClick={() => {
+                      setMethod("crypto");
+                      setAsset(row.asset);
+                      setSubmitError(null);
+                    }}
+                    className={cn(
+                      METHOD_BTN,
+                      on ? "border-cyan/35 bg-cyan/10" : "border-line bg-graphite hover:border-line-strong",
+                    )}
+                  >
+                    <CoinMark ticker={row.ticker} color={row.color} />
+                    <span className="min-w-0 flex-1">
+                      <span className="block text-sm font-semibold">{row.ticker}</span>
+                      <span className="meta">{row.name}</span>
+                    </span>
+                    <span className="meta hidden shrink-0 sm:inline">{row.networks.map((n) => n.label).join(" · ")}</span>
+                  </button>
+                );
+              })}
+            </div>
           </div>
         </section>
 
@@ -377,12 +380,12 @@ export function DepositCashier() {
           {method === "gift" ? (
             <>
               <div>
-                <p className="label mb-2">2. Код карты</p>
+                <p className="label mb-2">2. Card code</p>
                 <p className="mb-3 text-sm leading-relaxed text-soft">
-                  Введите код вида <span className="font-mono text-ink">PL-XXXX-XXXX-XXXX</span>. Баланс зачисляется сразу.
+                  Enter a code like <span className="font-mono text-ink">PL-XXXX-XXXX-XXXX</span>. Balance is credited instantly.
                 </p>
                 <label>
-                  <span className="label">Подарочная карта PrismLoot</span>
+                  <span className="label">PrismLoot gift card</span>
                   <input
                     className="field mt-1 font-mono uppercase tracking-wider"
                     value={giftCode}
@@ -396,9 +399,8 @@ export function DepositCashier() {
               {submitError ? <p className="text-sm text-danger">{submitError}</p> : null}
               {giftSuccess ? (
                 <p className="text-sm text-cyan">
-                  +{formatMoney(giftSuccess.amountUsd)} на баланс · отыгровка{" "}
-                  {formatWagerMultiplier(giftSuccess.wagerMultiplier)}
-                  {store.wagerRemainingUsd > 0 ? ` · осталось ${formatMoney(store.wagerRemainingUsd)}` : ""}
+                  +{formatMoney(giftSuccess.amountUsd)} credited · wager {formatWagerMultiplier(giftSuccess.wagerMultiplier)}
+                  {store.wagerRemainingUsd > 0 ? ` · ${formatMoney(store.wagerRemainingUsd)} left` : ""}
                 </p>
               ) : null}
               <Button
@@ -409,16 +411,16 @@ export function DepositCashier() {
                 icon={<Gift className="h-4 w-4" />}
                 onClick={() => void redeemGift()}
               >
-                Активировать
+                Redeem
               </Button>
-              <p className="meta text-center">Один код — одно пополнение. Карты выпускает админ.</p>
+              <p className="meta text-center">One code · one deposit. Cards are issued by the operator.</p>
             </>
           ) : !coin || !network ? (
-            <EmptyState compact title="Нет доступных монет" />
+            <EmptyState compact title="No assets available" />
           ) : (
             <>
               <div>
-                <p className="label mb-2">2. Сеть</p>
+                <p className="label mb-2">2. Choose a chain</p>
                 <div className="flex flex-wrap gap-2">
                   {coin.networks.map((row) => (
                     <button
@@ -426,7 +428,7 @@ export function DepositCashier() {
                       type="button"
                       onClick={() => setNetworkId(row.id)}
                       className={cn(
-                        "h-8 rounded-full border px-3 text-xs font-semibold",
+                        "min-h-10 rounded-full border px-3.5 text-xs font-semibold sm:min-h-8 sm:px-3",
                         row.id === network.id
                           ? "border-cyan/30 bg-cyan/12 text-cyan"
                           : "border-line bg-white/[0.03] text-mute hover:text-ink",
@@ -436,92 +438,114 @@ export function DepositCashier() {
                     </button>
                   ))}
                 </div>
-                <p className="meta mt-2">Подтверждения: {network.confirmations}</p>
+                <p className="meta mt-2">{network.confirmations}</p>
               </div>
 
               <div>
-                <p className="label mb-2">3. Сумма и адрес</p>
+                <p className="label mb-2">3. Confirm deposit details</p>
                 <div className="flex flex-wrap gap-2">
                   {PRESETS.map((n) => (
                     <Button key={n} size="sm" variant={amount === String(n) ? "primary" : "ghost"} onClick={() => setAmount(String(n))}>
-                      ${n}
+                      {displayCurrency === "USD" ? formatCurrency(n, "USD") : formatBalance(n, displayCurrency)}
                     </Button>
                   ))}
                 </div>
                 <label className="mt-3 block">
-                  <span className="label">Сумма, USD</span>
+                  <span className="label">Amount</span>
+                  {displayCurrency !== "USD" ? (
+                    <span className="meta ml-2">
+                      USD · ≈ {displayMeta.symbol} in {displayMeta.label}
+                    </span>
+                  ) : null}
                   <input
                     className="field mt-1 tabular"
                     inputMode="decimal"
                     value={amount}
-                    onChange={(e) => setAmount(e.target.value)}
+                    onChange={(e) => setAmount(e.target.value.replace(/[^\d.]/g, ""))}
+                    aria-label={displayCurrency === "USD" ? "Deposit amount in USD" : `Deposit amount in USD (shown as ${displayCurrency})`}
                   />
                 </label>
-                <p className="meta mt-1.5">
-                  Минимум {formatMoney(coin.minUsd)} · к оплате {cryptoLabel} {coin.ticker}
-                </p>
+                {validAmount ? (
+                  <div className="mt-2 space-y-1 rounded-[var(--radius-sm)] border border-line bg-graphite px-3 py-2.5">
+                    {displayCurrency !== "USD" ? (
+                      <p className="text-sm text-soft">
+                        ≈ <span className="font-semibold text-ink">{formatBalance(amountUsd, displayCurrency)}</span>
+                      </p>
+                    ) : null}
+                    <p className="meta tabular">{formatCurrency(amountUsd, "USD")} USD</p>
+                    {amountCrypto != null ? (
+                      <p className="text-sm font-semibold text-cyan tabular">
+                        ≈ {amountCrypto} {coin.ticker}
+                      </p>
+                    ) : null}
+                    {totalWithPromoUsd ? (
+                      <p className="text-sm text-soft">
+                        With promo:{" "}
+                        <span className="font-semibold text-ink">
+                          {displayCurrency === "USD"
+                            ? formatCurrency(totalWithPromoUsd, "USD")
+                            : formatBalance(totalWithPromoUsd, displayCurrency)}
+                        </span>{" "}
+                        credited
+                        {promoBonusUsd > 0 ? (
+                          <span className="meta">
+                            {" "}
+                            (+{displayCurrency === "USD" ? formatCurrency(promoBonusUsd, "USD") : formatBalance(promoBonusUsd, displayCurrency)}{" "}
+                            bonus)
+                          </span>
+                        ) : null}
+                      </p>
+                    ) : null}
+                  </div>
+                ) : (
+                  <p className="meta mt-1.5">
+                    Minimum{" "}
+                    {displayCurrency === "USD" ? formatCurrency(coin.minUsd, "USD") : formatBalance(coin.minUsd, displayCurrency)}
+                  </p>
+                )}
+
                 <div className="mt-3">
-                  <span className="label">Промокод</span>
-                  <div className="mt-1 flex gap-2">
+                  <span className="label">Promo code</span>
+                  <div className="mt-1 flex min-w-0 gap-2">
                     <input
                       value={promoDraft}
                       onChange={(e) => setPromoDraft(e.target.value.toUpperCase())}
-                      placeholder={DEMO_PROMO_CODE}
-                      aria-label="Промокод на бонус к пополнению"
+                      placeholder="Promo code"
+                      aria-label="Deposit promo code"
                       className="field min-w-0 flex-1 uppercase"
                       autoComplete="off"
                       spellCheck={false}
                     />
-                    <Button size="sm" icon={<Ticket className="h-3.5 w-3.5" />} onClick={applyPromo}>
-                      Применить
+                    <Button
+                      size="sm"
+                      className="min-h-10 shrink-0 sm:min-h-8"
+                      icon={<Ticket className="h-3.5 w-3.5" />}
+                      onClick={applyPromo}
+                    >
+                      Apply
                     </Button>
                   </div>
                   {store.savedPromo ? (
                     <div className="mt-1.5 flex flex-wrap items-center gap-2">
                       <Badge tone="gold">{store.savedPromo}</Badge>
-                      <span className="meta">бонус к сумме пополнения</span>
+                      <span className="meta">
+                        {promoPct ? `+${promoPct}% bonus` : "deposit bonus"}
+                        {totalWithPromoUsd
+                          ? ` · total ${
+                              displayCurrency === "USD"
+                                ? formatCurrency(totalWithPromoUsd, "USD")
+                                : formatBalance(totalWithPromoUsd, displayCurrency)
+                            }`
+                          : ""}
+                      </span>
                     </div>
                   ) : (
-                    <p className="meta mt-1.5">Бонус к депозиту, например {DEMO_PROMO_CODE}</p>
+                    <p className="meta mt-1.5">Optional deposit bonus</p>
                   )}
                 </div>
               </div>
 
-              <div className="rounded-[var(--radius-md)] border border-line bg-graphite p-3">
-                <div className="flex items-start justify-between gap-2">
-                  <div className="min-w-0">
-                    <p className="label">Адрес пополнения ({network.label})</p>
-                    <p className="mt-1 break-all font-mono text-sm text-ink">{network.address}</p>
-                  </div>
-                  <Button size="sm" variant="ghost" icon={copied ? <Check className="h-3.5 w-3.5" /> : <Copy className="h-3.5 w-3.5" />} onClick={() => void copyAddress()}>
-                    {copied ? "Ок" : "Copy"}
-                  </Button>
-                </div>
-              </div>
-
-              <label>
-                <span className="label">Tx / memo (необязательно)</span>
-                <input
-                  className="field mt-1"
-                  value={txNote}
-                  onChange={(e) => setTxNote(e.target.value)}
-                  placeholder="Хеш или заметка для админа"
-                />
-              </label>
-
-              {submitError ? <p className="text-sm text-danger">{submitError}</p> : null}
-
-              <Button
-                size="lg"
-                fullWidth
-                loading={busy}
-                disabled={banned || !validAmount}
-                icon={<Wallet className="h-4 w-4" />}
-                onClick={() => void submit()}
-              >
-                Я оплатил
-              </Button>
-              <p className="meta text-center">Заявка уходит админу. Баланс зачислится после подтверждения.</p>
+              <DepositAddressCard label={addressLabel} address={network.address} showStepHeader={false} />
             </>
           )}
         </section>
@@ -529,18 +553,18 @@ export function DepositCashier() {
 
       <section className="surface overflow-x-auto">
         <div className="surface-pad">
-          <h2>Заявки</h2>
+          <h2>History</h2>
         </div>
         {rows.length === 0 ? (
-          <EmptyState compact title="Пока пусто" detail="Создайте заявку справа — она появится здесь и у админа." />
+          <EmptyState compact title="No deposits yet" detail="Completed deposits appear here." />
         ) : (
           <table className="w-full min-w-[640px] text-left text-sm">
             <thead className="bg-graphite text-xs uppercase text-mute">
               <tr>
-                <th className="p-3">Когда</th>
-                <th>Актив</th>
+                <th className="p-3">When</th>
+                <th>Asset</th>
                 <th>USD</th>
-                <th>Статус</th>
+                <th>Status</th>
               </tr>
             </thead>
             <tbody>

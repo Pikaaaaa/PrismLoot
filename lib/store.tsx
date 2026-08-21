@@ -888,7 +888,12 @@ export function AppStoreProvider({ children }: { children: ReactNode }) {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ code: normalized }),
           });
-          const json = (await res.json()) as { ok?: boolean; already?: boolean; message?: string };
+          const json = (await res.json()) as {
+            ok?: boolean;
+            already?: boolean;
+            percentBonus?: number;
+            message?: string;
+          };
           if (!res.ok || !json.ok) {
             toast({
               title: "Code not accepted",
@@ -900,7 +905,9 @@ export function AppStoreProvider({ children }: { children: ReactNode }) {
           dispatch({ type: "SAVE_PROMO", code: normalized });
           toast({
             title: json.already ? "Promo already applied" : "Promo saved",
-            detail: `${normalized} · bonus on your next deposit`,
+            detail: json.percentBonus
+              ? `${normalized} · +${json.percentBonus}% on your next deposit`
+              : `${normalized} · bonus on your next deposit`,
             tone: "ok",
           });
           return true;
