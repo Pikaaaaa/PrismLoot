@@ -447,13 +447,39 @@
     align-items: stretch;
   }
 
+  /*
+    9-slot well: compact SkinCard is art 4.5rem + body (py-1.5, name h-5,
+    rarity mt-1 h-4, price h-6) + 1px surface border. Three explicit rows
+    so the grid does not collapse when fewer than 9 cards are present.
+  */
+  .contract-desk {
+    --contract-card-row: calc(9.25rem + 2px);
+    --contract-grid-gap: 0.625rem;
+    --contract-well-min: calc(var(--contract-card-row) * 3 + var(--contract-grid-gap) * 2);
+  }
+
+  .contract-grid,
+  .contract-well {
+    flex: 1 1 auto;
+    min-width: 0;
+    min-height: var(--contract-well-min);
+  }
+
   .contract-grid {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 0.625rem;
+    grid-template-rows: repeat(3, minmax(var(--contract-card-row), auto));
+    grid-auto-rows: minmax(var(--contract-card-row), auto);
+    gap: var(--contract-grid-gap);
     align-content: start;
     align-items: stretch;
-    min-width: 0;
+  }
+
+  .contract-well {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
   }
 
   .upgrade-grid {
@@ -570,12 +596,38 @@
 
   .case-reel-well {
     box-sizing: border-box;
+    contain: size layout;
     height: 11.5rem;
     min-height: 11.5rem;
     max-height: 11.5rem;
     overflow: hidden;
     border-radius: var(--radius-md);
     background: var(--color-graphite);
+  }
+
+  .case-reel-frame {
+    position: relative;
+    height: 100%;
+    min-width: 0;
+    overflow: hidden;
+    background: var(--color-graphite);
+  }
+
+  .case-reel-card {
+    box-sizing: border-box;
+    height: 100%;
+    width: 9rem;
+    min-width: 0;
+    flex-shrink: 0;
+  }
+
+  .case-reel-card-compact {
+    box-sizing: border-box;
+    height: 100%;
+    width: 100%;
+    max-width: 6rem;
+    min-width: 0;
+    flex-shrink: 0;
   }
 
   /* ---------- Controls ---------- */
@@ -588,10 +640,22 @@
     background: var(--color-graphite);
     padding: 0 0.75rem;
     font-size: var(--type-sm);
+    line-height: 1;
     color: var(--color-ink);
     transition:
       border-color var(--dur-fast) var(--ease),
       box-shadow var(--dur-fast) var(--ease);
+  }
+
+  /* Native select inherits body line-height and OS chevron metrics → text sits high. */
+  select.field {
+    appearance: none;
+    background-color: var(--color-graphite);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='none' viewBox='0 0 24 24' stroke='%2374747f' stroke-width='2.25' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.5rem center;
+    background-size: 0.75rem;
+    padding-right: 1.75rem;
   }
 
   .field::placeholder {
@@ -1173,7 +1237,7 @@
 
 @keyframes prism-rim-chase {
   0% {
-    stroke-dashoffset: 220;
+    stroke-dashoffset: 168;
     opacity: 0;
   }
   6% {
@@ -1201,7 +1265,7 @@
 
 @keyframes prism-shell-draw {
   from {
-    stroke-dashoffset: 220;
+    stroke-dashoffset: 168;
   }
   to {
     stroke-dashoffset: 0;
@@ -1224,27 +1288,29 @@
 }
 
 .prism-logo-shell {
-  stroke-dasharray: 220;
+  /* Perimeter of regular R=28 hex = 168 */
+  stroke-dasharray: 168;
   stroke-dashoffset: 0;
   animation: prism-shell-draw 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
   transition: stroke 0.35s ease, filter 0.35s ease;
 }
 
 .prism-logo-rim {
-  stroke-dasharray: 56 164;
-  stroke-dashoffset: 220;
+  stroke-dasharray: 42 126;
+  stroke-dashoffset: 168;
   animation: prism-rim-chase 3.2s ease-in-out infinite;
   animation-delay: 0.4s;
 }
 
 .prism-logo-crystal {
-  transform-origin: 32px 32px;
+  /* % origin tracks SVG box center at any display size (not viewBox px) */
+  transform-origin: 50% 50%;
   animation: prism-crystal-breathe 2.8s ease-in-out infinite;
   animation-delay: 0.2s;
 }
 
 .prism-logo-beam {
-  transform-origin: 32px 32px;
+  transform-origin: 50% 50%;
   animation: prism-beam-sweep 3.2s ease-in-out infinite;
   animation-delay: 0.4s;
   mix-blend-mode: screen;

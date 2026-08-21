@@ -19,7 +19,8 @@
     "db:push": "node scripts/prisma-env.mjs db push",
     "art:cases": "node scripts/generate-case-art.mjs",
     "validate:case-assets": "node scripts/validate-case-assets.mjs",
-    "catalog:skins": "node scripts/build-skin-catalog.mjs"
+    "catalog:skins": "node scripts/build-skin-catalog.mjs",
+    "catalog:stickers": "node scripts/build-sticker-catalog.mjs"
   },
   "dependencies": {
     "@prisma/client": "^6.19.3",

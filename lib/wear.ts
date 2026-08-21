@@ -7,7 +7,8 @@ export const WEARS: Wear[] = ["fn", "mw", "ft", "ww", "bs"];
 /** Same mix `rollWear` uses — EV must price this lottery, not listing FT alone. */
 export const UNBOX_WEAR_WEIGHTS: Record<Wear, number> = { fn: 0.12, mw: 0.3, ft: 0.38, ww: 0.12, bs: 0.08 };
 
-export function wearsForSkin(skin: Pick<Skin, "availableWears" | "wear">): Wear[] {
+export function wearsForSkin(skin: Pick<Skin, "availableWears" | "wear" | "weapon">): Wear[] {
+  if (skin.weapon === "Sticker") return [skin.wear];
   if (skin.availableWears?.length) return skin.availableWears;
   return WEARS;
 }

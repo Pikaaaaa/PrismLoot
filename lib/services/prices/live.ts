@@ -1,4 +1,5 @@
 import { SKIN_MAP } from "@/data/skins";
+import { STICKER_MAP } from "@/data/stickers";
 import { PRICE_CACHE_TTL_MS } from "@/lib/economy/config";
 import type { PriceQuote } from "@/lib/types";
 import { WEAR_META } from "@/lib/rarity";
@@ -11,6 +12,8 @@ function parseSteamUsd(raw?: string) {
 }
 
 export function steamMarketHashName(skinId: string, wear?: import("@/lib/types").Wear) {
+  const sticker = STICKER_MAP[skinId];
+  if (sticker) return sticker.marketHashName;
   const skin = SKIN_MAP[skinId];
   if (!skin) return null;
   const exterior = WEAR_META[wear ?? skin.wear ?? "ft"].label;

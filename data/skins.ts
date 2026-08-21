@@ -7719,7 +7719,7 @@ export const SKINS = [
     weapon: "Glock-18",
     rarity: "epic",
     wear: "mw",
-    price: 28.92,
+    price: 1620,
     stattrak: false,
     colors: ["#8847ff","#1a0d38","#3b0764"],
     image: "https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL2kpnj9h1a7s2oaaBoH_yaCW-Ej-8u5bZvHnq1w0Vz62TUzNj4eCiVblMmXMAkROJeskLpkdXjMrzksVTAy9US8PY25So",

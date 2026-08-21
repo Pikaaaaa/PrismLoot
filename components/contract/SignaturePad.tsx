@@ -26,10 +26,12 @@ function point(canvas: HTMLCanvasElement, event: ReactPointerEvent<HTMLCanvasEle
 }
 
 export function SignaturePad({
+  className,
   disabled,
   resetKey,
   onInkChange,
 }: {
+  className?: string;
   disabled?: boolean;
   resetKey?: number;
   onInkChange?: (hasInk: boolean) => void;
@@ -128,8 +130,8 @@ export function SignaturePad({
   }
 
   return (
-    <div className="flex min-w-0 flex-col gap-2">
-      <div className="flex items-center justify-between gap-2">
+    <div className={cn("flex min-h-0 min-w-0 flex-1 flex-col gap-2", className)}>
+      <div className="flex shrink-0 items-center justify-between gap-2">
         <p className="label">Signature</p>
         <div className="flex items-center gap-1">
           {SWATCHES.map((swatch) => (
@@ -152,7 +154,7 @@ export function SignaturePad({
           ))}
         </div>
       </div>
-      <div className="flex min-h-[8.5rem] gap-2">
+      <div className="flex min-h-[8.5rem] flex-1 gap-2">
         <div className="relative min-h-[8.5rem] min-w-0 flex-1 overflow-hidden rounded-[var(--radius-md)] border border-line bg-graphite">
           <canvas
             ref={canvasRef}

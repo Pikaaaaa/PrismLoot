@@ -1,4 +1,6 @@
-import { SKINS, SKIN_MAP } from "@/data/skins";
+import { SKINS } from "@/data/skins";
+import { STICKER_SKINS } from "@/data/stickers";
+import { getCatalogItem } from "@/lib/itemCatalog";
 import {
   UPGRADE_MAX_CHANCE,
   UPGRADE_MIN_CHANCE,
@@ -67,13 +69,15 @@ export function impliedChanceFromMultiplier(multiplier: number): number {
   return computeUpgradeChance(1, multiplier);
 }
 
+function pricedRow(skin: Skin): PricedSkin | null {
+  const listed = getSkinPrice(skin.id);
+  if (listed.available && listed.price != null) return { skin, price: listed.price };
+  const worn = getSkinPrice(skin.id, skin.wear);
+  return worn.available && worn.price != null ? { skin, price: worn.price } : null;
+}
+
 export function pricedCatalog(): PricedSkin[] {
-  return SKINS.map((skin) => {
-    const listed = getSkinPrice(skin.id);
-    if (listed.available && listed.price != null) return { skin, price: listed.price };
-    const worn = getSkinPrice(skin.id, skin.wear);
-    return worn.available && worn.price != null ? { skin, price: worn.price } : null;
-  }).filter((row): row is PricedSkin => !!row);
+  return [...SKINS, ...STICKER_SKINS].map(pricedRow).filter((row): row is PricedSkin => !!row);
 }
 
 function foldSearch(value: string) {
@@ -223,7 +227,7 @@ export function resolveUpgrade(input: {
   if (preview.chance > UPGRADE_MAX_CHANCE + 0.009) {
     throw new Error("CHANCE_TOO_HIGH");
   }
-  const target = SKIN_MAP[input.targetSkinId];
+  const target = getCatalogItem(input.targetSkinId);
   if (!target) throw new Error("UNKNOWN_TARGET");
   const success = secureUnit() * 100 < preview.chance;
   return {

@@ -1,6 +1,7 @@
 "use client";
 
 import { RarityChrome } from "@/components/ui/RarityChrome";
+import { isStickerItem } from "@/lib/itemCatalog";
 import { WEAR_META } from "@/lib/rarity";
 import type { Skin } from "@/lib/types";
 import { cn } from "@/lib/utils";
@@ -78,7 +79,7 @@ export function SkinVisual({
           ST
         </span>
       )}
-      {framed && showWear && (
+      {framed && showWear && !isStickerItem(skin) && (
         <span className="absolute bottom-2 right-2 z-[5] rounded-md bg-void/75 px-1.5 py-0.5 text-[length:var(--type-micro)] font-semibold text-soft">
           {WEAR_META[skin.wear].short}
         </span>

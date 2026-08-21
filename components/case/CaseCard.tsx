@@ -51,11 +51,7 @@ export function CaseCard({ crate, compact }: { crate: Crate; compact?: boolean }
         className="relative aspect-[5/4] w-full overflow-hidden bg-graphite"
         style={{ boxShadow: `inset 0 -1px 0 ${top.color}59` }}
       >
-        <CaseVisual
-          crate={crate}
-          size="card"
-          className="h-full w-full transition-transform duration-[var(--dur)] ease-[var(--ease)] group-hover:scale-[1.03]"
-        />
+        <CaseVisual crate={crate} size="card" className="h-full w-full" />
         <span
           aria-hidden
           className="pointer-events-none absolute inset-0 z-[1] opacity-0 transition-opacity duration-[var(--dur)] ease-[var(--ease)] group-hover:opacity-100"

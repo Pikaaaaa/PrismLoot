@@ -1,7 +1,10 @@
 import snapshot from "@/data/price-snapshot.json";
-import { PRICE_CACHE_TTL_MS } from "@/lib/economy/config";
 import { SKIN_MAP } from "@/data/skins";
-import type { PriceDebug, PriceHistory, PriceQuote, SkinPriceRow, Wear } from "@/lib/types";
+import { STICKER_MAP } from "@/data/stickers";
+import { getCatalogItem, isStickerItem } from "@/lib/itemCatalog";
+import { PRICE_CACHE_TTL_MS } from "@/lib/economy/config";
+import { valueWithStickers } from "@/lib/economy/stickerValue";
+import type { AppliedSticker, PriceDebug, PriceHistory, PriceQuote, SkinPriceRow, Sticker, Wear } from "@/lib/types";
 import { formatConverted } from "./currency";
 import { cacheAll, cacheGet, cacheHistory, cacheReset, cacheUpsert, isFresh, rowToQuote } from "./cache";
 import { fetchLiveQuote } from "./live";
@@ -33,11 +36,26 @@ function unavailable(skinId: string, wear?: Wear, reason = "Price unavailable"):
  * Field-Tested is the usual Steam listing staple; FN is not the default.
  */
 export function listingWearFor(skinId: string): Wear | undefined {
+  if (isStickerItem(skinId)) return undefined;
   const skin = SKIN_MAP[skinId];
   if (!skin) return undefined;
   const allowed = skin.availableWears?.length ? skin.availableWears : (["ft", "mw", "fn", "ww", "bs"] as Wear[]);
   const pref: Wear[] = ["ft", "mw", "ww", "bs", "fn"];
   return pref.find((w) => allowed.includes(w)) ?? allowed[0] ?? skin.wear;
+}
+
+function stickerQuote(sticker: Sticker): PriceQuote {
+  return assertValidQuote({
+    skinId: sticker.id,
+    available: true,
+    price: sticker.price,
+    currency: "USD",
+    source: "snapshot",
+    sourceLabel: sticker.priceSource,
+    fetchedAt: sticker.priceUpdatedAt,
+    expiresAt: sticker.priceUpdatedAt + PRICE_CACHE_TTL_MS,
+    updatedAt: sticker.priceUpdatedAt,
+  });
 }
 
 function snapshotMatch(skinId: string, wear?: Wear): SnapQuote | undefined {
@@ -103,7 +121,10 @@ function fromRow(row: SkinPriceRow): PriceQuote {
  * One-arg calls use the catalog listing wear (upgrade / case rows).
  */
 export function getSkinPrice(skinId: string, wear?: Wear): PriceQuote {
-  if (!skinId || !SKIN_MAP[skinId]) return unavailable(skinId, wear, "Price unavailable");
+  if (!skinId) return unavailable(skinId, wear, "Price unavailable");
+  const sticker = STICKER_MAP[skinId];
+  if (sticker) return sticker.price > 0 ? stickerQuote(sticker) : unavailable(skinId, wear, "Price unavailable");
+  if (!SKIN_MAP[skinId]) return unavailable(skinId, wear, "Price unavailable");
   const resolved = wear ?? listingWearFor(skinId);
   if (wear && SKIN_MAP[skinId].availableWears?.length && !SKIN_MAP[skinId].availableWears.includes(wear)) {
     return unavailable(skinId, wear, "Price unavailable");
@@ -175,10 +196,16 @@ export function priceUpdatedLabel(quote: PriceQuote, now = Date.now()) {
   return `Last updated ${Math.round(hours / 24)}d ago`;
 }
 
-export function sellValueUsd(skinId: string, coefficient: number, wear?: Wear): number | null {
+export function sellValueUsd(
+  skinId: string,
+  coefficient: number,
+  wear?: Wear,
+  stickers?: AppliedSticker[] | null,
+): number | null {
   const quote = getSkinPrice(skinId, wear);
   if (!quote.available || !isValidMarketPrice(quote.price)) return null;
-  return +(quote.price * coefficient).toFixed(2);
+  const market = valueWithStickers(quote.price, stickers);
+  return +(market * coefficient).toFixed(2);
 }
 
 export function hydrateQuotes(quotes: PriceQuote[]) {
@@ -216,6 +243,8 @@ export function applyLiveQuote(quote: PriceQuote) {
 }
 
 export async function refreshSkinPrice(skinId: string, wear?: Wear): Promise<PriceQuote> {
+  const sticker = STICKER_MAP[skinId];
+  if (sticker) return sticker.price > 0 ? stickerQuote(sticker) : unavailable(skinId, wear, "Price unavailable");
   const resolved = wear ?? listingWearFor(skinId);
   const cached = cacheGet(skinId, resolved);
   if (cached && isFresh(cached)) return fromRow(cached);
@@ -241,7 +270,7 @@ export function debugPrice(skinId: string, wear?: Wear): PriceDebug {
   const history = getPriceHistory(skinId, "24H", wear);
   return {
     skinId,
-    name: SKIN_MAP[skinId]?.name,
+    name: getCatalogItem(skinId)?.name,
     marketPrice: quote.price,
     previousPrice: row?.previousPrice ?? quote.price,
     change24h: history.insufficient ? null : history.changePct,

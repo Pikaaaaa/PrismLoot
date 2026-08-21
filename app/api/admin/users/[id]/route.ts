@@ -5,7 +5,7 @@ import { looksLikeTradeUrl, normalizeTradeUrl } from "@/lib/auth/account";
 import { prisma, usd, depositDelegate } from "@/lib/db";
 import { persistBalanceAdjust, persistGrant, persistItemsLeftVault, persistWagerReset } from "@/lib/persist/game";
 import { instantiateSkin } from "@/lib/game";
-import { SKIN_MAP } from "@/data/skins";
+import { getCatalogItem } from "@/lib/itemCatalog";
 import { uid } from "@/lib/utils";
 import type { Wear } from "@/lib/types";
 
@@ -213,7 +213,7 @@ export async function PATCH(req: Request, ctx: { params: Promise<{ id: string }>
 
   const grantSkinId = typeof body.grantSkinId === "string" ? body.grantSkinId.trim() : "";
   if (grantSkinId) {
-    const skin = SKIN_MAP[grantSkinId];
+    const skin = getCatalogItem(grantSkinId);
     if (!skin) return NextResponse.json({ ok: false, error: "SKIN_NOT_FOUND" }, { status: 400 });
     const wearRaw = typeof body.grantWear === "string" ? body.grantWear : skin.wear;
     const wear = WEARS.includes(wearRaw as Wear) ? (wearRaw as Wear) : skin.wear;

@@ -26,35 +26,34 @@ SKIN_ROT = 0.0
 
 TIER_GLOW_HUE = {"standard": 174.0, "elite": 275.0, "gold": 45.0}
 
-# High product-shot slot (top 8–14%, height ~45–50%). No lower melee box.
+# High product-shot slot sitting in the open mouth. No extra rotate.
 CARD_LAYOUT = {
     "w": 380,
     "h": 304,
-    "crate_inset_x": 0.08,
-    "crate_bottom": 0.02,
-    "crate_h": 0.72,
+    "crate_inset_x": 0.10,
+    "crate_bottom": 0.04,
+    "crate_h": 0.66,
     "skin": {
-        "long": {"left": 0.08, "top": 0.10, "width": 0.84, "height": 0.47},
-        "mid": {"left": 0.12, "top": 0.09, "width": 0.76, "height": 0.48},
-        "compact": {"left": 0.14, "top": 0.08, "width": 0.72, "height": 0.50},
+        "long": {"left": 0.04, "top": 0.17, "width": 0.92, "height": 0.40},
+        "mid": {"left": 0.10, "top": 0.15, "width": 0.80, "height": 0.44},
+        "compact": {"left": 0.22, "top": 0.12, "width": 0.56, "height": 0.50},
     },
 }
 
 HERO_LAYOUT = {
     "w": 288,
     "h": 288,
-    "crate_inset_x": 0.06,
-    "crate_bottom": 0.03,
-    "crate_h": 0.72,
+    "crate_inset_x": 0.08,
+    "crate_bottom": 0.04,
+    "crate_h": 0.66,
     "skin": {
-        "long": {"left": 0.08, "top": 0.12, "width": 0.84, "height": 0.46},
-        "mid": {"left": 0.12, "top": 0.11, "width": 0.76, "height": 0.48},
-        "compact": {"left": 0.14, "top": 0.10, "width": 0.72, "height": 0.50},
+        "long": {"left": 0.04, "top": 0.20, "width": 0.92, "height": 0.38},
+        "mid": {"left": 0.10, "top": 0.17, "width": 0.80, "height": 0.42},
+        "compact": {"left": 0.20, "top": 0.14, "width": 0.60, "height": 0.48},
     },
 }
 
-# Genesis (pistol), Apex (knife), Gold Rush (knife), Scope Protocol (AWP).
-# name, id, tier, silhouette, accent, accent2, glow, skin_url
+# Pistol, rifle, AWP, knife, glove, starter, luxury — every tier + silhouette.
 CARDS = [
     (
         "Genesis",
@@ -67,6 +66,26 @@ CARDS = [
         "https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL2kpnj9h1Y-s2pZKtuK72fB3aFxP11te99cCW6khUz_TjVyompc3-QOFR2DJQkFOMJtBbqk9LlY-7n5QLZjtkTxCWqhixPv311o7FVIf8eASQ",
     ),
     (
+        "Carbon Edge",
+        "carbon-edge",
+        "standard",
+        "long",
+        "#64748b",
+        "#22d3ee",
+        "#d32ce6",
+        "https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLwlcK3wiFO0POlPPNSI_-RHGavzedxuPUnFniykEtzsWWBzoyuIiifaAchDZUjTOZe4RC_w4buM-6z7wzbgokUyzK-0H08hRGDMA",
+    ),
+    (
+        "Scope Protocol",
+        "scope-protocol",
+        "standard",
+        "long",
+        "#84cc16",
+        "#38bdf8",
+        "#eb4b4b",
+        "https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLwiYbf_jdk7uW-V6V-Kf2cGFidxOp_pewnF3nhxEt0sGnSzN76dH3GOg9xC8FyEORftRe-x9PuYurq71bW3d8UnjK-0H0YSTpMGQ",
+    ),
+    (
         "Apex Case",
         "apex-protocol",
         "elite",
@@ -75,6 +94,16 @@ CARDS = [
         "#22d3ee",
         "#e4ae39",
         "https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL6kJ_m-B1Q7uCvZaZkNM-SA1iSze91u_FsTju_qhAmoT-Jn4bjJC_4Ml93UtZuRLQPsBawkNfiMbnl5AKMiopCnin7iCJBv31j4rkBBKEg-6zUjV3GY6p9v8dpLWT3Fg",
+    ),
+    (
+        "Phantom Grip",
+        "phantom-grip",
+        "elite",
+        "compact",
+        "#c084fc",
+        "#f59e0b",
+        "#e4ae39",
+        "https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Tk71ruQBH4jYLf-i5U-fe9V7d9JfOaD2uZ0vpJtuBtSha_nBovp3PQy42sdX6eagIjW5AlQOVetBXuk92xNLvg4gOMjd5AmC2ointB53w__a9cBqntWBk3",
     ),
     (
         "Gold Rush",
@@ -87,14 +116,24 @@ CARDS = [
         "https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyL6kJ_m-B1Z-ua6bbZrLOmsD2avx-9ytd5lRi67gVNwsDvSwtqqc3iXZg4kCZYjReYLtRbum9XgYuvm5wbWjtgUzCn3iSsf8G81tFEeH9rw",
     ),
     (
-        "Scope Protocol",
-        "scope-protocol",
+        "Street Economy",
+        "street-economy",
         "standard",
+        "mid",
+        "#94a3b8",
+        "#64748b",
+        "#5e98d9",
+        "https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLwlcK3wiFO0POlPPNSI_-RHGavzedxuPUnFniykEtzsWWBzoyuIiifaAchDZUjTOZe4RC_w4buM-6z7wzbgokUyzK-0H08hRGDMA",
+    ),
+    (
+        "Dragon Case",
+        "dragon-vault",
+        "gold",
         "long",
-        "#84cc16",
-        "#38bdf8",
+        "#a3e635",
+        "#f59e0b",
         "#eb4b4b",
-        "https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLwiYbf_jdk7uW-V6V-Kf2cGFidxOp_pewnF3nhxEt0sGnSzN76dH3GOg9xC8FyEORftRe-x9PuYurq71bW3d8UnjK-0H0YSTpMGQ",
+        "https://community.akamai.steamstatic.com/economy/image/i0CoZ81Ui0m-9KwlBY1L_18myuGuq1wfhWSaZgMttyVfPaERSR0Wqmu7LAocGIGz3UqlXOLrxM-vMGmW8VNxu5Dx60noTyLwiYbf_jdk4veqYaF7IfysCnWRxuF4j-B-Xxa_nBovp3Pdwtj9cC_GaAd0DZdwQu9fuhS4kNy0NePntVTbjYpCyyT_3CgY5i9j_a9cBkcCWUKV",
     ),
 ]
 
@@ -193,10 +232,10 @@ def tint_crate(im: Image.Image, tier: str, tint: str) -> Image.Image:
     th, ts, _ = hex_hsl(tint)
     delta = hue_delta(TIER_GLOW_HUE[tier], th)
     if tier == "gold":
-        delta = max(-22.0, min(22.0, delta))
-    sat = 0.92 if ts < 0.22 else (1.06 if tier == "gold" else 1.12)
+        delta = max(-18.0, min(18.0, delta))
+    sat = 0.95 if ts < 0.22 else (1.08 if tier == "gold" else 1.18)
     shifted = hue_rotate(im, delta, sat)
-    opacity = 0.22 if tier == "gold" else 0.38
+    opacity = 0.42 if tier == "gold" else 0.58
     return color_wash(shifted, tint, opacity)
 
 
@@ -263,10 +302,10 @@ def compose(name, crate_id, tier, shape, accent, accent2, glow, skin_url, layout
     card = backdrop(crate_id, accent, accent2, glow, tint, w, h)
 
     crate = Image.open(BASE / f"crate-{tier}.png").convert("RGBA")
-    crate = tint_crate(crate, tier, tint)
     box_w = int(w * (1 - 2 * layout["crate_inset_x"]))
     box_h = int(h * layout["crate_h"])
     crate = contain(crate, box_w, box_h)
+    crate = tint_crate(crate, tier, tint)
     crate_x = (w - crate.width) // 2
     crate_y = int(h * (1 - layout["crate_bottom"])) - crate.height
     shadow = crate.split()[-1].filter(ImageFilter.GaussianBlur(8))
@@ -334,6 +373,7 @@ if __name__ == "__main__":
     y += hh + LABEL_H + GAP
     paste_row(sheet, CARDS, CARD_LAYOUT, y, font, "card ")
 
-    out = ROOT / "case-art-preview.png"
+    out = ROOT / "tmp" / "case-art-preview.png"
+    out.parent.mkdir(parents=True, exist_ok=True)
     sheet.convert("RGB").save(out, quality=95)
     print("wrote", out)

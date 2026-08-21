@@ -10,6 +10,7 @@ import {
   useReducer,
   type ReactNode,
 } from "react";
+import { getCatalogItem } from "@/lib/itemCatalog";
 import { instantiateSkin } from "./game";
 import { PRICE_SYNC_INTERVAL_MS } from "./economy/config";
 import {
@@ -18,6 +19,7 @@ import {
   listingWearFor,
   setDisplayCurrency,
 } from "@/lib/services/prices";
+import { marketValueUsd } from "@/lib/economy";
 import { isValidCurrency } from "@/lib/services/prices/validate";
 import {
   liveDropFromLegacy,
@@ -147,7 +149,7 @@ function isInventoryItem(skin?: Skin): skin is InventoryItem {
 }
 
 function attachDropWear(drop: LiveDrop, instance?: Skin): LiveDrop {
-  const catalog = SKIN_MAP[drop.skinId] ?? drop.skin;
+  const catalog = getCatalogItem(drop.skinId) ?? drop.skin;
   const listing = listingWearFor(drop.skinId) ?? catalog.wear;
   const wear = isInventoryItem(instance) ? instance.wear : listing;
   return {
@@ -323,8 +325,8 @@ function reducer(state: State, action: Action): State {
       const staked = state.inventory
         .filter((item) => action.removeIds.includes(item.instanceId))
         .reduce((sum, item) => {
-          const quote = getSkinPrice(item.id, item.wear);
-          return sum + (quote.available && quote.price != null ? quote.price : item.price);
+          const market = marketValueUsd(item.id, item.wear, item.stickers, item.price);
+          return sum + (market ?? 0);
         }, 0);
       return {
         ...state,
@@ -754,8 +756,8 @@ export function AppStoreProvider({ children }: { children: ReactNode }) {
     () =>
       state.inventory.reduce((sum, item) => {
         if (!isInVault(item)) return sum;
-        const quote = getSkinPrice(item.id, item.wear);
-        return quote.available && quote.price != null ? sum + quote.price : sum;
+        const market = marketValueUsd(item.id, item.wear, item.stickers);
+        return market != null ? sum + market : sum;
       }, 0),
     [state.inventory, state.priceTick],
   );

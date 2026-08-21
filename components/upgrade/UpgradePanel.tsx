@@ -1,5 +1,6 @@
 "use client";
 
+import { getCatalogItem, isStickerItem } from "@/lib/itemCatalog";
 import { SkinCard } from "@/components/skin/SkinCard";
 import { RarityPill } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
@@ -19,7 +20,6 @@ import {
 } from "@/components/upgrade/UpgradeMachine";
 import { UpgradeStakeStack } from "@/components/upgrade/UpgradeStakeStack";
 import { SkinVisual } from "@/components/visuals/SkinVisual";
-import { SKINS } from "@/data/skins";
 import { SELL_COEFFICIENT, UPGRADE_MAX_CHANCE, UPGRADE_MAX_ITEMS, UPGRADE_MIN_CHANCE, UPGRADE_RTP } from "@/lib/economy/config";
 import {
   computeUpgradeChance,
@@ -48,11 +48,7 @@ const TARGET_BAND_NEAREST = 12;
 type PricedRow = { skin: Skin; price: number };
 
 function livePricedSkins(): PricedRow[] {
-  return SKINS.flatMap((skin) => {
-    const quote = getSkinPrice(skin.id, listingWearFor(skin.id));
-    if (!quote.available || quote.price == null || !(quote.price > 0)) return [];
-    return [{ skin, price: quote.price }];
-  });
+  return pricedCatalog();
 }
 
 function skinsAboveInput(inputValue: number): PricedRow[] {
@@ -256,7 +252,7 @@ export function UpgradePanel() {
     if (!row) return;
     if (row.item) setGained(row.item);
     const leftover = (row.durationMs || 0) - (Date.now() - row.startedAt);
-    const tgt = SKINS.find((s) => s.id === row.targetSkinId);
+    const tgt = getCatalogItem(row.targetSkinId);
     if (tgt) setTarget(tgt);
     setFrozenChance(Math.min(UPGRADE_MAX_CHANCE, row.chance));
     const concealId = row.item?.instanceId;
@@ -871,7 +867,7 @@ function UpgradeWinCard({ item }: { item: InventoryItem }) {
         className="mx-auto mt-3 h-40 w-full max-w-sm overflow-hidden rounded-[var(--radius-md)] bg-graphite"
       />
       <p className="font-display mt-4 text-xl font-bold leading-snug">{item.name}</p>
-      <p className="meta mt-1">{WEAR_META[item.wear].label}</p>
+      <p className="meta mt-1">{isStickerItem(item) ? "N/A" : WEAR_META[item.wear].label}</p>
       <p className="price mt-2 text-cyan">{formatQuotePrice(quote)}</p>
     </div>
   );

@@ -1,7 +1,9 @@
 import { CASES } from "@/data/cases";
 import { SKINS } from "@/data/skins";
+import { STICKER_SKINS } from "@/data/stickers";
 import { STARTING_INVENTORY_IDS } from "@/lib/mock-data";
 import { ADMIN_USER_ID, DEMO_USER_ID, prisma, usd } from "@/lib/db";
+import type { Skin } from "@/lib/types";
 
 function chunk<T>(rows: T[], size: number) {
   const out: T[][] = [];
@@ -9,8 +11,8 @@ function chunk<T>(rows: T[], size: number) {
   return out;
 }
 
-async function main() {
-  const skins = SKINS.map((skin) => ({
+function skinRow(skin: Skin) {
+  return {
     id: skin.id,
     weapon: skin.weapon,
     name: skin.name,
@@ -22,12 +24,24 @@ async function main() {
     enabled: true,
     colors: JSON.stringify(skin.colors ?? []),
     availableWears: JSON.stringify(skin.availableWears ?? []),
-  }));
+  };
+}
+
+async function main() {
+  const skins = [...SKINS, ...STICKER_SKINS].map(skinRow);
 
   const existingSkins = await prisma.skin.count();
   if (existingSkins === 0) {
     for (const batch of chunk(skins, 80)) {
       await prisma.skin.createMany({ data: batch });
+    }
+  } else {
+    for (const skin of STICKER_SKINS) {
+      await prisma.skin.upsert({
+        where: { id: skin.id },
+        create: skinRow(skin),
+        update: {},
+      });
     }
   }
 

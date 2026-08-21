@@ -213,7 +213,7 @@ function Pointer() {
 
 function EmptyReel() {
   return (
-    <div className="grid h-full place-items-center bg-graphite px-3">
+    <div className="case-reel-frame grid place-items-center px-3">
       <EmptyState compact title="No items in this crate" detail="This pool has nothing to preview." />
     </div>
   );
@@ -223,11 +223,11 @@ export function IdleReel({ pool, reduceMotion = false }: { pool: Skin[]; reduceM
   const strip = pool.slice(0, 14);
   if (!strip.length) return <EmptyReel />;
   return (
-    <div className="relative flex h-full items-center overflow-hidden bg-graphite">
+    <div className="case-reel-frame flex items-center">
       <Pointer />
       <div className={cn("flex h-full gap-3 px-4 py-3", reduceMotion ? null : "animate-[ticker_28s_linear_infinite]")}>
         {strip.concat(strip).map((skin, i) => (
-          <div key={`${skin.id}-${i}`} className="h-full w-36 shrink-0">
+          <div key={`${skin.id}-${i}`} className="case-reel-card">
             <ReelCard skin={skin} />
           </div>
         ))}
@@ -382,7 +382,7 @@ export function CaseOpeningShow({
   if (!pool.length && !winner?.id) return <EmptyReel />;
 
   return (
-    <div ref={wrapRef} className="relative h-full min-w-0 overflow-hidden bg-graphite">
+    <div ref={wrapRef} className="case-reel-frame">
       <Pointer />
       <div className="flex h-full items-center overflow-hidden py-3">
         <div
@@ -394,7 +394,7 @@ export function CaseOpeningShow({
             <div
               key={`${skin.id}-${i}-${winner.instanceId}`}
               ref={i === WIN_INDEX ? winRef : undefined}
-              className={cn("box-border h-full min-w-0 shrink-0", compact ? "w-full max-w-24" : "w-36")}
+              className={compact ? "case-reel-card-compact" : "case-reel-card"}
             >
               <ReelCard skin={skin} win={settled && i === WIN_INDEX} compact={compact} reduceMotion={reduceMotion} />
             </div>

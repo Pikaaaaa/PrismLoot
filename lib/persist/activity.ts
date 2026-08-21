@@ -1,4 +1,4 @@
-import { SKIN_MAP } from "@/data/skins";
+import { getCatalogItem } from "@/lib/itemCatalog";
 import { prisma, usd } from "@/lib/db";
 import type { HistoryEntry } from "@/lib/types";
 
@@ -34,7 +34,7 @@ function parseMeta(raw: string): Record<string, unknown> {
 
 function skinName(id: string | null | undefined, fallback: string) {
   if (!id) return fallback;
-  return SKIN_MAP[id]?.name ?? fallback;
+  return getCatalogItem(id)?.name ?? fallback;
 }
 
 function historyFromLedgerRow(row: {

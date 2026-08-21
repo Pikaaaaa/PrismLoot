@@ -1,7 +1,7 @@
 {
   "source": "Committed catalog snapshot. Seeded from data/skins.ts catalog list prices (not generated at runtime, not Math.random). Live Steam Community Market is attempted only on the server PriceProvider sync and is used only when it returns a valid quote.",
   "sourceName": "Committed catalog snapshot",
-  "fetchedAt": 1786881600000,
+  "fetchedAt": 1787313600000,
   "currency": "USD",
   "quotes": [
     {
@@ -625,25 +625,25 @@
     {
       "skinId": "ak-gold-arabesque",
       "wear": "fn",
-      "price": 3128.4,
+      "price": 3280,
       "currency": "USD"
     },
     {
       "skinId": "ak-gold-arabesque",
       "wear": "mw",
-      "price": 2718.22,
+      "price": 2840,
       "currency": "USD"
     },
     {
       "skinId": "ak-gold-arabesque",
       "wear": "ft",
-      "price": 2288.64,
+      "price": 2380,
       "currency": "USD"
     },
     {
       "skinId": "ak-gold-arabesque",
       "wear": "ww",
-      "price": 2094.17,
+      "price": 2140,
       "currency": "USD"
     },
     {
@@ -1723,31 +1723,31 @@
     {
       "skinId": "ak-wild-lotus",
       "wear": "fn",
-      "price": 11880.22,
+      "price": 12450,
       "currency": "USD"
     },
     {
       "skinId": "ak-wild-lotus",
       "wear": "mw",
-      "price": 8420.9,
+      "price": 8780,
       "currency": "USD"
     },
     {
       "skinId": "ak-wild-lotus",
       "wear": "ft",
-      "price": 6128.44,
+      "price": 6420,
       "currency": "USD"
     },
     {
       "skinId": "ak-wild-lotus",
       "wear": "ww",
-      "price": 4900.18,
+      "price": 5120,
       "currency": "USD"
     },
     {
       "skinId": "ak-wild-lotus",
       "wear": "bs",
-      "price": 4288.65,
+      "price": 4480,
       "currency": "USD"
     },
     {
@@ -3511,31 +3511,31 @@
     {
       "skinId": "awp-lore",
       "wear": "fn",
-      "price": 11864.37,
+      "price": 12480,
       "currency": "USD"
     },
     {
       "skinId": "awp-lore",
       "wear": "mw",
-      "price": 8921.18,
+      "price": 9380,
       "currency": "USD"
     },
     {
       "skinId": "awp-lore",
       "wear": "ft",
-      "price": 6418.55,
+      "price": 6720,
       "currency": "USD"
     },
     {
       "skinId": "awp-lore",
       "wear": "ww",
-      "price": 5290.4,
+      "price": 5520,
       "currency": "USD"
     },
     {
       "skinId": "awp-lore",
       "wear": "bs",
-      "price": 4712.88,
+      "price": 4920,
       "currency": "USD"
     },
     {
@@ -3769,31 +3769,31 @@
     {
       "skinId": "awp-gungnir",
       "wear": "fn",
-      "price": 10844.52,
+      "price": 11240,
       "currency": "USD"
     },
     {
       "skinId": "awp-gungnir",
       "wear": "mw",
-      "price": 9120.18,
+      "price": 9450,
       "currency": "USD"
     },
     {
       "skinId": "awp-gungnir",
       "wear": "ft",
-      "price": 7795.4,
+      "price": 8120,
       "currency": "USD"
     },
     {
       "skinId": "awp-gungnir",
       "wear": "ww",
-      "price": 6642.15,
+      "price": 6880,
       "currency": "USD"
     },
     {
       "skinId": "awp-gungnir",
       "wear": "bs",
-      "price": 6018.77,
+      "price": 6240,
       "currency": "USD"
     },
     {
@@ -3913,31 +3913,31 @@
     {
       "skinId": "awp-medusa",
       "wear": "fn",
-      "price": 5418.33,
+      "price": 5680,
       "currency": "USD"
     },
     {
       "skinId": "awp-medusa",
       "wear": "mw",
-      "price": 3884.2,
+      "price": 4080,
       "currency": "USD"
     },
     {
       "skinId": "awp-medusa",
       "wear": "ft",
-      "price": 2718.66,
+      "price": 2860,
       "currency": "USD"
     },
     {
       "skinId": "awp-medusa",
       "wear": "ww",
-      "price": 2210.4,
+      "price": 2320,
       "currency": "USD"
     },
     {
       "skinId": "awp-medusa",
       "wear": "bs",
-      "price": 1888.91,
+      "price": 1980,
       "currency": "USD"
     },
     {
@@ -4781,6 +4781,90 @@
       "currency": "USD"
     },
     {
+      "skinId": "bayo-doppler-black-pearl",
+      "wear": "fn",
+      "price": 2589.15,
+      "currency": "USD"
+    },
+    {
+      "skinId": "bayo-doppler-black-pearl",
+      "wear": "mw",
+      "price": 2589.14,
+      "currency": "USD"
+    },
+    {
+      "skinId": "bayo-doppler-phase-1",
+      "wear": "fn",
+      "price": 599.92,
+      "currency": "USD"
+    },
+    {
+      "skinId": "bayo-doppler-phase-1",
+      "wear": "mw",
+      "price": 599.91,
+      "currency": "USD"
+    },
+    {
+      "skinId": "bayo-doppler-phase-2",
+      "wear": "fn",
+      "price": 852.53,
+      "currency": "USD"
+    },
+    {
+      "skinId": "bayo-doppler-phase-2",
+      "wear": "mw",
+      "price": 852.52,
+      "currency": "USD"
+    },
+    {
+      "skinId": "bayo-doppler-phase-3",
+      "wear": "fn",
+      "price": 580.98,
+      "currency": "USD"
+    },
+    {
+      "skinId": "bayo-doppler-phase-3",
+      "wear": "mw",
+      "price": 580.97,
+      "currency": "USD"
+    },
+    {
+      "skinId": "bayo-doppler-phase-4",
+      "wear": "fn",
+      "price": 707.28,
+      "currency": "USD"
+    },
+    {
+      "skinId": "bayo-doppler-phase-4",
+      "wear": "mw",
+      "price": 707.27,
+      "currency": "USD"
+    },
+    {
+      "skinId": "bayo-doppler-ruby",
+      "wear": "fn",
+      "price": 2241.82,
+      "currency": "USD"
+    },
+    {
+      "skinId": "bayo-doppler-ruby",
+      "wear": "mw",
+      "price": 2241.81,
+      "currency": "USD"
+    },
+    {
+      "skinId": "bayo-doppler-sapphire",
+      "wear": "fn",
+      "price": 1484.03,
+      "currency": "USD"
+    },
+    {
+      "skinId": "bayo-doppler-sapphire",
+      "wear": "mw",
+      "price": 1484.02,
+      "currency": "USD"
+    },
+    {
       "skinId": "bayo-fade",
       "wear": "fn",
       "price": 550,
@@ -4880,6 +4964,66 @@
       "skinId": "bayo-gamma-doppler-5",
       "wear": "bs",
       "price": 571.55,
+      "currency": "USD"
+    },
+    {
+      "skinId": "bayo-gamma-doppler-emerald",
+      "wear": "fn",
+      "price": 2535.75,
+      "currency": "USD"
+    },
+    {
+      "skinId": "bayo-gamma-doppler-emerald",
+      "wear": "mw",
+      "price": 2535.74,
+      "currency": "USD"
+    },
+    {
+      "skinId": "bayo-gamma-doppler-phase-1",
+      "wear": "fn",
+      "price": 764.75,
+      "currency": "USD"
+    },
+    {
+      "skinId": "bayo-gamma-doppler-phase-1",
+      "wear": "mw",
+      "price": 764.74,
+      "currency": "USD"
+    },
+    {
+      "skinId": "bayo-gamma-doppler-phase-2",
+      "wear": "fn",
+      "price": 1086.75,
+      "currency": "USD"
+    },
+    {
+      "skinId": "bayo-gamma-doppler-phase-2",
+      "wear": "mw",
+      "price": 1086.74,
+      "currency": "USD"
+    },
+    {
+      "skinId": "bayo-gamma-doppler-phase-3",
+      "wear": "fn",
+      "price": 740.6,
+      "currency": "USD"
+    },
+    {
+      "skinId": "bayo-gamma-doppler-phase-3",
+      "wear": "mw",
+      "price": 740.59,
+      "currency": "USD"
+    },
+    {
+      "skinId": "bayo-gamma-doppler-phase-4",
+      "wear": "fn",
+      "price": 901.6,
+      "currency": "USD"
+    },
+    {
+      "skinId": "bayo-gamma-doppler-phase-4",
+      "wear": "mw",
+      "price": 901.59,
       "currency": "USD"
     },
     {
@@ -5423,6 +5567,90 @@
       "currency": "USD"
     },
     {
+      "skinId": "bowie-doppler-black-pearl",
+      "wear": "fn",
+      "price": 1400.56,
+      "currency": "USD"
+    },
+    {
+      "skinId": "bowie-doppler-black-pearl",
+      "wear": "mw",
+      "price": 1400.55,
+      "currency": "USD"
+    },
+    {
+      "skinId": "bowie-doppler-phase-1",
+      "wear": "fn",
+      "price": 324.52,
+      "currency": "USD"
+    },
+    {
+      "skinId": "bowie-doppler-phase-1",
+      "wear": "mw",
+      "price": 324.51,
+      "currency": "USD"
+    },
+    {
+      "skinId": "bowie-doppler-phase-2",
+      "wear": "fn",
+      "price": 461.16,
+      "currency": "USD"
+    },
+    {
+      "skinId": "bowie-doppler-phase-2",
+      "wear": "mw",
+      "price": 461.15,
+      "currency": "USD"
+    },
+    {
+      "skinId": "bowie-doppler-phase-3",
+      "wear": "fn",
+      "price": 314.27,
+      "currency": "USD"
+    },
+    {
+      "skinId": "bowie-doppler-phase-3",
+      "wear": "mw",
+      "price": 314.26,
+      "currency": "USD"
+    },
+    {
+      "skinId": "bowie-doppler-phase-4",
+      "wear": "fn",
+      "price": 382.59,
+      "currency": "USD"
+    },
+    {
+      "skinId": "bowie-doppler-phase-4",
+      "wear": "mw",
+      "price": 382.58,
+      "currency": "USD"
+    },
+    {
+      "skinId": "bowie-doppler-ruby",
+      "wear": "fn",
+      "price": 1212.68,
+      "currency": "USD"
+    },
+    {
+      "skinId": "bowie-doppler-ruby",
+      "wear": "mw",
+      "price": 1212.67,
+      "currency": "USD"
+    },
+    {
+      "skinId": "bowie-doppler-sapphire",
+      "wear": "fn",
+      "price": 802.76,
+      "currency": "USD"
+    },
+    {
+      "skinId": "bowie-doppler-sapphire",
+      "wear": "mw",
+      "price": 802.75,
+      "currency": "USD"
+    },
+    {
       "skinId": "bowie-fade",
       "wear": "fn",
       "price": 289.42,
@@ -5522,6 +5750,66 @@
       "skinId": "bowie-gamma-doppler-5",
       "wear": "bs",
       "price": 184.3,
+      "currency": "USD"
+    },
+    {
+      "skinId": "bowie-gamma-doppler-emerald",
+      "wear": "fn",
+      "price": 817.68,
+      "currency": "USD"
+    },
+    {
+      "skinId": "bowie-gamma-doppler-emerald",
+      "wear": "mw",
+      "price": 817.67,
+      "currency": "USD"
+    },
+    {
+      "skinId": "bowie-gamma-doppler-phase-1",
+      "wear": "fn",
+      "price": 246.6,
+      "currency": "USD"
+    },
+    {
+      "skinId": "bowie-gamma-doppler-phase-1",
+      "wear": "mw",
+      "price": 246.59,
+      "currency": "USD"
+    },
+    {
+      "skinId": "bowie-gamma-doppler-phase-2",
+      "wear": "fn",
+      "price": 350.43,
+      "currency": "USD"
+    },
+    {
+      "skinId": "bowie-gamma-doppler-phase-2",
+      "wear": "mw",
+      "price": 350.42,
+      "currency": "USD"
+    },
+    {
+      "skinId": "bowie-gamma-doppler-phase-3",
+      "wear": "fn",
+      "price": 238.81,
+      "currency": "USD"
+    },
+    {
+      "skinId": "bowie-gamma-doppler-phase-3",
+      "wear": "mw",
+      "price": 238.8,
+      "currency": "USD"
+    },
+    {
+      "skinId": "bowie-gamma-doppler-phase-4",
+      "wear": "fn",
+      "price": 290.73,
+      "currency": "USD"
+    },
+    {
+      "skinId": "bowie-gamma-doppler-phase-4",
+      "wear": "mw",
+      "price": 290.72,
       "currency": "USD"
     },
     {
@@ -6037,43 +6325,127 @@
     {
       "skinId": "bfly-doppler",
       "wear": "fn",
-      "price": 5822.41,
+      "price": 2850,
       "currency": "USD"
     },
     {
       "skinId": "bfly-doppler",
       "wear": "mw",
-      "price": 4254.77,
+      "price": 2550,
       "currency": "USD"
     },
     {
       "skinId": "bfly-doppler",
       "wear": "ft",
-      "price": 4254.76,
+      "price": 2400,
       "currency": "USD"
     },
     {
       "skinId": "bfly-doppler",
       "wear": "ww",
-      "price": 4254.75,
+      "price": 2399.99,
       "currency": "USD"
     },
     {
       "skinId": "bfly-doppler",
       "wear": "bs",
-      "price": 4133.91,
+      "price": 2399.98,
+      "currency": "USD"
+    },
+    {
+      "skinId": "bfly-doppler-black-pearl",
+      "wear": "fn",
+      "price": 11500,
+      "currency": "USD"
+    },
+    {
+      "skinId": "bfly-doppler-black-pearl",
+      "wear": "mw",
+      "price": 10800,
+      "currency": "USD"
+    },
+    {
+      "skinId": "bfly-doppler-phase-1",
+      "wear": "fn",
+      "price": 2200,
+      "currency": "USD"
+    },
+    {
+      "skinId": "bfly-doppler-phase-1",
+      "wear": "mw",
+      "price": 1980,
+      "currency": "USD"
+    },
+    {
+      "skinId": "bfly-doppler-phase-2",
+      "wear": "fn",
+      "price": 3900,
+      "currency": "USD"
+    },
+    {
+      "skinId": "bfly-doppler-phase-2",
+      "wear": "mw",
+      "price": 3500,
+      "currency": "USD"
+    },
+    {
+      "skinId": "bfly-doppler-phase-3",
+      "wear": "fn",
+      "price": 2080,
+      "currency": "USD"
+    },
+    {
+      "skinId": "bfly-doppler-phase-3",
+      "wear": "mw",
+      "price": 1900,
+      "currency": "USD"
+    },
+    {
+      "skinId": "bfly-doppler-phase-4",
+      "wear": "fn",
+      "price": 2680,
+      "currency": "USD"
+    },
+    {
+      "skinId": "bfly-doppler-phase-4",
+      "wear": "mw",
+      "price": 2420,
+      "currency": "USD"
+    },
+    {
+      "skinId": "bfly-doppler-ruby",
+      "wear": "fn",
+      "price": 9500,
+      "currency": "USD"
+    },
+    {
+      "skinId": "bfly-doppler-ruby",
+      "wear": "mw",
+      "price": 9000,
+      "currency": "USD"
+    },
+    {
+      "skinId": "bfly-doppler-sapphire",
+      "wear": "fn",
+      "price": 6500,
+      "currency": "USD"
+    },
+    {
+      "skinId": "bfly-doppler-sapphire",
+      "wear": "mw",
+      "price": 6100,
       "currency": "USD"
     },
     {
       "skinId": "bfly-fade",
       "wear": "fn",
-      "price": 3284.6,
+      "price": 3480,
       "currency": "USD"
     },
     {
       "skinId": "bfly-fade",
       "wear": "mw",
-      "price": 2918.44,
+      "price": 3080,
       "currency": "USD"
     },
     {
@@ -6139,31 +6511,91 @@
     {
       "skinId": "bfly-gamma-doppler-5",
       "wear": "fn",
-      "price": 5822.05,
+      "price": 3100,
       "currency": "USD"
     },
     {
       "skinId": "bfly-gamma-doppler-5",
       "wear": "mw",
-      "price": 4281.26,
+      "price": 2800,
       "currency": "USD"
     },
     {
       "skinId": "bfly-gamma-doppler-5",
       "wear": "ft",
-      "price": 4281.25,
+      "price": 2799.99,
       "currency": "USD"
     },
     {
       "skinId": "bfly-gamma-doppler-5",
       "wear": "ww",
-      "price": 4281.24,
+      "price": 2799.98,
       "currency": "USD"
     },
     {
       "skinId": "bfly-gamma-doppler-5",
       "wear": "bs",
-      "price": 4133.66,
+      "price": 2799.97,
+      "currency": "USD"
+    },
+    {
+      "skinId": "bfly-gamma-doppler-emerald",
+      "wear": "fn",
+      "price": 7800,
+      "currency": "USD"
+    },
+    {
+      "skinId": "bfly-gamma-doppler-emerald",
+      "wear": "mw",
+      "price": 7200,
+      "currency": "USD"
+    },
+    {
+      "skinId": "bfly-gamma-doppler-phase-1",
+      "wear": "fn",
+      "price": 4914.26,
+      "currency": "USD"
+    },
+    {
+      "skinId": "bfly-gamma-doppler-phase-1",
+      "wear": "mw",
+      "price": 3608.91,
+      "currency": "USD"
+    },
+    {
+      "skinId": "bfly-gamma-doppler-phase-2",
+      "wear": "fn",
+      "price": 12717.64,
+      "currency": "USD"
+    },
+    {
+      "skinId": "bfly-gamma-doppler-phase-2",
+      "wear": "mw",
+      "price": 9339.51,
+      "currency": "USD"
+    },
+    {
+      "skinId": "bfly-gamma-doppler-phase-3",
+      "wear": "fn",
+      "price": 4496.23,
+      "currency": "USD"
+    },
+    {
+      "skinId": "bfly-gamma-doppler-phase-3",
+      "wear": "mw",
+      "price": 3301.92,
+      "currency": "USD"
+    },
+    {
+      "skinId": "bfly-gamma-doppler-phase-4",
+      "wear": "fn",
+      "price": 8084.38,
+      "currency": "USD"
+    },
+    {
+      "skinId": "bfly-gamma-doppler-phase-4",
+      "wear": "mw",
+      "price": 5936.97,
       "currency": "USD"
     },
     {
@@ -6974,6 +7406,18 @@
       "skinId": "cz-emerald",
       "wear": "bs",
       "price": 38.15,
+      "currency": "USD"
+    },
+    {
+      "skinId": "cz-emerald-emerald",
+      "wear": "fn",
+      "price": 166.92,
+      "currency": "USD"
+    },
+    {
+      "skinId": "cz-emerald-emerald",
+      "wear": "mw",
+      "price": 166.91,
       "currency": "USD"
     },
     {
@@ -9539,6 +9983,18 @@
       "currency": "USD"
     },
     {
+      "skinId": "duals-emerald-emerald",
+      "wear": "fn",
+      "price": 179.39,
+      "currency": "USD"
+    },
+    {
+      "skinId": "duals-emerald-emerald",
+      "wear": "mw",
+      "price": 179.38,
+      "currency": "USD"
+    },
+    {
       "skinId": "duals-flora-carnivora",
       "wear": "fn",
       "price": 6.6,
@@ -10541,6 +10997,90 @@
       "currency": "USD"
     },
     {
+      "skinId": "falch-doppler-black-pearl",
+      "wear": "fn",
+      "price": 1745.25,
+      "currency": "USD"
+    },
+    {
+      "skinId": "falch-doppler-black-pearl",
+      "wear": "mw",
+      "price": 1745.24,
+      "currency": "USD"
+    },
+    {
+      "skinId": "falch-doppler-phase-1",
+      "wear": "fn",
+      "price": 404.39,
+      "currency": "USD"
+    },
+    {
+      "skinId": "falch-doppler-phase-1",
+      "wear": "mw",
+      "price": 404.38,
+      "currency": "USD"
+    },
+    {
+      "skinId": "falch-doppler-phase-2",
+      "wear": "fn",
+      "price": 574.65,
+      "currency": "USD"
+    },
+    {
+      "skinId": "falch-doppler-phase-2",
+      "wear": "mw",
+      "price": 574.64,
+      "currency": "USD"
+    },
+    {
+      "skinId": "falch-doppler-phase-3",
+      "wear": "fn",
+      "price": 391.62,
+      "currency": "USD"
+    },
+    {
+      "skinId": "falch-doppler-phase-3",
+      "wear": "mw",
+      "price": 391.61,
+      "currency": "USD"
+    },
+    {
+      "skinId": "falch-doppler-phase-4",
+      "wear": "fn",
+      "price": 476.75,
+      "currency": "USD"
+    },
+    {
+      "skinId": "falch-doppler-phase-4",
+      "wear": "mw",
+      "price": 476.74,
+      "currency": "USD"
+    },
+    {
+      "skinId": "falch-doppler-ruby",
+      "wear": "fn",
+      "price": 1511.13,
+      "currency": "USD"
+    },
+    {
+      "skinId": "falch-doppler-ruby",
+      "wear": "mw",
+      "price": 1511.12,
+      "currency": "USD"
+    },
+    {
+      "skinId": "falch-doppler-sapphire",
+      "wear": "fn",
+      "price": 1000.32,
+      "currency": "USD"
+    },
+    {
+      "skinId": "falch-doppler-sapphire",
+      "wear": "mw",
+      "price": 1000.31,
+      "currency": "USD"
+    },
+    {
       "skinId": "falch-fade",
       "wear": "fn",
       "price": 300.78,
@@ -10640,6 +11180,66 @@
       "skinId": "falch-gamma-doppler-4",
       "wear": "bs",
       "price": 223.44,
+      "currency": "USD"
+    },
+    {
+      "skinId": "falch-gamma-doppler-emerald",
+      "wear": "fn",
+      "price": 991.31,
+      "currency": "USD"
+    },
+    {
+      "skinId": "falch-gamma-doppler-emerald",
+      "wear": "mw",
+      "price": 991.3,
+      "currency": "USD"
+    },
+    {
+      "skinId": "falch-gamma-doppler-phase-1",
+      "wear": "fn",
+      "price": 298.96,
+      "currency": "USD"
+    },
+    {
+      "skinId": "falch-gamma-doppler-phase-1",
+      "wear": "mw",
+      "price": 298.95,
+      "currency": "USD"
+    },
+    {
+      "skinId": "falch-gamma-doppler-phase-2",
+      "wear": "fn",
+      "price": 424.85,
+      "currency": "USD"
+    },
+    {
+      "skinId": "falch-gamma-doppler-phase-2",
+      "wear": "mw",
+      "price": 424.84,
+      "currency": "USD"
+    },
+    {
+      "skinId": "falch-gamma-doppler-phase-3",
+      "wear": "fn",
+      "price": 289.52,
+      "currency": "USD"
+    },
+    {
+      "skinId": "falch-gamma-doppler-phase-3",
+      "wear": "mw",
+      "price": 289.51,
+      "currency": "USD"
+    },
+    {
+      "skinId": "falch-gamma-doppler-phase-4",
+      "wear": "fn",
+      "price": 352.46,
+      "currency": "USD"
+    },
+    {
+      "skinId": "falch-gamma-doppler-phase-4",
+      "wear": "mw",
+      "price": 352.45,
       "currency": "USD"
     },
     {
@@ -13595,6 +14195,90 @@
       "currency": "USD"
     },
     {
+      "skinId": "flip-doppler-black-pearl",
+      "wear": "fn",
+      "price": 1810.56,
+      "currency": "USD"
+    },
+    {
+      "skinId": "flip-doppler-black-pearl",
+      "wear": "mw",
+      "price": 1810.55,
+      "currency": "USD"
+    },
+    {
+      "skinId": "flip-doppler-phase-1",
+      "wear": "fn",
+      "price": 419.52,
+      "currency": "USD"
+    },
+    {
+      "skinId": "flip-doppler-phase-1",
+      "wear": "mw",
+      "price": 419.51,
+      "currency": "USD"
+    },
+    {
+      "skinId": "flip-doppler-phase-2",
+      "wear": "fn",
+      "price": 596.16,
+      "currency": "USD"
+    },
+    {
+      "skinId": "flip-doppler-phase-2",
+      "wear": "mw",
+      "price": 596.15,
+      "currency": "USD"
+    },
+    {
+      "skinId": "flip-doppler-phase-3",
+      "wear": "fn",
+      "price": 406.27,
+      "currency": "USD"
+    },
+    {
+      "skinId": "flip-doppler-phase-3",
+      "wear": "mw",
+      "price": 406.26,
+      "currency": "USD"
+    },
+    {
+      "skinId": "flip-doppler-phase-4",
+      "wear": "fn",
+      "price": 494.59,
+      "currency": "USD"
+    },
+    {
+      "skinId": "flip-doppler-phase-4",
+      "wear": "mw",
+      "price": 494.58,
+      "currency": "USD"
+    },
+    {
+      "skinId": "flip-doppler-ruby",
+      "wear": "fn",
+      "price": 1567.68,
+      "currency": "USD"
+    },
+    {
+      "skinId": "flip-doppler-ruby",
+      "wear": "mw",
+      "price": 1567.67,
+      "currency": "USD"
+    },
+    {
+      "skinId": "flip-doppler-sapphire",
+      "wear": "fn",
+      "price": 1037.76,
+      "currency": "USD"
+    },
+    {
+      "skinId": "flip-doppler-sapphire",
+      "wear": "mw",
+      "price": 1037.75,
+      "currency": "USD"
+    },
+    {
       "skinId": "flip-fade",
       "wear": "fn",
       "price": 440,
@@ -13694,6 +14378,66 @@
       "skinId": "flip-gamma-doppler-4",
       "wear": "bs",
       "price": 460.03,
+      "currency": "USD"
+    },
+    {
+      "skinId": "flip-gamma-doppler-emerald",
+      "wear": "fn",
+      "price": 2040.98,
+      "currency": "USD"
+    },
+    {
+      "skinId": "flip-gamma-doppler-emerald",
+      "wear": "mw",
+      "price": 2040.97,
+      "currency": "USD"
+    },
+    {
+      "skinId": "flip-gamma-doppler-phase-1",
+      "wear": "fn",
+      "price": 615.53,
+      "currency": "USD"
+    },
+    {
+      "skinId": "flip-gamma-doppler-phase-1",
+      "wear": "mw",
+      "price": 615.52,
+      "currency": "USD"
+    },
+    {
+      "skinId": "flip-gamma-doppler-phase-2",
+      "wear": "fn",
+      "price": 874.71,
+      "currency": "USD"
+    },
+    {
+      "skinId": "flip-gamma-doppler-phase-2",
+      "wear": "mw",
+      "price": 874.7,
+      "currency": "USD"
+    },
+    {
+      "skinId": "flip-gamma-doppler-phase-3",
+      "wear": "fn",
+      "price": 596.1,
+      "currency": "USD"
+    },
+    {
+      "skinId": "flip-gamma-doppler-phase-3",
+      "wear": "mw",
+      "price": 596.09,
+      "currency": "USD"
+    },
+    {
+      "skinId": "flip-gamma-doppler-phase-4",
+      "wear": "fn",
+      "price": 725.68,
+      "currency": "USD"
+    },
+    {
+      "skinId": "flip-gamma-doppler-phase-4",
+      "wear": "mw",
+      "price": 725.67,
       "currency": "USD"
     },
     {
@@ -16387,13 +17131,13 @@
     {
       "skinId": "glock-fade",
       "wear": "fn",
-      "price": 39.39,
+      "price": 1780,
       "currency": "USD"
     },
     {
       "skinId": "glock-fade",
       "wear": "mw",
-      "price": 28.92,
+      "price": 1620,
       "currency": "USD"
     },
     {
@@ -16478,6 +17222,156 @@
       "skinId": "glock-gamma-doppler",
       "wear": "bs",
       "price": 117.72,
+      "currency": "USD"
+    },
+    {
+      "skinId": "glock-gamma-doppler-emerald",
+      "wear": "fn",
+      "price": 565.68,
+      "currency": "USD"
+    },
+    {
+      "skinId": "glock-gamma-doppler-emerald",
+      "wear": "mw",
+      "price": 541.23,
+      "currency": "USD"
+    },
+    {
+      "skinId": "glock-gamma-doppler-emerald",
+      "wear": "ft",
+      "price": 470.99,
+      "currency": "USD"
+    },
+    {
+      "skinId": "glock-gamma-doppler-emerald",
+      "wear": "ww",
+      "price": 370.85,
+      "currency": "USD"
+    },
+    {
+      "skinId": "glock-gamma-doppler-emerald",
+      "wear": "bs",
+      "price": 370.84,
+      "currency": "USD"
+    },
+    {
+      "skinId": "glock-gamma-doppler-phase-1",
+      "wear": "fn",
+      "price": 170.6,
+      "currency": "USD"
+    },
+    {
+      "skinId": "glock-gamma-doppler-phase-1",
+      "wear": "mw",
+      "price": 163.23,
+      "currency": "USD"
+    },
+    {
+      "skinId": "glock-gamma-doppler-phase-1",
+      "wear": "ft",
+      "price": 142.04,
+      "currency": "USD"
+    },
+    {
+      "skinId": "glock-gamma-doppler-phase-1",
+      "wear": "ww",
+      "price": 111.84,
+      "currency": "USD"
+    },
+    {
+      "skinId": "glock-gamma-doppler-phase-1",
+      "wear": "bs",
+      "price": 111.83,
+      "currency": "USD"
+    },
+    {
+      "skinId": "glock-gamma-doppler-phase-2",
+      "wear": "fn",
+      "price": 242.43,
+      "currency": "USD"
+    },
+    {
+      "skinId": "glock-gamma-doppler-phase-2",
+      "wear": "mw",
+      "price": 231.96,
+      "currency": "USD"
+    },
+    {
+      "skinId": "glock-gamma-doppler-phase-2",
+      "wear": "ft",
+      "price": 201.85,
+      "currency": "USD"
+    },
+    {
+      "skinId": "glock-gamma-doppler-phase-2",
+      "wear": "ww",
+      "price": 158.94,
+      "currency": "USD"
+    },
+    {
+      "skinId": "glock-gamma-doppler-phase-2",
+      "wear": "bs",
+      "price": 158.93,
+      "currency": "USD"
+    },
+    {
+      "skinId": "glock-gamma-doppler-phase-3",
+      "wear": "fn",
+      "price": 165.21,
+      "currency": "USD"
+    },
+    {
+      "skinId": "glock-gamma-doppler-phase-3",
+      "wear": "mw",
+      "price": 158.07,
+      "currency": "USD"
+    },
+    {
+      "skinId": "glock-gamma-doppler-phase-3",
+      "wear": "ft",
+      "price": 137.56,
+      "currency": "USD"
+    },
+    {
+      "skinId": "glock-gamma-doppler-phase-3",
+      "wear": "ww",
+      "price": 108.31,
+      "currency": "USD"
+    },
+    {
+      "skinId": "glock-gamma-doppler-phase-3",
+      "wear": "bs",
+      "price": 108.3,
+      "currency": "USD"
+    },
+    {
+      "skinId": "glock-gamma-doppler-phase-4",
+      "wear": "fn",
+      "price": 201.13,
+      "currency": "USD"
+    },
+    {
+      "skinId": "glock-gamma-doppler-phase-4",
+      "wear": "mw",
+      "price": 192.44,
+      "currency": "USD"
+    },
+    {
+      "skinId": "glock-gamma-doppler-phase-4",
+      "wear": "ft",
+      "price": 167.46,
+      "currency": "USD"
+    },
+    {
+      "skinId": "glock-gamma-doppler-phase-4",
+      "wear": "ww",
+      "price": 131.86,
+      "currency": "USD"
+    },
+    {
+      "skinId": "glock-gamma-doppler-phase-4",
+      "wear": "bs",
+      "price": 131.85,
       "currency": "USD"
     },
     {
@@ -19517,6 +20411,36 @@
       "currency": "USD"
     },
     {
+      "skinId": "glove-emerald-web-emerald",
+      "wear": "fn",
+      "price": 5129.07,
+      "currency": "USD"
+    },
+    {
+      "skinId": "glove-emerald-web-emerald",
+      "wear": "mw",
+      "price": 3766.66,
+      "currency": "USD"
+    },
+    {
+      "skinId": "glove-emerald-web-emerald",
+      "wear": "ft",
+      "price": 2671.39,
+      "currency": "USD"
+    },
+    {
+      "skinId": "glove-emerald-web-emerald",
+      "wear": "ww",
+      "price": 2671.38,
+      "currency": "USD"
+    },
+    {
+      "skinId": "glove-emerald-web-emerald",
+      "wear": "bs",
+      "price": 2320.42,
+      "currency": "USD"
+    },
+    {
       "skinId": "glove-fade",
       "wear": "fn",
       "price": 527.39,
@@ -20179,31 +21103,31 @@
     {
       "skinId": "glove-pandora",
       "wear": "fn",
-      "price": 8420.18,
+      "price": 8780,
       "currency": "USD"
     },
     {
       "skinId": "glove-pandora",
       "wear": "mw",
-      "price": 6118.44,
+      "price": 6380,
       "currency": "USD"
     },
     {
       "skinId": "glove-pandora",
       "wear": "ft",
-      "price": 4520,
+      "price": 4720,
       "currency": "USD"
     },
     {
       "skinId": "glove-pandora",
       "wear": "ww",
-      "price": 3612.88,
+      "price": 3780,
       "currency": "USD"
     },
     {
       "skinId": "glove-pandora",
       "wear": "bs",
-      "price": 2988.15,
+      "price": 3120,
       "currency": "USD"
     },
     {
@@ -20693,6 +21617,90 @@
       "currency": "USD"
     },
     {
+      "skinId": "gut-doppler-black-pearl",
+      "wear": "fn",
+      "price": 834.31,
+      "currency": "USD"
+    },
+    {
+      "skinId": "gut-doppler-black-pearl",
+      "wear": "mw",
+      "price": 834.3,
+      "currency": "USD"
+    },
+    {
+      "skinId": "gut-doppler-phase-1",
+      "wear": "fn",
+      "price": 193.32,
+      "currency": "USD"
+    },
+    {
+      "skinId": "gut-doppler-phase-1",
+      "wear": "mw",
+      "price": 193.31,
+      "currency": "USD"
+    },
+    {
+      "skinId": "gut-doppler-phase-2",
+      "wear": "fn",
+      "price": 274.71,
+      "currency": "USD"
+    },
+    {
+      "skinId": "gut-doppler-phase-2",
+      "wear": "mw",
+      "price": 274.7,
+      "currency": "USD"
+    },
+    {
+      "skinId": "gut-doppler-phase-3",
+      "wear": "fn",
+      "price": 187.21,
+      "currency": "USD"
+    },
+    {
+      "skinId": "gut-doppler-phase-3",
+      "wear": "mw",
+      "price": 187.2,
+      "currency": "USD"
+    },
+    {
+      "skinId": "gut-doppler-phase-4",
+      "wear": "fn",
+      "price": 227.91,
+      "currency": "USD"
+    },
+    {
+      "skinId": "gut-doppler-phase-4",
+      "wear": "mw",
+      "price": 227.9,
+      "currency": "USD"
+    },
+    {
+      "skinId": "gut-doppler-ruby",
+      "wear": "fn",
+      "price": 722.39,
+      "currency": "USD"
+    },
+    {
+      "skinId": "gut-doppler-ruby",
+      "wear": "mw",
+      "price": 722.38,
+      "currency": "USD"
+    },
+    {
+      "skinId": "gut-doppler-sapphire",
+      "wear": "fn",
+      "price": 478.2,
+      "currency": "USD"
+    },
+    {
+      "skinId": "gut-doppler-sapphire",
+      "wear": "mw",
+      "price": 478.19,
+      "currency": "USD"
+    },
+    {
       "skinId": "gut-fade",
       "wear": "fn",
       "price": 199.11,
@@ -20792,6 +21800,66 @@
       "skinId": "gut-gamma-doppler",
       "wear": "bs",
       "price": 163.14,
+      "currency": "USD"
+    },
+    {
+      "skinId": "gut-gamma-doppler-emerald",
+      "wear": "fn",
+      "price": 723.78,
+      "currency": "USD"
+    },
+    {
+      "skinId": "gut-gamma-doppler-emerald",
+      "wear": "mw",
+      "price": 723.77,
+      "currency": "USD"
+    },
+    {
+      "skinId": "gut-gamma-doppler-phase-1",
+      "wear": "fn",
+      "price": 218.28,
+      "currency": "USD"
+    },
+    {
+      "skinId": "gut-gamma-doppler-phase-1",
+      "wear": "mw",
+      "price": 218.27,
+      "currency": "USD"
+    },
+    {
+      "skinId": "gut-gamma-doppler-phase-2",
+      "wear": "fn",
+      "price": 310.19,
+      "currency": "USD"
+    },
+    {
+      "skinId": "gut-gamma-doppler-phase-2",
+      "wear": "mw",
+      "price": 310.18,
+      "currency": "USD"
+    },
+    {
+      "skinId": "gut-gamma-doppler-phase-3",
+      "wear": "fn",
+      "price": 211.39,
+      "currency": "USD"
+    },
+    {
+      "skinId": "gut-gamma-doppler-phase-3",
+      "wear": "mw",
+      "price": 211.38,
+      "currency": "USD"
+    },
+    {
+      "skinId": "gut-gamma-doppler-phase-4",
+      "wear": "fn",
+      "price": 257.34,
+      "currency": "USD"
+    },
+    {
+      "skinId": "gut-gamma-doppler-phase-4",
+      "wear": "mw",
+      "price": 257.33,
       "currency": "USD"
     },
     {
@@ -21335,6 +22403,90 @@
       "currency": "USD"
     },
     {
+      "skinId": "hunts-doppler-black-pearl",
+      "wear": "fn",
+      "price": 1749.92,
+      "currency": "USD"
+    },
+    {
+      "skinId": "hunts-doppler-black-pearl",
+      "wear": "mw",
+      "price": 1749.91,
+      "currency": "USD"
+    },
+    {
+      "skinId": "hunts-doppler-phase-1",
+      "wear": "fn",
+      "price": 405.47,
+      "currency": "USD"
+    },
+    {
+      "skinId": "hunts-doppler-phase-1",
+      "wear": "mw",
+      "price": 405.46,
+      "currency": "USD"
+    },
+    {
+      "skinId": "hunts-doppler-phase-2",
+      "wear": "fn",
+      "price": 576.19,
+      "currency": "USD"
+    },
+    {
+      "skinId": "hunts-doppler-phase-2",
+      "wear": "mw",
+      "price": 576.18,
+      "currency": "USD"
+    },
+    {
+      "skinId": "hunts-doppler-phase-3",
+      "wear": "fn",
+      "price": 392.67,
+      "currency": "USD"
+    },
+    {
+      "skinId": "hunts-doppler-phase-3",
+      "wear": "mw",
+      "price": 392.66,
+      "currency": "USD"
+    },
+    {
+      "skinId": "hunts-doppler-phase-4",
+      "wear": "fn",
+      "price": 478.03,
+      "currency": "USD"
+    },
+    {
+      "skinId": "hunts-doppler-phase-4",
+      "wear": "mw",
+      "price": 478.02,
+      "currency": "USD"
+    },
+    {
+      "skinId": "hunts-doppler-ruby",
+      "wear": "fn",
+      "price": 1515.18,
+      "currency": "USD"
+    },
+    {
+      "skinId": "hunts-doppler-ruby",
+      "wear": "mw",
+      "price": 1515.17,
+      "currency": "USD"
+    },
+    {
+      "skinId": "hunts-doppler-sapphire",
+      "wear": "fn",
+      "price": 1003,
+      "currency": "USD"
+    },
+    {
+      "skinId": "hunts-doppler-sapphire",
+      "wear": "mw",
+      "price": 1002.99,
+      "currency": "USD"
+    },
+    {
       "skinId": "hunts-fade",
       "wear": "fn",
       "price": 367.37,
@@ -21434,6 +22586,66 @@
       "skinId": "hunts-gamma-doppler-4",
       "wear": "bs",
       "price": 213,
+      "currency": "USD"
+    },
+    {
+      "skinId": "hunts-gamma-doppler-emerald",
+      "wear": "fn",
+      "price": 945,
+      "currency": "USD"
+    },
+    {
+      "skinId": "hunts-gamma-doppler-emerald",
+      "wear": "mw",
+      "price": 944.99,
+      "currency": "USD"
+    },
+    {
+      "skinId": "hunts-gamma-doppler-phase-1",
+      "wear": "fn",
+      "price": 285,
+      "currency": "USD"
+    },
+    {
+      "skinId": "hunts-gamma-doppler-phase-1",
+      "wear": "mw",
+      "price": 284.99,
+      "currency": "USD"
+    },
+    {
+      "skinId": "hunts-gamma-doppler-phase-2",
+      "wear": "fn",
+      "price": 405,
+      "currency": "USD"
+    },
+    {
+      "skinId": "hunts-gamma-doppler-phase-2",
+      "wear": "mw",
+      "price": 404.99,
+      "currency": "USD"
+    },
+    {
+      "skinId": "hunts-gamma-doppler-phase-3",
+      "wear": "fn",
+      "price": 276,
+      "currency": "USD"
+    },
+    {
+      "skinId": "hunts-gamma-doppler-phase-3",
+      "wear": "mw",
+      "price": 275.99,
+      "currency": "USD"
+    },
+    {
+      "skinId": "hunts-gamma-doppler-phase-4",
+      "wear": "fn",
+      "price": 336,
+      "currency": "USD"
+    },
+    {
+      "skinId": "hunts-gamma-doppler-phase-4",
+      "wear": "mw",
+      "price": 335.99,
       "currency": "USD"
     },
     {
@@ -21955,7 +23167,7 @@
     {
       "skinId": "kara-doppler",
       "wear": "mw",
-      "price": 1884.5,
+      "price": 1920,
       "currency": "USD"
     },
     {
@@ -21977,15 +23189,99 @@
       "currency": "USD"
     },
     {
+      "skinId": "kara-doppler-black-pearl",
+      "wear": "fn",
+      "price": 8300,
+      "currency": "USD"
+    },
+    {
+      "skinId": "kara-doppler-black-pearl",
+      "wear": "mw",
+      "price": 7900,
+      "currency": "USD"
+    },
+    {
+      "skinId": "kara-doppler-phase-1",
+      "wear": "fn",
+      "price": 1929.81,
+      "currency": "USD"
+    },
+    {
+      "skinId": "kara-doppler-phase-1",
+      "wear": "mw",
+      "price": 1719.35,
+      "currency": "USD"
+    },
+    {
+      "skinId": "kara-doppler-phase-2",
+      "wear": "fn",
+      "price": 2742.36,
+      "currency": "USD"
+    },
+    {
+      "skinId": "kara-doppler-phase-2",
+      "wear": "mw",
+      "price": 2742.35,
+      "currency": "USD"
+    },
+    {
+      "skinId": "kara-doppler-phase-3",
+      "wear": "fn",
+      "price": 1868.87,
+      "currency": "USD"
+    },
+    {
+      "skinId": "kara-doppler-phase-3",
+      "wear": "mw",
+      "price": 1573.09,
+      "currency": "USD"
+    },
+    {
+      "skinId": "kara-doppler-phase-4",
+      "wear": "fn",
+      "price": 2275.15,
+      "currency": "USD"
+    },
+    {
+      "skinId": "kara-doppler-phase-4",
+      "wear": "mw",
+      "price": 2275.14,
+      "currency": "USD"
+    },
+    {
+      "skinId": "kara-doppler-ruby",
+      "wear": "fn",
+      "price": 7200,
+      "currency": "USD"
+    },
+    {
+      "skinId": "kara-doppler-ruby",
+      "wear": "mw",
+      "price": 6900,
+      "currency": "USD"
+    },
+    {
+      "skinId": "kara-doppler-sapphire",
+      "wear": "fn",
+      "price": 4600,
+      "currency": "USD"
+    },
+    {
+      "skinId": "kara-doppler-sapphire",
+      "wear": "mw",
+      "price": 4450,
+      "currency": "USD"
+    },
+    {
       "skinId": "kara-fade",
       "wear": "fn",
-      "price": 2148.37,
+      "price": 2280,
       "currency": "USD"
     },
     {
       "skinId": "kara-fade",
       "wear": "mw",
-      "price": 1892.14,
+      "price": 2010,
       "currency": "USD"
     },
     {
@@ -22051,13 +23347,13 @@
     {
       "skinId": "kara-gamma",
       "wear": "fn",
-      "price": 2218.9,
+      "price": 2340,
       "currency": "USD"
     },
     {
       "skinId": "kara-gamma",
       "wear": "mw",
-      "price": 1988.12,
+      "price": 2080,
       "currency": "USD"
     },
     {
@@ -22076,6 +23372,66 @@
       "skinId": "kara-gamma",
       "wear": "bs",
       "price": 1575.42,
+      "currency": "USD"
+    },
+    {
+      "skinId": "kara-gamma-doppler-emerald",
+      "wear": "fn",
+      "price": 6800,
+      "currency": "USD"
+    },
+    {
+      "skinId": "kara-gamma-doppler-emerald",
+      "wear": "mw",
+      "price": 6400,
+      "currency": "USD"
+    },
+    {
+      "skinId": "kara-gamma-doppler-phase-1",
+      "wear": "fn",
+      "price": 4914.26,
+      "currency": "USD"
+    },
+    {
+      "skinId": "kara-gamma-doppler-phase-1",
+      "wear": "mw",
+      "price": 3608.91,
+      "currency": "USD"
+    },
+    {
+      "skinId": "kara-gamma-doppler-phase-2",
+      "wear": "fn",
+      "price": 12717.64,
+      "currency": "USD"
+    },
+    {
+      "skinId": "kara-gamma-doppler-phase-2",
+      "wear": "mw",
+      "price": 9339.51,
+      "currency": "USD"
+    },
+    {
+      "skinId": "kara-gamma-doppler-phase-3",
+      "wear": "fn",
+      "price": 4496.23,
+      "currency": "USD"
+    },
+    {
+      "skinId": "kara-gamma-doppler-phase-3",
+      "wear": "mw",
+      "price": 3301.92,
+      "currency": "USD"
+    },
+    {
+      "skinId": "kara-gamma-doppler-phase-4",
+      "wear": "fn",
+      "price": 8084.38,
+      "currency": "USD"
+    },
+    {
+      "skinId": "kara-gamma-doppler-phase-4",
+      "wear": "mw",
+      "price": 5936.97,
       "currency": "USD"
     },
     {
@@ -24115,13 +25471,13 @@
     {
       "skinId": "m4-knight",
       "wear": "fn",
-      "price": 2840.12,
+      "price": 2980,
       "currency": "USD"
     },
     {
       "skinId": "m4-knight",
       "wear": "mw",
-      "price": 2218.4,
+      "price": 2320,
       "currency": "USD"
     },
     {
@@ -25369,25 +26725,25 @@
     {
       "skinId": "m4-howl",
       "wear": "fn",
-      "price": 6842.19,
+      "price": 7120,
       "currency": "USD"
     },
     {
       "skinId": "m4-howl",
       "wear": "mw",
-      "price": 5418.66,
+      "price": 5640,
       "currency": "USD"
     },
     {
       "skinId": "m4-howl",
       "wear": "ft",
-      "price": 4295.33,
+      "price": 4480,
       "currency": "USD"
     },
     {
       "skinId": "m4-howl",
       "wear": "ww",
-      "price": 3512.08,
+      "price": 3660,
       "currency": "USD"
     },
     {
@@ -25663,19 +27019,19 @@
     {
       "skinId": "m4-poseidon",
       "wear": "fn",
-      "price": 2640.55,
+      "price": 2720,
       "currency": "USD"
     },
     {
       "skinId": "m4-poseidon",
       "wear": "mw",
-      "price": 1988.12,
+      "price": 1760.21,
       "currency": "USD"
     },
     {
       "skinId": "m4-poseidon",
       "wear": "ft",
-      "price": 1544.9,
+      "price": 1580,
       "currency": "USD"
     },
     {
@@ -26477,6 +27833,90 @@
       "currency": "USD"
     },
     {
+      "skinId": "m9-doppler-black-pearl",
+      "wear": "fn",
+      "price": 6100,
+      "currency": "USD"
+    },
+    {
+      "skinId": "m9-doppler-black-pearl",
+      "wear": "mw",
+      "price": 5800,
+      "currency": "USD"
+    },
+    {
+      "skinId": "m9-doppler-phase-1",
+      "wear": "fn",
+      "price": 1461.69,
+      "currency": "USD"
+    },
+    {
+      "skinId": "m9-doppler-phase-1",
+      "wear": "mw",
+      "price": 1461.68,
+      "currency": "USD"
+    },
+    {
+      "skinId": "m9-doppler-phase-2",
+      "wear": "fn",
+      "price": 2077.14,
+      "currency": "USD"
+    },
+    {
+      "skinId": "m9-doppler-phase-2",
+      "wear": "mw",
+      "price": 2077.13,
+      "currency": "USD"
+    },
+    {
+      "skinId": "m9-doppler-phase-3",
+      "wear": "fn",
+      "price": 1415.53,
+      "currency": "USD"
+    },
+    {
+      "skinId": "m9-doppler-phase-3",
+      "wear": "mw",
+      "price": 1415.52,
+      "currency": "USD"
+    },
+    {
+      "skinId": "m9-doppler-phase-4",
+      "wear": "fn",
+      "price": 1723.25,
+      "currency": "USD"
+    },
+    {
+      "skinId": "m9-doppler-phase-4",
+      "wear": "mw",
+      "price": 1723.24,
+      "currency": "USD"
+    },
+    {
+      "skinId": "m9-doppler-ruby",
+      "wear": "fn",
+      "price": 5200,
+      "currency": "USD"
+    },
+    {
+      "skinId": "m9-doppler-ruby",
+      "wear": "mw",
+      "price": 4900,
+      "currency": "USD"
+    },
+    {
+      "skinId": "m9-doppler-sapphire",
+      "wear": "fn",
+      "price": 3800,
+      "currency": "USD"
+    },
+    {
+      "skinId": "m9-doppler-sapphire",
+      "wear": "mw",
+      "price": 3600,
+      "currency": "USD"
+    },
+    {
       "skinId": "m9-fade",
       "wear": "fn",
       "price": 1523.34,
@@ -26579,6 +28019,66 @@
       "currency": "USD"
     },
     {
+      "skinId": "m9-gamma-doppler-emerald",
+      "wear": "fn",
+      "price": 5400,
+      "currency": "USD"
+    },
+    {
+      "skinId": "m9-gamma-doppler-emerald",
+      "wear": "mw",
+      "price": 5100,
+      "currency": "USD"
+    },
+    {
+      "skinId": "m9-gamma-doppler-phase-1",
+      "wear": "fn",
+      "price": 4914.26,
+      "currency": "USD"
+    },
+    {
+      "skinId": "m9-gamma-doppler-phase-1",
+      "wear": "mw",
+      "price": 3608.91,
+      "currency": "USD"
+    },
+    {
+      "skinId": "m9-gamma-doppler-phase-2",
+      "wear": "fn",
+      "price": 12717.64,
+      "currency": "USD"
+    },
+    {
+      "skinId": "m9-gamma-doppler-phase-2",
+      "wear": "mw",
+      "price": 9339.51,
+      "currency": "USD"
+    },
+    {
+      "skinId": "m9-gamma-doppler-phase-3",
+      "wear": "fn",
+      "price": 4496.23,
+      "currency": "USD"
+    },
+    {
+      "skinId": "m9-gamma-doppler-phase-3",
+      "wear": "mw",
+      "price": 3301.92,
+      "currency": "USD"
+    },
+    {
+      "skinId": "m9-gamma-doppler-phase-4",
+      "wear": "fn",
+      "price": 8084.38,
+      "currency": "USD"
+    },
+    {
+      "skinId": "m9-gamma-doppler-phase-4",
+      "wear": "mw",
+      "price": 5936.97,
+      "currency": "USD"
+    },
+    {
       "skinId": "m9-lore",
       "wear": "fn",
       "price": 1582.4,
@@ -26611,13 +28111,13 @@
     {
       "skinId": "m9-marble",
       "wear": "fn",
-      "price": 1864.22,
+      "price": 1342.37,
       "currency": "USD"
     },
     {
       "skinId": "m9-marble",
       "wear": "mw",
-      "price": 1712.08,
+      "price": 1342.36,
       "currency": "USD"
     },
     {
@@ -32771,6 +34271,90 @@
       "currency": "USD"
     },
     {
+      "skinId": "navaja-doppler-black-pearl",
+      "wear": "fn",
+      "price": 724.51,
+      "currency": "USD"
+    },
+    {
+      "skinId": "navaja-doppler-black-pearl",
+      "wear": "mw",
+      "price": 724.5,
+      "currency": "USD"
+    },
+    {
+      "skinId": "navaja-doppler-phase-1",
+      "wear": "fn",
+      "price": 167.87,
+      "currency": "USD"
+    },
+    {
+      "skinId": "navaja-doppler-phase-1",
+      "wear": "mw",
+      "price": 167.86,
+      "currency": "USD"
+    },
+    {
+      "skinId": "navaja-doppler-phase-2",
+      "wear": "fn",
+      "price": 238.56,
+      "currency": "USD"
+    },
+    {
+      "skinId": "navaja-doppler-phase-2",
+      "wear": "mw",
+      "price": 238.55,
+      "currency": "USD"
+    },
+    {
+      "skinId": "navaja-doppler-phase-3",
+      "wear": "fn",
+      "price": 162.57,
+      "currency": "USD"
+    },
+    {
+      "skinId": "navaja-doppler-phase-3",
+      "wear": "mw",
+      "price": 162.56,
+      "currency": "USD"
+    },
+    {
+      "skinId": "navaja-doppler-phase-4",
+      "wear": "fn",
+      "price": 197.92,
+      "currency": "USD"
+    },
+    {
+      "skinId": "navaja-doppler-phase-4",
+      "wear": "mw",
+      "price": 197.91,
+      "currency": "USD"
+    },
+    {
+      "skinId": "navaja-doppler-ruby",
+      "wear": "fn",
+      "price": 627.32,
+      "currency": "USD"
+    },
+    {
+      "skinId": "navaja-doppler-ruby",
+      "wear": "mw",
+      "price": 627.31,
+      "currency": "USD"
+    },
+    {
+      "skinId": "navaja-doppler-sapphire",
+      "wear": "fn",
+      "price": 415.27,
+      "currency": "USD"
+    },
+    {
+      "skinId": "navaja-doppler-sapphire",
+      "wear": "mw",
+      "price": 415.26,
+      "currency": "USD"
+    },
+    {
       "skinId": "navaja-fade",
       "wear": "fn",
       "price": 160.6,
@@ -33908,6 +35492,90 @@
       "skinId": "nomad-doppler-5",
       "wear": "bs",
       "price": 387.65,
+      "currency": "USD"
+    },
+    {
+      "skinId": "nomad-doppler-black-pearl",
+      "wear": "fn",
+      "price": 2238.56,
+      "currency": "USD"
+    },
+    {
+      "skinId": "nomad-doppler-black-pearl",
+      "wear": "mw",
+      "price": 2238.55,
+      "currency": "USD"
+    },
+    {
+      "skinId": "nomad-doppler-phase-1",
+      "wear": "fn",
+      "price": 518.69,
+      "currency": "USD"
+    },
+    {
+      "skinId": "nomad-doppler-phase-1",
+      "wear": "mw",
+      "price": 518.68,
+      "currency": "USD"
+    },
+    {
+      "skinId": "nomad-doppler-phase-2",
+      "wear": "fn",
+      "price": 737.09,
+      "currency": "USD"
+    },
+    {
+      "skinId": "nomad-doppler-phase-2",
+      "wear": "mw",
+      "price": 737.08,
+      "currency": "USD"
+    },
+    {
+      "skinId": "nomad-doppler-phase-3",
+      "wear": "fn",
+      "price": 502.31,
+      "currency": "USD"
+    },
+    {
+      "skinId": "nomad-doppler-phase-3",
+      "wear": "mw",
+      "price": 502.3,
+      "currency": "USD"
+    },
+    {
+      "skinId": "nomad-doppler-phase-4",
+      "wear": "fn",
+      "price": 611.51,
+      "currency": "USD"
+    },
+    {
+      "skinId": "nomad-doppler-phase-4",
+      "wear": "mw",
+      "price": 611.5,
+      "currency": "USD"
+    },
+    {
+      "skinId": "nomad-doppler-ruby",
+      "wear": "fn",
+      "price": 1938.26,
+      "currency": "USD"
+    },
+    {
+      "skinId": "nomad-doppler-ruby",
+      "wear": "mw",
+      "price": 1938.25,
+      "currency": "USD"
+    },
+    {
+      "skinId": "nomad-doppler-sapphire",
+      "wear": "fn",
+      "price": 1283.08,
+      "currency": "USD"
+    },
+    {
+      "skinId": "nomad-doppler-sapphire",
+      "wear": "mw",
+      "price": 1283.07,
       "currency": "USD"
     },
     {
@@ -39737,6 +41405,90 @@
       "currency": "USD"
     },
     {
+      "skinId": "paracord-doppler-black-pearl",
+      "wear": "fn",
+      "price": 1345.99,
+      "currency": "USD"
+    },
+    {
+      "skinId": "paracord-doppler-black-pearl",
+      "wear": "mw",
+      "price": 1345.98,
+      "currency": "USD"
+    },
+    {
+      "skinId": "paracord-doppler-phase-1",
+      "wear": "fn",
+      "price": 311.88,
+      "currency": "USD"
+    },
+    {
+      "skinId": "paracord-doppler-phase-1",
+      "wear": "mw",
+      "price": 311.87,
+      "currency": "USD"
+    },
+    {
+      "skinId": "paracord-doppler-phase-2",
+      "wear": "fn",
+      "price": 443.19,
+      "currency": "USD"
+    },
+    {
+      "skinId": "paracord-doppler-phase-2",
+      "wear": "mw",
+      "price": 443.18,
+      "currency": "USD"
+    },
+    {
+      "skinId": "paracord-doppler-phase-3",
+      "wear": "fn",
+      "price": 302.03,
+      "currency": "USD"
+    },
+    {
+      "skinId": "paracord-doppler-phase-3",
+      "wear": "mw",
+      "price": 302.02,
+      "currency": "USD"
+    },
+    {
+      "skinId": "paracord-doppler-phase-4",
+      "wear": "fn",
+      "price": 367.68,
+      "currency": "USD"
+    },
+    {
+      "skinId": "paracord-doppler-phase-4",
+      "wear": "mw",
+      "price": 367.67,
+      "currency": "USD"
+    },
+    {
+      "skinId": "paracord-doppler-ruby",
+      "wear": "fn",
+      "price": 1165.43,
+      "currency": "USD"
+    },
+    {
+      "skinId": "paracord-doppler-ruby",
+      "wear": "mw",
+      "price": 1165.42,
+      "currency": "USD"
+    },
+    {
+      "skinId": "paracord-doppler-sapphire",
+      "wear": "fn",
+      "price": 771.48,
+      "currency": "USD"
+    },
+    {
+      "skinId": "paracord-doppler-sapphire",
+      "wear": "mw",
+      "price": 771.47,
+      "currency": "USD"
+    },
+    {
       "skinId": "paracord-fade",
       "wear": "fn",
       "price": 208.95,
@@ -43283,6 +45035,18 @@
       "currency": "USD"
     },
     {
+      "skinId": "scar-emerald-emerald",
+      "wear": "fn",
+      "price": 175.83,
+      "currency": "USD"
+    },
+    {
+      "skinId": "scar-emerald-emerald",
+      "wear": "mw",
+      "price": 175.82,
+      "currency": "USD"
+    },
+    {
       "skinId": "scar-enforcer",
       "wear": "fn",
       "price": 8.81,
@@ -45239,6 +47003,90 @@
       "currency": "USD"
     },
     {
+      "skinId": "shadow-doppler-black-pearl",
+      "wear": "fn",
+      "price": 815.9,
+      "currency": "USD"
+    },
+    {
+      "skinId": "shadow-doppler-black-pearl",
+      "wear": "mw",
+      "price": 815.89,
+      "currency": "USD"
+    },
+    {
+      "skinId": "shadow-doppler-phase-1",
+      "wear": "fn",
+      "price": 189.05,
+      "currency": "USD"
+    },
+    {
+      "skinId": "shadow-doppler-phase-1",
+      "wear": "mw",
+      "price": 189.04,
+      "currency": "USD"
+    },
+    {
+      "skinId": "shadow-doppler-phase-2",
+      "wear": "fn",
+      "price": 268.65,
+      "currency": "USD"
+    },
+    {
+      "skinId": "shadow-doppler-phase-2",
+      "wear": "mw",
+      "price": 268.64,
+      "currency": "USD"
+    },
+    {
+      "skinId": "shadow-doppler-phase-3",
+      "wear": "fn",
+      "price": 183.08,
+      "currency": "USD"
+    },
+    {
+      "skinId": "shadow-doppler-phase-3",
+      "wear": "mw",
+      "price": 183.07,
+      "currency": "USD"
+    },
+    {
+      "skinId": "shadow-doppler-phase-4",
+      "wear": "fn",
+      "price": 222.88,
+      "currency": "USD"
+    },
+    {
+      "skinId": "shadow-doppler-phase-4",
+      "wear": "mw",
+      "price": 222.87,
+      "currency": "USD"
+    },
+    {
+      "skinId": "shadow-doppler-ruby",
+      "wear": "fn",
+      "price": 706.45,
+      "currency": "USD"
+    },
+    {
+      "skinId": "shadow-doppler-ruby",
+      "wear": "mw",
+      "price": 706.44,
+      "currency": "USD"
+    },
+    {
+      "skinId": "shadow-doppler-sapphire",
+      "wear": "fn",
+      "price": 467.65,
+      "currency": "USD"
+    },
+    {
+      "skinId": "shadow-doppler-sapphire",
+      "wear": "mw",
+      "price": 467.64,
+      "currency": "USD"
+    },
+    {
       "skinId": "shadow-fade",
       "wear": "fn",
       "price": 186.19,
@@ -45338,6 +47186,66 @@
       "skinId": "shadow-gamma-doppler-5",
       "wear": "bs",
       "price": 106.19,
+      "currency": "USD"
+    },
+    {
+      "skinId": "shadow-gamma-doppler-emerald",
+      "wear": "fn",
+      "price": 471.11,
+      "currency": "USD"
+    },
+    {
+      "skinId": "shadow-gamma-doppler-emerald",
+      "wear": "mw",
+      "price": 471.1,
+      "currency": "USD"
+    },
+    {
+      "skinId": "shadow-gamma-doppler-phase-1",
+      "wear": "fn",
+      "price": 142.08,
+      "currency": "USD"
+    },
+    {
+      "skinId": "shadow-gamma-doppler-phase-1",
+      "wear": "mw",
+      "price": 142.07,
+      "currency": "USD"
+    },
+    {
+      "skinId": "shadow-gamma-doppler-phase-2",
+      "wear": "fn",
+      "price": 201.91,
+      "currency": "USD"
+    },
+    {
+      "skinId": "shadow-gamma-doppler-phase-2",
+      "wear": "mw",
+      "price": 201.9,
+      "currency": "USD"
+    },
+    {
+      "skinId": "shadow-gamma-doppler-phase-3",
+      "wear": "fn",
+      "price": 137.6,
+      "currency": "USD"
+    },
+    {
+      "skinId": "shadow-gamma-doppler-phase-3",
+      "wear": "mw",
+      "price": 137.59,
+      "currency": "USD"
+    },
+    {
+      "skinId": "shadow-gamma-doppler-phase-4",
+      "wear": "fn",
+      "price": 167.51,
+      "currency": "USD"
+    },
+    {
+      "skinId": "shadow-gamma-doppler-phase-4",
+      "wear": "mw",
+      "price": 167.5,
       "currency": "USD"
     },
     {
@@ -45788,6 +47696,90 @@
       "skinId": "skeleton-doppler-3",
       "wear": "bs",
       "price": 653.12,
+      "currency": "USD"
+    },
+    {
+      "skinId": "skeleton-doppler-black-pearl",
+      "wear": "fn",
+      "price": 3771.55,
+      "currency": "USD"
+    },
+    {
+      "skinId": "skeleton-doppler-black-pearl",
+      "wear": "mw",
+      "price": 3771.54,
+      "currency": "USD"
+    },
+    {
+      "skinId": "skeleton-doppler-phase-1",
+      "wear": "fn",
+      "price": 873.9,
+      "currency": "USD"
+    },
+    {
+      "skinId": "skeleton-doppler-phase-1",
+      "wear": "mw",
+      "price": 873.89,
+      "currency": "USD"
+    },
+    {
+      "skinId": "skeleton-doppler-phase-2",
+      "wear": "fn",
+      "price": 1241.85,
+      "currency": "USD"
+    },
+    {
+      "skinId": "skeleton-doppler-phase-2",
+      "wear": "mw",
+      "price": 1241.84,
+      "currency": "USD"
+    },
+    {
+      "skinId": "skeleton-doppler-phase-3",
+      "wear": "fn",
+      "price": 846.3,
+      "currency": "USD"
+    },
+    {
+      "skinId": "skeleton-doppler-phase-3",
+      "wear": "mw",
+      "price": 846.29,
+      "currency": "USD"
+    },
+    {
+      "skinId": "skeleton-doppler-phase-4",
+      "wear": "fn",
+      "price": 1030.28,
+      "currency": "USD"
+    },
+    {
+      "skinId": "skeleton-doppler-phase-4",
+      "wear": "mw",
+      "price": 1030.27,
+      "currency": "USD"
+    },
+    {
+      "skinId": "skeleton-doppler-ruby",
+      "wear": "fn",
+      "price": 3265.61,
+      "currency": "USD"
+    },
+    {
+      "skinId": "skeleton-doppler-ruby",
+      "wear": "mw",
+      "price": 3265.6,
+      "currency": "USD"
+    },
+    {
+      "skinId": "skeleton-doppler-sapphire",
+      "wear": "fn",
+      "price": 2161.74,
+      "currency": "USD"
+    },
+    {
+      "skinId": "skeleton-doppler-sapphire",
+      "wear": "mw",
+      "price": 2161.73,
       "currency": "USD"
     },
     {
@@ -47447,6 +49439,90 @@
       "currency": "USD"
     },
     {
+      "skinId": "stiletto-doppler-black-pearl",
+      "wear": "fn",
+      "price": 3050.32,
+      "currency": "USD"
+    },
+    {
+      "skinId": "stiletto-doppler-black-pearl",
+      "wear": "mw",
+      "price": 3050.31,
+      "currency": "USD"
+    },
+    {
+      "skinId": "stiletto-doppler-phase-1",
+      "wear": "fn",
+      "price": 706.78,
+      "currency": "USD"
+    },
+    {
+      "skinId": "stiletto-doppler-phase-1",
+      "wear": "mw",
+      "price": 706.77,
+      "currency": "USD"
+    },
+    {
+      "skinId": "stiletto-doppler-phase-2",
+      "wear": "fn",
+      "price": 1004.37,
+      "currency": "USD"
+    },
+    {
+      "skinId": "stiletto-doppler-phase-2",
+      "wear": "mw",
+      "price": 1004.36,
+      "currency": "USD"
+    },
+    {
+      "skinId": "stiletto-doppler-phase-3",
+      "wear": "fn",
+      "price": 684.46,
+      "currency": "USD"
+    },
+    {
+      "skinId": "stiletto-doppler-phase-3",
+      "wear": "mw",
+      "price": 684.45,
+      "currency": "USD"
+    },
+    {
+      "skinId": "stiletto-doppler-phase-4",
+      "wear": "fn",
+      "price": 833.26,
+      "currency": "USD"
+    },
+    {
+      "skinId": "stiletto-doppler-phase-4",
+      "wear": "mw",
+      "price": 833.25,
+      "currency": "USD"
+    },
+    {
+      "skinId": "stiletto-doppler-ruby",
+      "wear": "fn",
+      "price": 2641.13,
+      "currency": "USD"
+    },
+    {
+      "skinId": "stiletto-doppler-ruby",
+      "wear": "mw",
+      "price": 2641.12,
+      "currency": "USD"
+    },
+    {
+      "skinId": "stiletto-doppler-sapphire",
+      "wear": "fn",
+      "price": 1748.35,
+      "currency": "USD"
+    },
+    {
+      "skinId": "stiletto-doppler-sapphire",
+      "wear": "mw",
+      "price": 1748.34,
+      "currency": "USD"
+    },
+    {
       "skinId": "stiletto-fade",
       "wear": "fn",
       "price": 708,
@@ -47909,6 +49985,90 @@
       "currency": "USD"
     },
     {
+      "skinId": "survival-doppler-black-pearl",
+      "wear": "fn",
+      "price": 1173.67,
+      "currency": "USD"
+    },
+    {
+      "skinId": "survival-doppler-black-pearl",
+      "wear": "mw",
+      "price": 1173.66,
+      "currency": "USD"
+    },
+    {
+      "skinId": "survival-doppler-phase-1",
+      "wear": "fn",
+      "price": 271.95,
+      "currency": "USD"
+    },
+    {
+      "skinId": "survival-doppler-phase-1",
+      "wear": "mw",
+      "price": 271.94,
+      "currency": "USD"
+    },
+    {
+      "skinId": "survival-doppler-phase-2",
+      "wear": "fn",
+      "price": 386.45,
+      "currency": "USD"
+    },
+    {
+      "skinId": "survival-doppler-phase-2",
+      "wear": "mw",
+      "price": 386.44,
+      "currency": "USD"
+    },
+    {
+      "skinId": "survival-doppler-phase-3",
+      "wear": "fn",
+      "price": 263.36,
+      "currency": "USD"
+    },
+    {
+      "skinId": "survival-doppler-phase-3",
+      "wear": "mw",
+      "price": 263.35,
+      "currency": "USD"
+    },
+    {
+      "skinId": "survival-doppler-phase-4",
+      "wear": "fn",
+      "price": 320.61,
+      "currency": "USD"
+    },
+    {
+      "skinId": "survival-doppler-phase-4",
+      "wear": "mw",
+      "price": 320.6,
+      "currency": "USD"
+    },
+    {
+      "skinId": "survival-doppler-ruby",
+      "wear": "fn",
+      "price": 1016.22,
+      "currency": "USD"
+    },
+    {
+      "skinId": "survival-doppler-ruby",
+      "wear": "mw",
+      "price": 1016.21,
+      "currency": "USD"
+    },
+    {
+      "skinId": "survival-doppler-sapphire",
+      "wear": "fn",
+      "price": 672.71,
+      "currency": "USD"
+    },
+    {
+      "skinId": "survival-doppler-sapphire",
+      "wear": "mw",
+      "price": 672.7,
+      "currency": "USD"
+    },
+    {
       "skinId": "survival-fade",
       "wear": "fn",
       "price": 228.73,
@@ -48368,6 +50528,90 @@
       "skinId": "talon-doppler-2",
       "wear": "bs",
       "price": 970.13,
+      "currency": "USD"
+    },
+    {
+      "skinId": "talon-doppler-black-pearl",
+      "wear": "fn",
+      "price": 5602.16,
+      "currency": "USD"
+    },
+    {
+      "skinId": "talon-doppler-black-pearl",
+      "wear": "mw",
+      "price": 5602.15,
+      "currency": "USD"
+    },
+    {
+      "skinId": "talon-doppler-phase-1",
+      "wear": "fn",
+      "price": 1298.06,
+      "currency": "USD"
+    },
+    {
+      "skinId": "talon-doppler-phase-1",
+      "wear": "mw",
+      "price": 1298.05,
+      "currency": "USD"
+    },
+    {
+      "skinId": "talon-doppler-phase-2",
+      "wear": "fn",
+      "price": 1844.61,
+      "currency": "USD"
+    },
+    {
+      "skinId": "talon-doppler-phase-2",
+      "wear": "mw",
+      "price": 1844.6,
+      "currency": "USD"
+    },
+    {
+      "skinId": "talon-doppler-phase-3",
+      "wear": "fn",
+      "price": 1257.07,
+      "currency": "USD"
+    },
+    {
+      "skinId": "talon-doppler-phase-3",
+      "wear": "mw",
+      "price": 1257.06,
+      "currency": "USD"
+    },
+    {
+      "skinId": "talon-doppler-phase-4",
+      "wear": "fn",
+      "price": 1530.35,
+      "currency": "USD"
+    },
+    {
+      "skinId": "talon-doppler-phase-4",
+      "wear": "mw",
+      "price": 1530.34,
+      "currency": "USD"
+    },
+    {
+      "skinId": "talon-doppler-ruby",
+      "wear": "fn",
+      "price": 4850.65,
+      "currency": "USD"
+    },
+    {
+      "skinId": "talon-doppler-ruby",
+      "wear": "mw",
+      "price": 4850.64,
+      "currency": "USD"
+    },
+    {
+      "skinId": "talon-doppler-sapphire",
+      "wear": "fn",
+      "price": 3210.99,
+      "currency": "USD"
+    },
+    {
+      "skinId": "talon-doppler-sapphire",
+      "wear": "mw",
+      "price": 3210.98,
       "currency": "USD"
     },
     {
@@ -51425,6 +53669,90 @@
       "currency": "USD"
     },
     {
+      "skinId": "ursus-doppler-black-pearl",
+      "wear": "fn",
+      "price": 1367.96,
+      "currency": "USD"
+    },
+    {
+      "skinId": "ursus-doppler-black-pearl",
+      "wear": "mw",
+      "price": 1367.95,
+      "currency": "USD"
+    },
+    {
+      "skinId": "ursus-doppler-phase-1",
+      "wear": "fn",
+      "price": 316.97,
+      "currency": "USD"
+    },
+    {
+      "skinId": "ursus-doppler-phase-1",
+      "wear": "mw",
+      "price": 316.96,
+      "currency": "USD"
+    },
+    {
+      "skinId": "ursus-doppler-phase-2",
+      "wear": "fn",
+      "price": 450.43,
+      "currency": "USD"
+    },
+    {
+      "skinId": "ursus-doppler-phase-2",
+      "wear": "mw",
+      "price": 450.42,
+      "currency": "USD"
+    },
+    {
+      "skinId": "ursus-doppler-phase-3",
+      "wear": "fn",
+      "price": 306.96,
+      "currency": "USD"
+    },
+    {
+      "skinId": "ursus-doppler-phase-3",
+      "wear": "mw",
+      "price": 306.95,
+      "currency": "USD"
+    },
+    {
+      "skinId": "ursus-doppler-phase-4",
+      "wear": "fn",
+      "price": 373.69,
+      "currency": "USD"
+    },
+    {
+      "skinId": "ursus-doppler-phase-4",
+      "wear": "mw",
+      "price": 373.68,
+      "currency": "USD"
+    },
+    {
+      "skinId": "ursus-doppler-ruby",
+      "wear": "fn",
+      "price": 1184.46,
+      "currency": "USD"
+    },
+    {
+      "skinId": "ursus-doppler-ruby",
+      "wear": "mw",
+      "price": 1184.45,
+      "currency": "USD"
+    },
+    {
+      "skinId": "ursus-doppler-sapphire",
+      "wear": "fn",
+      "price": 784.08,
+      "currency": "USD"
+    },
+    {
+      "skinId": "ursus-doppler-sapphire",
+      "wear": "mw",
+      "price": 784.07,
+      "currency": "USD"
+    },
+    {
       "skinId": "ursus-fade",
       "wear": "fn",
       "price": 335,
@@ -54284,2334 +56612,6 @@
       "skinId": "xm-zombie-offensive",
       "wear": "bs",
       "price": 0.8,
-      "currency": "USD"
-    },
-    {
-      "skinId": "bayo-doppler-black-pearl",
-      "wear": "fn",
-      "price": 2336.55,
-      "currency": "USD"
-    },
-    {
-      "skinId": "bayo-doppler-black-pearl",
-      "wear": "mw",
-      "price": 2336.54,
-      "currency": "USD"
-    },
-    {
-      "skinId": "bayo-doppler-phase-1",
-      "wear": "fn",
-      "price": 580.98,
-      "currency": "USD"
-    },
-    {
-      "skinId": "bayo-doppler-phase-1",
-      "wear": "mw",
-      "price": 580.97,
-      "currency": "USD"
-    },
-    {
-      "skinId": "bayo-doppler-phase-2",
-      "wear": "fn",
-      "price": 934.62,
-      "currency": "USD"
-    },
-    {
-      "skinId": "bayo-doppler-phase-2",
-      "wear": "mw",
-      "price": 934.61,
-      "currency": "USD"
-    },
-    {
-      "skinId": "bayo-doppler-phase-3",
-      "wear": "fn",
-      "price": 555.72,
-      "currency": "USD"
-    },
-    {
-      "skinId": "bayo-doppler-phase-3",
-      "wear": "mw",
-      "price": 555.71,
-      "currency": "USD"
-    },
-    {
-      "skinId": "bayo-doppler-phase-4",
-      "wear": "fn",
-      "price": 745.17,
-      "currency": "USD"
-    },
-    {
-      "skinId": "bayo-doppler-phase-4",
-      "wear": "mw",
-      "price": 745.16,
-      "currency": "USD"
-    },
-    {
-      "skinId": "bayo-doppler-ruby",
-      "wear": "fn",
-      "price": 2620.73,
-      "currency": "USD"
-    },
-    {
-      "skinId": "bayo-doppler-ruby",
-      "wear": "mw",
-      "price": 2620.72,
-      "currency": "USD"
-    },
-    {
-      "skinId": "bayo-doppler-sapphire",
-      "wear": "fn",
-      "price": 3189.08,
-      "currency": "USD"
-    },
-    {
-      "skinId": "bayo-doppler-sapphire",
-      "wear": "mw",
-      "price": 3189.07,
-      "currency": "USD"
-    },
-    {
-      "skinId": "bayo-gamma-doppler-emerald",
-      "wear": "fn",
-      "price": 2696.75,
-      "currency": "USD"
-    },
-    {
-      "skinId": "bayo-gamma-doppler-emerald",
-      "wear": "mw",
-      "price": 2696.74,
-      "currency": "USD"
-    },
-    {
-      "skinId": "bayo-gamma-doppler-phase-1",
-      "wear": "fn",
-      "price": 740.6,
-      "currency": "USD"
-    },
-    {
-      "skinId": "bayo-gamma-doppler-phase-1",
-      "wear": "mw",
-      "price": 740.59,
-      "currency": "USD"
-    },
-    {
-      "skinId": "bayo-gamma-doppler-phase-2",
-      "wear": "fn",
-      "price": 1191.4,
-      "currency": "USD"
-    },
-    {
-      "skinId": "bayo-gamma-doppler-phase-2",
-      "wear": "mw",
-      "price": 1191.39,
-      "currency": "USD"
-    },
-    {
-      "skinId": "bayo-gamma-doppler-phase-3",
-      "wear": "fn",
-      "price": 708.4,
-      "currency": "USD"
-    },
-    {
-      "skinId": "bayo-gamma-doppler-phase-3",
-      "wear": "mw",
-      "price": 708.39,
-      "currency": "USD"
-    },
-    {
-      "skinId": "bayo-gamma-doppler-phase-4",
-      "wear": "fn",
-      "price": 949.9,
-      "currency": "USD"
-    },
-    {
-      "skinId": "bayo-gamma-doppler-phase-4",
-      "wear": "mw",
-      "price": 949.89,
-      "currency": "USD"
-    },
-    {
-      "skinId": "bowie-doppler-black-pearl",
-      "wear": "fn",
-      "price": 1263.92,
-      "currency": "USD"
-    },
-    {
-      "skinId": "bowie-doppler-black-pearl",
-      "wear": "mw",
-      "price": 1263.91,
-      "currency": "USD"
-    },
-    {
-      "skinId": "bowie-doppler-phase-1",
-      "wear": "fn",
-      "price": 314.27,
-      "currency": "USD"
-    },
-    {
-      "skinId": "bowie-doppler-phase-1",
-      "wear": "mw",
-      "price": 314.26,
-      "currency": "USD"
-    },
-    {
-      "skinId": "bowie-doppler-phase-2",
-      "wear": "fn",
-      "price": 505.57,
-      "currency": "USD"
-    },
-    {
-      "skinId": "bowie-doppler-phase-2",
-      "wear": "mw",
-      "price": 505.56,
-      "currency": "USD"
-    },
-    {
-      "skinId": "bowie-doppler-phase-3",
-      "wear": "fn",
-      "price": 300.61,
-      "currency": "USD"
-    },
-    {
-      "skinId": "bowie-doppler-phase-3",
-      "wear": "mw",
-      "price": 300.6,
-      "currency": "USD"
-    },
-    {
-      "skinId": "bowie-doppler-phase-4",
-      "wear": "fn",
-      "price": 403.09,
-      "currency": "USD"
-    },
-    {
-      "skinId": "bowie-doppler-phase-4",
-      "wear": "mw",
-      "price": 403.08,
-      "currency": "USD"
-    },
-    {
-      "skinId": "bowie-doppler-ruby",
-      "wear": "fn",
-      "price": 1417.64,
-      "currency": "USD"
-    },
-    {
-      "skinId": "bowie-doppler-ruby",
-      "wear": "mw",
-      "price": 1417.63,
-      "currency": "USD"
-    },
-    {
-      "skinId": "bowie-doppler-sapphire",
-      "wear": "fn",
-      "price": 1725.08,
-      "currency": "USD"
-    },
-    {
-      "skinId": "bowie-doppler-sapphire",
-      "wear": "mw",
-      "price": 1725.07,
-      "currency": "USD"
-    },
-    {
-      "skinId": "bowie-gamma-doppler-emerald",
-      "wear": "fn",
-      "price": 869.59,
-      "currency": "USD"
-    },
-    {
-      "skinId": "bowie-gamma-doppler-emerald",
-      "wear": "mw",
-      "price": 869.58,
-      "currency": "USD"
-    },
-    {
-      "skinId": "bowie-gamma-doppler-phase-1",
-      "wear": "fn",
-      "price": 238.81,
-      "currency": "USD"
-    },
-    {
-      "skinId": "bowie-gamma-doppler-phase-1",
-      "wear": "mw",
-      "price": 238.8,
-      "currency": "USD"
-    },
-    {
-      "skinId": "bowie-gamma-doppler-phase-2",
-      "wear": "fn",
-      "price": 384.18,
-      "currency": "USD"
-    },
-    {
-      "skinId": "bowie-gamma-doppler-phase-2",
-      "wear": "mw",
-      "price": 384.17,
-      "currency": "USD"
-    },
-    {
-      "skinId": "bowie-gamma-doppler-phase-3",
-      "wear": "fn",
-      "price": 228.43,
-      "currency": "USD"
-    },
-    {
-      "skinId": "bowie-gamma-doppler-phase-3",
-      "wear": "mw",
-      "price": 228.42,
-      "currency": "USD"
-    },
-    {
-      "skinId": "bowie-gamma-doppler-phase-4",
-      "wear": "fn",
-      "price": 306.3,
-      "currency": "USD"
-    },
-    {
-      "skinId": "bowie-gamma-doppler-phase-4",
-      "wear": "mw",
-      "price": 306.29,
-      "currency": "USD"
-    },
-    {
-      "skinId": "bfly-doppler-black-pearl",
-      "wear": "fn",
-      "price": 21482.5,
-      "currency": "USD"
-    },
-    {
-      "skinId": "bfly-doppler-black-pearl",
-      "wear": "mw",
-      "price": 15776.21,
-      "currency": "USD"
-    },
-    {
-      "skinId": "bfly-doppler-phase-1",
-      "wear": "fn",
-      "price": 5341.59,
-      "currency": "USD"
-    },
-    {
-      "skinId": "bfly-doppler-phase-1",
-      "wear": "mw",
-      "price": 3922.73,
-      "currency": "USD"
-    },
-    {
-      "skinId": "bfly-doppler-phase-2",
-      "wear": "fn",
-      "price": 8593,
-      "currency": "USD"
-    },
-    {
-      "skinId": "bfly-doppler-phase-2",
-      "wear": "mw",
-      "price": 6310.48,
-      "currency": "USD"
-    },
-    {
-      "skinId": "bfly-doppler-phase-3",
-      "wear": "fn",
-      "price": 5109.35,
-      "currency": "USD"
-    },
-    {
-      "skinId": "bfly-doppler-phase-3",
-      "wear": "mw",
-      "price": 3752.18,
-      "currency": "USD"
-    },
-    {
-      "skinId": "bfly-doppler-phase-4",
-      "wear": "fn",
-      "price": 6851.17,
-      "currency": "USD"
-    },
-    {
-      "skinId": "bfly-doppler-phase-4",
-      "wear": "mw",
-      "price": 5031.33,
-      "currency": "USD"
-    },
-    {
-      "skinId": "bfly-doppler-ruby",
-      "wear": "fn",
-      "price": 24095.23,
-      "currency": "USD"
-    },
-    {
-      "skinId": "bfly-doppler-ruby",
-      "wear": "mw",
-      "price": 17694.94,
-      "currency": "USD"
-    },
-    {
-      "skinId": "bfly-doppler-sapphire",
-      "wear": "fn",
-      "price": 29320.7,
-      "currency": "USD"
-    },
-    {
-      "skinId": "bfly-doppler-sapphire",
-      "wear": "mw",
-      "price": 21532.39,
-      "currency": "USD"
-    },
-    {
-      "skinId": "bfly-gamma-doppler-emerald",
-      "wear": "fn",
-      "price": 19450.37,
-      "currency": "USD"
-    },
-    {
-      "skinId": "bfly-gamma-doppler-emerald",
-      "wear": "mw",
-      "price": 14283.86,
-      "currency": "USD"
-    },
-    {
-      "skinId": "bfly-gamma-doppler-phase-1",
-      "wear": "fn",
-      "price": 5341.59,
-      "currency": "USD"
-    },
-    {
-      "skinId": "bfly-gamma-doppler-phase-1",
-      "wear": "mw",
-      "price": 3922.73,
-      "currency": "USD"
-    },
-    {
-      "skinId": "bfly-gamma-doppler-phase-2",
-      "wear": "fn",
-      "price": 8593,
-      "currency": "USD"
-    },
-    {
-      "skinId": "bfly-gamma-doppler-phase-2",
-      "wear": "mw",
-      "price": 6310.48,
-      "currency": "USD"
-    },
-    {
-      "skinId": "bfly-gamma-doppler-phase-3",
-      "wear": "fn",
-      "price": 5109.35,
-      "currency": "USD"
-    },
-    {
-      "skinId": "bfly-gamma-doppler-phase-3",
-      "wear": "mw",
-      "price": 3752.18,
-      "currency": "USD"
-    },
-    {
-      "skinId": "bfly-gamma-doppler-phase-4",
-      "wear": "fn",
-      "price": 6851.17,
-      "currency": "USD"
-    },
-    {
-      "skinId": "bfly-gamma-doppler-phase-4",
-      "wear": "mw",
-      "price": 5031.33,
-      "currency": "USD"
-    },
-    {
-      "skinId": "cz-emerald-emerald",
-      "wear": "fn",
-      "price": 177.52,
-      "currency": "USD"
-    },
-    {
-      "skinId": "cz-emerald-emerald",
-      "wear": "mw",
-      "price": 177.51,
-      "currency": "USD"
-    },
-    {
-      "skinId": "duals-emerald-emerald",
-      "wear": "fn",
-      "price": 190.78,
-      "currency": "USD"
-    },
-    {
-      "skinId": "duals-emerald-emerald",
-      "wear": "mw",
-      "price": 190.77,
-      "currency": "USD"
-    },
-    {
-      "skinId": "falch-doppler-black-pearl",
-      "wear": "fn",
-      "price": 1574.98,
-      "currency": "USD"
-    },
-    {
-      "skinId": "falch-doppler-black-pearl",
-      "wear": "mw",
-      "price": 1574.97,
-      "currency": "USD"
-    },
-    {
-      "skinId": "falch-doppler-phase-1",
-      "wear": "fn",
-      "price": 391.62,
-      "currency": "USD"
-    },
-    {
-      "skinId": "falch-doppler-phase-1",
-      "wear": "mw",
-      "price": 391.61,
-      "currency": "USD"
-    },
-    {
-      "skinId": "falch-doppler-phase-2",
-      "wear": "fn",
-      "price": 629.99,
-      "currency": "USD"
-    },
-    {
-      "skinId": "falch-doppler-phase-2",
-      "wear": "mw",
-      "price": 629.98,
-      "currency": "USD"
-    },
-    {
-      "skinId": "falch-doppler-phase-3",
-      "wear": "fn",
-      "price": 374.59,
-      "currency": "USD"
-    },
-    {
-      "skinId": "falch-doppler-phase-3",
-      "wear": "mw",
-      "price": 374.58,
-      "currency": "USD"
-    },
-    {
-      "skinId": "falch-doppler-phase-4",
-      "wear": "fn",
-      "price": 502.29,
-      "currency": "USD"
-    },
-    {
-      "skinId": "falch-doppler-phase-4",
-      "wear": "mw",
-      "price": 502.28,
-      "currency": "USD"
-    },
-    {
-      "skinId": "falch-doppler-ruby",
-      "wear": "fn",
-      "price": 1766.53,
-      "currency": "USD"
-    },
-    {
-      "skinId": "falch-doppler-ruby",
-      "wear": "mw",
-      "price": 1766.52,
-      "currency": "USD"
-    },
-    {
-      "skinId": "falch-doppler-sapphire",
-      "wear": "fn",
-      "price": 2149.63,
-      "currency": "USD"
-    },
-    {
-      "skinId": "falch-doppler-sapphire",
-      "wear": "mw",
-      "price": 2149.62,
-      "currency": "USD"
-    },
-    {
-      "skinId": "falch-gamma-doppler-emerald",
-      "wear": "fn",
-      "price": 1054.24,
-      "currency": "USD"
-    },
-    {
-      "skinId": "falch-gamma-doppler-emerald",
-      "wear": "mw",
-      "price": 1054.23,
-      "currency": "USD"
-    },
-    {
-      "skinId": "falch-gamma-doppler-phase-1",
-      "wear": "fn",
-      "price": 289.52,
-      "currency": "USD"
-    },
-    {
-      "skinId": "falch-gamma-doppler-phase-1",
-      "wear": "mw",
-      "price": 289.51,
-      "currency": "USD"
-    },
-    {
-      "skinId": "falch-gamma-doppler-phase-2",
-      "wear": "fn",
-      "price": 465.76,
-      "currency": "USD"
-    },
-    {
-      "skinId": "falch-gamma-doppler-phase-2",
-      "wear": "mw",
-      "price": 465.75,
-      "currency": "USD"
-    },
-    {
-      "skinId": "falch-gamma-doppler-phase-3",
-      "wear": "fn",
-      "price": 276.94,
-      "currency": "USD"
-    },
-    {
-      "skinId": "falch-gamma-doppler-phase-3",
-      "wear": "mw",
-      "price": 276.93,
-      "currency": "USD"
-    },
-    {
-      "skinId": "falch-gamma-doppler-phase-4",
-      "wear": "fn",
-      "price": 371.35,
-      "currency": "USD"
-    },
-    {
-      "skinId": "falch-gamma-doppler-phase-4",
-      "wear": "mw",
-      "price": 371.34,
-      "currency": "USD"
-    },
-    {
-      "skinId": "flip-doppler-black-pearl",
-      "wear": "fn",
-      "price": 1633.92,
-      "currency": "USD"
-    },
-    {
-      "skinId": "flip-doppler-black-pearl",
-      "wear": "mw",
-      "price": 1633.91,
-      "currency": "USD"
-    },
-    {
-      "skinId": "flip-doppler-phase-1",
-      "wear": "fn",
-      "price": 406.27,
-      "currency": "USD"
-    },
-    {
-      "skinId": "flip-doppler-phase-1",
-      "wear": "mw",
-      "price": 406.26,
-      "currency": "USD"
-    },
-    {
-      "skinId": "flip-doppler-phase-2",
-      "wear": "fn",
-      "price": 653.57,
-      "currency": "USD"
-    },
-    {
-      "skinId": "flip-doppler-phase-2",
-      "wear": "mw",
-      "price": 653.56,
-      "currency": "USD"
-    },
-    {
-      "skinId": "flip-doppler-phase-3",
-      "wear": "fn",
-      "price": 388.61,
-      "currency": "USD"
-    },
-    {
-      "skinId": "flip-doppler-phase-3",
-      "wear": "mw",
-      "price": 388.6,
-      "currency": "USD"
-    },
-    {
-      "skinId": "flip-doppler-phase-4",
-      "wear": "fn",
-      "price": 521.09,
-      "currency": "USD"
-    },
-    {
-      "skinId": "flip-doppler-phase-4",
-      "wear": "mw",
-      "price": 521.08,
-      "currency": "USD"
-    },
-    {
-      "skinId": "flip-doppler-ruby",
-      "wear": "fn",
-      "price": 1832.64,
-      "currency": "USD"
-    },
-    {
-      "skinId": "flip-doppler-ruby",
-      "wear": "mw",
-      "price": 1832.63,
-      "currency": "USD"
-    },
-    {
-      "skinId": "flip-doppler-sapphire",
-      "wear": "fn",
-      "price": 2230.08,
-      "currency": "USD"
-    },
-    {
-      "skinId": "flip-doppler-sapphire",
-      "wear": "mw",
-      "price": 2230.07,
-      "currency": "USD"
-    },
-    {
-      "skinId": "flip-gamma-doppler-emerald",
-      "wear": "fn",
-      "price": 2170.57,
-      "currency": "USD"
-    },
-    {
-      "skinId": "flip-gamma-doppler-emerald",
-      "wear": "mw",
-      "price": 2170.56,
-      "currency": "USD"
-    },
-    {
-      "skinId": "flip-gamma-doppler-phase-1",
-      "wear": "fn",
-      "price": 596.1,
-      "currency": "USD"
-    },
-    {
-      "skinId": "flip-gamma-doppler-phase-1",
-      "wear": "mw",
-      "price": 596.09,
-      "currency": "USD"
-    },
-    {
-      "skinId": "flip-gamma-doppler-phase-2",
-      "wear": "fn",
-      "price": 958.94,
-      "currency": "USD"
-    },
-    {
-      "skinId": "flip-gamma-doppler-phase-2",
-      "wear": "mw",
-      "price": 958.93,
-      "currency": "USD"
-    },
-    {
-      "skinId": "flip-gamma-doppler-phase-3",
-      "wear": "fn",
-      "price": 570.18,
-      "currency": "USD"
-    },
-    {
-      "skinId": "flip-gamma-doppler-phase-3",
-      "wear": "mw",
-      "price": 570.17,
-      "currency": "USD"
-    },
-    {
-      "skinId": "flip-gamma-doppler-phase-4",
-      "wear": "fn",
-      "price": 764.56,
-      "currency": "USD"
-    },
-    {
-      "skinId": "flip-gamma-doppler-phase-4",
-      "wear": "mw",
-      "price": 764.55,
-      "currency": "USD"
-    },
-    {
-      "skinId": "glock-gamma-doppler-emerald",
-      "wear": "fn",
-      "price": 601.59,
-      "currency": "USD"
-    },
-    {
-      "skinId": "glock-gamma-doppler-emerald",
-      "wear": "mw",
-      "price": 575.6,
-      "currency": "USD"
-    },
-    {
-      "skinId": "glock-gamma-doppler-emerald",
-      "wear": "ft",
-      "price": 500.89,
-      "currency": "USD"
-    },
-    {
-      "skinId": "glock-gamma-doppler-emerald",
-      "wear": "ww",
-      "price": 394.4,
-      "currency": "USD"
-    },
-    {
-      "skinId": "glock-gamma-doppler-emerald",
-      "wear": "bs",
-      "price": 394.39,
-      "currency": "USD"
-    },
-    {
-      "skinId": "glock-gamma-doppler-phase-1",
-      "wear": "fn",
-      "price": 165.21,
-      "currency": "USD"
-    },
-    {
-      "skinId": "glock-gamma-doppler-phase-1",
-      "wear": "mw",
-      "price": 158.07,
-      "currency": "USD"
-    },
-    {
-      "skinId": "glock-gamma-doppler-phase-1",
-      "wear": "ft",
-      "price": 137.56,
-      "currency": "USD"
-    },
-    {
-      "skinId": "glock-gamma-doppler-phase-1",
-      "wear": "ww",
-      "price": 108.31,
-      "currency": "USD"
-    },
-    {
-      "skinId": "glock-gamma-doppler-phase-1",
-      "wear": "bs",
-      "price": 108.3,
-      "currency": "USD"
-    },
-    {
-      "skinId": "glock-gamma-doppler-phase-2",
-      "wear": "fn",
-      "price": 265.78,
-      "currency": "USD"
-    },
-    {
-      "skinId": "glock-gamma-doppler-phase-2",
-      "wear": "mw",
-      "price": 254.29,
-      "currency": "USD"
-    },
-    {
-      "skinId": "glock-gamma-doppler-phase-2",
-      "wear": "ft",
-      "price": 221.29,
-      "currency": "USD"
-    },
-    {
-      "skinId": "glock-gamma-doppler-phase-2",
-      "wear": "ww",
-      "price": 174.24,
-      "currency": "USD"
-    },
-    {
-      "skinId": "glock-gamma-doppler-phase-2",
-      "wear": "bs",
-      "price": 174.23,
-      "currency": "USD"
-    },
-    {
-      "skinId": "glock-gamma-doppler-phase-3",
-      "wear": "fn",
-      "price": 158.03,
-      "currency": "USD"
-    },
-    {
-      "skinId": "glock-gamma-doppler-phase-3",
-      "wear": "mw",
-      "price": 151.2,
-      "currency": "USD"
-    },
-    {
-      "skinId": "glock-gamma-doppler-phase-3",
-      "wear": "ft",
-      "price": 131.58,
-      "currency": "USD"
-    },
-    {
-      "skinId": "glock-gamma-doppler-phase-3",
-      "wear": "ww",
-      "price": 103.6,
-      "currency": "USD"
-    },
-    {
-      "skinId": "glock-gamma-doppler-phase-3",
-      "wear": "bs",
-      "price": 103.59,
-      "currency": "USD"
-    },
-    {
-      "skinId": "glock-gamma-doppler-phase-4",
-      "wear": "fn",
-      "price": 211.9,
-      "currency": "USD"
-    },
-    {
-      "skinId": "glock-gamma-doppler-phase-4",
-      "wear": "mw",
-      "price": 202.75,
-      "currency": "USD"
-    },
-    {
-      "skinId": "glock-gamma-doppler-phase-4",
-      "wear": "ft",
-      "price": 176.43,
-      "currency": "USD"
-    },
-    {
-      "skinId": "glock-gamma-doppler-phase-4",
-      "wear": "ww",
-      "price": 138.92,
-      "currency": "USD"
-    },
-    {
-      "skinId": "glock-gamma-doppler-phase-4",
-      "wear": "bs",
-      "price": 138.91,
-      "currency": "USD"
-    },
-    {
-      "skinId": "glove-emerald-web-emerald",
-      "wear": "fn",
-      "price": 5454.74,
-      "currency": "USD"
-    },
-    {
-      "skinId": "glove-emerald-web-emerald",
-      "wear": "mw",
-      "price": 4005.8,
-      "currency": "USD"
-    },
-    {
-      "skinId": "glove-emerald-web-emerald",
-      "wear": "ft",
-      "price": 2841,
-      "currency": "USD"
-    },
-    {
-      "skinId": "glove-emerald-web-emerald",
-      "wear": "ww",
-      "price": 2840.99,
-      "currency": "USD"
-    },
-    {
-      "skinId": "glove-emerald-web-emerald",
-      "wear": "bs",
-      "price": 2467.74,
-      "currency": "USD"
-    },
-    {
-      "skinId": "gut-doppler-black-pearl",
-      "wear": "fn",
-      "price": 752.91,
-      "currency": "USD"
-    },
-    {
-      "skinId": "gut-doppler-black-pearl",
-      "wear": "mw",
-      "price": 752.9,
-      "currency": "USD"
-    },
-    {
-      "skinId": "gut-doppler-phase-1",
-      "wear": "fn",
-      "price": 187.21,
-      "currency": "USD"
-    },
-    {
-      "skinId": "gut-doppler-phase-1",
-      "wear": "mw",
-      "price": 187.2,
-      "currency": "USD"
-    },
-    {
-      "skinId": "gut-doppler-phase-2",
-      "wear": "fn",
-      "price": 301.17,
-      "currency": "USD"
-    },
-    {
-      "skinId": "gut-doppler-phase-2",
-      "wear": "mw",
-      "price": 301.16,
-      "currency": "USD"
-    },
-    {
-      "skinId": "gut-doppler-phase-3",
-      "wear": "fn",
-      "price": 179.07,
-      "currency": "USD"
-    },
-    {
-      "skinId": "gut-doppler-phase-3",
-      "wear": "mw",
-      "price": 179.06,
-      "currency": "USD"
-    },
-    {
-      "skinId": "gut-doppler-phase-4",
-      "wear": "fn",
-      "price": 240.12,
-      "currency": "USD"
-    },
-    {
-      "skinId": "gut-doppler-phase-4",
-      "wear": "mw",
-      "price": 240.11,
-      "currency": "USD"
-    },
-    {
-      "skinId": "gut-doppler-ruby",
-      "wear": "fn",
-      "price": 844.48,
-      "currency": "USD"
-    },
-    {
-      "skinId": "gut-doppler-ruby",
-      "wear": "mw",
-      "price": 844.47,
-      "currency": "USD"
-    },
-    {
-      "skinId": "gut-doppler-sapphire",
-      "wear": "fn",
-      "price": 1027.62,
-      "currency": "USD"
-    },
-    {
-      "skinId": "gut-doppler-sapphire",
-      "wear": "mw",
-      "price": 1027.61,
-      "currency": "USD"
-    },
-    {
-      "skinId": "gut-gamma-doppler-emerald",
-      "wear": "fn",
-      "price": 769.73,
-      "currency": "USD"
-    },
-    {
-      "skinId": "gut-gamma-doppler-emerald",
-      "wear": "mw",
-      "price": 769.72,
-      "currency": "USD"
-    },
-    {
-      "skinId": "gut-gamma-doppler-phase-1",
-      "wear": "fn",
-      "price": 211.39,
-      "currency": "USD"
-    },
-    {
-      "skinId": "gut-gamma-doppler-phase-1",
-      "wear": "mw",
-      "price": 211.38,
-      "currency": "USD"
-    },
-    {
-      "skinId": "gut-gamma-doppler-phase-2",
-      "wear": "fn",
-      "price": 340.06,
-      "currency": "USD"
-    },
-    {
-      "skinId": "gut-gamma-doppler-phase-2",
-      "wear": "mw",
-      "price": 340.05,
-      "currency": "USD"
-    },
-    {
-      "skinId": "gut-gamma-doppler-phase-3",
-      "wear": "fn",
-      "price": 202.2,
-      "currency": "USD"
-    },
-    {
-      "skinId": "gut-gamma-doppler-phase-3",
-      "wear": "mw",
-      "price": 202.19,
-      "currency": "USD"
-    },
-    {
-      "skinId": "gut-gamma-doppler-phase-4",
-      "wear": "fn",
-      "price": 271.13,
-      "currency": "USD"
-    },
-    {
-      "skinId": "gut-gamma-doppler-phase-4",
-      "wear": "mw",
-      "price": 271.12,
-      "currency": "USD"
-    },
-    {
-      "skinId": "hunts-doppler-black-pearl",
-      "wear": "fn",
-      "price": 1579.2,
-      "currency": "USD"
-    },
-    {
-      "skinId": "hunts-doppler-black-pearl",
-      "wear": "mw",
-      "price": 1579.19,
-      "currency": "USD"
-    },
-    {
-      "skinId": "hunts-doppler-phase-1",
-      "wear": "fn",
-      "price": 392.67,
-      "currency": "USD"
-    },
-    {
-      "skinId": "hunts-doppler-phase-1",
-      "wear": "mw",
-      "price": 392.66,
-      "currency": "USD"
-    },
-    {
-      "skinId": "hunts-doppler-phase-2",
-      "wear": "fn",
-      "price": 631.68,
-      "currency": "USD"
-    },
-    {
-      "skinId": "hunts-doppler-phase-2",
-      "wear": "mw",
-      "price": 631.67,
-      "currency": "USD"
-    },
-    {
-      "skinId": "hunts-doppler-phase-3",
-      "wear": "fn",
-      "price": 375.59,
-      "currency": "USD"
-    },
-    {
-      "skinId": "hunts-doppler-phase-3",
-      "wear": "mw",
-      "price": 375.58,
-      "currency": "USD"
-    },
-    {
-      "skinId": "hunts-doppler-phase-4",
-      "wear": "fn",
-      "price": 503.64,
-      "currency": "USD"
-    },
-    {
-      "skinId": "hunts-doppler-phase-4",
-      "wear": "mw",
-      "price": 503.63,
-      "currency": "USD"
-    },
-    {
-      "skinId": "hunts-doppler-ruby",
-      "wear": "fn",
-      "price": 1771.26,
-      "currency": "USD"
-    },
-    {
-      "skinId": "hunts-doppler-ruby",
-      "wear": "mw",
-      "price": 1771.25,
-      "currency": "USD"
-    },
-    {
-      "skinId": "hunts-doppler-sapphire",
-      "wear": "fn",
-      "price": 2155.39,
-      "currency": "USD"
-    },
-    {
-      "skinId": "hunts-doppler-sapphire",
-      "wear": "mw",
-      "price": 2155.38,
-      "currency": "USD"
-    },
-    {
-      "skinId": "hunts-gamma-doppler-emerald",
-      "wear": "fn",
-      "price": 1005,
-      "currency": "USD"
-    },
-    {
-      "skinId": "hunts-gamma-doppler-emerald",
-      "wear": "mw",
-      "price": 1004.99,
-      "currency": "USD"
-    },
-    {
-      "skinId": "hunts-gamma-doppler-phase-1",
-      "wear": "fn",
-      "price": 276,
-      "currency": "USD"
-    },
-    {
-      "skinId": "hunts-gamma-doppler-phase-1",
-      "wear": "mw",
-      "price": 275.99,
-      "currency": "USD"
-    },
-    {
-      "skinId": "hunts-gamma-doppler-phase-2",
-      "wear": "fn",
-      "price": 444,
-      "currency": "USD"
-    },
-    {
-      "skinId": "hunts-gamma-doppler-phase-2",
-      "wear": "mw",
-      "price": 443.99,
-      "currency": "USD"
-    },
-    {
-      "skinId": "hunts-gamma-doppler-phase-3",
-      "wear": "fn",
-      "price": 264,
-      "currency": "USD"
-    },
-    {
-      "skinId": "hunts-gamma-doppler-phase-3",
-      "wear": "mw",
-      "price": 263.99,
-      "currency": "USD"
-    },
-    {
-      "skinId": "hunts-gamma-doppler-phase-4",
-      "wear": "fn",
-      "price": 354,
-      "currency": "USD"
-    },
-    {
-      "skinId": "hunts-gamma-doppler-phase-4",
-      "wear": "mw",
-      "price": 353.99,
-      "currency": "USD"
-    },
-    {
-      "skinId": "kara-doppler-black-pearl",
-      "wear": "fn",
-      "price": 7516.11,
-      "currency": "USD"
-    },
-    {
-      "skinId": "kara-doppler-black-pearl",
-      "wear": "mw",
-      "price": 7516.1,
-      "currency": "USD"
-    },
-    {
-      "skinId": "kara-doppler-phase-1",
-      "wear": "fn",
-      "price": 1868.87,
-      "currency": "USD"
-    },
-    {
-      "skinId": "kara-doppler-phase-1",
-      "wear": "mw",
-      "price": 1868.86,
-      "currency": "USD"
-    },
-    {
-      "skinId": "kara-doppler-phase-2",
-      "wear": "fn",
-      "price": 3006.44,
-      "currency": "USD"
-    },
-    {
-      "skinId": "kara-doppler-phase-2",
-      "wear": "mw",
-      "price": 3006.43,
-      "currency": "USD"
-    },
-    {
-      "skinId": "kara-doppler-phase-3",
-      "wear": "fn",
-      "price": 1787.61,
-      "currency": "USD"
-    },
-    {
-      "skinId": "kara-doppler-phase-3",
-      "wear": "mw",
-      "price": 1787.6,
-      "currency": "USD"
-    },
-    {
-      "skinId": "kara-doppler-phase-4",
-      "wear": "fn",
-      "price": 2397.03,
-      "currency": "USD"
-    },
-    {
-      "skinId": "kara-doppler-phase-4",
-      "wear": "mw",
-      "price": 2397.02,
-      "currency": "USD"
-    },
-    {
-      "skinId": "kara-doppler-ruby",
-      "wear": "fn",
-      "price": 8430.23,
-      "currency": "USD"
-    },
-    {
-      "skinId": "kara-doppler-ruby",
-      "wear": "mw",
-      "price": 8430.22,
-      "currency": "USD"
-    },
-    {
-      "skinId": "kara-doppler-sapphire",
-      "wear": "fn",
-      "price": 10258.47,
-      "currency": "USD"
-    },
-    {
-      "skinId": "kara-doppler-sapphire",
-      "wear": "mw",
-      "price": 10258.46,
-      "currency": "USD"
-    },
-    {
-      "skinId": "kara-gamma-doppler-emerald",
-      "wear": "fn",
-      "price": 19450.37,
-      "currency": "USD"
-    },
-    {
-      "skinId": "kara-gamma-doppler-emerald",
-      "wear": "mw",
-      "price": 14283.86,
-      "currency": "USD"
-    },
-    {
-      "skinId": "kara-gamma-doppler-phase-1",
-      "wear": "fn",
-      "price": 5341.59,
-      "currency": "USD"
-    },
-    {
-      "skinId": "kara-gamma-doppler-phase-1",
-      "wear": "mw",
-      "price": 3922.73,
-      "currency": "USD"
-    },
-    {
-      "skinId": "kara-gamma-doppler-phase-2",
-      "wear": "fn",
-      "price": 8593,
-      "currency": "USD"
-    },
-    {
-      "skinId": "kara-gamma-doppler-phase-2",
-      "wear": "mw",
-      "price": 6310.48,
-      "currency": "USD"
-    },
-    {
-      "skinId": "kara-gamma-doppler-phase-3",
-      "wear": "fn",
-      "price": 5109.35,
-      "currency": "USD"
-    },
-    {
-      "skinId": "kara-gamma-doppler-phase-3",
-      "wear": "mw",
-      "price": 3752.18,
-      "currency": "USD"
-    },
-    {
-      "skinId": "kara-gamma-doppler-phase-4",
-      "wear": "fn",
-      "price": 6851.17,
-      "currency": "USD"
-    },
-    {
-      "skinId": "kara-gamma-doppler-phase-4",
-      "wear": "mw",
-      "price": 5031.33,
-      "currency": "USD"
-    },
-    {
-      "skinId": "m9-doppler-black-pearl",
-      "wear": "fn",
-      "price": 5692.89,
-      "currency": "USD"
-    },
-    {
-      "skinId": "m9-doppler-black-pearl",
-      "wear": "mw",
-      "price": 5692.88,
-      "currency": "USD"
-    },
-    {
-      "skinId": "m9-doppler-phase-1",
-      "wear": "fn",
-      "price": 1415.53,
-      "currency": "USD"
-    },
-    {
-      "skinId": "m9-doppler-phase-1",
-      "wear": "mw",
-      "price": 1415.52,
-      "currency": "USD"
-    },
-    {
-      "skinId": "m9-doppler-phase-2",
-      "wear": "fn",
-      "price": 2277.16,
-      "currency": "USD"
-    },
-    {
-      "skinId": "m9-doppler-phase-2",
-      "wear": "mw",
-      "price": 2277.15,
-      "currency": "USD"
-    },
-    {
-      "skinId": "m9-doppler-phase-3",
-      "wear": "fn",
-      "price": 1353.99,
-      "currency": "USD"
-    },
-    {
-      "skinId": "m9-doppler-phase-3",
-      "wear": "mw",
-      "price": 1353.98,
-      "currency": "USD"
-    },
-    {
-      "skinId": "m9-doppler-phase-4",
-      "wear": "fn",
-      "price": 1815.57,
-      "currency": "USD"
-    },
-    {
-      "skinId": "m9-doppler-phase-4",
-      "wear": "mw",
-      "price": 1815.56,
-      "currency": "USD"
-    },
-    {
-      "skinId": "m9-doppler-ruby",
-      "wear": "fn",
-      "price": 6385.27,
-      "currency": "USD"
-    },
-    {
-      "skinId": "m9-doppler-ruby",
-      "wear": "mw",
-      "price": 6385.26,
-      "currency": "USD"
-    },
-    {
-      "skinId": "m9-doppler-sapphire",
-      "wear": "fn",
-      "price": 7770.03,
-      "currency": "USD"
-    },
-    {
-      "skinId": "m9-doppler-sapphire",
-      "wear": "mw",
-      "price": 7770.02,
-      "currency": "USD"
-    },
-    {
-      "skinId": "m9-gamma-doppler-emerald",
-      "wear": "fn",
-      "price": 19450.37,
-      "currency": "USD"
-    },
-    {
-      "skinId": "m9-gamma-doppler-emerald",
-      "wear": "mw",
-      "price": 14283.86,
-      "currency": "USD"
-    },
-    {
-      "skinId": "m9-gamma-doppler-phase-1",
-      "wear": "fn",
-      "price": 5341.59,
-      "currency": "USD"
-    },
-    {
-      "skinId": "m9-gamma-doppler-phase-1",
-      "wear": "mw",
-      "price": 3922.73,
-      "currency": "USD"
-    },
-    {
-      "skinId": "m9-gamma-doppler-phase-2",
-      "wear": "fn",
-      "price": 8593,
-      "currency": "USD"
-    },
-    {
-      "skinId": "m9-gamma-doppler-phase-2",
-      "wear": "mw",
-      "price": 6310.48,
-      "currency": "USD"
-    },
-    {
-      "skinId": "m9-gamma-doppler-phase-3",
-      "wear": "fn",
-      "price": 5109.35,
-      "currency": "USD"
-    },
-    {
-      "skinId": "m9-gamma-doppler-phase-3",
-      "wear": "mw",
-      "price": 3752.18,
-      "currency": "USD"
-    },
-    {
-      "skinId": "m9-gamma-doppler-phase-4",
-      "wear": "fn",
-      "price": 6851.17,
-      "currency": "USD"
-    },
-    {
-      "skinId": "m9-gamma-doppler-phase-4",
-      "wear": "mw",
-      "price": 5031.33,
-      "currency": "USD"
-    },
-    {
-      "skinId": "navaja-doppler-black-pearl",
-      "wear": "fn",
-      "price": 653.83,
-      "currency": "USD"
-    },
-    {
-      "skinId": "navaja-doppler-black-pearl",
-      "wear": "mw",
-      "price": 653.82,
-      "currency": "USD"
-    },
-    {
-      "skinId": "navaja-doppler-phase-1",
-      "wear": "fn",
-      "price": 162.57,
-      "currency": "USD"
-    },
-    {
-      "skinId": "navaja-doppler-phase-1",
-      "wear": "mw",
-      "price": 162.56,
-      "currency": "USD"
-    },
-    {
-      "skinId": "navaja-doppler-phase-2",
-      "wear": "fn",
-      "price": 261.53,
-      "currency": "USD"
-    },
-    {
-      "skinId": "navaja-doppler-phase-2",
-      "wear": "mw",
-      "price": 261.52,
-      "currency": "USD"
-    },
-    {
-      "skinId": "navaja-doppler-phase-3",
-      "wear": "fn",
-      "price": 155.5,
-      "currency": "USD"
-    },
-    {
-      "skinId": "navaja-doppler-phase-3",
-      "wear": "mw",
-      "price": 155.49,
-      "currency": "USD"
-    },
-    {
-      "skinId": "navaja-doppler-phase-4",
-      "wear": "fn",
-      "price": 208.52,
-      "currency": "USD"
-    },
-    {
-      "skinId": "navaja-doppler-phase-4",
-      "wear": "mw",
-      "price": 208.51,
-      "currency": "USD"
-    },
-    {
-      "skinId": "navaja-doppler-ruby",
-      "wear": "fn",
-      "price": 733.35,
-      "currency": "USD"
-    },
-    {
-      "skinId": "navaja-doppler-ruby",
-      "wear": "mw",
-      "price": 733.34,
-      "currency": "USD"
-    },
-    {
-      "skinId": "navaja-doppler-sapphire",
-      "wear": "fn",
-      "price": 892.39,
-      "currency": "USD"
-    },
-    {
-      "skinId": "navaja-doppler-sapphire",
-      "wear": "mw",
-      "price": 892.38,
-      "currency": "USD"
-    },
-    {
-      "skinId": "nomad-doppler-black-pearl",
-      "wear": "fn",
-      "price": 2020.16,
-      "currency": "USD"
-    },
-    {
-      "skinId": "nomad-doppler-black-pearl",
-      "wear": "mw",
-      "price": 2020.15,
-      "currency": "USD"
-    },
-    {
-      "skinId": "nomad-doppler-phase-1",
-      "wear": "fn",
-      "price": 502.31,
-      "currency": "USD"
-    },
-    {
-      "skinId": "nomad-doppler-phase-1",
-      "wear": "mw",
-      "price": 502.3,
-      "currency": "USD"
-    },
-    {
-      "skinId": "nomad-doppler-phase-2",
-      "wear": "fn",
-      "price": 808.07,
-      "currency": "USD"
-    },
-    {
-      "skinId": "nomad-doppler-phase-2",
-      "wear": "mw",
-      "price": 808.06,
-      "currency": "USD"
-    },
-    {
-      "skinId": "nomad-doppler-phase-3",
-      "wear": "fn",
-      "price": 480.47,
-      "currency": "USD"
-    },
-    {
-      "skinId": "nomad-doppler-phase-3",
-      "wear": "mw",
-      "price": 480.46,
-      "currency": "USD"
-    },
-    {
-      "skinId": "nomad-doppler-phase-4",
-      "wear": "fn",
-      "price": 644.27,
-      "currency": "USD"
-    },
-    {
-      "skinId": "nomad-doppler-phase-4",
-      "wear": "mw",
-      "price": 644.26,
-      "currency": "USD"
-    },
-    {
-      "skinId": "nomad-doppler-ruby",
-      "wear": "fn",
-      "price": 2265.86,
-      "currency": "USD"
-    },
-    {
-      "skinId": "nomad-doppler-ruby",
-      "wear": "mw",
-      "price": 2265.85,
-      "currency": "USD"
-    },
-    {
-      "skinId": "nomad-doppler-sapphire",
-      "wear": "fn",
-      "price": 2757.25,
-      "currency": "USD"
-    },
-    {
-      "skinId": "nomad-doppler-sapphire",
-      "wear": "mw",
-      "price": 2757.24,
-      "currency": "USD"
-    },
-    {
-      "skinId": "paracord-doppler-black-pearl",
-      "wear": "fn",
-      "price": 1214.67,
-      "currency": "USD"
-    },
-    {
-      "skinId": "paracord-doppler-black-pearl",
-      "wear": "mw",
-      "price": 1214.66,
-      "currency": "USD"
-    },
-    {
-      "skinId": "paracord-doppler-phase-1",
-      "wear": "fn",
-      "price": 302.03,
-      "currency": "USD"
-    },
-    {
-      "skinId": "paracord-doppler-phase-1",
-      "wear": "mw",
-      "price": 302.02,
-      "currency": "USD"
-    },
-    {
-      "skinId": "paracord-doppler-phase-2",
-      "wear": "fn",
-      "price": 485.87,
-      "currency": "USD"
-    },
-    {
-      "skinId": "paracord-doppler-phase-2",
-      "wear": "mw",
-      "price": 485.86,
-      "currency": "USD"
-    },
-    {
-      "skinId": "paracord-doppler-phase-3",
-      "wear": "fn",
-      "price": 288.9,
-      "currency": "USD"
-    },
-    {
-      "skinId": "paracord-doppler-phase-3",
-      "wear": "mw",
-      "price": 288.89,
-      "currency": "USD"
-    },
-    {
-      "skinId": "paracord-doppler-phase-4",
-      "wear": "fn",
-      "price": 387.38,
-      "currency": "USD"
-    },
-    {
-      "skinId": "paracord-doppler-phase-4",
-      "wear": "mw",
-      "price": 387.37,
-      "currency": "USD"
-    },
-    {
-      "skinId": "paracord-doppler-ruby",
-      "wear": "fn",
-      "price": 1362.4,
-      "currency": "USD"
-    },
-    {
-      "skinId": "paracord-doppler-ruby",
-      "wear": "mw",
-      "price": 1362.39,
-      "currency": "USD"
-    },
-    {
-      "skinId": "paracord-doppler-sapphire",
-      "wear": "fn",
-      "price": 1657.86,
-      "currency": "USD"
-    },
-    {
-      "skinId": "paracord-doppler-sapphire",
-      "wear": "mw",
-      "price": 1657.85,
-      "currency": "USD"
-    },
-    {
-      "skinId": "scar-emerald-emerald",
-      "wear": "fn",
-      "price": 187,
-      "currency": "USD"
-    },
-    {
-      "skinId": "scar-emerald-emerald",
-      "wear": "mw",
-      "price": 186.99,
-      "currency": "USD"
-    },
-    {
-      "skinId": "shadow-doppler-black-pearl",
-      "wear": "fn",
-      "price": 736.3,
-      "currency": "USD"
-    },
-    {
-      "skinId": "shadow-doppler-black-pearl",
-      "wear": "mw",
-      "price": 736.29,
-      "currency": "USD"
-    },
-    {
-      "skinId": "shadow-doppler-phase-1",
-      "wear": "fn",
-      "price": 183.08,
-      "currency": "USD"
-    },
-    {
-      "skinId": "shadow-doppler-phase-1",
-      "wear": "mw",
-      "price": 183.07,
-      "currency": "USD"
-    },
-    {
-      "skinId": "shadow-doppler-phase-2",
-      "wear": "fn",
-      "price": 294.52,
-      "currency": "USD"
-    },
-    {
-      "skinId": "shadow-doppler-phase-2",
-      "wear": "mw",
-      "price": 294.51,
-      "currency": "USD"
-    },
-    {
-      "skinId": "shadow-doppler-phase-3",
-      "wear": "fn",
-      "price": 175.12,
-      "currency": "USD"
-    },
-    {
-      "skinId": "shadow-doppler-phase-3",
-      "wear": "mw",
-      "price": 175.11,
-      "currency": "USD"
-    },
-    {
-      "skinId": "shadow-doppler-phase-4",
-      "wear": "fn",
-      "price": 234.82,
-      "currency": "USD"
-    },
-    {
-      "skinId": "shadow-doppler-phase-4",
-      "wear": "mw",
-      "price": 234.81,
-      "currency": "USD"
-    },
-    {
-      "skinId": "shadow-doppler-ruby",
-      "wear": "fn",
-      "price": 825.85,
-      "currency": "USD"
-    },
-    {
-      "skinId": "shadow-doppler-ruby",
-      "wear": "mw",
-      "price": 825.84,
-      "currency": "USD"
-    },
-    {
-      "skinId": "shadow-doppler-sapphire",
-      "wear": "fn",
-      "price": 1004.95,
-      "currency": "USD"
-    },
-    {
-      "skinId": "shadow-doppler-sapphire",
-      "wear": "mw",
-      "price": 1004.94,
-      "currency": "USD"
-    },
-    {
-      "skinId": "shadow-gamma-doppler-emerald",
-      "wear": "fn",
-      "price": 501.03,
-      "currency": "USD"
-    },
-    {
-      "skinId": "shadow-gamma-doppler-emerald",
-      "wear": "mw",
-      "price": 501.02,
-      "currency": "USD"
-    },
-    {
-      "skinId": "shadow-gamma-doppler-phase-1",
-      "wear": "fn",
-      "price": 137.6,
-      "currency": "USD"
-    },
-    {
-      "skinId": "shadow-gamma-doppler-phase-1",
-      "wear": "mw",
-      "price": 137.59,
-      "currency": "USD"
-    },
-    {
-      "skinId": "shadow-gamma-doppler-phase-2",
-      "wear": "fn",
-      "price": 221.35,
-      "currency": "USD"
-    },
-    {
-      "skinId": "shadow-gamma-doppler-phase-2",
-      "wear": "mw",
-      "price": 221.34,
-      "currency": "USD"
-    },
-    {
-      "skinId": "shadow-gamma-doppler-phase-3",
-      "wear": "fn",
-      "price": 131.61,
-      "currency": "USD"
-    },
-    {
-      "skinId": "shadow-gamma-doppler-phase-3",
-      "wear": "mw",
-      "price": 131.6,
-      "currency": "USD"
-    },
-    {
-      "skinId": "shadow-gamma-doppler-phase-4",
-      "wear": "fn",
-      "price": 176.48,
-      "currency": "USD"
-    },
-    {
-      "skinId": "shadow-gamma-doppler-phase-4",
-      "wear": "mw",
-      "price": 176.47,
-      "currency": "USD"
-    },
-    {
-      "skinId": "skeleton-doppler-black-pearl",
-      "wear": "fn",
-      "price": 3403.59,
-      "currency": "USD"
-    },
-    {
-      "skinId": "skeleton-doppler-black-pearl",
-      "wear": "mw",
-      "price": 3403.58,
-      "currency": "USD"
-    },
-    {
-      "skinId": "skeleton-doppler-phase-1",
-      "wear": "fn",
-      "price": 846.3,
-      "currency": "USD"
-    },
-    {
-      "skinId": "skeleton-doppler-phase-1",
-      "wear": "mw",
-      "price": 846.29,
-      "currency": "USD"
-    },
-    {
-      "skinId": "skeleton-doppler-phase-2",
-      "wear": "fn",
-      "price": 1361.44,
-      "currency": "USD"
-    },
-    {
-      "skinId": "skeleton-doppler-phase-2",
-      "wear": "mw",
-      "price": 1361.43,
-      "currency": "USD"
-    },
-    {
-      "skinId": "skeleton-doppler-phase-3",
-      "wear": "fn",
-      "price": 809.5,
-      "currency": "USD"
-    },
-    {
-      "skinId": "skeleton-doppler-phase-3",
-      "wear": "mw",
-      "price": 809.49,
-      "currency": "USD"
-    },
-    {
-      "skinId": "skeleton-doppler-phase-4",
-      "wear": "fn",
-      "price": 1085.47,
-      "currency": "USD"
-    },
-    {
-      "skinId": "skeleton-doppler-phase-4",
-      "wear": "mw",
-      "price": 1085.46,
-      "currency": "USD"
-    },
-    {
-      "skinId": "skeleton-doppler-ruby",
-      "wear": "fn",
-      "price": 3817.54,
-      "currency": "USD"
-    },
-    {
-      "skinId": "skeleton-doppler-ruby",
-      "wear": "mw",
-      "price": 3817.53,
-      "currency": "USD"
-    },
-    {
-      "skinId": "skeleton-doppler-sapphire",
-      "wear": "fn",
-      "price": 4645.44,
-      "currency": "USD"
-    },
-    {
-      "skinId": "skeleton-doppler-sapphire",
-      "wear": "mw",
-      "price": 4645.43,
-      "currency": "USD"
-    },
-    {
-      "skinId": "stiletto-doppler-black-pearl",
-      "wear": "fn",
-      "price": 2752.73,
-      "currency": "USD"
-    },
-    {
-      "skinId": "stiletto-doppler-black-pearl",
-      "wear": "mw",
-      "price": 2752.72,
-      "currency": "USD"
-    },
-    {
-      "skinId": "stiletto-doppler-phase-1",
-      "wear": "fn",
-      "price": 684.46,
-      "currency": "USD"
-    },
-    {
-      "skinId": "stiletto-doppler-phase-1",
-      "wear": "mw",
-      "price": 684.45,
-      "currency": "USD"
-    },
-    {
-      "skinId": "stiletto-doppler-phase-2",
-      "wear": "fn",
-      "price": 1101.09,
-      "currency": "USD"
-    },
-    {
-      "skinId": "stiletto-doppler-phase-2",
-      "wear": "mw",
-      "price": 1101.08,
-      "currency": "USD"
-    },
-    {
-      "skinId": "stiletto-doppler-phase-3",
-      "wear": "fn",
-      "price": 654.7,
-      "currency": "USD"
-    },
-    {
-      "skinId": "stiletto-doppler-phase-3",
-      "wear": "mw",
-      "price": 654.69,
-      "currency": "USD"
-    },
-    {
-      "skinId": "stiletto-doppler-phase-4",
-      "wear": "fn",
-      "price": 877.9,
-      "currency": "USD"
-    },
-    {
-      "skinId": "stiletto-doppler-phase-4",
-      "wear": "mw",
-      "price": 877.89,
-      "currency": "USD"
-    },
-    {
-      "skinId": "stiletto-doppler-ruby",
-      "wear": "fn",
-      "price": 3087.52,
-      "currency": "USD"
-    },
-    {
-      "skinId": "stiletto-doppler-ruby",
-      "wear": "mw",
-      "price": 3087.51,
-      "currency": "USD"
-    },
-    {
-      "skinId": "stiletto-doppler-sapphire",
-      "wear": "fn",
-      "price": 3757.1,
-      "currency": "USD"
-    },
-    {
-      "skinId": "stiletto-doppler-sapphire",
-      "wear": "mw",
-      "price": 3757.09,
-      "currency": "USD"
-    },
-    {
-      "skinId": "survival-doppler-black-pearl",
-      "wear": "fn",
-      "price": 1059.16,
-      "currency": "USD"
-    },
-    {
-      "skinId": "survival-doppler-black-pearl",
-      "wear": "mw",
-      "price": 1059.15,
-      "currency": "USD"
-    },
-    {
-      "skinId": "survival-doppler-phase-1",
-      "wear": "fn",
-      "price": 263.36,
-      "currency": "USD"
-    },
-    {
-      "skinId": "survival-doppler-phase-1",
-      "wear": "mw",
-      "price": 263.35,
-      "currency": "USD"
-    },
-    {
-      "skinId": "survival-doppler-phase-2",
-      "wear": "fn",
-      "price": 423.66,
-      "currency": "USD"
-    },
-    {
-      "skinId": "survival-doppler-phase-2",
-      "wear": "mw",
-      "price": 423.65,
-      "currency": "USD"
-    },
-    {
-      "skinId": "survival-doppler-phase-3",
-      "wear": "fn",
-      "price": 251.91,
-      "currency": "USD"
-    },
-    {
-      "skinId": "survival-doppler-phase-3",
-      "wear": "mw",
-      "price": 251.9,
-      "currency": "USD"
-    },
-    {
-      "skinId": "survival-doppler-phase-4",
-      "wear": "fn",
-      "price": 337.79,
-      "currency": "USD"
-    },
-    {
-      "skinId": "survival-doppler-phase-4",
-      "wear": "mw",
-      "price": 337.78,
-      "currency": "USD"
-    },
-    {
-      "skinId": "survival-doppler-ruby",
-      "wear": "fn",
-      "price": 1187.98,
-      "currency": "USD"
-    },
-    {
-      "skinId": "survival-doppler-ruby",
-      "wear": "mw",
-      "price": 1187.97,
-      "currency": "USD"
-    },
-    {
-      "skinId": "survival-doppler-sapphire",
-      "wear": "fn",
-      "price": 1445.61,
-      "currency": "USD"
-    },
-    {
-      "skinId": "survival-doppler-sapphire",
-      "wear": "mw",
-      "price": 1445.6,
-      "currency": "USD"
-    },
-    {
-      "skinId": "talon-doppler-black-pearl",
-      "wear": "fn",
-      "price": 5055.61,
-      "currency": "USD"
-    },
-    {
-      "skinId": "talon-doppler-black-pearl",
-      "wear": "mw",
-      "price": 5055.6,
-      "currency": "USD"
-    },
-    {
-      "skinId": "talon-doppler-phase-1",
-      "wear": "fn",
-      "price": 1257.07,
-      "currency": "USD"
-    },
-    {
-      "skinId": "talon-doppler-phase-1",
-      "wear": "mw",
-      "price": 1257.06,
-      "currency": "USD"
-    },
-    {
-      "skinId": "talon-doppler-phase-2",
-      "wear": "fn",
-      "price": 2022.24,
-      "currency": "USD"
-    },
-    {
-      "skinId": "talon-doppler-phase-2",
-      "wear": "mw",
-      "price": 2022.23,
-      "currency": "USD"
-    },
-    {
-      "skinId": "talon-doppler-phase-3",
-      "wear": "fn",
-      "price": 1202.41,
-      "currency": "USD"
-    },
-    {
-      "skinId": "talon-doppler-phase-3",
-      "wear": "mw",
-      "price": 1202.4,
-      "currency": "USD"
-    },
-    {
-      "skinId": "talon-doppler-phase-4",
-      "wear": "fn",
-      "price": 1612.33,
-      "currency": "USD"
-    },
-    {
-      "skinId": "talon-doppler-phase-4",
-      "wear": "mw",
-      "price": 1612.32,
-      "currency": "USD"
-    },
-    {
-      "skinId": "talon-doppler-ruby",
-      "wear": "fn",
-      "price": 5670.48,
-      "currency": "USD"
-    },
-    {
-      "skinId": "talon-doppler-ruby",
-      "wear": "mw",
-      "price": 5670.47,
-      "currency": "USD"
-    },
-    {
-      "skinId": "talon-doppler-sapphire",
-      "wear": "fn",
-      "price": 6900.22,
-      "currency": "USD"
-    },
-    {
-      "skinId": "talon-doppler-sapphire",
-      "wear": "mw",
-      "price": 6900.21,
-      "currency": "USD"
-    },
-    {
-      "skinId": "ursus-doppler-black-pearl",
-      "wear": "fn",
-      "price": 1234.5,
-      "currency": "USD"
-    },
-    {
-      "skinId": "ursus-doppler-black-pearl",
-      "wear": "mw",
-      "price": 1234.49,
-      "currency": "USD"
-    },
-    {
-      "skinId": "ursus-doppler-phase-1",
-      "wear": "fn",
-      "price": 306.96,
-      "currency": "USD"
-    },
-    {
-      "skinId": "ursus-doppler-phase-1",
-      "wear": "mw",
-      "price": 306.95,
-      "currency": "USD"
-    },
-    {
-      "skinId": "ursus-doppler-phase-2",
-      "wear": "fn",
-      "price": 493.8,
-      "currency": "USD"
-    },
-    {
-      "skinId": "ursus-doppler-phase-2",
-      "wear": "mw",
-      "price": 493.79,
-      "currency": "USD"
-    },
-    {
-      "skinId": "ursus-doppler-phase-3",
-      "wear": "fn",
-      "price": 293.61,
-      "currency": "USD"
-    },
-    {
-      "skinId": "ursus-doppler-phase-3",
-      "wear": "mw",
-      "price": 293.6,
-      "currency": "USD"
-    },
-    {
-      "skinId": "ursus-doppler-phase-4",
-      "wear": "fn",
-      "price": 393.71,
-      "currency": "USD"
-    },
-    {
-      "skinId": "ursus-doppler-phase-4",
-      "wear": "mw",
-      "price": 393.7,
-      "currency": "USD"
-    },
-    {
-      "skinId": "ursus-doppler-ruby",
-      "wear": "fn",
-      "price": 1384.65,
-      "currency": "USD"
-    },
-    {
-      "skinId": "ursus-doppler-ruby",
-      "wear": "mw",
-      "price": 1384.64,
-      "currency": "USD"
-    },
-    {
-      "skinId": "ursus-doppler-sapphire",
-      "wear": "fn",
-      "price": 1684.93,
-      "currency": "USD"
-    },
-    {
-      "skinId": "ursus-doppler-sapphire",
-      "wear": "mw",
-      "price": 1684.92,
       "currency": "USD"
     }
   ]

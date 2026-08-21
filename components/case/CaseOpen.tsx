@@ -24,7 +24,7 @@ import { canSellDrop, ownedDrops } from "@/lib/inventoryOwnership";
 import { useAppStore } from "@/lib/store";
 import type { Crate, InventoryItem } from "@/lib/types";
 import { cn, formatDropChance, formatMoney } from "@/lib/utils";
-import { FastForward, Volume2, VolumeX, Zap } from "lucide-react";
+import { Volume2, VolumeX, Zap } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
@@ -266,18 +266,12 @@ export function CaseOpen({ crate }: { crate: Crate }) {
     }
   }
 
-  function skipNow() {
-    if (phase !== "spin" || !pending.length) return;
-    if (revealTimer.current) window.clearTimeout(revealTimer.current);
-    finishReveal(pending, true);
-  }
-
   function sellNow(item: InventoryItem) {
     if (!canSellDrop(item.instanceId, store.inventory)) {
       store.toast({ title: "Item no longer in inventory", tone: "warn" });
       return false;
     }
-    const value = sellValueUsd(item.id, SELL_COEFFICIENT, item.wear);
+    const value = sellValueUsd(item.id, SELL_COEFFICIENT, item.wear, item.stickers);
     if (value == null) {
       store.toast({ title: "Price unavailable", detail: "Cannot sell without a market quote.", tone: "err" });
       return false;
@@ -334,11 +328,11 @@ export function CaseOpen({ crate }: { crate: Crate }) {
   const juicedItems = pending.filter((item) => isJuicedHit(crate.price, getSkinPrice(item.id, item.wear).price));
   const ownedPending = ownedDrops(pending, store.inventory);
   const sellTotal = ownedPending.reduce((sum, item) => {
-    const value = sellValueUsd(item.id, SELL_COEFFICIENT, item.wear);
+    const value = sellValueUsd(item.id, SELL_COEFFICIENT, item.wear, item.stickers);
     return value == null ? sum : sum + value;
   }, 0);
   const stillOwned = ownedPending.length > 0;
-  const canSell = ownedPending.some((item) => sellValueUsd(item.id, SELL_COEFFICIENT, item.wear) != null);
+  const canSell = ownedPending.some((item) => sellValueUsd(item.id, SELL_COEFFICIENT, item.wear, item.stickers) != null);
 
   if (!store.hydrated) return <CaseDetailSkeleton />;
 
@@ -347,7 +341,7 @@ export function CaseOpen({ crate }: { crate: Crate }) {
       <section className="surface relative overflow-hidden">
         <CaseBackground crate={crate} />
         <div className="relative surface-pad grid gap-6 lg:grid-cols-[minmax(0,18rem)_1fr] lg:items-center lg:gap-8">
-          <div className="relative mx-auto bg-transparent">
+          <div className="relative mx-auto h-72 w-72 shrink-0 bg-transparent">
             <CaseVisual crate={crate} size="hero" />
           </div>
           <div className="min-w-0">
@@ -369,9 +363,9 @@ export function CaseOpen({ crate }: { crate: Crate }) {
               ))}
             </div>
 
-            <div className="mt-3 flex flex-wrap items-center gap-2">
+            <div className="mt-3 flex min-w-[12rem] flex-wrap items-center gap-2">
               {store.user ? (
-                <Button size="xl" loading={busy} onClick={() => void open(count)}>
+                <Button size="xl" className="min-w-[12rem]" loading={busy} onClick={() => void open(count)}>
                   {busy
                     ? "Opening…"
                     : freeUsed >= count
@@ -447,7 +441,7 @@ export function CaseOpen({ crate }: { crate: Crate }) {
           <div className="surface-inset flex min-w-0 flex-col justify-center gap-2 p-3">
             <p className="label">Quick facts</p>
             <p className="text-sm text-soft">
-              <span className="tabular font-semibold text-ink">{loot.length}</span> items in this crate
+              <span className="tabular font-semibold text-ink">{loot.length}</span> items
             </p>
             <div className="flex min-w-0 flex-wrap items-center gap-2">
               <button type="button" className="text-sm font-semibold text-cyan hover:underline" onClick={() => setChances(true)}>
@@ -473,53 +467,44 @@ export function CaseOpen({ crate }: { crate: Crate }) {
         />
       ) : null}
 
-      <div className="relative">
-        {phase === "spin" && !prefs.skip && !store.reduceMotion ? (
-          <div className="mb-2 flex justify-end">
-            <Button size="xs" variant="ghost" icon={<FastForward className="h-3.5 w-3.5" />} onClick={skipNow}>
-              Skip
-            </Button>
-          </div>
-        ) : null}
-        <div className="case-reel-well">
-          {pending.length && (phase === "spin" || phase === "reveal") ? (
-            compact ? (
-              <div
-                className="grid h-full min-h-0 gap-1 p-1"
-                style={{ gridTemplateColumns: `repeat(${pending.length}, minmax(0, 1fr))` }}
-              >
-                {pending.map((item, index) => (
-                  <CaseOpeningShow
-                    key={item.instanceId}
-                    pool={pool}
-                    winner={item}
-                    playing={playing}
-                    reduceMotion={store.reduceMotion}
-                    settled={phase === "reveal"}
-                    compact
-                    durationMs={durationMs}
-                    sound={prefs.sound && index === 0}
-                  />
-                ))}
-              </div>
-            ) : (
-              <CaseOpeningShow
-                key={pending[0]!.instanceId}
-                pool={pool}
-                winner={pending[0]!}
-                playing={playing}
-                reduceMotion={store.reduceMotion}
-                settled={phase === "reveal"}
-                durationMs={durationMs}
-                sound={prefs.sound}
-              />
-            )
-          ) : pool.length ? (
-            <IdleReel pool={pool} reduceMotion={store.reduceMotion} />
+      <div className="case-reel-well">
+        {pending.length && (phase === "spin" || phase === "reveal") ? (
+          compact ? (
+            <div
+              className="grid h-full min-h-0 gap-1 p-1"
+              style={{ gridTemplateColumns: `repeat(${pending.length}, minmax(0, 1fr))` }}
+            >
+              {pending.map((item, index) => (
+                <CaseOpeningShow
+                  key={item.instanceId}
+                  pool={pool}
+                  winner={item}
+                  playing={playing}
+                  reduceMotion={store.reduceMotion}
+                  settled={phase === "reveal"}
+                  compact
+                  durationMs={durationMs}
+                  sound={prefs.sound && index === 0}
+                />
+              ))}
+            </div>
           ) : (
-            <IdleReel pool={[]} />
-          )}
-        </div>
+            <CaseOpeningShow
+              key={pending[0]!.instanceId}
+              pool={pool}
+              winner={pending[0]!}
+              playing={playing}
+              reduceMotion={store.reduceMotion}
+              settled={phase === "reveal"}
+              durationMs={durationMs}
+              sound={prefs.sound}
+            />
+          )
+        ) : pool.length ? (
+          <IdleReel pool={pool} reduceMotion={store.reduceMotion} />
+        ) : (
+          <IdleReel pool={[]} />
+        )}
       </div>
 
       <CaseRewardGrid loot={loot} />
@@ -571,8 +556,8 @@ export function CaseOpen({ crate }: { crate: Crate }) {
         canSell={canSell}
         sellLabel={
           ownedPending.length === 1
-            ? sellValueUsd(ownedPending[0]!.id, SELL_COEFFICIENT, ownedPending[0]!.wear) != null
-              ? `Sell · ${formatMoney(sellValueUsd(ownedPending[0]!.id, SELL_COEFFICIENT, ownedPending[0]!.wear)!)}`
+            ? sellValueUsd(ownedPending[0]!.id, SELL_COEFFICIENT, ownedPending[0]!.wear, ownedPending[0]!.stickers) != null
+              ? `Sell · ${formatMoney(sellValueUsd(ownedPending[0]!.id, SELL_COEFFICIENT, ownedPending[0]!.wear, ownedPending[0]!.stickers)!)}`
               : "Sell"
             : sellTotal > 0
               ? `Sell all · ${formatMoney(sellTotal)}`
@@ -725,8 +710,8 @@ function SingleResult({ item, juiced }: { item: InventoryItem; juiced: boolean }
 function CaseDetailSkeleton() {
   return (
     <div className="page-stack">
-      <div className="surface surface-pad grid gap-6 lg:grid-cols-[18rem_1fr]">
-        <Skeleton className="mx-auto h-64 w-64 rounded-[var(--radius-xl)]" />
+      <div className="surface-pad grid gap-6 lg:grid-cols-[18rem_1fr]">
+        <Skeleton className="mx-auto h-72 w-72 rounded-[var(--radius-xl)]" />
         <div className="space-y-3">
           <Skeleton className="h-3 w-24" />
           <Skeleton className="h-8 w-64 max-w-full" />

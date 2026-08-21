@@ -14,6 +14,7 @@ import { Skeleton, SkinCardSkeleton } from "@/components/ui/Skeleton";
 import { Tooltip } from "@/components/ui/Tooltip";
 import { previewContract } from "@/lib/engine/contract";
 import { CONTRACT_MAX_ITEMS, CONTRACT_MIN_ITEMS } from "@/lib/economy/config";
+import { isStickerItem } from "@/lib/itemCatalog";
 import { isInVault } from "@/lib/inventoryOwnership";
 import { getSkinPrice } from "@/lib/services/prices/priceProvider";
 import { useAppStore } from "@/lib/store";
@@ -77,6 +78,7 @@ export function ContractPanel() {
     return store.inventory
       .filter((item) => {
         if (!isInVault(item)) return false;
+        if (isStickerItem(item)) return false;
         if (selectedIds.has(item.instanceId)) return false;
         if (
           needle &&
@@ -106,7 +108,7 @@ export function ContractPanel() {
   const deskOpen = phase === "idle";
 
   function put(item: InventoryItem) {
-    if (busy || boardFull || !isInVault(item)) return;
+    if (busy || boardFull || !isInVault(item) || isStickerItem(item)) return;
     setSlots((prev) => {
       const i = prev.findIndex((slot) => !slot);
       if (i < 0) return prev;
@@ -293,9 +295,10 @@ export function ContractPanel() {
         </p>
       </div>
 
-      <div className="grid items-stretch gap-3 lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)]">
-        <section className="surface surface-pad flex min-h-0 min-w-0 flex-col gap-3">
+      <div className="contract-desk grid items-stretch gap-3 lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)]">
+        <section className="surface surface-pad flex h-full min-w-0 flex-col gap-3 self-stretch">
           <SectionHeading
+            className="shrink-0"
             title="My items"
             count={store.hydrated ? vaultCount : undefined}
             actions={
@@ -312,34 +315,36 @@ export function ContractPanel() {
           />
 
           {!store.hydrated ? (
-            <div className="contract-grid flex-1">
-              {Array.from({ length: 6 }).map((_, i) => (
+            <div className="contract-grid">
+              {Array.from({ length: PAGE_SIZE }).map((_, i) => (
                 <SkinCardSkeleton key={i} />
               ))}
             </div>
           ) : vaultCount === 0 ? (
-            <EmptyState
-              compact
-              className="flex flex-1 flex-col items-center justify-center"
-              title="You have no items"
-              action={
-                <Link href="/cases">
-                  <Button variant="ghost" size="sm">
-                    Open a case
-                  </Button>
-                </Link>
-              }
-            />
+            <div className="contract-well">
+              <EmptyState
+                compact
+                title="You have no items"
+                action={
+                  <Link href="/cases">
+                    <Button variant="ghost" size="sm">
+                      Open a case
+                    </Button>
+                  </Link>
+                }
+              />
+            </div>
           ) : available.length === 0 ? (
-            <EmptyState
-              compact
-              className="flex flex-1 flex-col items-center justify-center"
-              title={boardFull ? "Board is full" : "No matching skins"}
-              detail={boardFull ? "Clear a slot to swap in another skin." : "Try another search."}
-            />
+            <div className="contract-well">
+              <EmptyState
+                compact
+                title={boardFull ? "Board is full" : "No matching skins"}
+                detail={boardFull ? "Clear a slot to swap in another skin." : "Try another search."}
+              />
+            </div>
           ) : (
-            <div className="flex min-h-0 flex-1 flex-col">
-              <div className="contract-grid flex-1 content-start">
+            <div className="flex flex-1 flex-col">
+              <div className="contract-grid">
                 {pageSlice.map((item) => (
                   <SkinCard
                     key={item.instanceId}
@@ -356,11 +361,11 @@ export function ContractPanel() {
           )}
         </section>
 
-        <section className="surface surface-pad flex min-h-0 min-w-0 flex-col">
+        <section className="surface surface-pad flex h-full min-h-[var(--contract-well-min)] min-w-0 flex-col self-stretch">
           {deskOpen ? (
-            <div className="flex min-h-0 flex-1 flex-col gap-5">
+            <div className="flex h-full min-h-0 flex-1 flex-col gap-5">
               {store.user ? (
-              <label className={extraCap <= 0 ? "opacity-50" : "opacity-80"}>
+              <label className={extraCap <= 0 ? "shrink-0 opacity-50" : "shrink-0 opacity-80"}>
                 <span className="mb-1.5 flex items-center justify-between gap-2">
                   <span className="flex items-center gap-1.5">
                     <CircleDollarSign className="h-3.5 w-3.5 text-mute" />
@@ -385,7 +390,7 @@ export function ContractPanel() {
               </label>
               ) : null}
 
-              <div className="text-center">
+              <div className="shrink-0 text-center">
                 <p className="label">You will receive an item</p>
                 <p className="mt-1.5 font-display text-sm font-bold tracking-wide text-ink">
                   {preview
@@ -394,7 +399,7 @@ export function ContractPanel() {
                 </p>
               </div>
 
-              <div className="flex items-center gap-2">
+              <div className="flex shrink-0 items-center gap-2">
                 <span className="label shrink-0">Goal</span>
                 <span className="relative min-w-0 flex-1">
                   <Shuffle className="pointer-events-none absolute left-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-mute" />
@@ -409,12 +414,17 @@ export function ContractPanel() {
                 </Tooltip>
               </div>
 
-              <SignaturePad disabled={busy} resetKey={padReset} onInkChange={setHasInk} />
+              <SignaturePad
+                className="min-h-0 flex-1"
+                disabled={busy}
+                resetKey={padReset}
+                onInkChange={setHasInk}
+              />
 
               <Button
                 fullWidth
                 size="lg"
-                className="mt-auto"
+                className="mt-auto shrink-0"
                 loading={busy}
                 disabled={!canSign}
                 icon={<Handshake className="h-4 w-4" />}
@@ -424,7 +434,7 @@ export function ContractPanel() {
               </Button>
             </div>
           ) : (
-            <div className="flex min-h-0 flex-1 flex-col justify-center">
+            <div className="flex h-full min-h-0 flex-1 flex-col justify-center">
               <ContractResult
                 phase={phase}
                 preview={preview}

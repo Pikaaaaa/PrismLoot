@@ -64,7 +64,8 @@ export type Weapon =
   | "Nomad Knife"
   | "Skeleton Knife"
   | "Kukri Knife"
-  | "Gloves";
+  | "Gloves"
+  | "Sticker";
 
 export type CaseTag =
   | "popular"
@@ -194,6 +195,38 @@ export interface Skin {
   updatedAt?: number;
 }
 
+/** Tournament sticker finish. Paper commons are intentionally excluded from the curated catalog. */
+export type StickerEffect = "Holo" | "Foil" | "Gold" | "Glitter" | "Lenticular" | "Other";
+
+/**
+ * Curated high-value tournament sticker (Katowice crown jewels + liquid top tier).
+ * Face value is unapplied market; applied contribution uses APPLIED_STICKER_FACTOR.
+ */
+export interface Sticker {
+  id: string;
+  name: string;
+  marketHashName: string;
+  tournament: string;
+  year: number;
+  team?: string;
+  player?: string;
+  effect: StickerEffect;
+  /** Unapplied face-value USD (Buff/SCM/illiquid mid). */
+  price: number;
+  currency: CurrencyCode;
+  image?: string;
+  priceSource: string;
+  priceUpdatedAt: number;
+}
+
+/** Applied sticker slot on a skin/inventory craft (valuation only — no craft UI required). */
+export interface AppliedSticker {
+  stickerId: string;
+  /** 0 = pristine, 1 = fully scraped. Wear reduces applied contribution. */
+  wear?: number;
+  slot?: number;
+}
+
 /** How an inventory instance left the live vault. The row itself is kept. */
 export type InventoryLeftVia = "sell" | "upgrade" | "contract" | "withdraw";
 
@@ -205,6 +238,8 @@ export interface InventoryItem extends Skin {
   /** Epoch ms when the item left the live vault (`soldAt` on the row). */
   soldAt?: number | null;
   leftVia?: InventoryLeftVia | null;
+  /** Optional applied stickers for craft valuation (PriceProvider base + sticker overlay). */
+  stickers?: AppliedSticker[];
 }
 
 export interface CaseLoot {

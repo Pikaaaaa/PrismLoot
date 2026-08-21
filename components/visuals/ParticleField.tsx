@@ -67,36 +67,36 @@ export function PrismLogo({
         </clipPath>
       </defs>
 
-      {/* Outer shell */}
-      <polygon
+      {/* Pointy-top regular hex @ (32,32), R=28; path starts mid-right to hide stroke seam */}
+      <path
         className="prism-logo-shell"
-        points="32,4 58,18 58,46 32,60 6,46 6,18"
+        d="M56.249 32 L56.249 46 L32 60 L7.751 46 L7.751 18 L32 4 L56.249 18 Z"
         fill="none"
         stroke="#d4d4d8"
         strokeWidth="3"
+        strokeLinecap="round"
         strokeLinejoin="round"
       />
-      {/* Cyan glint racing the hexagon edge */}
-      <polygon
+      <path
         className="prism-logo-rim"
-        points="32,4 58,18 58,46 32,60 6,46 6,18"
+        d="M56.249 32 L56.249 46 L32 60 L7.751 46 L7.751 18 L32 4 L56.249 18 Z"
         fill="none"
         stroke={`url(#${sheenId})`}
         strokeWidth="3"
+        strokeLinecap="round"
         strokeLinejoin="round"
       />
 
-      {/* Crystal body — three facets for depth */}
       <g className="prism-logo-crystal">
         <polygon points="32,14 16,24 32,50" fill={`url(#${facetL})`} />
         <polygon points="32,14 48,24 32,50" fill={`url(#${facetR})`} />
         <polygon points="16,24 48,24 32,50" fill={`url(#${facetB})`} opacity="0.92" />
-        {/* Center ridge */}
         <polyline
           points="32,14 32,50"
           fill="none"
           stroke="rgba(255,255,255,0.35)"
           strokeWidth="1"
+          strokeLinecap="round"
         />
       </g>
 

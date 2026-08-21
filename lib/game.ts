@@ -8,7 +8,7 @@ export { WEARS, wearsForSkin };
 
 export function instantiateSkin(
   skin: Skin,
-  extras?: Partial<Pick<InventoryItem, "wear" | "stattrak" | "price" | "instanceId" | "obtainedAt">>,
+  extras?: Partial<Pick<InventoryItem, "wear" | "stattrak" | "price" | "instanceId" | "obtainedAt" | "stickers">>,
 ): InventoryItem {
   const allowed = wearsForSkin(skin);
   const wear = extras?.wear && allowed.includes(extras.wear) ? extras.wear : rollWear(skin);
@@ -23,6 +23,7 @@ export function instantiateSkin(
     price: market ?? Number.NaN,
     instanceId: extras?.instanceId ?? uid("itm"),
     obtainedAt: extras?.obtainedAt ?? Date.now(),
+    ...(extras?.stickers?.length ? { stickers: extras.stickers } : {}),
   };
 }
 

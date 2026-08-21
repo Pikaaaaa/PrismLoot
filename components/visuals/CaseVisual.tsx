@@ -140,8 +140,8 @@ function hueDelta(from: number, to: number) {
 function crateGlowFilter(tier: Tier, tint: string) {
   const { h, s } = hexHue(tint);
   let delta = hueDelta(TIER_GLOW_HUE[tier], h);
-  if (tier === "gold") delta = Math.max(-22, Math.min(22, delta));
-  const sat = s < 0.22 ? 0.92 : tier === "gold" ? 1.06 : 1.12;
+  if (tier === "gold") delta = Math.max(-18, Math.min(18, delta));
+  const sat = s < 0.22 ? 0.95 : tier === "gold" ? 1.08 : 1.18;
   return `hue-rotate(${delta.toFixed(1)}deg) saturate(${sat})`;
 }
 
@@ -154,52 +154,63 @@ function seedFromId(id: string) {
   return h >>> 0;
 }
 
-/** High product-shot slot: bursting from the open lid, not covering the front plate. */
+/** Sit in the open mouth — never a jaunty rotate that clips wide rifles. */
 const SKIN_BOX: Record<Silhouette, string> = {
-  long: "left-[8%] right-[8%] top-[10%] h-[47%]",
-  mid: "left-[12%] right-[12%] top-[9%] h-[48%]",
-  compact: "left-[14%] right-[14%] top-[8%] h-[50%]",
+  long: "left-[4%] right-[4%] top-[17%] h-[40%]",
+  mid: "left-[10%] right-[10%] top-[15%] h-[44%]",
+  compact: "left-[22%] right-[22%] top-[12%] h-[50%]",
 };
 
-/** Same high band on the square hero. Width only changes by silhouette — never a lower melee slot. */
+/** Same mouth band on the square hero. Compact items scale up so knives are not lost. */
 const SKIN_BOX_HERO: Record<Silhouette, string> = {
-  long: "left-[8%] right-[8%] top-[12%] h-[46%]",
-  mid: "left-[12%] right-[12%] top-[11%] h-[48%]",
-  compact: "left-[14%] right-[14%] top-[10%] h-[50%]",
+  long: "left-[4%] right-[4%] top-[20%] h-[38%]",
+  mid: "left-[10%] right-[10%] top-[17%] h-[42%]",
+  compact: "left-[20%] right-[20%] top-[14%] h-[48%]",
 };
 
 function Backdrop({ crate, glow, tint, seed }: { crate: Crate; glow: string; tint: string; seed: number }) {
   const rot = (seed % 21) - 10;
-  const kind = seed % 3;
-  const ox = 46 + ((seed >> 2) % 9);
-  const oy = 4 + ((seed >> 5) % 8);
+  const kind = seed % 4;
+  const ox = 42 + ((seed >> 2) % 17);
+  const oy = 2 + ((seed >> 5) % 12);
   const wash2x = 100 - ox;
+  const motifRot = ((seed >> 8) % 50) - 25;
 
   const pattern =
     kind === 0
-      ? `repeating-linear-gradient(${rot}deg, transparent 0 15px, rgba(255,255,255,0.03) 15px 16px), repeating-linear-gradient(${rot + 90}deg, transparent 0 15px, rgba(255,255,255,0.03) 15px 16px)`
+      ? `repeating-linear-gradient(${rot}deg, transparent 0 15px, rgba(255,255,255,0.035) 15px 16px), repeating-linear-gradient(${rot + 90}deg, transparent 0 15px, rgba(255,255,255,0.035) 15px 16px)`
       : kind === 1
-        ? `repeating-linear-gradient(${36 + rot}deg, transparent 0 18px, rgba(255,255,255,0.032) 18px 19px)`
-        : `radial-gradient(circle, rgba(255,255,255,0.05) 0.8px, transparent 1.15px)`;
+        ? `repeating-linear-gradient(${36 + rot}deg, transparent 0 18px, rgba(255,255,255,0.038) 18px 19px)`
+        : kind === 2
+          ? `radial-gradient(circle, rgba(255,255,255,0.055) 0.8px, transparent 1.15px)`
+          : `repeating-conic-gradient(from ${rot}deg at 50% 48%, transparent 0 12deg, rgba(255,255,255,0.028) 12deg 13deg)`;
 
   return (
     <>
       <div
         className="absolute inset-0"
         style={{
-          background: `radial-gradient(120% 88% at ${ox}% ${oy}%, ${tint}36, transparent 64%), radial-gradient(88% 72% at ${wash2x}% 108%, ${crate.accent2}34, transparent 66%), linear-gradient(180deg, #121218 0%, #0a0a0c 100%)`,
+          background: `radial-gradient(130% 92% at ${ox}% ${oy}%, ${tint}48, transparent 62%), radial-gradient(92% 78% at ${wash2x}% 108%, ${crate.accent2}40, transparent 64%), linear-gradient(180deg, #14141a 0%, #0a0a0c 100%)`,
         }}
       />
       <div
-        className="absolute inset-0 opacity-[0.4]"
+        className="absolute inset-0 opacity-[0.45]"
         style={{
           backgroundImage: pattern,
           backgroundSize: kind === 2 ? "17px 17px" : undefined,
         }}
       />
       <div
+        className="pointer-events-none absolute left-1/2 top-[46%] h-[58%] w-[58%] -translate-x-1/2 -translate-y-1/2 opacity-[0.18]"
+        style={{
+          background: `conic-gradient(from ${motifRot}deg, transparent 0 40%, ${tint}99 50%, transparent 60%)`,
+          maskImage: "radial-gradient(circle at 50% 50%, #000 36%, transparent 72%)",
+          WebkitMaskImage: "radial-gradient(circle at 50% 50%, #000 36%, transparent 72%)",
+        }}
+      />
+      <div
         className="absolute left-1/2 top-[44%] h-[54%] w-[72%] -translate-x-1/2 -translate-y-1/2 rounded-full blur-2xl"
-        style={{ background: glow, opacity: 0.46 }}
+        style={{ background: glow, opacity: 0.5 }}
       />
       <div className="absolute inset-0 bg-[radial-gradient(120%_100%_at_50%_50%,transparent_42%,rgba(0,0,0,0.58)_100%)]" />
     </>
@@ -215,10 +226,10 @@ function CrateLayer({ src, tier, tint, eager }: { src: string; tier: Tier; tint:
 
   if (broken) return null;
 
-  const blend: CSSProperties = {
-    background: tint,
+  const wash: CSSProperties = {
+    background: `radial-gradient(ellipse 52% 40% at 50% 36%, ${tint} 0%, transparent 70%)`,
     mixBlendMode: tier === "gold" ? "overlay" : "color",
-    opacity: tier === "gold" ? 0.22 : 0.38,
+    opacity: tier === "gold" ? 0.42 : 0.58,
     WebkitMaskImage: `url(${src})`,
     maskImage: `url(${src})`,
     WebkitMaskSize: "contain",
@@ -237,12 +248,21 @@ function CrateLayer({ src, tier, tint, eager }: { src: string; tier: Tier; tint:
         alt=""
         aria-hidden
         className="h-full w-full object-contain object-bottom"
-        style={{ filter: crateGlowFilter(tier, tint) }}
         loading={eager ? "eager" : "lazy"}
         decoding="async"
         onError={() => setBroken(true)}
       />
-      <span className="pointer-events-none absolute inset-0" style={blend} aria-hidden />
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src={src}
+        alt=""
+        aria-hidden
+        className="pointer-events-none absolute inset-0 h-full w-full object-contain object-bottom mix-blend-screen"
+        style={{ filter: crateGlowFilter(tier, tint), opacity: 0.32 }}
+        loading={eager ? "eager" : "lazy"}
+        decoding="async"
+      />
+      <span className="pointer-events-none absolute inset-0" style={wash} aria-hidden />
     </div>
   );
 }
@@ -277,15 +297,15 @@ export function CaseVisual({
     size === "compact"
       ? "h-16 w-16"
       : size === "hero"
-        ? "h-64 w-64 sm:h-72 sm:w-72 bg-transparent"
+        ? "h-full w-full min-h-64 min-w-64 bg-transparent"
         : "h-full w-full min-h-0";
 
   const crateBox =
     size === "compact"
-      ? "absolute inset-x-0 bottom-0 h-[92%]"
+      ? "absolute inset-x-[4%] bottom-[2%] h-[94%]"
       : size === "hero"
-        ? "absolute inset-x-[6%] bottom-[3%] h-[72%] drop-shadow-[0_10px_24px_rgba(0,0,0,0.55)]"
-        : "absolute inset-x-[8%] bottom-[2%] h-[72%] drop-shadow-[0_10px_24px_rgba(0,0,0,0.55)]";
+        ? "absolute inset-x-[8%] bottom-[4%] h-[66%] drop-shadow-[0_10px_24px_rgba(0,0,0,0.55)]"
+        : "absolute inset-x-[10%] bottom-[4%] h-[66%] drop-shadow-[0_10px_24px_rgba(0,0,0,0.55)]";
 
   return (
     <div className={cn("relative isolate", withBackdrop ? "overflow-hidden" : "overflow-visible bg-transparent", sizeClass, className)}>

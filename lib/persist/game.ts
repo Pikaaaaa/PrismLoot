@@ -1,5 +1,5 @@
 import { getCase } from "@/data/cases";
-import { SKIN_MAP } from "@/data/skins";
+import { getCatalogItem } from "@/lib/itemCatalog";
 import { looksLikeTradeUrl, normalizeTradeUrl } from "@/lib/auth/account";
 import {
   cryptoFromUsd,
@@ -18,6 +18,7 @@ import { clampWagerMultiplier } from "@/lib/gift-cards/wager";
 import { loadPlayerActivity } from "@/lib/persist/activity";
 import { isPrismaFkError } from "@/lib/persist/errors";
 import { ensureInventoryHistorySchema } from "@/lib/persist/inventory-schema";
+import { marketValueUsd } from "@/lib/economy";
 import { getSkinPrice } from "@/lib/services/prices";
 import type { InventoryItem, InventoryLeftVia, Skin, Wear } from "@/lib/types";
 import type { BestDrop as DbBestDrop, Prisma } from "@prisma/client";
@@ -73,7 +74,7 @@ function skinRowFromCatalog(skin: Skin) {
 export async function ensurePlaySkins(tx: CatalogDb, skinIds: Iterable<string>) {
   const unique = [...new Set([...skinIds].filter(Boolean))];
   for (const id of unique) {
-    const catalog = SKIN_MAP[id];
+    const catalog = getCatalogItem(id);
     if (!catalog) throw new Error("CATALOG_SKIN_MISSING");
     await tx.skin.upsert({
       where: { id },
@@ -121,8 +122,8 @@ export async function ensurePlayCatalog(
 }
 
 function itemPriceUsd(item: InventoryItem) {
-  const quote = getSkinPrice(item.id, item.wear);
-  return quote.available && quote.price != null ? usd(quote.price) : usd(item.price);
+  const market = marketValueUsd(item.id, item.wear, item.stickers, item.price);
+  return usd(market ?? item.price);
 }
 
 export function serializeBestDrop(row: DbBestDrop & { item?: { soldAt: Date | null } | null }) {
@@ -197,7 +198,7 @@ export function serializeVaultItem(
   },
   extras?: { withdrawPending?: boolean; leftVia?: InventoryLeftVia | null },
 ): InventoryItem | null {
-  const catalog = SKIN_MAP[row.skinId];
+  const catalog = getCatalogItem(row.skinId);
   if (!catalog) return null;
   const wear = row.wear as Wear;
   const quote = getSkinPrice(row.skinId, wear);

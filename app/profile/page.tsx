@@ -15,6 +15,7 @@ import { CaseVisual } from "@/components/visuals/CaseVisual";
 import { SkinVisual } from "@/components/visuals/SkinVisual";
 import { looksLikeTradeUrl } from "@/lib/auth/account";
 import { bestDropStatusLabel, skinFromBestDrop } from "@/lib/bestDrop";
+import { isStickerItem } from "@/lib/itemCatalog";
 import { CASES } from "@/lib/mock-data";
 import { RARITY_META, WEAR_META } from "@/lib/rarity";
 import { useAppStore } from "@/lib/store";
@@ -471,7 +472,11 @@ function ProfileInner() {
                     )}
                     <div className="mt-1.5 flex flex-wrap items-center gap-1.5">
                       <RarityPill rarity={bestDrop.snapshot.rarity} />
-                      <Badge tone="outline">{WEAR_META[bestDrop.wear].short}</Badge>
+                      {isStickerItem(bestDrop.skinId) ? (
+                        <Badge tone="outline">N/A</Badge>
+                      ) : (
+                        <Badge tone="outline">{WEAR_META[bestDrop.wear].short}</Badge>
+                      )}
                       {bestDropStatus === "In vault" ? (
                         <Badge tone="accent">In vault</Badge>
                       ) : (

@@ -1,12 +1,16 @@
 import { isInVault, vaultStatusLabel } from "@/lib/inventoryOwnership";
-import { SKIN_MAP, SKINS } from "@/lib/mock-data";
+import { getCatalogItem } from "@/lib/itemCatalog";
+import { SKINS } from "@/lib/mock-data";
+import { STICKER_SKINS } from "@/data/stickers";
 import { listingWearFor, getSkinPrice } from "@/lib/services/prices";
 import type { BestDrop, HistoryEntry, InventoryItem, Skin, UserStats, Wear } from "@/lib/types";
 import { WEARS } from "@/lib/wear";
 
 const WEAR_SET = new Set<string>(WEARS);
 
-const SKIN_BY_NAME = new Map(SKINS.map((skin) => [skin.name.trim().toLowerCase(), skin]));
+const SKIN_BY_NAME = new Map(
+  [...SKINS, ...STICKER_SKINS].map((skin) => [skin.name.trim().toLowerCase(), skin]),
+);
 
 function isWear(value: unknown): value is Wear {
   return typeof value === "string" && WEAR_SET.has(value);
@@ -22,7 +26,7 @@ export function parseBestDrop(value: unknown): BestDrop | null {
   const snap = row.snapshot;
   if (!snap || typeof snap.name !== "string" || !snap.name) return null;
   if (typeof snap.rarity !== "string" || typeof snap.weapon !== "string") return null;
-  const catalog = SKIN_MAP[row.skinId];
+  const catalog = getCatalogItem(row.skinId);
   return {
     skinId: row.skinId,
     wear: row.wear,
@@ -148,7 +152,7 @@ export function hydrateBestDropStats(
 }
 
 export function skinFromBestDrop(drop: BestDrop): Skin {
-  const catalog = SKIN_MAP[drop.skinId];
+  const catalog = getCatalogItem(drop.skinId);
   return {
     id: drop.skinId,
     name: drop.snapshot.name,

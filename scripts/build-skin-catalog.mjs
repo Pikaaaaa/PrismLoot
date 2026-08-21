@@ -166,13 +166,13 @@ const CATALOG_CAP = 6000;
 
 /** Floors per weapon. Knives/gloves then consume the rest of the same-weapon book. */
 const QUOTAS = {
-  "AK-47": 180,
-  M4A4: 140,
-  "M4A1-S": 140,
-  AWP: 160,
-  "USP-S": 110,
-  "Glock-18": 110,
-  "Desert Eagle": 96,
+  "AK-47": 200,
+  M4A4: 160,
+  "M4A1-S": 160,
+  AWP: 180,
+  "USP-S": 120,
+  "Glock-18": 120,
+  "Desert Eagle": 110,
   P250: 56,
   "Five-SeveN": 48,
   FAMAS: 56,
@@ -246,32 +246,68 @@ const COLORS = {
 
 const ULTRA_FINISH = /fade$|marble fade|doppler|gamma doppler|lore|gungnir|howl|gold arabesque|knight$|hot rod|blaze$|pandora|crimson kimono|vice$|king snake/i;
 
-/** Committed Steam-range USD for items the SCM dump omits (too thin). Per-wear, FN highest. */
+/**
+ * Committed Steam-range USD mids for thin/missing SCM rows.
+ * Gem Dopplers use marketplace mids (SteamDB/CSMarketCap/Pricempire ~Aug 2026) —
+ * never SCM collector asks and never compounding phase multipliers.
+ */
 const FAMOUS = {
-  "AWP | Dragon Lore": { fn: 11864.37, mw: 8921.18, ft: 6418.55, ww: 5290.4, bs: 4712.88 },
-  "AWP | Gungnir": { fn: 10844.52, mw: 9120.18, ft: 7795.4, ww: 6642.15, bs: 6018.77 },
-  "M4A4 | Howl": { fn: 6842.19, mw: 5418.66, ft: 4295.33, ww: 3512.08, bs: 2980.44 },
-  "M4A4 | Poseidon": { fn: 2640.55, mw: 1988.12, ft: 1544.9, ww: 1288.41, bs: 1102.77 },
-  "AK-47 | Wild Lotus": { fn: 11880.22, mw: 8420.9, ft: 6128.44, ww: 4900.18, bs: 4288.65 },
-  "AK-47 | Gold Arabesque": { fn: 3128.4, mw: 2718.22, ft: 2288.64, ww: 2094.17, bs: 2030.53 },
-  "M4A1-S | Knight": { fn: 2840.12, mw: 2218.4 },
-  "Karambit | Fade": { fn: 2148.37, mw: 1892.14 },
-  "Butterfly Knife | Fade": { fn: 3284.6, mw: 2918.44 },
-  "M9 Bayonet | Marble Fade": { fn: 1864.22, mw: 1712.08 },
-  "Karambit | Doppler": { fn: 2031.38, mw: 1884.5 },
-  "Karambit | Gamma Doppler": { fn: 2218.9, mw: 1988.12 },
-  "Sport Gloves | Pandora's Box": { fn: 8420.18, mw: 6118.44, ft: 4520.0, ww: 3612.88, bs: 2988.15 },
-  "AWP | Medusa": { fn: 5418.33, mw: 3884.2, ft: 2718.66, ww: 2210.4, bs: 1888.91 },
+  "AWP | Dragon Lore": { fn: 12480.0, mw: 9380.0, ft: 6720.0, ww: 5520.0, bs: 4920.0 },
+  "AWP | Gungnir": { fn: 11240.0, mw: 9450.0, ft: 8120.0, ww: 6880.0, bs: 6240.0 },
+  "M4A4 | Howl": { fn: 7120.0, mw: 5640.0, ft: 4480.0, ww: 3660.0, bs: 3120.0 },
+  "M4A4 | Poseidon": { fn: 2720.0, mw: 1760.21, ft: 1580.0, ww: 1320.0, bs: 1140.0 },
+  "AK-47 | Wild Lotus": { fn: 12450.0, mw: 8780.0, ft: 6420.0, ww: 5120.0, bs: 4480.0 },
+  "AK-47 | Gold Arabesque": { fn: 3280.0, mw: 2840.0, ft: 2380.0, ww: 2140.0, bs: 2030.53 },
+  "M4A1-S | Knight": { fn: 2980.0, mw: 2320.0 },
+  "Karambit | Fade": { fn: 2280.0, mw: 2010.0 },
+  "Butterfly Knife | Fade": { fn: 3480.0, mw: 3080.0 },
+  // Assault Collection Restricted (Valve), not Covert. SCM dump misses it → synth was ~$29.
+  // Steam-range mid ~Aug 2026 (SIH/SteamAnalyst FN ~$1.73k–$1.86k). Not 100% full-fade asks.
+  "Glock-18 | Fade": { fn: 1780.0, mw: 1620.0 },
+  "M9 Bayonet | Marble Fade": { fn: 1342.37, mw: 1345.45 },
+  // Butterfly Doppler missing from SCM dump — mid-phase blend + explicit gems.
+  "Butterfly Knife | Doppler": { fn: 2850.0, mw: 2550.0, ft: 2400.0 },
+  "Butterfly Knife | Doppler (Phase 1)": { fn: 2200.0, mw: 1980.0 },
+  "Butterfly Knife | Doppler (Phase 2)": { fn: 3900.0, mw: 3500.0 },
+  "Butterfly Knife | Doppler (Phase 3)": { fn: 2080.0, mw: 1900.0 },
+  "Butterfly Knife | Doppler (Phase 4)": { fn: 2680.0, mw: 2420.0 },
+  "Butterfly Knife | Doppler (Sapphire)": { fn: 6500.0, mw: 6100.0 },
+  "Butterfly Knife | Doppler (Ruby)": { fn: 9500.0, mw: 9000.0 },
+  "Butterfly Knife | Doppler (Black Pearl)": { fn: 11500.0, mw: 10800.0 },
+  "Butterfly Knife | Gamma Doppler": { fn: 3100.0, mw: 2800.0 },
+  "Butterfly Knife | Gamma Doppler (Emerald)": { fn: 7800.0, mw: 7200.0 },
+  "Karambit | Doppler": { fn: 2031.38, mw: 1920.0 },
+  "Karambit | Doppler (Sapphire)": { fn: 4600.0, mw: 4450.0 },
+  "Karambit | Doppler (Ruby)": { fn: 7200.0, mw: 6900.0 },
+  "Karambit | Doppler (Black Pearl)": { fn: 8300.0, mw: 7900.0 },
+  "Karambit | Gamma Doppler": { fn: 2340.0, mw: 2080.0 },
+  "Karambit | Gamma Doppler (Emerald)": { fn: 6800.0, mw: 6400.0 },
+  "M9 Bayonet | Doppler (Sapphire)": { fn: 3800.0, mw: 3600.0 },
+  "M9 Bayonet | Doppler (Ruby)": { fn: 5200.0, mw: 4900.0 },
+  "M9 Bayonet | Doppler (Black Pearl)": { fn: 6100.0, mw: 5800.0 },
+  "M9 Bayonet | Gamma Doppler (Emerald)": { fn: 5400.0, mw: 5100.0 },
+  "Sport Gloves | Pandora's Box": { fn: 8780.0, mw: 6380.0, ft: 4720.0, ww: 3780.0, bs: 3120.0 },
+  "AWP | Medusa": { fn: 5680.0, mw: 4080.0, ft: 2860.0, ww: 2320.0, bs: 1980.0 },
 };
 
 const EXISTING_KEEP = {
-  "ak-gold-arabesque": { fn: 3128.4, mw: 2718.22, ft: 2288.64, ww: 2094.17, bs: 2030.53 },
+  "ak-gold-arabesque": { fn: 3280.0, mw: 2840.0, ft: 2380.0, ww: 2140.0, bs: 2030.53 },
   "awp-lore": FAMOUS["AWP | Dragon Lore"],
   "awp-gungnir": FAMOUS["AWP | Gungnir"],
   "m4-howl": FAMOUS["M4A4 | Howl"],
   "m4-knight": FAMOUS["M4A1-S | Knight"],
   "kara-fade": FAMOUS["Karambit | Fade"],
   "bfly-fade": FAMOUS["Butterfly Knife | Fade"],
+  "glock-fade": FAMOUS["Glock-18 | Fade"],
+  "bfly-doppler": FAMOUS["Butterfly Knife | Doppler"],
+  "bfly-doppler-sapphire": FAMOUS["Butterfly Knife | Doppler (Sapphire)"],
+  "bfly-doppler-ruby": FAMOUS["Butterfly Knife | Doppler (Ruby)"],
+  "bfly-doppler-black-pearl": FAMOUS["Butterfly Knife | Doppler (Black Pearl)"],
+  "bfly-gamma-doppler-emerald": FAMOUS["Butterfly Knife | Gamma Doppler (Emerald)"],
+  "kara-doppler-sapphire": FAMOUS["Karambit | Doppler (Sapphire)"],
+  "kara-doppler-ruby": FAMOUS["Karambit | Doppler (Ruby)"],
+  "kara-doppler-black-pearl": FAMOUS["Karambit | Doppler (Black Pearl)"],
+  "kara-gamma-doppler-emerald": FAMOUS["Karambit | Gamma Doppler (Emerald)"],
   "m9-marble": FAMOUS["M9 Bayonet | Marble Fade"],
   "glove-pandora": FAMOUS["Sport Gloves | Pandora's Box"],
 };
@@ -452,49 +488,116 @@ function enforceLadder(quotes) {
   return quotes;
 }
 
+function stripPhase(name) {
+  return String(name || "")
+    .replace(/\s*\((?:Phase\s*[1-4]|Ruby|Sapphire|Black Pearl|Emerald)\)\s*$/i, "")
+    .trim();
+}
+
+function isPhaseVariant(name) {
+  return /\((?:Phase\s*[1-4]|Ruby|Sapphire|Black Pearl|Emerald)\)/i.test(name || "");
+}
+
+/**
+ * Per-wear quotes. Phase gem multipliers apply ONCE to unphased SCM / synth only.
+ * Famous + previous snapshot rows are treated as final USD (never re-scaled) —
+ * re-applying phaseScale on keep rebuilds caused Sapphire ~$29k → $148k.
+ */
 function quotedWears(c, scm, snapQuotes) {
   const bases = {};
+  const source = {};
   const famous = EXISTING_KEEP[c.id] || FAMOUS[c.name];
   const wants = (c.available || WEARS).slice();
+  const phased = isPhaseVariant(c.name);
+  const scale = phased ? phaseScale(c.finish || c.name || "") : 1;
+  const baseName = stripPhase(c.apiName || c.name);
+  const finishBase = stripPhase(c.finish || c.name || "");
+
   for (const w of WEARS) {
     if (famous?.[w] != null) {
       bases[w] = money(famous[w]);
+      source[w] = "famous";
       continue;
     }
+
+    // Rare: phase-specific market hash (gems usually share the unphased Doppler listing).
+    const scmPhase = marketLookup(scm, c.name, w);
+    if (scmPhase) {
+      bases[w] = scmPhase;
+      source[w] = "scm";
+      continue;
+    }
+
+    const scmBase = marketLookup(scm, baseName, w);
+    if (scmBase) {
+      bases[w] = phased && scale !== 1 ? money(scmBase * scale) : scmBase;
+      source[w] = phased && scale !== 1 ? "scm-scaled" : "scm";
+      continue;
+    }
+
     const prev = snapQuotes.get(`${c.id}:${w}`);
-    if (c.keep && prev && prev >= 50) {
-      const scmUsd = marketLookup(scm, c.apiName || c.name, w);
-      bases[w] = scmUsd && Math.abs(scmUsd - prev) / prev < 0.65 ? scmUsd : prev;
-      continue;
+    if (prev && prev > 0) {
+      // Drop corrupted compounded phase quotes (double/triple phaseScale history).
+      if (phased && scale > 1) {
+        const scmRef = marketLookup(scm, baseName, w);
+        const ceiling = scmRef
+          ? money(scmRef * scale * 1.4)
+          : money(typicalBase(c.rawWeapon || c.weapon, c.rarity, finishBase) * scale * (wearMult(w, c.rarity, finishBase) || 1) * 2.2);
+        if (ceiling && prev > ceiling) {
+          // fall through to synth
+        } else if (c.keep && prev >= 50) {
+          bases[w] = prev;
+          source[w] = "prev";
+          continue;
+        } else {
+          bases[w] = prev;
+          source[w] = "prev";
+          continue;
+        }
+      } else if (c.keep && prev >= 50) {
+        const scmUsd = marketLookup(scm, c.apiName || c.name, w);
+        bases[w] = scmUsd && Math.abs(scmUsd - prev) / prev < 0.65 ? scmUsd : prev;
+        source[w] = "prev";
+        continue;
+      } else {
+        bases[w] = prev;
+        source[w] = "prev";
+        continue;
+      }
     }
-    const scmUsd = marketLookup(scm, c.apiName || c.name, w);
-    if (scmUsd) {
-      bases[w] = scmUsd;
-      continue;
-    }
-    if (prev) bases[w] = prev;
   }
+
   const anchorWear = wants.find((w) => bases[w] > 0) ?? "ft";
-  const fillMissing = () => {
-    const ftLike =
-      bases.ft ||
-      bases[anchorWear] ||
-      money(typicalBase(c.rawWeapon || c.weapon, c.rarity, c.finish));
-    if (!(ftLike > 0)) return;
-    const ftMult = wearMult("ft", c.rarity, c.finish) || 1;
+  const ftLike =
+    bases.ft ||
+    bases[anchorWear] ||
+    money(typicalBase(c.rawWeapon || c.weapon, c.rarity, finishBase));
+  if (ftLike > 0) {
+    const ftMult = wearMult("ft", c.rarity, finishBase) || 1;
+    const anchorSrc = bases[anchorWear] ? source[anchorWear] : "synth";
     for (const w of wants) {
       if (bases[w] > 0) continue;
-      const rel = (wearMult(w, c.rarity, c.finish) || 1) / ftMult;
-      bases[w] = money(ftLike * rel);
-    }
-  };
-  fillMissing();
-  const scale = phaseScale(c.finish || c.name || "");
-  if (scale !== 1 && /\((?:Phase|Ruby|Sapphire|Black Pearl|Emerald)/i.test(c.name || "")) {
-    for (const w of Object.keys(bases)) {
-      if (bases[w] > 0) bases[w] = money(bases[w] * scale);
+      const rel = (wearMult(w, c.rarity, finishBase) || 1) / ftMult;
+      // If filling from an already-scaled wear, inherit — do not scale again.
+      const raw = money(ftLike * rel);
+      if (phased && scale !== 1 && (anchorSrc === "synth" || !bases[anchorWear])) {
+        bases[w] = money(raw * scale);
+        source[w] = "synth-scaled";
+      } else if (phased && scale !== 1 && anchorSrc === "scm") {
+        // Shouldn't happen often; scm path already scaled when phased.
+        bases[w] = raw;
+        source[w] = "synth";
+      } else {
+        bases[w] = raw;
+        source[w] = anchorSrc === "synth" || !bases[anchorWear] ? "synth" : anchorSrc;
+        if (phased && scale !== 1 && source[w] === "synth") {
+          bases[w] = money(raw * scale);
+          source[w] = "synth-scaled";
+        }
+      }
     }
   }
+
   const available = wants.filter((w) => bases[w] > 0);
   return { bases, available };
 }
@@ -548,15 +651,16 @@ function phaseLabel(patternId) {
   return "";
 }
 
+/** Multipliers vs unphased Doppler/Gamma SCM blend (cheapest phases drive the listing). Mid-market, not asks. */
 function phaseScale(finish) {
-  if (/ruby/i.test(finish)) return 4.15;
-  if (/sapphire/i.test(finish)) return 5.05;
-  if (/black pearl/i.test(finish)) return 3.7;
-  if (/emerald/i.test(finish)) return 3.35;
-  if (/phase 2/i.test(finish)) return 1.48;
-  if (/phase 4/i.test(finish)) return 1.18;
-  if (/phase 1/i.test(finish)) return 0.92;
-  if (/phase 3/i.test(finish)) return 0.88;
+  if (/ruby/i.test(finish)) return 3.55;
+  if (/sapphire/i.test(finish)) return 2.35;
+  if (/black pearl/i.test(finish)) return 4.1;
+  if (/emerald/i.test(finish)) return 3.15;
+  if (/phase 2/i.test(finish)) return 1.35;
+  if (/phase 4/i.test(finish)) return 1.12;
+  if (/phase 1/i.test(finish)) return 0.95;
+  if (/phase 3/i.test(finish)) return 0.92;
   return 1;
 }
 
@@ -771,7 +875,7 @@ export const SKIN_MAP: Record<string, Skin> = Object.fromEntries(SKINS.map((s) =
         source:
           "Committed catalog snapshot. Seeded from data/skins.ts catalog list prices (not generated at runtime, not Math.random). Live Steam Community Market is attempted only on the server PriceProvider sync and is used only when it returns a valid quote.",
         sourceName: "Committed catalog snapshot",
-        fetchedAt: 1786881600000,
+        fetchedAt: Date.UTC(2026, 7, 21, 12, 0, 0),
         currency: "USD",
         quotes,
       },

@@ -3,6 +3,7 @@
 import { ItemActions, type ItemActionId } from "@/components/inventory/ItemActions";
 import { RarityChrome } from "@/components/ui/RarityChrome";
 import { SkinVisual } from "@/components/visuals/SkinVisual";
+import { isStickerItem } from "@/lib/itemCatalog";
 import { RARITY_META, WEAR_META } from "@/lib/rarity";
 import { convertPrice, formatCompactConverted } from "@/lib/services/prices/currency";
 import { formatQuotePrice, getSkinPrice } from "@/lib/services/prices/priceProvider";
@@ -108,7 +109,8 @@ export function SkinCard({
   void displayCurrency;
 
   const mode: CardMode = vault ? "vault" : compact ? "compact" : large ? "large" : "md";
-  const wear = showWear ? skin.wear : undefined;
+  const wearless = isStickerItem(skin);
+  const wear = showWear && !wearless ? skin.wear : undefined;
   const quote = getSkinPrice(skin.id, wear);
   const price = cardPriceLabel(quote, mode === "compact");
   const rarity = RARITY_META[skin.rarity];
@@ -131,8 +133,18 @@ export function SkinCard({
       />
       <span aria-hidden className="pointer-events-none absolute inset-0 z-[1] grid place-items-center">
         <svg viewBox="0 0 64 64" fill="none" className="h-[70%] w-auto text-white/[0.05]">
-          <polygon points="32,4 58,18 58,46 32,60 6,46 6,18" stroke="currentColor" strokeWidth="1.5" />
-          <polygon points="32,14 48,24 32,50 16,24" stroke="currentColor" strokeWidth="1.25" />
+          <polygon
+            points="32,4 56.249,18 56.249,46 32,60 7.751,46 7.751,18"
+            stroke="currentColor"
+            strokeWidth="1.5"
+            strokeLinejoin="round"
+          />
+          <polygon
+            points="32,14 48,24 32,50 16,24"
+            stroke="currentColor"
+            strokeWidth="1.25"
+            strokeLinejoin="round"
+          />
         </svg>
       </span>
       <span
@@ -158,7 +170,7 @@ export function SkinCard({
         style={{ background: `linear-gradient(to top, ${rarity.color}1a, transparent)` }}
       />
       <RarityChrome rarity={skin.rarity} />
-      {showWear ? (
+      {showWear && !wearless ? (
         <span className="absolute bottom-2.5 left-2 z-[7] grid h-5 min-w-7 place-items-center rounded-[var(--radius-xs)] bg-void/85 px-1.5 text-[length:var(--type-micro)] font-semibold leading-none tracking-wide text-soft ring-1 ring-white/10">
           {WEAR_META[skin.wear].short}
         </span>

@@ -58,7 +58,7 @@ export function SelectField({
   ...props
 }: SelectHTMLAttributes<HTMLSelectElement> & { children: ReactNode }) {
   return (
-    <select className={cn("field w-auto min-w-[7.5rem] cursor-pointer pr-2", className)} {...props}>
+    <select className={cn("field w-auto min-w-[7.5rem] cursor-pointer leading-none", className)} {...props}>
       {children}
     </select>
   );

@@ -14,6 +14,7 @@ import { SkinGridSkeleton } from "@/components/ui/Skeleton";
 import { UserAvatar } from "@/components/ui/UserAvatar";
 import { SkinVisual } from "@/components/visuals/SkinVisual";
 import { looksLikeTradeUrl } from "@/lib/auth/account";
+import { isStickerItem } from "@/lib/itemCatalog";
 import { SELL_COEFFICIENT } from "@/lib/economy/config";
 import { RARITY_DESC, RARITY_META, WEAR_META, rarityRank } from "@/lib/rarity";
 import { convertPrice } from "@/lib/services/prices/currency";
@@ -75,7 +76,7 @@ function pricedRows(list: InventoryItem[]): SellRow[] {
   const rows: SellRow[] = [];
   for (const item of list) {
     if (!isInVault(item)) continue;
-    const value = sellValueUsd(item.id, SELL_COEFFICIENT, item.wear);
+    const value = sellValueUsd(item.id, SELL_COEFFICIENT, item.wear, item.stickers);
     if (value != null) rows.push({ item, value });
   }
   return rows;
@@ -247,7 +248,7 @@ export function InventoryVault({
 
   function sellOne(item: InventoryItem) {
     if (isWithdrawPending(item)) return;
-    const value = sellValueUsd(item.id, SELL_COEFFICIENT, item.wear);
+    const value = sellValueUsd(item.id, SELL_COEFFICIENT, item.wear, item.stickers);
     if (value == null) {
       store.toast({ title: "Price unavailable", detail: "Cannot sell without a market quote.", tone: "err" });
       return;
@@ -358,14 +359,17 @@ export function InventoryVault({
     if (!isInVault(item) && id !== "details") return;
     if (id === "sell") setConfirmSell(item);
     if (id === "upgrade") goUpgrade([item]);
-    if (id === "contract") router.push("/contracts");
+    if (id === "contract") {
+      if (isStickerItem(item)) return;
+      router.push("/contracts");
+    }
     if (id === "withdraw") void requestWithdraw(item);
     if (id === "details") setDetails(item);
   }
 
-  const confirmValue = confirmSell ? sellValueUsd(confirmSell.id, SELL_COEFFICIENT, confirmSell.wear) : null;
+  const confirmValue = confirmSell ? sellValueUsd(confirmSell.id, SELL_COEFFICIENT, confirmSell.wear, confirmSell.stickers) : null;
   const detailsQuote = details ? getSkinPrice(details.id, details.wear) : null;
-  const detailsSell = details ? sellValueUsd(details.id, SELL_COEFFICIENT, details.wear) : null;
+  const detailsSell = details ? sellValueUsd(details.id, SELL_COEFFICIENT, details.wear, details.stickers) : null;
   const detailsPending = details ? isWithdrawPending(details) : false;
   const detailsLive = details ? isInVault(details) : false;
   const detailsStatus = details ? vaultStatusLabel(details) : null;
@@ -556,7 +560,13 @@ export function InventoryVault({
                 statusLabel={status}
                 actions
                 actionIds={live || pending ? CARD_ACTIONS : HISTORY_ACTIONS}
-                actionDisabledIds={pending ? PENDING_LOCKED_ACTIONS : undefined}
+                actionDisabledIds={
+                  pending
+                    ? PENDING_LOCKED_ACTIONS
+                    : isStickerItem(item)
+                      ? ["contract"]
+                      : undefined
+                }
                 onAction={(id) => onCardAction(id, item)}
               />
             );
@@ -630,7 +640,11 @@ export function InventoryVault({
         open={!!details}
         onClose={() => setDetails(null)}
         title={details?.name}
-        description={details ? `${WEAR_META[details.wear].label} · ${details.collection ?? "Collection"}` : undefined}
+        description={
+          details
+            ? `${isStickerItem(details) ? "N/A" : WEAR_META[details.wear].label} · ${details.collection ?? "Collection"}`
+            : undefined
+        }
         size="md"
         footer={
           detailsLive ? (
@@ -646,7 +660,7 @@ export function InventoryVault({
             <Button variant="ghost" size="sm" disabled={detailsPending} onClick={() => details && goUpgrade([details])}>
               Use in Upgrade
             </Button>
-            <Button variant="ghost" size="sm" disabled={detailsPending} onClick={() => router.push("/contracts")}>
+            <Button variant="ghost" size="sm" disabled={detailsPending || (details != null && isStickerItem(details))} onClick={() => router.push("/contracts")}>
               Use in Contract
             </Button>
             <Button variant="quiet" size="sm" disabled={detailsPending} onClick={() => details && void requestWithdraw(details)}>
@@ -669,9 +683,15 @@ export function InventoryVault({
               <DetailRow label="Rarity">
                 <RarityPill rarity={details.rarity} />
               </DetailRow>
-              <DetailRow label="Exterior">{WEAR_META[details.wear].label}</DetailRow>
+              <DetailRow label="Exterior">{isStickerItem(details) ? "N/A" : WEAR_META[details.wear].label}</DetailRow>
               <DetailRow label="StatTrak">
-                {details.stattrak ? <Badge tone="warn">StatTrak™</Badge> : <span className="text-mute">No</span>}
+                {isStickerItem(details) ? (
+                  <span className="text-mute">N/A</span>
+                ) : details.stattrak ? (
+                  <Badge tone="warn">StatTrak™</Badge>
+                ) : (
+                  <span className="text-mute">No</span>
+                )}
               </DetailRow>
               <DetailRow label="Status">
                 {detailsPending ? (
