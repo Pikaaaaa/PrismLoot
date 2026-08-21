@@ -199,7 +199,7 @@ export function SkinCard({
   );
 
   const body = (
-    <div className={cn("flex min-h-0 min-w-0 flex-1 flex-col", BODY_PAD[mode])}>
+    <div className={cn("flex min-w-0 flex-col", vault ? "min-h-0 flex-1" : "shrink-0", BODY_PAD[mode])}>
       {mode === "compact" ? (
         <p className={cn("h-5 truncate font-semibold leading-5", NAME_SIZE[mode])} title={skin.name}>
           {skin.name}
@@ -243,7 +243,8 @@ export function SkinCard({
   ) : null;
 
   const shell = cn(
-    "surface card-hover group relative flex h-full w-full min-w-0 flex-col overflow-hidden rounded-[var(--radius-md)] text-left",
+    "surface card-hover group relative flex w-full min-w-0 flex-col overflow-hidden rounded-[var(--radius-md)] text-left",
+    vault && "h-full",
     onClick && !disabled && "cursor-pointer",
     selected && "border-cyan/40 bg-cyan/[0.05] ring-1 ring-cyan/50",
     disabled && "pointer-events-none opacity-40",
