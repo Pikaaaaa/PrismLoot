@@ -1,6 +1,7 @@
 import type { HistoryEntry, InventoryItem } from "@/lib/types";
 import { isWithdrawPending } from "@/lib/inventoryOwnership";
 import { getSkinPrice } from "@/lib/services/prices/priceProvider";
+import { isValidMarketPrice } from "@/lib/services/prices/validate";
 
 const HISTORY_KINDS = new Set<HistoryEntry["kind"]>([
   "open",
@@ -51,7 +52,7 @@ export function withdrawnToSteamSummary(inventory: InventoryItem[]) {
   let value = 0;
   for (const item of rows) {
     const quote = getSkinPrice(item.id, item.wear);
-    if (quote.available && quote.price > 0) value += quote.price;
+    if (quote.available && isValidMarketPrice(quote.price)) value += quote.price;
     else if (item.price > 0) value += item.price;
   }
   return {

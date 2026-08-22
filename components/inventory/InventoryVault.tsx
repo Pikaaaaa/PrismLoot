@@ -19,6 +19,7 @@ import { SELL_COEFFICIENT } from "@/lib/economy/config";
 import { RARITY_DESC, RARITY_META, WEAR_META, rarityRank } from "@/lib/rarity";
 import { convertPrice } from "@/lib/services/prices/currency";
 import { formatQuotePrice, getSkinPrice, sellValueUsd } from "@/lib/services/prices/priceProvider";
+import { isValidMarketPrice } from "@/lib/services/prices/validate";
 import { isInVault, isWithdrawPending, vaultStatusLabel } from "@/lib/inventoryOwnership";
 import { useAppStore } from "@/lib/store";
 import type { InventoryItem, Rarity } from "@/lib/types";
@@ -335,7 +336,7 @@ export function InventoryVault({
       store.markWithdrawPending(item.instanceId);
       setDetails(null);
       const quote = getSkinPrice(item.id, item.wear);
-      const skinValue = quote.available && quote.price > 0 ? quote.price : item.price;
+      const skinValue = quote.available && isValidMarketPrice(quote.price) ? quote.price : item.price;
       store.addHistory({
         kind: "withdraw",
         title: "Skin withdrawal",
