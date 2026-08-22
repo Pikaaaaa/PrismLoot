@@ -49,6 +49,7 @@ function historyFromLedgerRow(row: {
   if (!kind) return null;
   const meta = parseMeta(row.meta);
   const success = meta.success;
+  const skinValueUsd = typeof meta.valueUsd === "number" ? usd(meta.valueUsd) : null;
   const result =
     typeof success === "boolean" ? (success ? "success" : "fail") : undefined;
   const title =
@@ -68,7 +69,10 @@ function historyFromLedgerRow(row: {
     kind,
     title,
     detail: row.note,
-    amount: usd(row.amountUsd),
+    amount:
+      (row.kind === "WITHDRAW" || row.kind === "WITHDRAW_REFUND") && skinValueUsd != null && skinValueUsd > 0
+        ? skinValueUsd
+        : usd(row.amountUsd),
     at: row.createdAt.getTime(),
     result,
     chance: typeof meta.chance === "number" ? meta.chance : undefined,

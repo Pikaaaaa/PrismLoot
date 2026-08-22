@@ -334,11 +334,13 @@ export function InventoryVault({
       }
       store.markWithdrawPending(item.instanceId);
       setDetails(null);
+      const quote = getSkinPrice(item.id, item.wear);
+      const skinValue = quote.available && quote.price > 0 ? quote.price : item.price;
       store.addHistory({
         kind: "withdraw",
         title: "Skin withdrawal",
         detail: item.name,
-        amount: 0,
+        amount: skinValue,
         itemName: item.name,
       });
       store.toast({

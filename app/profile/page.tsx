@@ -3,7 +3,7 @@
 import { LoginForm } from "@/components/auth/LoginForm";
 import { InventoryVault } from "@/components/inventory/InventoryVault";
 import { DEMO_PROMO_CODE } from "@/components/layout/PromoBanner";
-import { memberSinceLabel } from "@/components/profile/activity";
+import { memberSinceLabel, withdrawnToSteamSummary } from "@/components/profile/activity";
 import { deriveLevel } from "@/components/profile/level";
 import { Badge, RarityPill } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
@@ -165,6 +165,7 @@ function ProfileInner() {
     beginSteamLogin,
     wagerRemainingUsd,
     joinedAt,
+    priceTick,
   } = store;
 
   const panel = params.get("tab");
@@ -192,13 +193,7 @@ function ProfileInner() {
     () => (bestDrop ? bestDropStatusLabel(bestDrop, inventory) : null),
     [bestDrop, inventory],
   );
-  const withdrawn = useMemo(() => {
-    const rows = history.filter((entry) => entry.kind === "withdraw");
-    return {
-      count: rows.length,
-      value: rows.reduce((sum, row) => sum + Math.max(0, row.amount), 0),
-    };
-  }, [history]);
+  const withdrawn = useMemo(() => withdrawnToSteamSummary(inventory), [inventory, priceTick]);
   const freeCaseOpens = useMemo(
     () => freeCaseClaims.reduce((sum, claim) => sum + claim.remaining, 0),
     [freeCaseClaims],
@@ -327,6 +322,7 @@ function ProfileInner() {
               <p className="price mt-1 text-[length:var(--type-h3)] text-cyan">{formatMoney(withdrawn.value)}</p>
               <p className="mt-0.5 text-[length:var(--type-micro)] leading-snug text-mute">
                 {withdrawn.count} {withdrawn.count === 1 ? "item" : "items"}
+                {withdrawn.pending > 0 ? ` · ${withdrawn.pending} on the way` : ""}
                 {wagerRemainingUsd > 0 ? ` · playthrough ${formatMoney(wagerRemainingUsd)}` : ""}
               </p>
             </div>

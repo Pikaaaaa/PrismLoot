@@ -1,4 +1,6 @@
 import type { HistoryEntry, InventoryItem } from "@/lib/types";
+import { isWithdrawPending } from "@/lib/inventoryOwnership";
+import { getSkinPrice } from "@/lib/services/prices/priceProvider";
 
 const HISTORY_KINDS = new Set<HistoryEntry["kind"]>([
   "open",
@@ -41,6 +43,22 @@ export function parseHistoryEntries(raw: unknown): HistoryEntry[] {
     });
   }
   return rows;
+}
+
+/** Profile stat: skins sent or queued for Steam — from live inventory, not session history. */
+export function withdrawnToSteamSummary(inventory: InventoryItem[]) {
+  const rows = inventory.filter((item) => item.leftVia === "withdraw");
+  let value = 0;
+  for (const item of rows) {
+    const quote = getSkinPrice(item.id, item.wear);
+    if (quote.available && quote.price > 0) value += quote.price;
+    else if (item.price > 0) value += item.price;
+  }
+  return {
+    count: rows.length,
+    pending: rows.filter(isWithdrawPending).length,
+    value: +value.toFixed(2),
+  };
 }
 
 export type ActivitySummary = {

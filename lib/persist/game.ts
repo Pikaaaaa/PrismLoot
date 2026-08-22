@@ -1619,6 +1619,21 @@ export async function persistSkinWithdrawalCreate(input: {
       itemName,
       tradeUrl,
     });
+    await tx.ledgerEntry.create({
+      data: {
+        userId: user.id,
+        kind: "WITHDRAW",
+        amountUsd: 0,
+        balanceAfter: usd(current.balanceUsd),
+        note: itemName || "Skin withdrawal",
+        meta: JSON.stringify({
+          withdrawalId: row.id,
+          inventoryItemId: instanceId,
+          skinId: vaultRow.skinId,
+          valueUsd: amountUsd,
+        }),
+      },
+    });
     return { withdrawal: serializeWithdrawal({ ...row, inventoryItem: vaultRow, tradeUrl }) };
   });
 }
